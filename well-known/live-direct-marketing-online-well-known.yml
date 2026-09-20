@@ -1,0 +1,312 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live GET probes of the named /.well-known/* path list on every host the record knows, 2026-09-19:
+  the apex and www, the app host, the api host (which is also the LDM MCP host), the check host
+  (Inbox Check API + MCP host), the developer portal, and api.dev (named in the LDM OpenAPI
+  servers[]). Every row below is a request that was actually issued; every status is the one
+  returned. Saved files carry the body verbatim.
+summary:
+  hosts_probed: 7
+  documents_served: 12
+  path_echo_control: passed
+  note: >-
+    Live Direct Marketing serves an RFC 9116 security.txt on the apex and app hosts, A2A / agent
+    cards on five hosts, and an RFC 9728 protected-resource document on the api host — but the
+    latter sits at /api/v1/.well-known/oauth-protected-resource rather than the RFC 9728 location
+    (the standard path 404s on every host) and declares authorization_servers: [] because, in the
+    provider's own words, "LDM has no OAuth authorization server yet". No host serves
+    openid-configuration, oauth-authorization-server, an RFC 9727 api-catalog, ai-plugin.json,
+    apis.json, ucp/acp or an AAuth resource document. The security.txt Policy: line points at
+    https://live-direct-marketing.online/security, which returns 404.
+  negative_control: >-
+    /.well-known/live-direct-marketing-online-negative-control-017da406.json returned 404 on the
+    apex, check, api and developers hosts and 301 (to the apex) on www, so no host echoes the
+    requested path back as a document; the 200s below are real documents.
+  soft_404_note: >-
+    check.live-direct-marketing.online and developers.live-direct-marketing.online are Next.js
+    sites that answer 404 with a ~28 KB / ~12 KB HTML shell; those are true 404 status codes, not
+    catch-all 200s, and are recorded as misses.
+hosts:
+- host: live-direct-marketing.online
+  role: Brand website (apex)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: live-direct-marketing-online-security.txt
+    standard: RFC 9116
+    note: >-
+      Contact mailto:welcome@live-direct-marketing.online, Expires 2027-05-06, Preferred-Languages
+      en, ru, Canonical matches. Policy: https://live-direct-marketing.online/security returns 404.
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: live-direct-marketing-online-agent-card.json
+    standard: provider-proprietary agent card (schema_version 1.0.0)
+    note: Static pointer card; capabilities [] with capabilities_endpoint pointing at the api host.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: live-direct-marketing-online-agent.json
+    standard: A2A 0.3.0 pointer card
+    note: skills [] with skills_endpoint pointing at the api host; see a2a/ for the graded card.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/mcp/server-card.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: ../llms/live-direct-marketing-online-llms.txt
+    standard: llms.txt
+- host: www.live-direct-marketing.online
+  role: Redirect host
+  note: Every path returns 301 to the apex host; not a distinct surface.
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+  - path: /.well-known/openid-configuration
+    status: 301
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+  - path: /.well-known/oauth-protected-resource
+    status: 301
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /.well-known/ai-plugin.json
+    status: 301
+  - path: /.well-known/agent-card.json
+    status: 301
+  - path: /.well-known/agent.json
+    status: 301
+  - path: /.well-known/apis.json
+    status: 301
+  - path: /apis.json
+    status: 301
+- host: app.live-direct-marketing.online
+  role: Web application (login / register)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: live-direct-marketing-online-security.txt
+    standard: RFC 9116
+    note: Byte-identical to the apex security.txt.
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: live-direct-marketing-online-agent-card.json
+    note: Byte-identical to the apex pointer card.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: live-direct-marketing-online-agent.json
+    note: Byte-identical to the apex pointer card.
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: ../llms/live-direct-marketing-online-llms.txt
+- host: api.live-direct-marketing.online
+  role: LDM v3 API host and LDM MCP host (https://api.live-direct-marketing.online/mcp)
+  documents:
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: live-direct-marketing-online-api-agent.json
+    standard: A2A 0.3.0 agent card
+    note: The live, graded card — 237 curated skills of 1,270; see a2a/live-direct-marketing-online-a2a.yml.
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: live-direct-marketing-online-api-agent-card.json
+    standard: provider-proprietary agent card (schema_version 1.0.0)
+    note: capabilities is an ARRAY of 237 REST-bound capabilities with inputSchema; not A2A-shaped.
+  - path: /api/v1/.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: live-direct-marketing-online-api-oauth-protected-resource.json
+    standard: RFC 9728 (non-standard location)
+    standard_path: false
+    note: >-
+      Declares resource https://api.live-direct-marketing.online, bearer_methods_supported [header],
+      and authorization_servers [] — an honest statement that no OAuth authorization server exists —
+      plus an ldm_bootstrap block pointing agents at the anonymous MCP ldm_register flow. It is NOT
+      served at the RFC 9728 path /.well-known/oauth-protected-resource (404 below), so a client
+      following the RFC will not find it; only readers of the developer docs or the OpenAPI
+      (operationId AgentCardController_oauthProtectedResource) will.
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/mcp/server-card.json
+    status: 404
+  - path: /llms.txt
+    status: 404
+- host: check.live-direct-marketing.online
+  role: Inbox Check API host and Inbox Check MCP host (https://check.live-direct-marketing.online/mcp)
+  documents:
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    file: live-direct-marketing-online-check-agent.json
+    standard: provider-proprietary agent card (schema_version 1.0.0)
+    note: 21 REST-bound skills nested under capabilities.skills; graded flavored in a2a/.
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/mcp/server-card.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: ../llms/live-direct-marketing-online-inbox-check-llms.txt
+    standard: llms.txt
+- host: developers.live-direct-marketing.online
+  role: Developer portal
+  documents:
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json; charset=UTF-8
+    file: live-direct-marketing-online-developers-agent.json
+    standard: A2A 0.2.5 pointer card
+    note: skills [] with skills_endpoint pointing at the api host card.
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/api-catalog.json
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/mcp/server-card.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: ../llms/live-direct-marketing-online-developers-llms.txt
+    standard: llms.txt
+    note: 1,714-line document indexing all 1,304 endpoints; the closest thing to a docs-wide index.
+- host: api.dev.live-direct-marketing.online
+  role: Development server named in the LDM OpenAPI servers[] (resolves to a different IP)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  note: /api/docs-json answers 200 with a 653 KB spec (a smaller, older build than production); /health 404s.

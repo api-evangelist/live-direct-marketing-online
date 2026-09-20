@@ -1,0 +1,181 @@
+generated: '2026-09-19'
+method: searched
+source: https://developers.live-direct-marketing.online/errors and https://check.live-direct-marketing.online/docs
+  (Errors table), plus live 401/404 responses observed on 2026-09-19. The two OpenAPI documents declare NO 4xx or
+  5xx responses at all, so nothing below is derived from the contracts.
+docs:
+- https://developers.live-direct-marketing.online/errors
+- https://developers.live-direct-marketing.online/limits
+- https://check.live-direct-marketing.online/docs
+format: mixed
+envelopes:
+- id: ldm-flat
+  api: LDM v3
+  media_type: application/json
+  rfc9457: false
+  shape: '{ "statusCode": <int>, "message": <string | string[]>, "code"?: <string>, ... }'
+  fields:
+  - name: statusCode
+    description: HTTP status repeated in the body
+  - name: message
+    description: string, or string[] for class-validator failures ("email must be an email", "property foo should
+      not exist")
+  - name: code
+    description: 'machine code on business errors: insufficient_balance (402), audit_blocked (409), human_only (403),
+      rate_limited (429)'
+  note: 'Documented as "the same minimal shape" for validation (400) and authorisation (401, 429) failures. Deliberately
+    generic: "Distinct error messages for missing vs invalid vs revoked bearer" are NOT returned (anti-enumeration),
+    no stack traces, no X-RateLimit-* headers, server_tokens off.'
+- id: problem-details
+  api: LDM v3 and Inbox Check
+  media_type: application/problem+json
+  rfc9457: true
+  shape: '{ "type": "https://<host>/errors/<code>", "title", "status", "detail", "instance", "code", "hint"? }'
+  observed:
+  - url: POST https://api.live-direct-marketing.online/api/a2a
+    status: 401
+    body: '{"type":"https://api.live-direct-marketing.online/errors/unauthorized","title":"Unauthorized","status":401,"detail":"Invalid
+      credentials","instance":"/api/a2a","code":"unauthorized"}'
+  - url: GET https://api.live-direct-marketing.online/api/v1/me
+    status: 404
+    body: '{"type":"https://api.live-direct-marketing.online/errors/not_found","title":"Not Found","status":404,"detail":"Not
+      found","instance":"/api/v1/me","code":"not_found"}'
+  - url: POST https://check.live-direct-marketing.online/mcp
+    status: 401
+    body: '{"type":"https://check.live-direct-marketing.online/errors/auth_required","title":"Unauthorized","status":401,"detail":"Auth
+      required","instance":"/api/mcp","code":"auth_required","hint":"Send Authorization: Bearer icp_live_... header"}'
+  note: The type URIs are identifiers only — https://check.live-direct-marketing.online/errors/auth_required returns
+    404 HTML. The `hint` member on the check host is a useful non-standard extension.
+- id: api-domain-catchall
+  api: LDM v3 (non-/api paths)
+  media_type: application/json
+  rfc9457: false
+  shape: '{ "error": "not_found", "message": "This is the LDM API domain (api.live-direct-marketing.online): it
+    serves only the API surface, not a frontend or a generic site." }'
+- id: nginx-html
+  api: both
+  media_type: text/html
+  rfc9457: false
+  note: 413 Payload Too Large is returned by nginx as plain HTML, not JSON.
+problem_types:
+- api: LDM v3
+  status: 400
+  code: null
+  title: Bad Request
+  description: body validation failed; inspect message[]; extra fields are rejected by the DTO whitelist
+  remediation: fix the field named in message[]; do not retry unchanged
+- api: LDM v3
+  status: 401
+  code: null
+  title: Invalid credentials
+  description: any auth failure — missing, invalid or revoked bearer, or unconfirmed login
+  remediation: obtain a key via POST /api/auth/register or CRM Settings → API Keys; on login 401 means wrong password,
+    403 means correct password but account not ACTIVE
+- api: LDM v3
+  status: 402
+  code: insufficient_balance
+  title: Payment Required
+  description: on paid campaign operations (render/audit/send) when the balance cannot cover the FULL batch; body
+    carries required, balance, topUpUrl; nothing is partially executed
+  remediation: top up (manual by admin while the beta runs) then retry
+- api: LDM v3
+  status: 403
+  code: null
+  title: Forbidden
+  description: missing scope, or self-signup workspace over its 50 MB database quota (writes blocked, reads and
+    DELETE work), or account still PENDING
+  remediation: expand key scopes in Settings → API Keys / free space / wait for activation
+- api: LDM v3
+  status: 403
+  code: human_only
+  title: Human only
+  description: PATCH /api/campaigns/{id}/recipients/{rid}/manual from an MCP/API-key caller — bypasses the auditor
+  remediation: perform the edit in the web UI under a human session
+- api: LDM v3
+  status: 404
+  code: not_found
+  title: Not Found
+  description: unknown endpoint or missing resource (e.g. /api/dialogs/:id)
+- api: LDM v3
+  status: 409
+  code: audit_blocked
+  title: Conflict
+  description: the campaign exhausted its audit-iteration limit and awaits manual moderation
+  remediation: wait for moderation; do not re-prepare
+- api: LDM v3
+  status: 410
+  code: null
+  title: Gone
+  description: email-confirmation link expired (48 h validity)
+  remediation: POST /api/auth/resend-verification
+- api: LDM v3
+  status: 413
+  code: null
+  title: Payload Too Large
+  description: request body exceeds the endpoint cap; HTML from nginx
+- api: LDM v3
+  status: 429
+  code: rate_limited
+  title: Too Many Requests
+  description: e.g. "Too many signups from this address. Max 3 per hour."
+  remediation: back off; no Retry-After header is sent
+- api: LDM v3
+  status: 400
+  code: layer1_baseline_missing
+  title: Baseline missing
+  description: creative-through-relay probe called before a fresh relay-reach baseline exists for the (relay, provider)
+    pair
+  remediation: run POST /api/deliverability/probe/relay-reach first
+- api: Inbox Check
+  status: 401
+  code: auth_required
+  title: Unauthorized
+  description: no Authorization header sent
+  remediation: 'send Authorization: Bearer icp_live_<key>'
+- api: Inbox Check
+  status: 401
+  code: invalid_api_key
+  title: Unauthorized
+  description: key does not exist, is inactive, or was revoked
+- api: Inbox Check
+  status: 402
+  code: quota_exceeded
+  title: Payment Required
+  description: daily or monthly quota reached
+  remediation: '"signal to upgrade your tier, not to retry"; counters reset 00:00 UTC / 1st of month; check GET
+    /api/v1/me'
+- api: Inbox Check
+  status: 400
+  code: providers_not_allowed
+  title: Bad Request
+  description: requested provider not in the key allowlist
+- api: Inbox Check
+  status: 400
+  code: no_seeds_for_provider
+  title: Bad Request
+  description: operator has no paid-tier seeds for the requested provider yet
+- api: Inbox Check
+  status: 403
+  code: null
+  title: Forbidden
+  description: monitoring mutation with a key lacking monitoring:write, or key not user-bound
+- api: Inbox Check
+  status: 404
+  code: test_not_found
+  title: Not Found
+  description: token does not exist OR belongs to a different key
+- api: Inbox Check
+  status: 503
+  code: paid_api_disabled
+  title: Service Unavailable
+  description: feature flag is off — contact the operator
+- api: Inbox Check
+  status: 503
+  code: service_overloaded
+  title: Service Unavailable
+  description: seed pool exhausted
+  remediation: retry in a few minutes
+consistency_gap: Neither contract declares a single non-2xx response, so an agent generating clients from the OpenAPI
+  learns nothing about errors; the docs and the live edge disagree on the envelope (flat {statusCode,message} vs
+  RFC 9457 Problem Details); and the Problem `type` URIs dereference to 404. The documented `code` vocabulary above
+  is the usable machine contract.

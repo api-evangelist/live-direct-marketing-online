@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "name": "LDM.delivery",
+  "description": "Email delivery API for AI agents. Pay only for delivered inbox messages.",
+  "url": "https://api.live-direct-marketing.online",
+  "provider": {
+    "organization": "Live Direct Marketing",
+    "url": "https://live-direct-marketing.online"
+  },
+  "auth": {
+    "schemes": [
+      {
+        "type": "bearer",
+        "header": "Authorization",
+        "format": "ldm_...",
+        "obtain": "CRM Settings → API Keys"
+      }
+    ]
+  },
+  "capabilities": [],
+  "capabilities_endpoint": "https://api.live-direct-marketing.online/.well-known/agent-card.json",
+  "capabilities_note": "This is a static pointer card served on the brand/app domain (issue #476, ldm/ldm3). It intentionally does not enumerate capabilities — a static file would go stale as the API grows. Fetch capabilities_endpoint for the live, curated capability list, or append ?full=1 there for the complete catalog.",
+  "mcp": {
+    "endpoint": "https://api.live-direct-marketing.online/mcp",
+    "note": "Streamable-HTTP MCP gateway. Authorization: Bearer ldm_<key>, or connect with no key for an anonymous bootstrap session (ldm_health / ldm_terms / ldm_register)."
+  },
+  "signup": {
+    "endpoint": "CRM Settings → API Keys",
+    "body": { "note": "Self-serve signup was removed in 2026-05. Log in via the CRM and mint a key, or bootstrap without one via the MCP endpoint above (ldm_register)." }
+  },
+  "contact": {
+    "billing": "welcome@live-direct-marketing.online",
+    "support": "welcome@live-direct-marketing.online"
+  }
+}

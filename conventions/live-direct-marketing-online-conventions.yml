@@ -1,0 +1,186 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://developers.live-direct-marketing.online/llms.txt (Conventions section), /authentication,
+  /errors, /limits, /webhooks, /tasks-campaigns, /billing-byoc and GET /api/v1/agent-guide, cross-checked
+  against openapi/live-direct-marketing-online-ldm-v3-openapi.json (1,304 operations) and the
+  Inbox Check docs + contract (196 operations). Every operationId named below was verified by
+  method+path lookup in the harvested contracts.
+description: >-
+  Cross-cutting request/response semantics of the LDM v3 API and, where they differ, the Inbox Check
+  API: authentication style, tenant scoping, the agent guidance and billing envelopes, idempotency,
+  pagination, request tracing, versioning, error envelopes, rate-limit signalling, webhooks, dry-run
+  and reversibility.
+base_urls:
+  ldm: https://api.live-direct-marketing.online
+  inbox_check: https://check.live-direct-marketing.online
+api_style: REST over HTTPS, JSON requests and responses; NestJS-generated OpenAPI 3.0; the same /api/* routes serve the web UI (cookie/JWT) and agents (Bearer key) — "UI = MCP".
+
+authentication:
+  scheme: 'Authorization: Bearer <key>'
+  key_formats:
+    ldm: 'ldm_<64 hex> tenant API key — one format, no live/test prefix; scopes attached per key'
+    inbox_check: 'icp_live_<key> — tier, scopes, provider allowlist and quotas attached per key'
+  alternatives: 'HttpOnly JWT cookie session (15-min access token + refresh) for the web UI; X-Admin-Key header on Inbox Check admin routes; a dedicated rpa-service bearer'
+  anonymous_bootstrap: 'MCP ldm_terms → ldm_register, or POST /api/auth/register channel=mcp|a2a|form, mints a PENDING-account key with read + safe-draft scopes'
+  detail: authentication/live-direct-marketing-online-authentication.yml
+  scopes: scopes/live-direct-marketing-online-scopes.yml
+
+tenant_scoping:
+  header: X-Tenant-Id
+  declared_on: 1,304 of 1,304 LDM operations (optional header parameter, uuid)
+  mcp_arg: tenant_id (slug or uuid) for agency pivots; omit to use the key's home tenant
+  note: The header is declared everywhere but required only on tenant-scoped endpoints; the key itself is tenant-bound.
+
+agent_guidance_envelope:
+  header: 'X-LDM-Guidance: off (suppresses the layer)'
+  response_block: '_expert { hint, next_steps, pitfalls } on every MCP/A2A response'
+  capability_map: GET /api/v1/agent-guide (AgentGuideController_guide) — 33 domains and an 8-step recommended outreach flow
+  note: A provider-authored runtime guidance channel; unusual and worth knowing before parsing responses strictly.
+
+billing_envelope:
+  response_block: '_billing { operation, cost, balance_after } on every paid response'
+  public_prices: GET /api/public/pricing (no auth)
+  effective_prices: GET /api/billing/balance (BillingController_getBalance)
+  ledger: GET /api/billing/ledger (BillingController_listLedger) — CHARGE | CREDIT | ADJUSTMENT | REFUND, cursor-paginated
+  insufficient_funds: '402 {code: insufficient_balance, required, balance, topUpUrl}; nothing partially executed'
+
+idempotency:
+  supported: true
+  coverage: partial
+  scope:
+    - operation: CampaignsController_createTestTask
+      path: 'POST /api/campaigns/{id}/test-task'
+      mechanism: required `idempotency-key` request header
+      note: The only operation in either contract that declares an idempotency header.
+    - operation: RpaOutboxController_claim
+      path: 'POST /api/rpa/v1/claim'
+      mechanism: body idempotencyKey — "Deduplicate by idempotencyKey"; CONTROL and REAL sends use different operation idempotency keys on the same task (RpaOutboxController_start)
+      note: RPA service protocol, dedicated service key — not the tenant API surface.
+  natural_idempotency:
+    - { operation: CampaignsController_pour, path: 'POST /api/campaigns/{id}/pour', note: '"Idempotent (dedup by normalized email) — a repeat call with the same listId/companyListId adds nothing new"' }
+    - { operation: RecheckController_schedule24h, path: 'POST /api/tests/{token}/recheck-24h', api: Inbox Check, note: '"Schedules one idempotent delayed scan"' }
+    - { operation: WarmupController_warmup, path: 'POST /api/tests/{token}/warmup', api: Inbox Check, note: '"Idempotent: a repeat POST returns the cached summary without reconnecting"' }
+    - { operation: ImapOrchestratorController_killImapCron, path: /api/imap-orchestrator/admin/kill, note: 'admin; "Idempotent — repeated calls only update the reason field"' }
+  retention: not documented
+  conflict_behavior: not documented
+  header_name: idempotency-key (lower-case, on the one declared operation)
+  verdict: >-
+    A client cannot safely retry an arbitrary LDM write: there is no cross-cutting Idempotency-Key
+    policy, and the mutating surface is ~740 operations (483 POST, 128 PATCH, 104 DELETE, 21 PUT).
+    The provider mitigates the dangerous case differently — sending is gated behind send-readiness,
+    a mandatory audit, human confirmation for launch and 402-on-insufficient-balance with nothing
+    partially executed — but that is a safety rail, not replay protection.
+
+pagination:
+  ldm:
+    style: offset (dominant) with cursor on ledgers and feeds
+    request_params: { page: 'declared on 60 list operations', pageSize: 'declared on 45', limit: 'declared on 56', cursor: 'declared on 13 (billing ledger, activity feeds, task histories)' }
+    response_fields: not standardised in the contract (responses undeclared); docs show paged arrays
+  inbox_check:
+    style: cursor
+    request_params: { cursor: 'created_at timestamp of the last item', limit: string, status: filter }
+    response_fields: { items: array, next_cursor: 'created_at to pass back' }
+    source: https://check.live-direct-marketing.online/docs
+
+field_expansion:
+  supported: false
+  note: No expand/include/fields parameter in either contract; related objects are fetched by id.
+
+metadata:
+  supported: partial
+  mechanism: 'Inbox Check tests accept an opaque `meta` object ("optional; opaque") echoed on the test; LDM has per-tenant custom fields (Custom Fields tag, 10 operations) on COMPANY / CONTACT / LEAD / EMAIL_ACCOUNT rather than free-form metadata.'
+
+request_tracing:
+  request_id_header: none documented
+  note: No request-id / correlation header is declared or described; Problem Details carry `instance` (the path) only.
+
+versioning:
+  scheme: unversioned /api/* paths with a /api/v1/ agent tier; info.version 1.0.0; portal dated v2026-09-15
+  policy_published: false
+  detail: lifecycle/live-direct-marketing-online-lifecycle.yml
+  changelog: changelog/live-direct-marketing-online-changelog.yml
+
+error_envelope:
+  ldm_documented: '{ "statusCode": <int>, "message": <string | string[]>, "code"?: <string> } — application/json'
+  observed_live: 'RFC 9457 application/problem+json { type, title, status, detail, instance, code } on 401/404 from both hosts'
+  rfc9457: mixed
+  anti_enumeration: 'identical 401 for missing / invalid / revoked bearer; no X-RateLimit-* headers; no stack traces; server_tokens off'
+  detail: errors/live-direct-marketing-online-problem-types.yml
+
+rate_limits:
+  signal_status: { ldm: 429, inbox_check: 402 (quota) }
+  headers: none — deliberately (anti-calibration)
+  runtime_quota_read: 'Inbox Check GET /api/v1/me → usage.daily_used/daily_limit/monthly_used/monthly_limit'
+  detail: rate-limits/live-direct-marketing-online-rate-limits.yml
+
+webhooks:
+  signing_header: X-LDM-Signature
+  verification: 'sha256=<hex HMAC-SHA256 of the raw body with the subscription secret>'
+  events: 8 (lead.*, dialog.*, task.*)
+  detail: asyncapi/live-direct-marketing-online-webhooks.yml
+
+dry_run_mode:
+  supported: true
+  status: documented
+  surfaces:
+    - { operation: CampaignsController_sendReadiness, path: 'GET /api/campaigns/{id}/send-readiness', description: 'Dry-run all send gates; read-only, nothing is sent' }
+    - { operation: EmailAccountsController_testSend, path: 'POST /api/email-accounts/{id}/test-send', description: 'Dry-run probe of the real send transport; never sends a real message' }
+    - { operation: TrackingController_simulateClick, path: 'POST /api/tracking/simulate-click', description: 'Dry-run the cloaking decision without logging an event' }
+    - { operation: InboundRulesController_testRules, path: 'POST /api/inbound-rules/test', description: 'Dry-run a synthetic inbound message against active rules' }
+    - { operation: MailRoutingController_testRules, path: 'POST /api/mail-routing-rules/test', description: 'Dry-run a synthetic email against active routing rules' }
+    - { operation: CampaignsController_backfillHistoricUnsubscribes, path: 'POST /api/campaigns/backfill-historic-unsubscribes', description: 'dryRun (default true) only lists rows' }
+  note: Each is a dedicated preview operation rather than a generic dry_run flag; the operationIds were verified by method+path lookup and rewritten where the contract names differ from the docs.
+
+reversibility:
+  status: documented
+  method: searched
+  derived_from: openapi/live-direct-marketing-online-ldm-v3-openapi.json
+  docs:
+    - https://developers.live-direct-marketing.online/tasks-campaigns
+    - https://developers.live-direct-marketing.online/billing-byoc
+    - https://check.live-direct-marketing.online/docs
+  summary: >-
+    LDM has a large write surface and a broad reversal surface: destructive CRM deletes are soft
+    with a named restore operation, imports roll back by batch, campaigns pause/resume symmetrically,
+    creatives restore prior versions, published reports unpublish and re-publish to the same URL, and
+    a delivery charge is refunded automatically when a later bounce arrives. What is MISSING is a
+    stated WINDOW on any of these — how long a soft-deleted company can be restored, how long after a
+    charge a bounce still triggers a refund — so the grade stays at documented, not verified. Two
+    hard stops are called out as irreversible by the provider: POST /api/tasks/{id}/stop ("a hard
+    halt (not resumable)") and, on Inbox Check, deleting a test or a monitored domain.
+  reversals:
+    - { surface: campaign run, forward: 'POST /api/campaigns/{id}/pause', reverse: 'POST /api/campaigns/{id}/resume', window: 'not stated ("symmetric to /resume")', note: 'ACTIVE campaigns must be paused before DELETE; restore-infra-failed resumes a PAUSED campaign and resets the circuit breaker' }
+    - { surface: mailing task, forward: 'POST /api/tasks/{id}/pause', reverse: 'POST /api/tasks/{id}/restart', window: not stated, note: 'restart resets ERROR items to PENDING; POST /api/tasks/{id}/stop is a hard halt, not resumable' }
+    - { surface: company delete, forward: 'DELETE /api/companies/{id}', reverse: 'POST /api/companies/{id}/restore', window: 'not stated (soft delete)' }
+    - { surface: contact delete, forward: 'DELETE /api/contacts/{id}', reverse: 'POST /api/contacts/{id}/restore', window: not stated }
+    - { surface: lead delete, forward: 'DELETE /api/leads/{id}', reverse: 'POST /api/leads/{id}/restore', window: not stated }
+    - { surface: brief delete, forward: 'DELETE /api/briefs/{id}', reverse: 'POST /api/briefs/{id}/restore', window: not stated }
+    - { surface: dialog delete, forward: 'DELETE /api/dialogs/{id}', reverse: 'POST /api/dialogs/{id}/restore', window: not stated, note: 'status DELETED → NEW' }
+    - { surface: company import, forward: 'POST /api/companies/import/start', reverse: 'DELETE /api/companies/import/rollback/{batchId}', window: not stated }
+    - { surface: contact import, forward: 'POST /api/contacts/import/start', reverse: 'DELETE /api/contacts/import/rollback/{batchId}', window: not stated }
+    - { surface: import task, forward: 'POST /api/import/tasks', reverse: 'POST /api/import/tasks/{id}/rollback (and /cancel while in progress)', window: not stated }
+    - { surface: creative edit, forward: 'PATCH /api/creatives/{id}', reverse: 'POST /api/creatives/{id}/versions/{versionId}/restore', window: not stated }
+    - { surface: report publish, forward: 'POST /api/reports/{id}/publish', reverse: 'POST /api/reports/{id}/unpublish', window: not stated, note: '"token kept — re-publish restores the same url"' }
+    - { surface: sequence enrollment, forward: 'POST /api/sequences/{id}/enroll', reverse: 'POST /api/sequences/enrollments/{eid}/cancel | /pause → /resume', window: not stated }
+    - { surface: API key, forward: 'POST /api/api-keys', reverse: 'DELETE /api/api-keys/{id}/revoke (deactivate without deleting)', window: n/a }
+    - { surface: delivery charge, forward: 'hourly billing sweep charges inbox_placement for SENT ≥ 24 h with no bounce', reverse: 'automatic REFUND ledger entry — "A later bounce refunds the delivery amount actually charged"', window: 'not stated (no cutoff after which a bounce stops refunding)', source: https://developers.live-direct-marketing.online/billing-byoc }
+    - { surface: webhook delivery, forward: delivery attempt, reverse: 'POST /api/webhooks/deliveries/{id}/retry, POST /api/webhooks/{id}/retrigger', window: not stated }
+    - { surface: Inbox Check scheduled recheck, forward: 'POST /api/tests/{token}/recheck-24h', reverse: 'DELETE /api/tests/{token}/recheck-24h', window: 'implicit — until the scheduled recheck fires (delay_hours 1–168, default 24)', note: 'the closest thing to a stated window in either API' }
+    - { surface: Inbox Check domain monitoring, forward: 'POST /api/v1/monitoring/domains/{id}/pause', reverse: 'POST /api/v1/monitoring/domains/{id}/resume', window: not stated }
+  irreversible:
+    - { operation: 'POST /api/tasks/{id}/stop', statement: '"stop is a hard halt (not resumable)"' }
+    - { operation: 'DELETE /api/v1/tests/{token}', statement: '"Delete a test (irreversible)" — removes results and screenshot jobs' }
+    - { operation: 'DELETE /api/v1/monitoring/domains/{id}', statement: '"Stops monitoring and deletes the domain and its check history. Irreversible."' }
+    - { operation: 'POST /api/campaigns/{id}/send', statement: 'email once handed to the mail_outbox queue is sent; the provider''s guardrail is limit=1 test sends and human confirmation, not recall' }
+  grade_basis: >-
+    Reversal paths exist across the write surface (documented, 0.4 credit) but no docs URL states a
+    time window for any of them; the one bounded case (cancel a scheduled recheck before it fires) is
+    a mechanism, not a stated policy. Not graded verified.
+
+other_conventions:
+  - { name: Human-only operations, detail: 'PATCH /api/campaigns/{id}/recipients/{rid}/manual returns 403 human_only to MCP/API-key callers because it bypasses the auditor' }
+  - { name: Two response shapes for one endpoint, detail: 'POST /api/auth/register returns a web shape (pending account) or a flat api_key/scope/quota shape for channel mcp|a2a|form' }
+  - { name: Localisation, detail: 'accept-language declared on 5 operations; legal terms default to ru, ldm_terms requests locale=en' }
+  - { name: Timestamps, detail: 'ISO 8601 UTC strings (created_at, expires_at, next_cursor)' }
+  - { name: Send window, detail: 'campaign-owned sendWindow {enabled, workDays 1–7, startTime, endTime, timezone}; malformed stored windows fail CLOSED and never become 24/7' }

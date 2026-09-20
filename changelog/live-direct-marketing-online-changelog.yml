@@ -1,0 +1,42 @@
+generated: '2026-09-19'
+method: searched
+source: https://developers.live-direct-marketing.online/changelog
+title: LDM Changelog
+scheme: dated entries, human-readable page; no version numbers on the API itself (info.version 1.0.0 on both contracts)
+current_version: '1.0.0 (OpenAPI info.version); developer portal footer reads "v2026-09-15 · dev"'
+updated: '2026-04-15'
+entry_count: 3
+entries:
+  - date: '2026-04-15'
+    category: feature
+    breaking: false
+    summary: Developer Portal v0.1
+    changes:
+      - First public version of the Developer Portal — landing, docs, pricing, signup. API docs for A2A, MCP, REST.
+  - date: '2026-04-10'
+    category: beta
+    breaking: false
+    summary: A2A Protocol preview
+    changes:
+      - Agent-to-Agent protocol integration available in preview (page links /docs/a2a-integration).
+  - date: '2026-04-01'
+    category: beta
+    breaking: false
+    summary: MCP Server beta
+    changes:
+      - Model Context Protocol server for Claude Desktop, Cursor and other MCP clients (page links /docs/mcp-integration).
+gaps:
+  - >-
+    The changelog stops on 2026-04-15 while the portal footer, the SDK (0.6.3 on 2026-09-09, eight
+    releases), the billing docs (rates dated 2026-09-06) and the OpenAPI descriptions (issue numbers
+    up to #1245) show continuous change through September 2026. Five months of API change, including
+    the removal of self-serve signup noted in the proprietary agent card ("Self-serve signup was
+    removed in 2026-05") and its later reinstatement, are not recorded here.
+  - The Inbox Check docs page has a "Changelog" section anchor but no dated entries were served in the HTML.
+  - No machine-readable changelog (changelog.json / RSS) is published; api.live-direct-marketing.online/changelog.json returns 404.
+other_dated_signals:
+  - { date: '2026-09-09', source: npm, note: '@live-direct-marketing/sdk 0.6.3 published' }
+  - { date: '2026-09-06', source: 'https://developers.live-direct-marketing.online/billing-byoc', note: 'public pricing snapshot date quoted in the billing page' }
+  - { date: '2026-05-26', source: npm, note: 'ldm-inbox-check-mcp 1.0.0 published' }
+  - { date: '2026-04-17', source: 'https://check.live-direct-marketing.online/terms', note: 'Inbox Check Terms of Service last updated' }
+  - { date: '2026-03-07', source: 'https://live-direct-marketing.online/terms', note: 'platform Terms published' }

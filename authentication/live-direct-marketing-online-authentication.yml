@@ -1,0 +1,118 @@
+generated: '2026-09-19'
+method: searched
+source: https://developers.live-direct-marketing.online/authentication
+docs:
+  - https://developers.live-direct-marketing.online/authentication
+  - https://developers.live-direct-marketing.online/api-registration
+  - https://developers.live-direct-marketing.online/limits
+  - https://check.live-direct-marketing.online/docs
+spec:
+  - openapi/live-direct-marketing-online-ldm-v3-openapi.json
+  - openapi/live-direct-marketing-online-inbox-check-openapi.json
+summary:
+  types: [http bearer, apiKey (header), cookie session]
+  api_key_in: [header]
+  oauth2_flows: []
+  transport: 'Authorization header, Bearer scheme, HTTPS only (HSTS on every host)'
+  note: >-
+    Two contracts, five declared security schemes, no OAuth 2.0 authorization server. LDM: one
+    HybridAuthGuard resolves either an HttpOnly JWT cookie session (web UI) or a Bearer ldm_* tenant
+    API key (agents, MCP, A2A, server-to-server) to the same handler, with per-method scope checks
+    on Bearer keys. Inbox Check: Bearer icp_live_* keys with tier, scopes, provider allowlist and
+    quotas, plus an X-Admin-Key header for operator routes and a session cookie for the account
+    portal. The derive pass produced the scheme skeleton; this file upgrades it from the docs.
+schemes:
+  - name: tenant-api-key
+    api: LDM v3
+    type: http
+    scheme: bearer
+    bearerFormat: 'ldm_<64 hex chars> (contract says JWT — the docs and agent card say an opaque key)'
+    description: >-
+      Tenant API key for MCP / A2A / SDK / server-to-server clients. Minted in CRM Settings → API
+      Keys with chosen scopes, or auto-issued by POST /api/auth/register (channel mcp|a2a|form) and by
+      the MCP ldm_register tool. "One format, no separate live/test prefix."
+    scopes: scopes/live-direct-marketing-online-scopes.yml (79 in the card; x-required-scope on 406 operations)
+    sources: [openapi/live-direct-marketing-online-ldm-v3-openapi.json, https://developers.live-direct-marketing.online/authentication]
+    declared_on_operations: 3 (as `bearer`) — the contract marks 1,265 operations with the `jwt` scheme even though the docs say every protected route accepts either credential
+  - name: jwt
+    api: LDM v3
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+    description: >-
+      15-minute access token from POST /api/auth/login (AuthController_login), refreshed with
+      POST /api/auth/refresh; carried by the web UI as an HttpOnly cookie. 401 = wrong credentials;
+      403 = correct credentials but account not ACTIVE (unconfirmed email / awaiting approval / blocked).
+    sources: [openapi/live-direct-marketing-online-ldm-v3-openapi.json, https://developers.live-direct-marketing.online/authentication]
+    declared_on_operations: 1265
+  - name: rpa-service
+    api: LDM v3
+    type: http
+    scheme: bearer
+    description: Dedicated RPA service key for the RPA service protocol (14 operations under /api/rpa/v1); "No tenant API-key or query-key authentication."
+    sources: [openapi/live-direct-marketing-online-ldm-v3-openapi.json]
+    declared_on_operations: 14
+  - name: apiKey
+    api: Inbox Check
+    type: http
+    scheme: bearer
+    bearerFormat: 'icp_live_*'
+    description: >-
+      Bearer API key issued at /account (up to 3 active per user, shown once). Carries tier
+      (basic/pro/enterprise), scopes (monitoring:read | monitoring:write | reports:pdf), an optional
+      provider allowlist, a screenshots feature flag and daily/monthly quotas readable at GET /api/v1/me.
+    sources: [openapi/live-direct-marketing-online-inbox-check-openapi.json, https://check.live-direct-marketing.online/docs]
+    declared_on_operations: 38
+  - name: adminKey
+    api: Inbox Check
+    type: apiKey
+    in: header
+    name_header: X-Admin-Key
+    description: Operator key for /api/admin/* routes (64 operations). Not available to customers.
+    sources: [openapi/live-direct-marketing-online-inbox-check-openapi.json]
+    declared_on_operations: 64
+  - name: cookie
+    api: Inbox Check
+    type: apiKey
+    in: cookie
+    description: >-
+      Account-portal session set by POST /api/auth/login; referenced by 21 /api/account/* operations
+      but NEVER DECLARED in components.securitySchemes — a contract defect. Recorded from the
+      security requirements, not from a scheme object.
+    sources: [openapi/live-direct-marketing-online-inbox-check-openapi.json]
+    declared_on_operations: 21
+credentials:
+  - id: ldm-tenant-key
+    header: 'Authorization: Bearer ldm_...'
+    prefix: ldm_
+    use: Every /api/* route for agents, MCP, A2A and integrations; scope-checked per method
+    issued_by: CRM Settings → API Keys, POST /api/auth/register (agent channels), MCP ldm_register
+    initial_scopes: 'SAFE_AGENT_SCOPES — read-all + safe drafts; no email:send / mailing:write until the owner expands the key after activation'
+  - id: ldm-session
+    header: HttpOnly cookie (JWT, 15 min) after https://app.live-direct-marketing.online/login
+    prefix: null
+    use: Web UI; roles OWNER / MANAGER / SUPER grant scopes
+  - id: inbox-check-key
+    header: 'Authorization: Bearer icp_live_...'
+    prefix: icp_live_
+    use: /api/v1/* and /mcp on check.live-direct-marketing.online
+    issued_by: https://check.live-direct-marketing.online/account
+  - id: inbox-check-admin
+    header: 'X-Admin-Key: ...'
+    use: operator only
+anonymous_surfaces:
+  - GET /api/v1/health, GET /api/public/pricing, GET /api/legal/documents[/{key}], GET /api/legal/terms, GET /api/v1/agent-guide, the .well-known cards (LDM)
+  - MCP initialize + tools/list at https://api.live-direct-marketing.online/mcp (bootstrap tools only)
+  - the free Inbox Placement Test web flow (no key; 3 tests per email per day)
+anti_enumeration: 'Any auth failure returns the same generic 401 {"statusCode":401,"message":"Invalid credentials"} — by design.'
+oauth:
+  authorization_server: false
+  protected_resource_metadata: 'served at /api/v1/.well-known/oauth-protected-resource with authorization_servers: [] (see well-known/)'
+  note: >-
+    The LDM "OAuth" tag is the platform acting as an OAuth client toward Gmail / Microsoft for the
+    user's sending mailboxes; Inbox Check's /api/oauth/authorize + /api/oauth/token exist in the
+    contract but are undocumented and unadvertised.
+contract_gaps:
+  - Both contracts declare bearerFormat JWT for keys the docs describe as opaque prefixed strings.
+  - Inbox Check references an undeclared `cookie` scheme on 21 operations.
+  - LDM declares `jwt` on 1,265 operations and `bearer` (undeclared name) on 3, while the docs state every protected route accepts either the cookie or the tenant key.

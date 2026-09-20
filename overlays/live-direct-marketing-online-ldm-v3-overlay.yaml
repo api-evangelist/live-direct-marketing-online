@@ -1,0 +1,113 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the LDM v3 API
+  version: 1.0.0
+  x-generated: '2026-09-19'
+  x-method: generated
+  x-source: >-
+    Facts observed in the provider's own docs, agent cards and live responses on 2026-09-19 that the
+    harvested contract (https://api.live-direct-marketing.online/api/docs-json) does not carry. The
+    original is never mutated; apply this overlay to obtain an annotated copy.
+extends: openapi/live-direct-marketing-online-ldm-v3-openapi.json
+actions:
+  - target: $.info
+    description: Contact, terms and documentation links the contract leaves empty (info.contact is {}).
+    update:
+      contact:
+        name: Live Direct Marketing support
+        email: welcome@live-direct-marketing.online
+        url: https://live-direct-marketing.online/contact
+      termsOfService: https://live-direct-marketing.online/terms
+      x-apievangelist-profile: https://github.com/api-evangelist/live-direct-marketing-online
+      x-agent-card: https://api.live-direct-marketing.online/.well-known/agent.json
+      x-mcp-endpoint: https://api.live-direct-marketing.online/mcp
+      x-llms-txt: https://developers.live-direct-marketing.online/llms.txt
+  - target: $
+    description: External docs pointer (absent from the contract).
+    update:
+      externalDocs:
+        description: LDM Developers portal
+        url: https://developers.live-direct-marketing.online/
+  - target: $.components.securitySchemes.tenant-api-key
+    description: >-
+      The contract declares bearerFormat JWT for the tenant API key; the authentication docs and the
+      agent card describe an opaque ldm_ + 64-hex key with per-key scopes and no live/test prefix.
+    update:
+      bearerFormat: 'ldm_<64 hex chars> (opaque tenant API key, not a JWT)'
+      description: >-
+        Tenant API key (Bearer ldm_*) for MCP / A2A / server-to-server clients. Minted in CRM Settings →
+        API Keys with chosen scopes, or auto-issued by POST /api/auth/register (channel mcp|a2a|form)
+        with read + safe-draft scopes. Required scope per operation is declared in x-required-scope.
+  - target: $.components.securitySchemes.jwt
+    update:
+      description: JWT access token from /api/auth/login (15-minute lifetime; refreshed via /api/auth/refresh). Used by the web UI as an HttpOnly cookie session.
+  - target: $.components.responses
+    description: >-
+      The contract declares only 2xx responses on all 1,304 operations. These are the documented error
+      shapes from https://developers.live-direct-marketing.online/errors; referenced, not attached per
+      operation, so the original stays intact.
+    update:
+      LdmError:
+        description: 'Standard LDM error envelope: { statusCode, message (string | string[]) }. 402 carries {code: insufficient_balance, required, balance, topUpUrl}; 409 carries {code: audit_blocked}.'
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                statusCode: { type: integer }
+                message:
+                  oneOf:
+                    - { type: string }
+                    - { type: array, items: { type: string } }
+                code: { type: string }
+      LdmProblem:
+        description: RFC 9457 Problem Details as observed live on 401/404 from the api host (type https://api.live-direct-marketing.online/errors/<code>).
+        content:
+          application/problem+json:
+            schema:
+              type: object
+              properties:
+                type: { type: string, format: uri }
+                title: { type: string }
+                status: { type: integer }
+                detail: { type: string }
+                instance: { type: string }
+                code: { type: string }
+  - target: $.paths['/api/auth/register'].post
+    update:
+      x-rate-limit: '3 signups per hour per source IP for channel mcp|a2a|form (429 {error: rate_limited})'
+      x-idempotent: false
+  - target: $.paths['/api/campaigns/{id}/test-task'].post
+    update:
+      x-idempotent: true
+      x-idempotency-mechanism: required idempotency-key request header (the only operation in the contract that declares one)
+  - target: $.paths['/api/campaigns/{id}/pour'].post
+    update:
+      x-idempotent: true
+      x-idempotency-mechanism: natural — dedup by normalized recipient email; a repeat call adds nothing and returns the durable sourceSync state
+  - target: $.paths['/api/campaigns/{id}/send-readiness'].get
+    update:
+      x-dry-run: true
+      x-dry-run-note: '"Dry-run all send gates for a campaign ... Read-only, nothing is sent."'
+  - target: $.paths['/api/email-accounts/{id}/test-send'].post
+    update:
+      x-dry-run: true
+      x-rate-limit: 1 per 5 seconds per account
+  - target: $.paths['/api/campaigns/{id}/pause'].post
+    update:
+      x-reversal-of: POST /api/campaigns/{id}/resume (symmetric)
+  - target: $.paths['/api/tasks/{id}/stop'].post
+    update:
+      x-irreversible: true
+      x-note: '"stop is a hard halt (not resumable)" per https://developers.live-direct-marketing.online/tasks-campaigns'
+  - target: $.paths['/api/campaigns/{id}/recipients/{rid}/manual'].patch
+    update:
+      x-human-only: true
+      x-note: agents (MCP / API key) receive 403 human_only because the edit bypasses the auditor
+  - target: $.paths['/api/webhooks'].post
+    update:
+      x-webhook-signature-header: 'X-LDM-Signature: sha256=<HMAC-SHA256 hex of raw body>'
+      x-webhook-events: [lead.created, lead.moved, lead.won, lead.lost, dialog.received, dialog.replied, task.completed, task.failed]
+  - target: $.paths['/api/v1/.well-known/oauth-protected-resource'].get
+    update:
+      x-note: RFC 9728 document served at a non-standard location; /.well-known/oauth-protected-resource on the host 404s and authorization_servers is [].

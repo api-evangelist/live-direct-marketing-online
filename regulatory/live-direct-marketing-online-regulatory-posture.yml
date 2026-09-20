@@ -1,0 +1,61 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: >-
+  https://api.live-direct-marketing.online/api/legal/documents/privacy (the platform privacy policy,
+  served by the API), https://developers.live-direct-marketing.online/legal-compliance,
+  https://live-direct-marketing.online/policy, https://check.live-direct-marketing.online/privacy,
+  and the conventional paths probed on 2026-09-19.
+operator: >-
+  Two legal persons appear: OOO "ЛДМ" (LLC LDM) as the platform Operator in the API-served terms,
+  and Березин Артём Алексеевич, a self-employed individual (ИНН 760419926566, Yaroslavl, Russia) as
+  the personal-data operator for the Inbox Check service under Federal Law 152-FZ. This is recorded
+  because it determines which regimes reach the company; it is not itself a signal.
+signals:
+  data_subject_request:
+    url: https://developers.live-direct-marketing.online/legal-compliance
+    api: https://api.live-direct-marketing.online/api/dsar
+    channel: privacy@live-direct-marketing.online
+    stated_sla: 'SLA ответа — до 72 часов (GDPR допускает до 30 дней; быстрый ответ гасит эскалацию)'
+    rights_named: [source of data, erasure, access, correction, export (apex policy), OAuth revocation]
+    evidence:
+      - source: https://api.live-direct-marketing.online/api/legal/documents/privacy
+        http_status: 200
+        fetched: '2026-09-19'
+        quote: '5. ПРАВА СУБЪЕКТОВ И DSAR. 5.1. Субъект вправе узнать источник данных и потребовать удаления. 5.2. Канал обращений: privacy@live-direct-marketing.online. SLA ответа — до 72 часов ... 5.3. По обращению адрес немедленно вносится в глобальный suppression.'
+      - source: openapi/live-direct-marketing-online-ldm-v3-openapi.json
+        operation: 'POST /api/dsar (DsarController_create)'
+        quote: 'Submit a data-subject request (public): erasure erases+suppresses immediately'
+      - source: https://live-direct-marketing.online/policy
+        http_status: 200
+        quote: 'You have the right to: Access the personal data we hold about you; Request correction; Request deletion of your data; Revoke OAuth access to your Google account at any time; Export your data. To exercise any of these rights, contact us at: welcome@live-direct-marketing.online'
+    note: >-
+      A real intake surface — a documented public API endpoint plus a named channel and a verbatim
+      response period — rather than a paragraph. Caveat: the API-served privacy policy is headed
+      "ЧЕРНОВИК v0 — требует проверки юристом" (draft v0, pending lawyer review), and the DSAR
+      operation is declared with security [{jwt: []}] in the contract while its description says
+      "(public)"; an anonymous POST was not attempted because it would create a real request.
+not_recorded:
+  subprocessors: 'No dated subprocessor table. /legal/subprocessors 404 on the apex; the developer-portal DPA page says the DPA "is available on request ... Contact legal@ldm.delivery" (a domain that does not resolve); the API-served DPA draft names roles and 152-FZ but no vendors.'
+  incident_notification: 'No breach-notification SLA. developers /legal/security says vulnerability REPORTS get a response within 72 hours — a disclosure response time, not an incident-notification commitment to customers.'
+  data_residency: 'Not published. The operator is Russian and the privacy documents cite 152-FZ, but no page states where tenant data is hosted or offers a region choice.'
+  support_lifetime: No versioning or support-period statement (see lifecycle/).
+  accessibility_conformance: '/accessibility 404 on the apex; no VPAT or WCAG statement found.'
+  ai_transparency: 'The product is AI-operated by design ("Your agent prepares. You make the call."; every MCP response carries an _expert block) but no AI disclosure or Art. 50-style transparency page exists; marketing copy is not a signal.'
+  training_data_summary: none
+  global_privacy_control: 'No published GPC statement; not header-tested by design.'
+  age_assurance: none (B2B service; no age signals documented)
+  notice_and_action: 'The AUP legal document covers prohibited outbound content and suspension; no third-party notice-and-action channel is published.'
+  transparency_report: none
+  exit_assistance: 'An Exports tag (5 operations, CSV) and leads.export exist, and the apex policy lists "Export your data" as a right, but no switching / portability page or commitment is published; recorded as absent rather than inferred from an export endpoint.'
+  sbom: 'Search only; none published (/security/sbom 404).'
+probed_paths:
+  - { url: 'https://live-direct-marketing.online/accessibility', status: 404 }
+  - { url: 'https://live-direct-marketing.online/legal/subprocessors', status: 404 }
+  - { url: 'https://live-direct-marketing.online/security', status: 404 }
+  - { url: 'https://live-direct-marketing.online/privacy', status: 404, note: 'privacy policy lives at /policy (200)' }
+  - { url: 'https://developers.live-direct-marketing.online/legal/dpa', status: 200, note: 'on request only' }
+  - { url: 'https://developers.live-direct-marketing.online/legal/security', status: 200, note: '"being prepared"; contact security@ldm.delivery (unresolvable domain)' }
+  - { url: 'https://developers.live-direct-marketing.online/legal/privacy', status: 200, note: '"being prepared by our legal team"' }
+  - { url: 'https://api.live-direct-marketing.online/api/legal/documents', status: 200, note: '7 documents: terms, aup, privacy, dpa, mode2, campaign_guarantee, security — all draft v0, Russian' }
+  - { url: 'https://check.live-direct-marketing.online/privacy', status: 200, note: '152-FZ policy naming the individual operator; 7-day retention; Yandex Metrica only after consent' }

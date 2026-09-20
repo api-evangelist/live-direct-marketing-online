@@ -1,0 +1,3552 @@
+generated: '2026-09-19'
+method: derived
+source: 'Derived by binding (a) the three tools returned by an anonymous live tools/list against https://api.live-direct-marketing.online/mcp
+  on 2026-09-19, (b) the 237 curated capabilities in the provider''s proprietary agent card (each carries method
+  + path), and (c) the 21 skills in the Inbox Check agent card (each carries method + url) to the operationIds in
+  the two harvested OpenAPI documents by exact method+path match. The provider states the naming rule outright in
+  /api/v1/agent-guide: ''Each capability is one MCP tool named ldm_<operationId>''.'
+purpose: Make the MCP tool the discovery unit and bind it to the REST operation it wraps. For LDM this is unusually
+  mechanical — REST, MCP and A2A are all generated from the same OpenAPI, so a bound tool inherits the operation's
+  parameters + requestBody as its real inputSchema (path params become top-level string args, the body goes in `body`,
+  tenant in `tenant_id`, per the agent guide).
+surfaces:
+  rest_openapi:
+  - openapi/live-direct-marketing-online-ldm-v3-openapi.json (1,304 operations, 119 tags)
+  - openapi/live-direct-marketing-online-inbox-check-openapi.json (196 operations)
+  graphql: null
+  mcp:
+  - endpoint: https://api.live-direct-marketing.online/mcp
+    tools_list: anonymous session returns 3 bootstrap tools (live); authenticated session exposes ldm_<operationId>
+      per operation (~1,270 per the agent guide) — authenticated introspection not performed
+  - endpoint: https://check.live-direct-marketing.online/mcp
+    tools_list: 401 without Bearer icp_live_*; tool names taken from the agent card skills and the /docs/mcp page
+  a2a: https://api.live-direct-marketing.online/.well-known/agent.json (237 curated skills; skill ids are dotted
+    capability ids, not operationIds)
+naming_rule:
+  ldm: ldm_<operationId> (e.g. ldm_CampaignsController_pour); some curated tools use short aliases such as ldm_contacts_create,
+    ldm_creatives_create and ldm_dialogs_list per the agent guide recommended_flow
+  inbox_check: <domain>_<verb> (tests_create, monitor_domain_pause, me_get) with input_schema published in the card
+crosswalk:
+- tool: ldm_health
+  category: bootstrap (anonymous)
+  rest:
+  - AgentCardController_health
+  binding: rest
+  confidence: high
+  note: Live anonymous tools/list 2026-09-19; backs GET /api/v1/health. inputSchema observed live.
+- tool: ldm_terms
+  category: bootstrap (anonymous)
+  rest:
+  - LegalController_getTerms
+  binding: rest
+  confidence: high
+  note: Live anonymous tools/list 2026-09-19; backs GET /api/legal/terms. inputSchema observed live.
+- tool: ldm_register
+  category: bootstrap (anonymous)
+  rest:
+  - AuthController_register
+  binding: rest
+  confidence: high
+  note: Live anonymous tools/list 2026-09-19; backs POST /api/auth/register. inputSchema observed live.
+- tool: ldm_NotificationsController_findAll
+  card_capability_id: notifications.list
+  category: notifications
+  rest:
+  - NotificationsController_findAll
+  binding: rest
+  confidence: high
+  scope: notifications:read
+- tool: ldm_NotificationsController_createSelfNote
+  card_capability_id: notifications.self-note
+  category: notifications
+  rest:
+  - NotificationsController_createSelfNote
+  binding: rest
+  confidence: high
+  scope: notifications:write
+- tool: ldm_ApiKeysController_list
+  card_capability_id: keys.list
+  category: keys
+  rest:
+  - ApiKeysController_list
+  binding: rest
+  confidence: high
+  scope: keys:read
+- tool: ldm_ApiKeysController_create
+  card_capability_id: keys.create
+  category: keys
+  rest:
+  - ApiKeysController_create
+  binding: rest
+  confidence: high
+  scope: keys:write
+- tool: ldm_ApiKeysController_whoami
+  card_capability_id: me
+  category: me
+  rest:
+  - ApiKeysController_whoami
+  binding: rest
+  confidence: high
+  scope: null
+- tool: ldm_ApiKeysController_remove
+  card_capability_id: keys.revoke
+  category: keys
+  rest:
+  - ApiKeysController_remove
+  binding: rest
+  confidence: high
+  scope: keys:write
+- tool: ldm_WebhooksController_list
+  card_capability_id: webhooks.list
+  category: webhooks
+  rest:
+  - WebhooksController_list
+  binding: rest
+  confidence: high
+  scope: webhooks:read
+- tool: ldm_WebhooksController_create
+  card_capability_id: webhooks.create
+  category: webhooks
+  rest:
+  - WebhooksController_create
+  binding: rest
+  confidence: high
+  scope: webhooks:write
+- tool: ldm_WebhooksController_deliveries
+  card_capability_id: webhooks.deliveries
+  category: webhooks
+  rest:
+  - WebhooksController_deliveries
+  binding: rest
+  confidence: high
+  scope: webhooks:read
+- tool: ldm_WebhooksController_retry
+  card_capability_id: webhooks.retry
+  category: webhooks
+  rest:
+  - WebhooksController_retry
+  binding: rest
+  confidence: high
+  scope: webhooks:write
+- tool: ldm_UsersController_findAll
+  card_capability_id: users.list
+  category: users
+  rest:
+  - UsersController_findAll
+  binding: rest
+  confidence: high
+  scope: users:read
+- tool: ldm_UsersController_createUser
+  card_capability_id: users.create
+  category: users
+  rest:
+  - UsersController_createUser
+  binding: rest
+  confidence: high
+  scope: users:write
+- tool: ldm_CompaniesController_findAll
+  card_capability_id: companies.list
+  category: companies
+  rest:
+  - CompaniesController_findAll
+  binding: rest
+  confidence: high
+  scope: crm:read
+- tool: ldm_CompaniesController_create
+  card_capability_id: companies.create
+  category: companies
+  rest:
+  - CompaniesController_create
+  binding: rest
+  confidence: high
+  scope: crm:write
+- tool: ldm_CompaniesController_softDelete
+  card_capability_id: companies.delete
+  category: companies
+  rest:
+  - CompaniesController_softDelete
+  binding: rest
+  confidence: high
+  scope: companies:write
+- tool: ldm_CompaniesController_restore
+  card_capability_id: companies.restore
+  category: companies
+  rest:
+  - CompaniesController_restore
+  binding: rest
+  confidence: high
+  scope: companies:write
+- tool: ldm_CompaniesController_rollbackImport
+  card_capability_id: companies.import_rollback
+  category: companies
+  rest:
+  - CompaniesController_rollbackImport
+  binding: rest
+  confidence: high
+  scope: companies:write
+- tool: ldm_SuppressionController_list
+  card_capability_id: suppression.list
+  category: suppression
+  rest:
+  - SuppressionController_list
+  binding: rest
+  confidence: high
+  scope: suppression:read
+- tool: ldm_SuppressionController_add
+  card_capability_id: suppression.add
+  category: suppression
+  rest:
+  - SuppressionController_add
+  binding: rest
+  confidence: high
+  scope: suppression:write
+- tool: ldm_SuppressionController_check
+  card_capability_id: suppression.check
+  category: suppression
+  rest:
+  - SuppressionController_check
+  binding: rest
+  confidence: high
+  scope: suppression:read
+- tool: ldm_SuppressionController_remove
+  card_capability_id: suppression.remove
+  category: suppression
+  rest:
+  - SuppressionController_remove
+  binding: rest
+  confidence: high
+  scope: suppression:write
+- tool: ldm_StopListController_list
+  card_capability_id: stoplist.list
+  category: stoplist
+  rest:
+  - StopListController_list
+  binding: rest
+  confidence: high
+  scope: stoplist:read
+- tool: ldm_StopListController_add
+  card_capability_id: stoplist.add
+  category: stoplist
+  rest:
+  - StopListController_add
+  binding: rest
+  confidence: high
+  scope: stoplist:write
+- tool: ldm_StopListController_remove
+  card_capability_id: stoplist.remove
+  category: stoplist
+  rest:
+  - StopListController_remove
+  binding: rest
+  confidence: high
+  scope: stoplist:write
+- tool: ldm_StopListController_check
+  card_capability_id: stoplist.check
+  category: stoplist
+  rest:
+  - StopListController_check
+  binding: rest
+  confidence: high
+  scope: stoplist:read
+- tool: ldm_ReportsController_list
+  card_capability_id: reports.list
+  category: reports
+  rest:
+  - ReportsController_list
+  binding: rest
+  confidence: high
+  scope: reports:read
+- tool: ldm_ReportsController_create
+  card_capability_id: reports.create
+  category: reports
+  rest:
+  - ReportsController_create
+  binding: rest
+  confidence: high
+  scope: reports:write
+- tool: ldm_ReportsController_fromExport
+  card_capability_id: reports.from_export
+  category: reports
+  rest:
+  - ReportsController_fromExport
+  binding: rest
+  confidence: high
+  scope: reports:write
+- tool: ldm_ReportsController_publish
+  card_capability_id: reports.publish
+  category: reports
+  rest:
+  - ReportsController_publish
+  binding: rest
+  confidence: high
+  scope: reports:write
+- tool: ldm_ReportsController_unpublish
+  card_capability_id: reports.unpublish
+  category: reports
+  rest:
+  - ReportsController_unpublish
+  binding: rest
+  confidence: high
+  scope: reports:write
+- tool: ldm_ReportsController_download
+  card_capability_id: reports.download
+  category: reports
+  rest:
+  - ReportsController_download
+  binding: rest
+  confidence: high
+  scope: reports:read
+- tool: ldm_MailAgentController_getStatus
+  card_capability_id: agent.status
+  category: agent
+  rest:
+  - MailAgentController_getStatus
+  binding: rest
+  confidence: high
+  scope: agent:read
+- tool: ldm_MailAgentController_getSettings
+  card_capability_id: agent.settings.get
+  category: agent
+  rest:
+  - MailAgentController_getSettings
+  binding: rest
+  confidence: high
+  scope: agent:read
+- tool: ldm_MailAgentController_toggleEnabled
+  card_capability_id: agent.settings.toggle
+  category: agent
+  rest:
+  - MailAgentController_toggleEnabled
+  binding: rest
+  confidence: high
+  scope: agent:write
+- tool: ldm_MailAgentController_regenerateToken
+  card_capability_id: agent.token.regenerate
+  category: agent
+  rest:
+  - MailAgentController_regenerateToken
+  binding: rest
+  confidence: high
+  scope: agent:write
+- tool: ldm_MailAgentController_disconnect
+  card_capability_id: agent.disconnect
+  category: agent
+  rest:
+  - MailAgentController_disconnect
+  binding: rest
+  confidence: high
+  scope: agent:write
+- tool: ldm_AiController_generate
+  card_capability_id: ai.generate
+  category: ai
+  rest:
+  - AiController_generate
+  binding: rest
+  confidence: high
+  scope: ai:write
+- tool: ldm_AiController_getProviders
+  card_capability_id: ai.providers
+  category: ai
+  rest:
+  - AiController_getProviders
+  binding: rest
+  confidence: high
+  scope: ai:read
+- tool: ldm_EmailVerificationController_verifyBatch
+  card_capability_id: email-verification.verify-batch
+  category: email-verification
+  rest:
+  - EmailVerificationController_verifyBatch
+  binding: rest
+  confidence: high
+  scope: email:send
+- tool: ldm_CustomFieldsController_findAll
+  card_capability_id: customfields.list
+  category: customfields
+  rest:
+  - CustomFieldsController_findAll
+  binding: rest
+  confidence: high
+  scope: customfields:read
+- tool: ldm_CustomFieldsController_create
+  card_capability_id: customfields.create
+  category: customfields
+  rest:
+  - CustomFieldsController_create
+  binding: rest
+  confidence: high
+  scope: customfields:write
+- tool: ldm_ContactsController_findAll
+  card_capability_id: contacts.list
+  category: contacts
+  rest:
+  - ContactsController_findAll
+  binding: rest
+  confidence: high
+  scope: crm:read
+- tool: ldm_ContactsController_create
+  card_capability_id: contacts.create
+  category: contacts
+  rest:
+  - ContactsController_create
+  binding: rest
+  confidence: high
+  scope: crm:write
+- tool: ldm_ContactsController_softDelete
+  card_capability_id: contacts.delete
+  category: contacts
+  rest:
+  - ContactsController_softDelete
+  binding: rest
+  confidence: high
+  scope: contacts:write
+- tool: ldm_ContactsController_restore
+  card_capability_id: contacts.restore
+  category: contacts
+  rest:
+  - ContactsController_restore
+  binding: rest
+  confidence: high
+  scope: contacts:write
+- tool: ldm_ContactsController_rollbackImport
+  card_capability_id: contacts.import_rollback
+  category: contacts
+  rest:
+  - ContactsController_rollbackImport
+  binding: rest
+  confidence: high
+  scope: contacts:write
+- tool: ldm_PipelinesController_findAll
+  card_capability_id: pipelines.list
+  category: pipelines
+  rest:
+  - PipelinesController_findAll
+  binding: rest
+  confidence: high
+  scope: pipelines:read
+- tool: ldm_PipelinesController_create
+  card_capability_id: pipelines.create
+  category: pipelines
+  rest:
+  - PipelinesController_create
+  binding: rest
+  confidence: high
+  scope: pipelines:write
+- tool: ldm_LeadsController_findAll
+  card_capability_id: leads.list
+  category: leads
+  rest:
+  - LeadsController_findAll
+  binding: rest
+  confidence: high
+  scope: leads:read
+- tool: ldm_LeadsController_create
+  card_capability_id: leads.create
+  category: leads
+  rest:
+  - LeadsController_create
+  binding: rest
+  confidence: high
+  scope: leads:write
+- tool: ldm_LeadsController_getStats
+  card_capability_id: leads.stats
+  category: leads
+  rest:
+  - LeadsController_getStats
+  binding: rest
+  confidence: high
+  scope: leads:read
+- tool: ldm_LeadsController_kanban
+  card_capability_id: leads.kanban
+  category: leads
+  rest:
+  - LeadsController_kanban
+  binding: rest
+  confidence: high
+  scope: leads:read
+- tool: ldm_LeadsController_update
+  card_capability_id: leads.update
+  category: leads
+  rest:
+  - LeadsController_update
+  binding: rest
+  confidence: high
+  scope: leads:write
+- tool: ldm_LeadsController_move
+  card_capability_id: leads.move
+  category: leads
+  rest:
+  - LeadsController_move
+  binding: rest
+  confidence: high
+  scope: leads:write
+- tool: ldm_LeadsController_exportLeads
+  card_capability_id: leads.export
+  category: leads
+  rest:
+  - LeadsController_exportLeads
+  binding: rest
+  confidence: high
+  scope: leads:write
+- tool: ldm_LeadsController_importStart
+  card_capability_id: leads.import
+  category: leads
+  rest:
+  - LeadsController_importStart
+  binding: rest
+  confidence: high
+  scope: leads:write
+- tool: ldm_TagsController_findAll
+  card_capability_id: tags.list
+  category: tags
+  rest:
+  - TagsController_findAll
+  binding: rest
+  confidence: high
+  scope: tags:read
+- tool: ldm_TagsController_create
+  card_capability_id: tags.create
+  category: tags
+  rest:
+  - TagsController_create
+  binding: rest
+  confidence: high
+  scope: tags:write
+- tool: ldm_ContactListsController_findAll
+  card_capability_id: contact-lists.list
+  category: contact-lists
+  rest:
+  - ContactListsController_findAll
+  binding: rest
+  confidence: high
+  scope: crm:read
+- tool: ldm_CompanyListsController_findAll
+  card_capability_id: company-lists.list
+  category: company-lists
+  rest:
+  - CompanyListsController_findAll
+  binding: rest
+  confidence: high
+  scope: crm:read
+- tool: ldm_SettingsController_getSettings
+  card_capability_id: settings.get
+  category: settings
+  rest:
+  - SettingsController_getSettings
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_SettingsController_updateWorkspace
+  card_capability_id: settings.update
+  category: settings
+  rest:
+  - SettingsController_updateWorkspace
+  binding: rest
+  confidence: high
+  scope: settings:write
+- tool: ldm_SettingsController_getBoNalogIntegration
+  card_capability_id: integrations.bo_nalog_get
+  category: integrations
+  rest:
+  - SettingsController_getBoNalogIntegration
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_SettingsController_updateBoNalogIntegration
+  card_capability_id: integrations.bo_nalog_update
+  category: integrations
+  rest:
+  - SettingsController_updateBoNalogIntegration
+  binding: rest
+  confidence: high
+  scope: settings:write
+- tool: ldm_SettingsController_getDadataIntegration
+  card_capability_id: integrations.dadata_get
+  category: integrations
+  rest:
+  - SettingsController_getDadataIntegration
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_SettingsController_updateDadataIntegration
+  card_capability_id: integrations.dadata_update
+  category: integrations
+  rest:
+  - SettingsController_updateDadataIntegration
+  binding: rest
+  confidence: high
+  scope: settings:write
+- tool: ldm_SettingsController_resetDadataCounter
+  card_capability_id: integrations.dadata_reset_counter
+  category: integrations
+  rest:
+  - SettingsController_resetDadataCounter
+  binding: rest
+  confidence: high
+  scope: settings:write
+- tool: ldm_SettingsController_getInboxCheckIntegration
+  card_capability_id: integrations.inbox_check_get
+  category: integrations
+  rest:
+  - SettingsController_getInboxCheckIntegration
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_SettingsController_updateInboxCheckIntegration
+  card_capability_id: integrations.inbox_check_update
+  category: integrations
+  rest:
+  - SettingsController_updateInboxCheckIntegration
+  binding: rest
+  confidence: high
+  scope: settings:write
+- tool: ldm_SettingsController_testInboxCheckConnection
+  card_capability_id: integrations.inbox_check_test
+  category: integrations
+  rest:
+  - SettingsController_testInboxCheckConnection
+  binding: rest
+  confidence: high
+  scope: settings:write
+- tool: ldm_SettingsController_getSmartleadIntegration
+  card_capability_id: integrations.smartlead_get
+  category: integrations
+  rest:
+  - SettingsController_getSmartleadIntegration
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_SettingsController_updateSmartleadIntegration
+  card_capability_id: integrations.smartlead_update
+  category: integrations
+  rest:
+  - SettingsController_updateSmartleadIntegration
+  binding: rest
+  confidence: high
+  scope: settings:write
+- tool: ldm_SettingsController_testSmartleadConnection
+  card_capability_id: integrations.smartlead_test
+  category: integrations
+  rest:
+  - SettingsController_testSmartleadConnection
+  binding: rest
+  confidence: high
+  scope: settings:write
+- tool: ldm_SettingsController_getSmartleadPlacementMatrix
+  card_capability_id: integrations.smartlead_placement_matrix
+  category: integrations
+  rest:
+  - SettingsController_getSmartleadPlacementMatrix
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_SettingsController_getSmartleadPlacementHistory
+  card_capability_id: integrations.smartlead_placement_history
+  category: integrations
+  rest:
+  - SettingsController_getSmartleadPlacementHistory
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_DialogsController_findAll
+  card_capability_id: dialogs.list
+  category: dialogs
+  rest:
+  - DialogsController_findAll
+  binding: rest
+  confidence: high
+  scope: dialogs:read
+- tool: ldm_DialogsController_getOutboxHistory
+  card_capability_id: dialogs.outbox_history
+  category: dialogs
+  rest:
+  - DialogsController_getOutboxHistory
+  binding: rest
+  confidence: high
+  scope: dialogs:read
+- tool: ldm_DialogsController_findById
+  card_capability_id: messages.get
+  category: messages
+  rest:
+  - DialogsController_findById
+  binding: rest
+  confidence: high
+  scope: dialogs:read
+- tool: ldm_DialogsController_reply
+  card_capability_id: dialogs.reply
+  category: dialogs
+  rest:
+  - DialogsController_reply
+  binding: rest
+  confidence: high
+  scope: dialogs:write
+- tool: ldm_DialogsController_compose
+  card_capability_id: dialogs.compose
+  category: dialogs
+  rest:
+  - DialogsController_compose
+  binding: rest
+  confidence: high
+  scope: dialogs:write
+- tool: ldm_UserSettingsController_get
+  card_capability_id: user-settings.get
+  category: user-settings
+  rest:
+  - UserSettingsController_get
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_MailingController_getOverview
+  card_capability_id: mailing.overview
+  category: mailing
+  rest:
+  - MailingController_getOverview
+  binding: rest
+  confidence: high
+  scope: mailing:read
+- tool: ldm_MailingController_getPendingApprovals
+  card_capability_id: mailing.pending
+  category: mailing
+  rest:
+  - MailingController_getPendingApprovals
+  binding: rest
+  confidence: high
+  scope: mailing:read
+- tool: ldm_MailingController_approveCampaign
+  card_capability_id: mailing.approve
+  category: mailing
+  rest:
+  - MailingController_approveCampaign
+  binding: rest
+  confidence: high
+  scope: mailing:write
+- tool: ldm_BrowserQueueController_getStats
+  card_capability_id: admin.browser-queue
+  category: admin
+  rest:
+  - BrowserQueueController_getStats
+  binding: rest
+  confidence: high
+  scope: admin:read
+- tool: ldm_BrowserQueueController_pause
+  card_capability_id: admin.browser-queue.pause
+  category: admin
+  rest:
+  - BrowserQueueController_pause
+  binding: rest
+  confidence: high
+  scope: admin:write
+- tool: ldm_FilesController_importImages
+  card_capability_id: files.images.import
+  category: files
+  rest:
+  - FilesController_importImages
+  binding: rest
+  confidence: high
+  scope: files:write
+- tool: ldm_FilesController_uploadImage
+  card_capability_id: files.upload
+  category: files
+  rest:
+  - FilesController_uploadImage
+  binding: rest
+  confidence: high
+  scope: files:write
+- tool: ldm_FilesController_listImages
+  card_capability_id: files.images
+  category: files
+  rest:
+  - FilesController_listImages
+  binding: rest
+  confidence: high
+  scope: files:read
+- tool: ldm_FilesController_deleteImage
+  card_capability_id: files.delete_image
+  category: files
+  rest:
+  - FilesController_deleteImage
+  binding: rest
+  confidence: high
+  scope: files:write
+- tool: ldm_FilesController_listAssets
+  card_capability_id: files.assets
+  category: files
+  rest:
+  - FilesController_listAssets
+  binding: rest
+  confidence: high
+  scope: files:read
+- tool: ldm_FilesController_deleteAsset
+  card_capability_id: files.delete_asset
+  category: files
+  rest:
+  - FilesController_deleteAsset
+  binding: rest
+  confidence: high
+  scope: files:write
+- tool: ldm_FilesController_findAll
+  card_capability_id: files.list
+  category: files
+  rest:
+  - FilesController_findAll
+  binding: rest
+  confidence: high
+  scope: files:read
+- tool: ldm_FilesController_remove
+  card_capability_id: files.delete
+  category: files
+  rest:
+  - FilesController_remove
+  binding: rest
+  confidence: high
+  scope: files:write
+- tool: ldm_TasksController_findAll
+  card_capability_id: tasks.list
+  category: tasks
+  rest:
+  - TasksController_findAll
+  binding: rest
+  confidence: high
+  scope: tasks:read
+- tool: ldm_TasksController_create
+  card_capability_id: tasks.create
+  category: tasks
+  rest:
+  - TasksController_create
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_TasksController_remove
+  card_capability_id: tasks.delete
+  category: tasks
+  rest:
+  - TasksController_remove
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_TasksController_getErrors
+  card_capability_id: tasks.errors
+  category: tasks
+  rest:
+  - TasksController_getErrors
+  binding: rest
+  confidence: high
+  scope: tasks:read
+- tool: ldm_TasksController_start
+  card_capability_id: tasks.start
+  category: tasks
+  rest:
+  - TasksController_start
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_TasksController_getPipelineSteps
+  card_capability_id: tasks.steps.list
+  category: tasks
+  rest:
+  - TasksController_getPipelineSteps
+  binding: rest
+  confidence: high
+  scope: tasks:read
+- tool: ldm_TasksController_addPipelineStep
+  card_capability_id: tasks.steps.add
+  category: tasks
+  rest:
+  - TasksController_addPipelineStep
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_TasksController_reorderPipelineSteps
+  card_capability_id: tasks.steps.reorder
+  category: tasks
+  rest:
+  - TasksController_reorderPipelineSteps
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_TasksController_updatePipelineStep
+  card_capability_id: tasks.steps.update
+  category: tasks
+  rest:
+  - TasksController_updatePipelineStep
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_TasksController_removePipelineStep
+  card_capability_id: tasks.steps.remove
+  category: tasks
+  rest:
+  - TasksController_removePipelineStep
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_TasksController_getScoringResults
+  card_capability_id: tasks.scoring-results
+  category: tasks
+  rest:
+  - TasksController_getScoringResults
+  binding: rest
+  confidence: high
+  scope: tasks:read
+- tool: ldm_TasksController_getScoringStats
+  card_capability_id: tasks.scoring-stats
+  category: tasks
+  rest:
+  - TasksController_getScoringStats
+  binding: rest
+  confidence: high
+  scope: tasks:read
+- tool: ldm_TasksController_getScoringStepEvents
+  card_capability_id: tasks.scoring-step-events
+  category: tasks
+  rest:
+  - TasksController_getScoringStepEvents
+  binding: rest
+  confidence: high
+  scope: tasks:read
+- tool: ldm_TasksController_getCronSettings
+  card_capability_id: tasks.cron.get
+  category: tasks
+  rest:
+  - TasksController_getCronSettings
+  binding: rest
+  confidence: high
+  scope: tasks:read
+- tool: ldm_TasksController_updateCronSettings
+  card_capability_id: tasks.cron.update
+  category: tasks
+  rest:
+  - TasksController_updateCronSettings
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_TasksController_triggerCron
+  card_capability_id: tasks.cron.trigger
+  category: tasks
+  rest:
+  - TasksController_triggerCron
+  binding: rest
+  confidence: high
+  scope: tasks:write
+- tool: ldm_CreativesController_findAll
+  card_capability_id: creatives.list
+  category: creatives
+  rest:
+  - CreativesController_findAll
+  binding: rest
+  confidence: high
+  scope: creatives:read
+- tool: ldm_CreativesController_create
+  card_capability_id: creatives.create
+  category: creatives
+  rest:
+  - CreativesController_create
+  binding: rest
+  confidence: high
+  scope: creatives:write
+- tool: ldm_CreativesController_pdfStatus
+  card_capability_id: creatives.pdf-status
+  category: creatives
+  rest:
+  - CreativesController_pdfStatus
+  binding: rest
+  confidence: high
+  scope: creatives:read
+- tool: ldm_CreativesController_getAvailableVariables
+  card_capability_id: creatives.variables.available
+  category: creatives
+  rest:
+  - CreativesController_getAvailableVariables
+  binding: rest
+  confidence: high
+  scope: creatives:read
+- tool: ldm_CreativesController_findById
+  card_capability_id: creatives.get
+  category: creatives
+  rest:
+  - CreativesController_findById
+  binding: rest
+  confidence: high
+  scope: creatives:read
+- tool: ldm_CreativesController_update
+  card_capability_id: creatives.update
+  category: creatives
+  rest:
+  - CreativesController_update
+  binding: rest
+  confidence: high
+  scope: creatives:write
+- tool: ldm_CreativesController_briefIntake
+  card_capability_id: creatives.brief-intake
+  category: creatives
+  rest:
+  - CreativesController_briefIntake
+  binding: rest
+  confidence: high
+  scope: creatives:read
+- tool: ldm_CreativesController_preview
+  card_capability_id: creatives.preview
+  category: creatives
+  rest:
+  - CreativesController_preview
+  binding: rest
+  confidence: high
+  scope: creatives:write
+- tool: ldm_CreativesController_getVariables
+  card_capability_id: creatives.variables
+  category: creatives
+  rest:
+  - CreativesController_getVariables
+  binding: rest
+  confidence: high
+  scope: creatives:read
+- tool: ldm_CreativesController_getTestSends
+  card_capability_id: creatives.test-sends
+  category: creatives
+  rest:
+  - CreativesController_getTestSends
+  binding: rest
+  confidence: high
+  scope: creatives:read
+- tool: ldm_CreativesController_createTestSend
+  card_capability_id: creatives.test-send
+  category: creatives
+  rest:
+  - CreativesController_createTestSend
+  binding: rest
+  confidence: high
+  scope: creatives:write
+- tool: ldm_CreativesController_getPdfGenerationStatus
+  card_capability_id: creatives.pdf-generations.get
+  category: creatives
+  rest:
+  - CreativesController_getPdfGenerationStatus
+  binding: rest
+  confidence: high
+  scope: creatives:read
+- tool: ldm_CreativesController_generatePdf
+  card_capability_id: creatives.generate-pdf
+  category: creatives
+  rest:
+  - CreativesController_generatePdf
+  binding: rest
+  confidence: high
+  scope: creatives:write
+- tool: ldm_BriefsController_intake
+  card_capability_id: briefs.intake
+  category: briefs
+  rest:
+  - BriefsController_intake
+  binding: rest
+  confidence: high
+  scope: briefs:read
+- tool: ldm_BriefsController_listIntakeItems
+  card_capability_id: briefs.intake.items.list
+  category: briefs
+  rest:
+  - BriefsController_listIntakeItems
+  binding: rest
+  confidence: high
+  scope: briefs:read
+- tool: ldm_BriefsController_getIntakeItem
+  card_capability_id: briefs.intake.items.get
+  category: briefs
+  rest:
+  - BriefsController_getIntakeItem
+  binding: rest
+  confidence: high
+  scope: briefs:read
+- tool: ldm_BriefsController_transitionIntakeItem
+  card_capability_id: briefs.intake.items.transition
+  category: briefs
+  rest:
+  - BriefsController_transitionIntakeItem
+  binding: rest
+  confidence: high
+  scope: briefs:write
+- tool: ldm_BriefsController_linkIntakeItem
+  card_capability_id: briefs.intake.items.link
+  category: briefs
+  rest:
+  - BriefsController_linkIntakeItem
+  binding: rest
+  confidence: high
+  scope: briefs:write
+- tool: ldm_BriefsController_logIntakeWork
+  card_capability_id: briefs.intake.items.log
+  category: briefs
+  rest:
+  - BriefsController_logIntakeWork
+  binding: rest
+  confidence: high
+  scope: briefs:write
+- tool: ldm_BriefsController_findAll
+  card_capability_id: briefs.list
+  category: briefs
+  rest:
+  - BriefsController_findAll
+  binding: rest
+  confidence: high
+  scope: briefs:read
+- tool: ldm_BriefsController_create
+  card_capability_id: briefs.create
+  category: briefs
+  rest:
+  - BriefsController_create
+  binding: rest
+  confidence: high
+  scope: briefs:write
+- tool: ldm_BriefsController_attachmentContent
+  card_capability_id: briefs.attachment.content
+  category: briefs
+  rest:
+  - BriefsController_attachmentContent
+  binding: rest
+  confidence: high
+  scope: briefs:read
+- tool: ldm_BriefsController_updateContent
+  card_capability_id: briefs.update-content
+  category: briefs
+  rest:
+  - BriefsController_updateContent
+  binding: rest
+  confidence: high
+  scope: briefs:write
+- tool: ldm_BriefsController_expert
+  card_capability_id: briefs.expert
+  category: briefs
+  rest:
+  - BriefsController_expert
+  binding: rest
+  confidence: high
+  scope: briefs:read
+- tool: ldm_NamesController_decline
+  card_capability_id: names.decline
+  category: names
+  rest:
+  - NamesController_decline
+  binding: rest
+  confidence: high
+  scope: utils:read
+- tool: ldm_EmailAccountsController_findAll
+  card_capability_id: accounts.list
+  category: accounts
+  rest:
+  - EmailAccountsController_findAll
+  binding: rest
+  confidence: high
+  scope: accounts:read
+- tool: ldm_EmailAccountsController_create
+  card_capability_id: accounts.create
+  category: accounts
+  rest:
+  - EmailAccountsController_create
+  binding: rest
+  confidence: high
+  scope: accounts:write
+- tool: ldm_ImapOrchestratorController_getStats
+  card_capability_id: imap.stats
+  category: imap
+  rest:
+  - ImapOrchestratorController_getStats
+  binding: rest
+  confidence: high
+  scope: imap:read
+- tool: ldm_ImapOrchestratorController_getSyncHealth
+  card_capability_id: imap.sync-health
+  category: imap
+  rest:
+  - ImapOrchestratorController_getSyncHealth
+  binding: rest
+  confidence: high
+  scope: imap:read
+- tool: ldm_ImapOrchestratorController_retryStagedMessage
+  card_capability_id: imap.retry-staged
+  category: imap
+  rest:
+  - ImapOrchestratorController_retryStagedMessage
+  binding: rest
+  confidence: high
+  scope: imap:write
+- tool: ldm_ImapOrchestratorController_heal
+  card_capability_id: imap.heal
+  category: imap
+  rest:
+  - ImapOrchestratorController_heal
+  binding: rest
+  confidence: high
+  scope: imap:write
+- tool: ldm_ImapOrchestratorController_fetchAll
+  card_capability_id: imap.fetch-all
+  category: imap
+  rest:
+  - ImapOrchestratorController_fetchAll
+  binding: rest
+  confidence: high
+  scope: imap:write
+- tool: ldm_ImapOrchestratorController_getTechLog
+  card_capability_id: imap.tech-log
+  category: imap
+  rest:
+  - ImapOrchestratorController_getTechLog
+  binding: rest
+  confidence: high
+  scope: imap:read
+- tool: ldm_InboundRulesController_findAll
+  card_capability_id: inbound-rules.list
+  category: inbound-rules
+  rest:
+  - InboundRulesController_findAll
+  binding: rest
+  confidence: high
+  scope: rules:read
+- tool: ldm_InboundRulesController_create
+  card_capability_id: inbound-rules.create
+  category: inbound-rules
+  rest:
+  - InboundRulesController_create
+  binding: rest
+  confidence: high
+  scope: rules:write
+- tool: ldm_DialogLinkerController_relink
+  card_capability_id: linker.relink
+  category: linker
+  rest:
+  - DialogLinkerController_relink
+  binding: rest
+  confidence: high
+  scope: linker:write
+- tool: ldm_DialogLinkerController_getStats
+  card_capability_id: linker.stats
+  category: linker
+  rest:
+  - DialogLinkerController_getStats
+  binding: rest
+  confidence: high
+  scope: linker:read
+- tool: ldm_DialogLinkerController_getAllLogs
+  card_capability_id: linker.logs
+  category: linker
+  rest:
+  - DialogLinkerController_getAllLogs
+  binding: rest
+  confidence: high
+  scope: linker:read
+- tool: ldm_SavedViewsController_findAll
+  card_capability_id: views.list
+  category: views
+  rest:
+  - SavedViewsController_findAll
+  binding: rest
+  confidence: high
+  scope: views:read
+- tool: ldm_SavedViewsController_create
+  card_capability_id: views.create
+  category: views
+  rest:
+  - SavedViewsController_create
+  binding: rest
+  confidence: high
+  scope: views:write
+- tool: ldm_ActivitiesController_findAll
+  card_capability_id: activities.list
+  category: activities
+  rest:
+  - ActivitiesController_findAll
+  binding: rest
+  confidence: high
+  scope: activities:read
+- tool: ldm_ActivitiesController_create
+  card_capability_id: activities.create
+  category: activities
+  rest:
+  - ActivitiesController_create
+  binding: rest
+  confidence: high
+  scope: activities:write
+- tool: ldm_AdminController_getQueueStats
+  card_capability_id: admin.queues
+  category: admin
+  rest:
+  - AdminController_getQueueStats
+  binding: rest
+  confidence: high
+  scope: admin:read
+- tool: ldm_AdminController_pauseQueue
+  card_capability_id: admin.queue.pause
+  category: admin
+  rest:
+  - AdminController_pauseQueue
+  binding: rest
+  confidence: high
+  scope: admin:write
+- tool: ldm_AdminController_getTenants
+  card_capability_id: admin.tenants
+  category: admin
+  rest:
+  - AdminController_getTenants
+  binding: rest
+  confidence: high
+  scope: admin:read
+- tool: ldm_AdminController_toggleLdmAi
+  card_capability_id: admin.tenant.ldm-ai
+  category: admin
+  rest:
+  - AdminController_toggleLdmAi
+  binding: rest
+  confidence: high
+  scope: admin:write
+- tool: ldm_AdminController_updateTransport
+  card_capability_id: admin.tenant.transport
+  category: admin
+  rest:
+  - AdminController_updateTransport
+  binding: rest
+  confidence: high
+  scope: admin:write
+- tool: ldm_AdminController_getI18n
+  card_capability_id: admin.i18n
+  category: admin
+  rest:
+  - AdminController_getI18n
+  binding: rest
+  confidence: high
+  scope: admin:read
+- tool: ldm_AdminController_listMemory
+  card_capability_id: admin.memory.list
+  category: admin
+  rest:
+  - AdminController_listMemory
+  binding: rest
+  confidence: high
+  scope: admin:read
+- tool: ldm_AdminController_getSecurityOverview
+  card_capability_id: admin.security.overview
+  category: admin
+  rest:
+  - AdminController_getSecurityOverview
+  binding: rest
+  confidence: high
+  scope: admin:read
+- tool: ldm_CampaignsController_createTestTask
+  card_capability_id: campaigns.test_task.create
+  category: campaigns
+  rest:
+  - CampaignsController_createTestTask
+  binding: rest
+  confidence: high
+  scope: campaigns:write
+- tool: ldm_CampaignsController_getTestTask
+  card_capability_id: campaigns.test_task.status
+  category: campaigns
+  rest:
+  - CampaignsController_getTestTask
+  binding: rest
+  confidence: high
+  scope: campaigns:read
+- tool: ldm_CampaignsController_operationalStatus
+  card_capability_id: campaigns.operational_status
+  category: campaigns
+  rest:
+  - CampaignsController_operationalStatus
+  binding: rest
+  confidence: high
+  scope: campaigns:read
+- tool: ldm_CampaignsController_taskHistory
+  card_capability_id: campaigns.task_history
+  category: campaigns
+  rest:
+  - CampaignsController_taskHistory
+  binding: rest
+  confidence: high
+  scope: campaigns:read
+- tool: ldm_CampaignsController_submitRenderedContent
+  card_capability_id: campaigns.submit_rendered_emails
+  category: campaigns
+  rest:
+  - CampaignsController_submitRenderedContent
+  binding: rest
+  confidence: high
+  scope: campaigns:write
+- tool: ldm_CampaignsController_enqueuePreparation
+  card_capability_id: campaigns.preparations.start
+  category: campaigns
+  rest:
+  - CampaignsController_enqueuePreparation
+  binding: rest
+  confidence: high
+  scope: campaigns:write
+- tool: ldm_CampaignsController_preparationStatus
+  card_capability_id: campaigns.preparations.status
+  category: campaigns
+  rest:
+  - CampaignsController_preparationStatus
+  binding: rest
+  confidence: high
+  scope: campaigns:read
+- tool: ldm_BestSendTimeController_resolve
+  card_capability_id: best-send-time.calc
+  category: best-send-time
+  rest:
+  - BestSendTimeController_resolve
+  binding: rest
+  confidence: high
+  scope: mailing:read
+- tool: ldm_AgentGuideController_resume
+  card_capability_id: resume
+  category: resume
+  rest:
+  - AgentGuideController_resume
+  binding: rest
+  confidence: high
+  scope: agent:read
+- tool: ldm_SiteEnrichmentController_detectFormsRoute
+  card_capability_id: site-enrichment.detect-forms
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_detectFormsRoute
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_create
+  card_capability_id: site-enrichment.tasks.create
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_create
+  binding: rest
+  confidence: high
+  scope: site-enrichment:write
+- tool: ldm_SiteEnrichmentController_findAll
+  card_capability_id: site-enrichment.tasks.list
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_findAll
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_preview
+  card_capability_id: site-enrichment.tasks.preview
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_preview
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_findOne
+  card_capability_id: site-enrichment.tasks.get
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_findOne
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_listEvents
+  card_capability_id: site-enrichment.tasks.events
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_listEvents
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_addAgentNote
+  card_capability_id: site-enrichment.tasks.events.add
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_addAgentNote
+  binding: rest
+  confidence: high
+  scope: site-enrichment:write
+- tool: ldm_SiteEnrichmentController_reasonSummary
+  card_capability_id: site-enrichment.tasks.reason-summary
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_reasonSummary
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_stats
+  card_capability_id: site-enrichment.tasks.stats
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_stats
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_listItems
+  card_capability_id: site-enrichment.tasks.items
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_listItems
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_rawFetch
+  card_capability_id: site-enrichment.tasks.raw
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_rawFetch
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_cancel
+  card_capability_id: site-enrichment.tasks.cancel
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_cancel
+  binding: rest
+  confidence: high
+  scope: site-enrichment:write
+- tool: ldm_SiteEnrichmentController_pause
+  card_capability_id: site-enrichment.tasks.pause
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_pause
+  binding: rest
+  confidence: high
+  scope: site-enrichment:write
+- tool: ldm_SiteEnrichmentController_resume
+  card_capability_id: site-enrichment.tasks.resume
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_resume
+  binding: rest
+  confidence: high
+  scope: site-enrichment:write
+- tool: ldm_SiteEnrichmentController_retry
+  card_capability_id: site-enrichment.tasks.retry
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_retry
+  binding: rest
+  confidence: high
+  scope: site-enrichment:write
+- tool: ldm_SiteEnrichmentController_staleOkBacklog
+  card_capability_id: site-enrichment.backlog.list
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_staleOkBacklog
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_requeueStaleOkBacklog
+  card_capability_id: site-enrichment.backlog.requeue
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_requeueStaleOkBacklog
+  binding: rest
+  confidence: high
+  scope: site-enrichment:write
+- tool: ldm_SiteEnrichmentController_downBacklog
+  card_capability_id: site-enrichment.backlog-down.list
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_downBacklog
+  binding: rest
+  confidence: high
+  scope: site-enrichment:read
+- tool: ldm_SiteEnrichmentController_requeueDownBacklog
+  card_capability_id: site-enrichment.backlog-down.requeue
+  category: site-enrichment
+  rest:
+  - SiteEnrichmentController_requeueDownBacklog
+  binding: rest
+  confidence: high
+  scope: site-enrichment:write
+- tool: ldm_MarkingController_listPatterns
+  card_capability_id: marking.patterns.list
+  category: marking
+  rest:
+  - MarkingController_listPatterns
+  binding: rest
+  confidence: high
+  scope: marking:read
+- tool: ldm_MarkingController_createPattern
+  card_capability_id: marking.patterns.create
+  category: marking
+  rest:
+  - MarkingController_createPattern
+  binding: rest
+  confidence: high
+  scope: marking:write
+- tool: ldm_MarkingController_classify
+  card_capability_id: marking.classify
+  category: marking
+  rest:
+  - MarkingController_classify
+  binding: rest
+  confidence: high
+  scope: marking:read
+- tool: ldm_ProviderConfigController_list
+  card_capability_id: provider-configs.list
+  category: provider-configs
+  rest:
+  - ProviderConfigController_list
+  binding: rest
+  confidence: high
+  scope: settings:read
+- tool: ldm_LegalController_updateTerms
+  card_capability_id: legal.update
+  category: legal
+  rest:
+  - LegalController_updateTerms
+  binding: rest
+  confidence: high
+  scope: legal:write
+- tool: ldm_LegalController_listAll
+  card_capability_id: legal.list
+  category: legal
+  rest:
+  - LegalController_listAll
+  binding: rest
+  confidence: high
+  scope: legal:read
+- tool: ldm_ConnectorsController_tildaWebhook
+  card_capability_id: connectors.tilda.webhook
+  category: connectors
+  rest:
+  - ConnectorsController_tildaWebhook
+  binding: rest
+  confidence: high
+  scope: connectors:write
+- tool: ldm_ConnectorsController_dadataName
+  card_capability_id: connectors.dadata
+  category: connectors
+  rest:
+  - ConnectorsController_dadataName
+  binding: rest
+  confidence: high
+  scope: connectors:read
+- tool: ldm_BillingController_getBalance
+  card_capability_id: billing.get_balance
+  category: billing
+  rest:
+  - BillingController_getBalance
+  binding: rest
+  confidence: high
+  scope: billing:read
+- tool: ldm_BillingController_listLedger
+  card_capability_id: billing.list_charges
+  category: billing
+  rest:
+  - BillingController_listLedger
+  binding: rest
+  confidence: high
+  scope: billing:read
+- tool: ldm_ShareLinksController_create
+  card_capability_id: share.create
+  category: share
+  rest:
+  - ShareLinksController_create
+  binding: rest
+  confidence: high
+  scope: share:write
+- tool: ldm_ShareLinksController_findByEntity
+  card_capability_id: share.list
+  category: share
+  rest:
+  - ShareLinksController_findByEntity
+  binding: rest
+  confidence: high
+  scope: share:read
+- tool: ldm_ExportsController_getColumns
+  card_capability_id: exports.columns
+  category: exports
+  rest:
+  - ExportsController_getColumns
+  binding: rest
+  confidence: high
+  scope: exports:read
+- tool: ldm_ExportsController_create
+  card_capability_id: exports.create
+  category: exports
+  rest:
+  - ExportsController_create
+  binding: rest
+  confidence: high
+  scope: exports:write
+- tool: ldm_ExportsController_list
+  card_capability_id: exports.list
+  category: exports
+  rest:
+  - ExportsController_list
+  binding: rest
+  confidence: high
+  scope: exports:read
+- tool: ldm_ExportsController_download
+  card_capability_id: exports.download
+  category: exports
+  rest:
+  - ExportsController_download
+  binding: rest
+  confidence: high
+  scope: exports:read
+- tool: ldm_ApiMonitorSelfController_calls
+  card_capability_id: me.calls
+  category: me
+  rest:
+  - ApiMonitorSelfController_calls
+  binding: rest
+  confidence: high
+  scope: agent:read
+- tool: ldm_IcpExtensionController_findAll
+  card_capability_id: icp.tasks.list
+  category: icp
+  rest:
+  - IcpExtensionController_findAll
+  binding: rest
+  confidence: high
+  scope: icp:read
+- tool: ldm_IcpExtensionController_create
+  card_capability_id: icp.tasks.create
+  category: icp
+  rest:
+  - IcpExtensionController_create
+  binding: rest
+  confidence: high
+  scope: icp:write
+- tool: ldm_IcpExtensionController_scrapePreview
+  card_capability_id: icp.scrape.preview
+  category: icp
+  rest:
+  - IcpExtensionController_scrapePreview
+  binding: rest
+  confidence: high
+  scope: icp:read
+- tool: ldm_IcpExtensionController_getScrapeStatus
+  card_capability_id: icp.scrape.status
+  category: icp
+  rest:
+  - IcpExtensionController_getScrapeStatus
+  binding: rest
+  confidence: high
+  scope: icp:read
+- tool: ldm_IcpExtensionController_cancelScrape
+  card_capability_id: icp.scrape.cancel
+  category: icp
+  rest:
+  - IcpExtensionController_cancelScrape
+  binding: rest
+  confidence: high
+  scope: icp:write
+- tool: ldm_IcpExtensionController_findById
+  card_capability_id: icp.tasks.get
+  category: icp
+  rest:
+  - IcpExtensionController_findById
+  binding: rest
+  confidence: high
+  scope: icp:read
+- tool: ldm_IcpExtensionController_update
+  card_capability_id: icp.tasks.update
+  category: icp
+  rest:
+  - IcpExtensionController_update
+  binding: rest
+  confidence: high
+  scope: icp:write
+- tool: ldm_IcpExtensionController_scoringPromptPreview
+  card_capability_id: icp.tasks.scoring-prompt
+  category: icp
+  rest:
+  - IcpExtensionController_scoringPromptPreview
+  binding: rest
+  confidence: high
+  scope: icp:read
+- tool: ldm_IcpExtensionController_scrapeCompanies
+  card_capability_id: icp.scrape.start
+  category: icp
+  rest:
+  - IcpExtensionController_scrapeCompanies
+  binding: rest
+  confidence: high
+  scope: icp:write
+- tool: ldm_IcpExtensionController_pauseScrape
+  card_capability_id: icp.scrape.pause
+  category: icp
+  rest:
+  - IcpExtensionController_pauseScrape
+  binding: rest
+  confidence: high
+  scope: icp:write
+- tool: ldm_IcpExtensionController_resumeScrape
+  card_capability_id: icp.scrape.resume
+  category: icp
+  rest:
+  - IcpExtensionController_resumeScrape
+  binding: rest
+  confidence: high
+  scope: icp:write
+- tool: ldm_IcpExtensionController_scrapeItems
+  card_capability_id: icp.scrape.items
+  category: icp
+  rest:
+  - IcpExtensionController_scrapeItems
+  binding: rest
+  confidence: high
+  scope: icp:read
+- tool: ldm_IcpExtensionController_getStatistics
+  card_capability_id: icp.tasks.stats
+  category: icp
+  rest:
+  - IcpExtensionController_getStatistics
+  binding: rest
+  confidence: high
+  scope: icp:read
+- tool: ldm_IcpExtensionController_getItems
+  card_capability_id: icp.tasks.items
+  category: icp
+  rest:
+  - IcpExtensionController_getItems
+  binding: rest
+  confidence: high
+  scope: icp:read
+- tool: ldm_LinkedinController_getIntegration
+  card_capability_id: linkedin.integration
+  category: linkedin
+  rest:
+  - LinkedinController_getIntegration
+  binding: rest
+  confidence: high
+  scope: linkedin:read
+- tool: ldm_LinkedinController_updateIntegration
+  card_capability_id: linkedin.integration.update
+  category: linkedin
+  rest:
+  - LinkedinController_updateIntegration
+  binding: rest
+  confidence: high
+  scope: linkedin:write
+- tool: ldm_LinkedinController_listAccounts
+  card_capability_id: linkedin.accounts
+  category: linkedin
+  rest:
+  - LinkedinController_listAccounts
+  binding: rest
+  confidence: high
+  scope: linkedin:read
+- tool: ldm_LinkedinController_disconnect
+  card_capability_id: linkedin.account.disconnect
+  category: linkedin
+  rest:
+  - LinkedinController_disconnect
+  binding: rest
+  confidence: high
+  scope: linkedin:write
+- tool: ldm_LinkedinController_listCampaigns
+  card_capability_id: linkedin.campaigns
+  category: linkedin
+  rest:
+  - LinkedinController_listCampaigns
+  binding: rest
+  confidence: high
+  scope: linkedin:read
+- tool: ldm_LinkedinController_createCampaign
+  card_capability_id: linkedin.campaign.create
+  category: linkedin
+  rest:
+  - LinkedinController_createCampaign
+  binding: rest
+  confidence: high
+  scope: linkedin:write
+- tool: ldm_LinkedinController_pourLeads
+  card_capability_id: linkedin.campaign.leads
+  category: linkedin
+  rest:
+  - LinkedinController_pourLeads
+  binding: rest
+  confidence: high
+  scope: linkedin:write
+- tool: ldm_LinkedinController_listScenarios
+  card_capability_id: linkedin.scenarios
+  category: linkedin
+  rest:
+  - LinkedinController_listScenarios
+  binding: rest
+  confidence: high
+  scope: linkedin:read
+- tool: ldm_LinkedinController_stats
+  card_capability_id: linkedin.stats
+  category: linkedin
+  rest:
+  - LinkedinController_stats
+  binding: rest
+  confidence: high
+  scope: linkedin:read
+- tool: ldm_PhantomBrowserController_listProfiles
+  card_capability_id: admin.phantom.profiles
+  category: admin
+  rest:
+  - PhantomBrowserController_listProfiles
+  binding: rest
+  confidence: high
+  scope: admin:read
+- tool: ldm_PhantomBrowserController_launchProfile
+  card_capability_id: admin.phantom.launch
+  category: admin
+  rest:
+  - PhantomBrowserController_launchProfile
+  binding: rest
+  confidence: high
+  scope: admin:write
+- tool: ldm_ImportController_getTemplates
+  card_capability_id: import.templates
+  category: import
+  rest:
+  - ImportController_getTemplates
+  binding: rest
+  confidence: high
+  scope: import:read
+- tool: ldm_ImportController_createTask
+  card_capability_id: import.tasks.create
+  category: import
+  rest:
+  - ImportController_createTask
+  binding: rest
+  confidence: high
+  scope: import:write
+- tool: ldm_ImportController_importFromUrl
+  card_capability_id: import.from_url
+  category: import
+  rest:
+  - ImportController_importFromUrl
+  binding: rest
+  confidence: high
+  scope: import:write
+- tool: ldm_ImportController_getTask
+  card_capability_id: import.tasks.get
+  category: import
+  rest:
+  - ImportController_getTask
+  binding: rest
+  confidence: high
+  scope: import:read
+- tool: ldm_ImportController_cancelTask
+  card_capability_id: import.tasks.cancel
+  category: import
+  rest:
+  - ImportController_cancelTask
+  binding: rest
+  confidence: high
+  scope: import:write
+- tool: ldm_UtilsController_listTimezones
+  card_capability_id: utils.timezones
+  category: utils
+  rest:
+  - UtilsController_listTimezones
+  binding: rest
+  confidence: high
+  scope: utils:read
+- tool: ldm_UtilsController_lookupTimezone
+  card_capability_id: utils.tz-lookup
+  category: utils
+  rest:
+  - UtilsController_lookupTimezone
+  binding: rest
+  confidence: high
+  scope: utils:read
+mcp_only:
+- tool: ldm_<short aliases named in the agent guide> (ldm_contacts_create, ldm_creatives_create, ldm_creatives_preview,
+    ldm_accounts_create, ldm_dialogs_list, ldm_briefs_list)
+  reason: Short-form aliases referenced by the provider guide and published skills; they do not follow the ldm_<operationId>
+    rule and their backing operationIds were not confirmed without an authenticated tools/list.
+card_capabilities_unbound: []
+inbox_check_crosswalk:
+- tool: me_get
+  category: me
+  rest:
+  - V1MeController_me
+  binding: rest
+  confidence: high
+  note: GET /api/v1/me; input_schema published in the card
+- tool: monitor_domain_checks
+  category: monitor
+  rest:
+  - V1MonitoringController_listChecks
+  binding: rest
+  confidence: high
+  note: GET /api/v1/monitoring/domains/{id}/checks; input_schema published in the card
+- tool: monitor_domain_create
+  category: monitor
+  rest:
+  - V1MonitoringController_add
+  binding: rest
+  confidence: high
+  note: POST /api/v1/monitoring/domains; input_schema published in the card
+- tool: monitor_domain_delete
+  category: monitor
+  rest:
+  - V1MonitoringController_remove
+  binding: rest
+  confidence: high
+  note: DELETE /api/v1/monitoring/domains/{id}; input_schema published in the card
+- tool: monitor_domain_latest
+  category: monitor
+  rest:
+  - V1MonitoringController_latest
+  binding: rest
+  confidence: high
+  note: GET /api/v1/monitoring/domains/{id}/latest; input_schema published in the card
+- tool: monitor_domain_list
+  category: monitor
+  rest:
+  - V1MonitoringController_list
+  binding: rest
+  confidence: high
+  note: GET /api/v1/monitoring/domains; input_schema published in the card
+- tool: monitor_domain_pause
+  category: monitor
+  rest:
+  - V1MonitoringController_pause
+  binding: rest
+  confidence: high
+  note: POST /api/v1/monitoring/domains/{id}/pause; input_schema published in the card
+- tool: monitor_domain_resume
+  category: monitor
+  rest:
+  - V1MonitoringController_resume
+  binding: rest
+  confidence: high
+  note: POST /api/v1/monitoring/domains/{id}/resume; input_schema published in the card
+- tool: monitor_domain_run
+  category: monitor
+  rest:
+  - V1MonitoringController_run
+  binding: rest
+  confidence: high
+  note: POST /api/v1/monitoring/domains/{id}/run; input_schema published in the card
+- tool: monitor_settings_get
+  category: monitor
+  rest:
+  - V1MonitoringController_getSettings
+  binding: rest
+  confidence: high
+  note: GET /api/v1/monitoring/settings; input_schema published in the card
+- tool: monitor_settings_update
+  category: monitor
+  rest:
+  - V1MonitoringController_updateSettings
+  binding: rest
+  confidence: high
+  note: PATCH /api/v1/monitoring/settings; input_schema published in the card
+- tool: providers_list
+  category: providers
+  rest:
+  - V1ProvidersController_list
+  binding: rest
+  confidence: high
+  note: GET /api/v1/providers; input_schema published in the card
+- tool: sender-links_get
+  category: sender-links
+  rest:
+  - getSenderLink
+  binding: rest
+  confidence: high
+  note: GET /api/v1/sender-links/{linkId}; input_schema published in the card
+- tool: tests_auto_create
+  category: tests
+  rest:
+  - V1TestsController_createAuto
+  binding: rest
+  confidence: high
+  note: POST /api/v1/tests/auto; input_schema published in the card
+- tool: tests_create
+  category: tests
+  rest:
+  - V1TestsController_create
+  binding: rest
+  confidence: high
+  note: POST /api/v1/tests; input_schema published in the card
+- tool: tests_delete
+  category: tests
+  rest:
+  - V1TestsController_remove
+  binding: rest
+  confidence: high
+  note: DELETE /api/v1/tests/{token}; input_schema published in the card
+- tool: tests_get
+  category: tests
+  rest:
+  - V1TestsController_get
+  binding: rest
+  confidence: high
+  note: GET /api/v1/tests/{token}; input_schema published in the card
+- tool: tests_list
+  category: tests
+  rest:
+  - V1TestsController_list
+  binding: rest
+  confidence: high
+  note: GET /api/v1/tests; input_schema published in the card
+- tool: tests_recheck
+  category: tests
+  rest:
+  - V1TestsController_scheduleDeferredRecheck
+  binding: rest
+  confidence: high
+  note: POST /api/v1/tests/{token}/recheck; input_schema published in the card
+- tool: tests_recheck-status
+  category: tests
+  rest:
+  - V1TestsController_deferredRecheckStatus
+  binding: rest
+  confidence: high
+  note: GET /api/v1/tests/{token}/recheck-status; input_schema published in the card
+- tool: tests_repoll
+  category: tests
+  rest:
+  - V1TestsController_repoll
+  binding: rest
+  confidence: high
+  note: POST /api/v1/tests/{token}/repoll; input_schema published in the card
+- tool: inbox_check_create
+  category: compatibility alias (ldm-inbox-check-mcp 1.0.0 stdio)
+  rest:
+  - V1TestsController_create
+  binding: rest
+  confidence: medium
+  note: Mapped by the npm README tool table to the /api/v1 tier; the remote server calls these "five inbox_check_*
+    compatibility aliases".
+- tool: inbox_check_status
+  category: compatibility alias (ldm-inbox-check-mcp 1.0.0 stdio)
+  rest:
+  - V1TestsController_get
+  binding: rest
+  confidence: medium
+  note: Mapped by the npm README tool table to the /api/v1 tier; the remote server calls these "five inbox_check_*
+    compatibility aliases".
+- tool: inbox_check_list
+  category: compatibility alias (ldm-inbox-check-mcp 1.0.0 stdio)
+  rest:
+  - V1TestsController_list
+  binding: rest
+  confidence: medium
+  note: Mapped by the npm README tool table to the /api/v1 tier; the remote server calls these "five inbox_check_*
+    compatibility aliases".
+- tool: inbox_check_delete
+  category: compatibility alias (ldm-inbox-check-mcp 1.0.0 stdio)
+  rest:
+  - V1TestsController_remove
+  binding: rest
+  confidence: medium
+  note: Mapped by the npm README tool table to the /api/v1 tier; the remote server calls these "five inbox_check_*
+    compatibility aliases".
+- tool: inbox_check_me
+  category: compatibility alias (ldm-inbox-check-mcp 1.0.0 stdio)
+  rest:
+  - V1MeController_me
+  binding: rest
+  confidence: medium
+  note: Mapped by the npm README tool table to the /api/v1 tier; the remote server calls these "five inbox_check_*
+    compatibility aliases".
+inbox_check_unbound: []
+rest_only:
+  ldm:
+    note: LDM operations without a CURATED capability in the default card. Under the provider naming rule every
+      one of them is still an MCP tool in an authenticated session and appears in the ?full=1 card; this list is
+      the curated/complete gap, grouped by tag.
+    count: 1064
+    by_tag:
+      Creatives:
+      - CreativesController_aiGenerate
+      - CreativesController_createAutopilotV2
+      - CreativesController_servePdf
+      - CreativesController_remove
+      - CreativesController_getStats
+      - CreativesController_startInboxPlacementTest
+      - CreativesController_getInboxPlacementTest
+      - CreativesController_analyzeSpintax
+      - CreativesController_duplicate
+      - CreativesController_getVersions
+      - CreativesController_createVersion
+      - CreativesController_restoreVersion
+      - CreativesController_listPendingChannelCreatives
+      - CreativesController_moderateChannelCreative
+      - CreativesController_autopilotGeneratePrompt
+      - CreativesController_autopilotGeneratePromptV2
+      - CreativesController_bankV2Generate
+      - CreativesController_bankGenGet
+      - CreativesController_bankGenList
+      - CreativesController_bankGenCancel
+      - CreativesController_bankV2Edit
+      - CreativesController_bankV2Action
+      - CreativesController_autopilotPreviewMetaPrompt
+      - CreativesController_autopilotSegmentMetaPrompt
+      - CreativesController_autopilotTestBatch
+      - CreativesController_bankGenerate
+      - CreativesController_bankPipelineStatus
+      - CreativesController_bankGet
+      - CreativesController_bankTemplateAction
+      - CreativesController_bankDeleteTemplate
+      - CreativesController_bankGetTemplate
+      - CreativesController_bankApproveAll
+      - CreativesController_bankDeleteAll
+      - CreativesController_bankCreateTemplate
+      - CreativesController_bankRegenerate
+      - CreativesController_bankUpdateConfig
+      - CreativesController_bankPreview
+      - CreativesController_bankPreviewWithQc
+      - CreativesController_bankUsage
+      - CreativesController_generateForContact
+      - CreativesController_autopilotDashboard
+      - CreativesController_backfillTier2
+      - CreativesController_auditorGet
+      - CreativesController_auditorUpdate
+      - CreativesController_auditorStart
+      - CreativesController_auditorPause
+      - CreativesController_auditorStop
+      - CreativesController_auditorRun
+      - CreativesController_auditorLogs
+      - CreativesController_auditorClearLogs
+      - CreativesController_checklistGet
+      - CreativesController_checklistSandbox
+      - CreativesController_checklistQC
+      - CreativesController_checklistTestSend
+      - CreativesController_checklistCostEstimate
+      - CreativesController_checklistLock
+      - CreativesController_checklistUnlock
+      - CreativesController_qcConfig
+      - CreativesController_qcUpdateRules
+      - CreativesController_qcUpdateTier2
+      - CreativesController_qcTest
+      - CreativesController_sandboxRunObservable
+      - CreativesController_sandboxObservableStatus
+      - CreativesController_sandboxCancelObservable
+      - CreativesController_sandboxClearObservable
+      - CreativesController_sandboxRun
+      - CreativesController_sandboxAvailableVars
+      - CreativesController_variableValues
+      - CreativesController_segmentCount
+      - CreativesController_allFieldDefinitions
+      - CreativesController_sandboxMatchContacts
+      - CreativesController_sandboxTestSelection
+      - CreativesController_sandboxGetTestSelection
+      - CreativesController_sandboxHistory
+      - CreativesController_sandboxHistoryClearAll
+      - CreativesController_sandboxHistoryDeleteOne
+      - CreativesController_sandboxStatus
+      - CreativesController_sandboxCancel
+      - CreativesController_sandboxApply
+      - CreativesController_saveVariableRules
+      - CreativesController_getVariableRules
+      - CreativesController_previewVariableRules
+      - CreativesController_runPipeline
+      - CreativesController_getMetaPromptBaseV2
+      - CreativesController_getMetaPrompt
+      - CreativesController_putMetaPrompt
+      - CreativesController_deleteMetaPrompt
+      - CreativesController_bankGetTemplateStats
+      - CreativesController_bankGenerateOneTemplate
+      - CreativesController_bankUpdateTemplateContent
+      - CreativePdfLinkController_servePdfByToken
+      Admin:
+      - AdminController_planAccountTransfer
+      - AdminController_applyAccountTransfer
+      - AdminController_deactivateAccountTransferSources
+      - AdminController_getAccountTransfer
+      - AdminController_freezeTenant
+      - AdminController_unfreezeTenant
+      - AdminController_setLegalHold
+      - AdminController_retroReleaseGlobalSuppression
+      - AdminController_getScoringHealth
+      - AdminController_getQueueJobs
+      - AdminController_resumeQueue
+      - AdminController_cancelQueueJob
+      - AdminController_retryQueueJob
+      - AdminController_cleanQueue
+      - AdminController_getStorageStats
+      - AdminController_listPdfs
+      - AdminController_cleanupPdfs
+      - AdminController_auditUnblockCampaign
+      - AdminController_setLdmAiBalance
+      - AdminController_getTenantDbQuota
+      - AdminController_updateTenantDbQuota
+      - AdminController_getTenantEmailAccountsMax
+      - AdminController_updateTenantEmailAccountsMax
+      - AdminController_updateMaxStreams
+      - AdminController_getSettingsMenu
+      - AdminController_updateSettingsMenu
+      - AdminController_getInboxCheckTenants
+      - AdminController_updateInboxCheckTenant
+      - AdminController_connectInboxCheckTenant
+      - AdminController_testInboxCheckTenant
+      - AdminController_getLdmAiUsage
+      - AdminController_getLdmAiQueueStats
+      - AdminController_getAiMonitor
+      - AdminController_getAiModelMapping
+      - AdminController_updateI18nKey
+      - AdminController_deleteI18nKey
+      - AdminController_bulkUpdateI18n
+      - AdminController_memoryStats
+      - AdminController_readMemory
+      - AdminController_saveMemory
+      - AdminController_deleteMemory
+      - AdminController_renameMemory
+      - AdminController_getPortStatus
+      - AdminController_getSecurityScore
+      - AdminController_getRecommendations
+      - AdminController_getIntegrity
+      - AdminController_initBaseline
+      - AdminController_runIntegrityCheck
+      - AdminController_getIntrusions
+      - AdminController_getAttackSummary
+      - AdminController_getHoneypotEvents
+      - AdminController_getHoneypotStats
+      - AdminController_getLockdownStatus
+      - AdminController_activateLockdown
+      - AdminController_deactivateLockdown
+      - AdminController_getLockdownHistory
+      - AdminController_getRecentEvents
+      - AdminController_getCrossTenantDenied
+      - AdminController_getBackupStatus
+      - AdminController_getAlertCanaryStatus
+      - AdminController_runAlertCanary
+      - AdminController_getPipelines
+      - AgentGuideAdminController_getOverrides
+      - AgentGuideAdminController_putOverrides
+      - AgentGuideAdminController_getEffective
+      - AgentGuideAdminController_coverage
+      - AdminBillingController_listTenantBalances
+      - AdminBillingController_tenantLedger
+      - AdminBillingController_getPricing
+      - AdminBillingController_patchPricing
+      - SupportAdminController_listThreads
+      - SupportAdminController_unreadCount
+      - SupportAdminController_getThread
+      - SupportAdminController_reply
+      - SupportAdminController_setStatus
+      Dialogs:
+      - DialogsController_getStats
+      - DialogsController_getBadges
+      - DialogsController_getAccounts
+      - DialogsController_getFolders
+      - DialogsController_getThread
+      - DialogsController_bulk
+      - DialogsController_imapMove
+      - DialogsController_imapDelete
+      - DialogsController_imapListFolders
+      - DialogsController_imapCreateFolder
+      - DialogsController_imapRenameFolder
+      - DialogsController_imapDeleteFolder
+      - DialogsController_getOutbox
+      - DialogsController_rescheduleOutbox
+      - DialogsController_cancelOutbox
+      - DialogsController_getOutboxStats
+      - DialogsController_retryOutbox
+      - DialogsController_refreshControlEmail
+      - DialogsController_resendControlEmail
+      - DialogsController_update
+      - DialogsController_remove
+      - DialogsController_markRead
+      - DialogsController_toggleStar
+      - DialogsController_snooze
+      - DialogsController_unsnooze
+      - DialogsController_setReminder
+      - DialogsController_clearReminder
+      - DialogsController_classifyReply
+      - DialogsController_markType
+      - DialogsController_actionUnsubscribe
+      - DialogsController_actionBounce
+      - DialogsController_actionSpam
+      - DialogsController_actionStopList
+      - DialogsController_generateReply
+      - DialogsController_forward
+      - DialogsController_autoLink
+      - DialogsController_createLead
+      - DialogsController_extractEntities
+      - DialogsController_setTrackingToken
+      - DialogsController_trackOpen
+      - DialogsController_trackClick
+      - DialogsController_restore
+      - DialogsController_purge
+      - DialogsController_shareDialog
+      Settings:
+      - SettingsController_updateAiProviders
+      - SettingsController_requestLdmAi
+      - SettingsController_updateNotifications
+      - SettingsController_getProfile
+      - SettingsController_updateProfile
+      - SettingsController_getUiPreferences
+      - SettingsController_updateUiPreferences
+      - SettingsController_uploadAvatar
+      - SettingsController_deleteAvatar
+      - SettingsController_changePassword
+      - SettingsController_getSessions
+      - SettingsController_revokeAllSessions
+      - SettingsController_revokeSession
+      - SettingsController_getTransports
+      - SettingsController_updateTransports
+      - SettingsController_listMailingAutoApprove
+      - SettingsController_setMailingAutoApprove
+      - SettingsController_getTenantMailingAutoApprove
+      - SettingsController_setTenantMailingAutoApprove
+      - SettingsController_getAuditorRules
+      - SettingsController_setAuditorRules
+      - SettingsController_getSendWindow
+      - SettingsController_setSendWindow
+      - SettingsController_getRelayHealth
+      - SettingsController_setRelayHealth
+      - SettingsController_getMinSendInterval
+      - SettingsController_setMinSendInterval
+      - SettingsController_getPlatformTrackingAllowed
+      - SettingsController_setPlatformTrackingAllowed
+      - SettingsController_getNotifyRules
+      - SettingsController_updateNotifyRules
+      - SettingsController_getCrmEventRules
+      - SettingsController_updateCrmEventRules
+      - SettingsController_getMemoryNotes
+      - SettingsController_updateMemoryNotes
+      - SettingsController_getTrash
+      - SettingsController_emptyTrash
+      - SettingsController_deleteAllData
+      - SettingsController_getAccountDeactivationPreview
+      - SettingsController_deactivateAccount
+      Mailing:
+      - MailingController_getBounceOverview
+      - MailingController_getWarmupOverview
+      - MailingController_rejectCampaign
+      - MailingController_getCreativePreview
+      - MailingController_getConfig
+      - MailingController_updateConfig
+      - MailingController_startCampaign
+      - MailingController_startSending
+      - MailingController_getBatchStats
+      - MailingController_getStartListStats
+      - MailingController_getStats
+      - MailingController_getTimeline
+      - MailingController_getSpeed
+      - MailingController_getStreams
+      - MailingController_getStreamLogs
+      - MailingController_getStreamDetail
+      - MailingController_getStreamLogsFiltered
+      - MailingController_deleteTaskLogs
+      - MailingController_getItems
+      - MailingController_getItem
+      - MailingController_updateItem
+      - MailingController_updateItemStatus
+      - MailingController_resetErrors
+      - MailingController_resetByStatus
+      - MailingController_getStatsToday
+      - MailingController_getAbTest
+      - MailingController_getAnalytics
+      - MailingController_getControlEmailStats
+      - MailingController_evaluateControlEmailAutoPause
+      - MailingController_exportCsv
+      - MailingController_exportReportPdf
+      - MailingController_blockGuardDashboard
+      - MailingController_blockGuardTemplate
+      - MailingController_blockGuardUnblock
+      - MailingController_blockGuardResetAccount
+      - MailingController_resetLimits
+      - MailingController_blockGuardAccount
+      - MailingController_blockGuardProviders
+      Email Accounts:
+      - EmailAccountsController_lookupProvider
+      - EmailAccountsController_testUnsaved
+      - EmailAccountsController_getStats
+      - EmailAccountsController_checkDuplicate
+      - EmailAccountsController_relayHealthSummary
+      - EmailAccountsController_relayAttention
+      - EmailAccountsController_relayProbe
+      - EmailAccountsController_getAccountStats
+      - EmailAccountsController_findById
+      - EmailAccountsController_update
+      - EmailAccountsController_remove
+      - EmailAccountsController_importOauth
+      - EmailAccountsController_importOauthBulk
+      - EmailAccountsController_fetchImap
+      - EmailAccountsController_testConnection
+      - EmailAccountsController_testReceive
+      - EmailAccountsController_testSend
+      - EmailAccountsController_checkDns
+      - EmailAccountsController_resetCounters
+      - EmailAccountsController_warmupStart
+      - EmailAccountsController_warmupStop
+      - EmailAccountsController_warmupStats
+      - EmailAccountsController_warmupConfigure
+      - EmailAccountsController_suspend
+      - EmailAccountsController_unsuspend
+      - EmailAccountsController_updateWorkStatus
+      - EmailAccountsController_gasSetup
+      - EmailAccountsController_gasVerify
+      - EmailAccountsController_gasPing
+      - EmailAccountsController_gasTestSend
+      - EmailAccountsController_gasTestFetch
+      - EmailAccountsController_gasDisable
+      - EmailAccountsController_gasLabels
+      - EmailAccountsController_findAllLists
+      - EmailAccountsController_createList
+      - EmailAccountsController_updateList
+      - EmailAccountsController_removeList
+      - EmailAccountsController_relayHealth
+      Phantom Browser:
+      - PhantomBrowserController_createProfile
+      - PhantomBrowserController_syncProfiles
+      - PhantomBrowserController_getProfile
+      - PhantomBrowserController_updateProfile
+      - PhantomBrowserController_deleteProfile
+      - PhantomBrowserController_getClientStatus
+      - PhantomBrowserController_regenerateToken
+      - PhantomBrowserController_stopProfile
+      - PhantomBrowserController_navigate
+      - PhantomBrowserController_screenshot
+      - PhantomBrowserController_screenshotImage
+      - PhantomBrowserController_getHtml
+      - PhantomBrowserController_getPageInfo
+      - PhantomBrowserController_executeJs
+      - PhantomBrowserController_click
+      - PhantomBrowserController_typeText
+      - PhantomBrowserController_getCookies
+      - PhantomBrowserController_setCookies
+      - PhantomBrowserController_scroll
+      - PhantomBrowserController_waitFor
+      - PhantomBrowserController_solveCaptcha
+      - PhantomBrowserController_setProxy
+      - PhantomBrowserController_removeProxy
+      - PhantomBrowserController_testProxy
+      - PhantomBrowserController_listLaunches
+      - PhantomBrowserController_listScenarios
+      - PhantomBrowserController_createScenario
+      - PhantomBrowserController_getScenario
+      - PhantomBrowserController_updateScenario
+      - PhantomBrowserController_deleteScenario
+      - PhantomBrowserController_listSchedules
+      - PhantomBrowserController_createSchedule
+      - PhantomBrowserController_updateSchedule
+      - PhantomBrowserController_deleteSchedule
+      - PhantomBrowserController_getAdminStats
+      - PhantomBrowserController_downloadConfig
+      Campaigns:
+      - CampaignsController_conveyorHealth
+      - CampaignsController_list
+      - CampaignsController_create
+      - CampaignsController_backfillHistoricUnsubscribes
+      - CampaignsController_overview
+      - CampaignsController_get
+      - CampaignsController_update
+      - CampaignsController_remove
+      - CampaignsController_geoRisk
+      - CampaignsController_metrics
+      - CampaignsController_sendSeries
+      - CampaignsController_sendReadiness
+      - CampaignsController_hardReport
+      - CampaignsController_activity
+      - CampaignsController_listRecipients
+      - CampaignsController_moveRecipientsStage
+      - CampaignsController_rerenderRecipients
+      - CampaignsController_repairUnsubscribe
+      - CampaignsController_retryAiFailures
+      - CampaignsController_reconcileFromDialogs
+      - CampaignsController_pour
+      - CampaignsController_push
+      - CampaignsController_pourFromLeads
+      - CampaignsController_screen
+      - CampaignsController_manualUpdateRecipient
+      - CampaignsController_recipientAttachmentLink
+      - CampaignsController_prepare
+      - CampaignsController_dispatch
+      - CampaignsController_send
+      - CampaignsController_syncEvents
+      - CampaignsController_restoreInfraFailed
+      - CampaignsController_resume
+      - CampaignsController_pause
+      - CampaignsController_getRecipient
+      Tasks:
+      - TasksController_findById
+      - TasksController_update
+      - TasksController_listBranches
+      - TasksController_createBranch
+      - TasksController_enrollInBranch
+      - TasksController_getItems
+      - TasksController_getItem
+      - TasksController_getStats
+      - TasksController_pause
+      - TasksController_stop
+      - TasksController_restart
+      - TasksController_getAnalytics
+      - TasksController_getMonitor
+      - TasksController_getReportCsv
+      - TasksController_getCircuitBreaker
+      - TasksController_resetCircuitBreaker
+      - TasksController_deleteScoringResult
+      - TasksController_retryScoringResults
+      - TasksController_getScoringResultsCsv
+      - TasksController_getErrorSettings
+      - TasksController_updateErrorSettings
+      - TasksController_getMemory
+      - TasksController_updateMemory
+      - TasksController_getAiSettings
+      - TasksController_updateAiSettings
+      IMAP Orchestrator:
+      - ImapOrchestratorController_getJobs
+      - ImapOrchestratorController_fetchAccount
+      - ImapOrchestratorController_getAttention
+      - ImapOrchestratorController_healAll
+      - ImapOrchestratorController_getRecentDialogs
+      - ImapOrchestratorController_cancelJob
+      - ImapOrchestratorController_getOverrides
+      - ImapOrchestratorController_createOverride
+      - ImapOrchestratorController_updateOverride
+      - ImapOrchestratorController_deleteOverride
+      - ImapOrchestratorController_getPatterns
+      - ImapOrchestratorController_createPattern
+      - ImapOrchestratorController_updatePattern
+      - ImapOrchestratorController_deletePattern
+      - ImapOrchestratorController_getHealthAccounts
+      - ImapOrchestratorController_healthTest
+      - ImapOrchestratorController_killImapCron
+      - ImapOrchestratorController_resumeImapCron
+      - ImapOrchestratorController_getImapHealth
+      - ImapOrchestratorController_getConveyorHealth
+      - ImapOrchestratorController_runConveyorWatchdog
+      - ImapOrchestratorController_getConveyorWatchdogLast
+      Contacts:
+      - ContactsController_getStats
+      - ContactsController_findAllDuplicates
+      - ContactsController_findById
+      - ContactsController_update
+      - ContactsController_getTimeline
+      - ContactsController_bulk
+      - ContactsController_getBulkStatus
+      - ContactsController_cancelBulk
+      - ContactsController_exportContacts
+      - ContactsController_importPreview
+      - ContactsController_importStart
+      - ContactsController_purge
+      - ContactsController_mergeContacts
+      - ContactsController_triggerDig
+      - ContactsController_checkDuplicates
+      - ContactsController_addChannel
+      - ContactsController_updateChannel
+      - ContactsController_deleteChannel
+      - ContactsController_findDuplicates
+      Leads:
+      - LeadsController_kanbanStageMore
+      - LeadsController_stages
+      - LeadsController_findDuplicates
+      - LeadsController_findById
+      - LeadsController_softDelete
+      - LeadsController_checkDuplicates
+      - LeadsController_dossier
+      - LeadsController_getInterest
+      - LeadsController_setInterest
+      - LeadsController_interestBreakdown
+      - LeadsController_getDeal
+      - LeadsController_updateDeal
+      - LeadsController_forecast
+      - LeadsController_bulk
+      - LeadsController_getBulkStatus
+      - LeadsController_cancelBulk
+      - LeadsController_restore
+      - LeadsController_purge
+      - LeadsController_importPreview
+      Companies:
+      - CompaniesController_getStats
+      - CompaniesController_findDuplicates
+      - CompaniesController_findById
+      - CompaniesController_update
+      - CompaniesController_getTimeline
+      - CompaniesController_bulk
+      - CompaniesController_getBulkStatus
+      - CompaniesController_cancelBulk
+      - CompaniesController_getExportColumns
+      - CompaniesController_exportCompanies
+      - CompaniesController_mergeCompanies
+      - CompaniesController_importFromGoogleSheets
+      - CompaniesController_importPreview
+      - CompaniesController_importStart
+      - CompaniesController_importCombined
+      - CompaniesController_purge
+      - CompaniesController_freeze
+      - CompaniesController_unfreeze
+      Sequences:
+      - SequencesController_list
+      - SequencesController_create
+      - SequencesController_get
+      - SequencesController_update
+      - SequencesController_delete
+      - SequencesController_addStep
+      - SequencesController_updateStep
+      - SequencesController_deleteStep
+      - SequencesController_listVariants
+      - SequencesController_addVariant
+      - SequencesController_updateVariant
+      - SequencesController_deleteVariant
+      - SequencesController_variantStats
+      - SequencesController_enroll
+      - SequencesController_listEnrollments
+      - SequencesController_pauseEnrollment
+      - SequencesController_resumeEnrollment
+      - SequencesController_cancelEnrollment
+      Tracking:
+      - TrackingController_pixelOpen
+      - TrackingController_clickRedirect
+      - TrackingController_legacyRedirect
+      - TrackingController_createLink
+      - TrackingController_getLinkInfo
+      - TrackingController_updateLink
+      - TrackingController_deleteLink
+      - TrackingController_simulateClick
+      - TrackingController_getEvents
+      - TrackingController_getStats
+      - TrackingController_getPixelSettings
+      - TrackingController_updatePixelSettings
+      - TrackingController_getAnalyticsStats
+      - TrackingController_getTimeline
+      - TrackingController_getTopLinks
+      - TrackingController_getEmailClients
+      - TrackingController_getDevices
+      ICP Extension / API:
+      - IcpExtApiController_authorize
+      - IcpExtApiController_getNextItem
+      - IcpExtApiController_analyzeAi
+      - IcpExtApiController_enrich
+      - IcpExtApiController_complete
+      - IcpExtApiController_getFormAssistConfig
+      - IcpExtApiController_lookupCompany
+      - IcpExtApiController_getFormAssistProfile
+      - IcpExtApiController_formAssistAi
+      - IcpExtApiController_formAssistComplete
+      - IcpExtApiController_getSendEmailStats
+      - IcpExtApiController_captureEmail
+      - IcpExtApiController_generateMessage
+      - IcpExtApiController_messengerComplete
+      - IcpExtApiController_presentation
+      - IcpExtApiController_presentationPdf
+      - IcpExtApiController_presentationOg
+      RPA service protocol:
+      - RpaOutboxController_queueReadiness
+      - RpaOutboxController_heartbeat
+      - RpaOutboxController_claim
+      - RpaOutboxController_start
+      - RpaOutboxController_current
+      - RpaOutboxController_renew
+      - RpaOutboxController_refresh
+      - RpaOutboxController_report
+      - RpaOutboxController_releaseProfile
+      - RpaOutboxController_returnTask
+      - RpaOutboxController_reconciliation
+      - RpaOutboxController_reconcile
+      - RpaOutboxController_error
+      - RpaOutboxController_placement
+      - RpaOutboxAttachmentController_download[0]
+      - RpaOutboxAttachmentController_download[1]
+      Briefs:
+      - BriefsController_getSchemas
+      - BriefsController_findOne
+      - BriefsController_updateMeta
+      - BriefsController_softDelete
+      - BriefsController_updateVariables
+      - BriefsController_updateLocks
+      - BriefsController_restore
+      - BriefsController_copy
+      - BriefsController_audit
+      - BriefsController_mail
+      - BriefsController_downloadMailAttachment
+      - BriefsController_updateIntakeAlias
+      - BriefMemoryController_list
+      - BriefMemoryController_create
+      - BriefMemoryController_resolve
+      - BriefMemoryController_migrateContentReview
+      Project Templates:
+      - ProjectTemplatesController_findRun
+      - ProjectTemplatesController_updateRun
+      - ProjectTemplatesController_removeRun
+      - ProjectTemplatesController_updateRunStep
+      - ProjectTemplatesController_findAll
+      - ProjectTemplatesController_create
+      - ProjectTemplatesController_findOne
+      - ProjectTemplatesController_update
+      - ProjectTemplatesController_remove
+      - ProjectTemplatesController_addStep
+      - ProjectTemplatesController_updateStep
+      - ProjectTemplatesController_removeStep
+      - ProjectTemplatesController_reorder
+      - ProjectTemplatesController_briefQuestions
+      - ProjectTemplatesController_summary
+      - ProjectTemplatesController_createRun
+      Pipelines:
+      - PipelinesController_getAllAutomationLogs
+      - PipelinesController_findById
+      - PipelinesController_update
+      - PipelinesController_remove
+      - PipelinesController_createStage
+      - PipelinesController_reorderStages
+      - PipelinesController_updateStage
+      - PipelinesController_removeStage
+      - PipelinesController_findAutomations
+      - PipelinesController_createAutomation
+      - PipelinesController_updateAutomation
+      - PipelinesController_removeAutomation
+      - PipelinesController_getAutomationLogs
+      - PipelinesController_getStats
+      - PipelinesController_migrateLegacyStages
+      Users:
+      - UsersController_acceptTerms
+      - UsersController_systemStats
+      - UsersController_killProcess
+      - UsersController_cleanupOrphans
+      - UsersController_findById
+      - UsersController_deleteUser
+      - UsersController_updateRole
+      - UsersController_updateStatus
+      - UsersController_updatePassword
+      - UsersController_updateProfile
+      - UsersController_listComments
+      - UsersController_addComment
+      - UsersController_deleteComment
+      Development Pipeline:
+      - DevelopmentPipelineController_board
+      - DevelopmentPipelineController_attentionSnapshot
+      - DevelopmentPipelineController_prodCounter
+      - DevelopmentPipelineController_ciRunsPerMerge
+      - DevelopmentPipelineController_journalSnapshot
+      - DevelopmentPipelineController_createIssueFromFinding
+      - DevelopmentPipelineController_appendJournalFinding
+      - DevelopmentPipelineController_setPaused
+      - DevelopmentPipelineController_priorityTriage
+      - DevelopmentPipelineController_setPriority
+      - DevelopmentPipelineController_setModel
+      - DevelopmentPipelineController_takeNext
+      - DevelopmentPipelineController_closeIssue
+      Deliverability:
+      - DeliverabilityController_startRelayReach
+      - DeliverabilityController_startCreativeThroughRelay
+      - DeliverabilityController_getMatrix
+      - DeliverabilityController_startCreativeTune
+      - DeliverabilityController_startFullPipeline
+      - DeliverabilityController_promoteTunedVariant
+      - DeliverabilityController_getJobStatus
+      - DeliverabilityController_cancelProbeJob
+      - DeliverabilityController_listProbes
+      - DeliverabilityController_createManualBlockRule
+      - DeliverabilityController_listBlockRules
+      - DeliverabilityController_deleteBlockRule
+      - DeliverabilityController_listTunedVariants
+      SEO Index:
+      - SeoIndexController_overview
+      - SeoIndexController_segments
+      - SeoIndexController_sitemaps
+      - SeoIndexController_pages
+      - SeoIndexController_queries
+      - SeoIndexController_history
+      - SeoIndexController_coverage
+      - SeoIndexController_indexCoverage
+      - SeoIndexController_yandexOverview
+      - SeoIndexController_yandexQueries
+      - SeoIndexController_yandexSitemaps
+      - SeoIndexController_indexNowStatus
+      - SeoIndexController_indexNowForcePing
+      Authentication:
+      - AuthController_verifyEmail
+      - AuthController_submitQuestionnaire
+      - AuthController_exchangeOtc
+      - AuthController_login
+      - AuthController_refresh
+      - AuthController_logout
+      - AuthController_forgotPassword
+      - AuthController_resetPassword
+      - AuthController_getProfile
+      - AuthController_getMe
+      - AuthController_changePassword
+      - AuthController_impersonate
+      Files:
+      - FilesController_uploadAsset
+      - FilesController_getAssetsQuota
+      - FilesController_create
+      - FilesController_download
+      - FilesController_getLibraryQuota
+      - FilesController_listLibrary
+      - FilesController_uploadLibraryItem
+      - FilesController_downloadLibraryItem
+      - FilesController_readLibraryContent
+      - FilesController_updateLibraryItem
+      - FilesController_removeLibraryItem
+      Admin RPA:
+      - RpaAdminController_overview
+      - RpaAdminController_create
+      - RpaAdminController_rotate
+      - RpaAdminController_reveal
+      - RpaAdminController_globalAccess
+      - RpaAdminController_revoke
+      - RpaAdminController_trace
+      - RpaAdminController_grant
+      - RpaAdminController_logs
+      - RpaAdminController_taskHistory
+      - RpaAdminController_protocol
+      Contact Lists:
+      - ContactListsController_create
+      - ContactListsController_update
+      - ContactListsController_remove
+      - ContactListsController_reorder
+      - ContactListsController_addContacts
+      - ContactListsController_removeContacts
+      - ContactListsController_duplicate
+      - ContactListsController_allStatistics
+      - ContactListsController_compare
+      - ContactListsController_statistics
+      Tracking / Domain:
+      - TrackingDomainController_findAll
+      - TrackingDomainController_create
+      - TrackingDomainController_getStats
+      - TrackingDomainController_findOne
+      - TrackingDomainController_update
+      - TrackingDomainController_remove
+      - TrackingDomainController_healthCheck
+      - TrackingDomainController_setDefault
+      - TrackingDomainController_getMonitoring
+      - TrackingDomainController_reportSpam
+      Custom Objects:
+      - CustomObjectsController_listDefs
+      - CustomObjectsController_createDef
+      - CustomObjectsController_getDef
+      - CustomObjectsController_updateDef
+      - CustomObjectsController_deleteDef
+      - CustomObjectsController_listRecords
+      - CustomObjectsController_createRecord
+      - CustomObjectsController_getRecord
+      - CustomObjectsController_updateRecord
+      - CustomObjectsController_deleteRecord
+      Company Lists:
+      - CompanyListsController_create
+      - CompanyListsController_contactsCounts
+      - CompanyListsController_update
+      - CompanyListsController_remove
+      - CompanyListsController_reorder
+      - CompanyListsController_addCompanies
+      - CompanyListsController_removeCompanies
+      - CompanyListsController_merge
+      - CompanyListsController_duplicate
+      Pipeline Events:
+      - PipelineController_events
+      - PipelineController_getSummary
+      - PipelineController_getSpeed
+      - PipelineController_getStageTasks
+      - PipelineController_listTasks
+      - PipelineController_getTask
+      - PipelineController_getStageTimeline
+      - PipelineController_getStepLogs
+      - PipelineController_getFile
+      Notifications:
+      - NotificationsController_pushPublicKey
+      - NotificationsController_pushSubscribe
+      - NotificationsController_pushUnsubscribe
+      - NotificationsController_unreadCount
+      - NotificationsController_readAll
+      - NotificationsController_markRead
+      - NotificationsController_dismiss
+      - NotificationsController_dismissAll
+      Custom Fields:
+      - CustomFieldsController_inventory
+      - CustomFieldsController_update
+      - CustomFieldsController_remove
+      - CustomFieldsController_reorder
+      - CustomFieldsController_getValues
+      - CustomFieldsController_setValue
+      - CustomFieldsController_bulkSetParams
+      - CustomFieldsController_getParams
+      Tags:
+      - TagsController_update
+      - TagsController_remove
+      - TagsController_attachToCompany
+      - TagsController_detachFromCompany
+      - TagsController_attachToContact
+      - TagsController_detachFromContact
+      - TagsController_attachToLead
+      - TagsController_detachFromLead
+      Inbound Rules:
+      - InboundRulesController_listAutomationEvents
+      - InboundRulesController_findById
+      - InboundRulesController_update
+      - InboundRulesController_delete
+      - InboundRulesController_reorder
+      - InboundRulesController_toggle
+      - InboundRulesController_testRules
+      - InboundRulesController_reapply
+      Creatives / On-Demand:
+      - OnDemandController_generate
+      - OnDemandController_getRequest
+      - OnDemandController_cancel
+      - OnDemandController_list
+      - OnDemandController_stats
+      - OnDemandController_getQcConfig
+      - OnDemandController_putQcConfig
+      - OnDemandController_resetQcConfig
+      Companies / Custom Fields:
+      - CompanyCustomFieldController_getDefinitions
+      - CompanyCustomFieldController_createDefinition
+      - CompanyCustomFieldController_reorder
+      - CompanyCustomFieldController_getValues
+      - CompanyCustomFieldController_setValues
+      - CompanyCustomFieldController_updateDefinition
+      - CompanyCustomFieldController_deleteDefinition
+      Stop List:
+      - StopListController_stats
+      - StopListController_addBulk
+      - StopListController_globalList
+      - StopListController_globalAdd
+      - StopListController_globalStats
+      - StopListController_globalAddBulk
+      - StopListController_globalRemove
+      OAuth:
+      - OAuthController_connectPage
+      - OAuthController_connectRedirect
+      - OAuthController_getAuthUrl
+      - OAuthController_callback
+      - OAuthController_getStatus
+      - OAuthController_revoke
+      - OAuthController_refresh
+      Mail Routing Rules:
+      - MailRoutingController_findAll
+      - MailRoutingController_create
+      - MailRoutingController_findById
+      - MailRoutingController_update
+      - MailRoutingController_delete
+      - MailRoutingController_toggle
+      - MailRoutingController_testRules
+      RPA:
+      - RpaController_poll
+      - RpaController_jobStatus
+      - RpaController_jobReport
+      - RpaController_systemReport
+      - RpaController_systemStatus
+      - RpaController_taskStatus
+      - RpaController_report
+      Provider Config:
+      - ProviderConfigController_resolve
+      - ProviderConfigController_getOne
+      - ProviderConfigController_upsert
+      - ProviderConfigController_remove
+      - ProviderConfigController_toggle
+      - ProviderConfigController_addDomain
+      - ProviderConfigController_removeDomain
+      Legal:
+      - LegalController_listDocuments
+      - LegalController_getDocument
+      - LegalController_publishVersion
+      - LegalController_listVersions
+      - LegalController_recordAcceptance
+      - LegalController_listAcceptances
+      - LegalController_myAcceptances
+      Reports:
+      - ReportsController_limits
+      - ReportsController_upload
+      - ReportsController_getOne
+      - ReportsController_update
+      - ReportsController_remove
+      - ReportsController_rotateToken
+      AI:
+      - AiController_getBalance
+      - AiController_getAllBalances
+      - AiController_getUsage
+      - AiController_getLogs
+      - AiController_getModels
+      - AiController_checkBalance
+      Tracking / Redirect Source:
+      - RedirectSourceController_findAll
+      - RedirectSourceController_create
+      - RedirectSourceController_getStats
+      - RedirectSourceController_findOne
+      - RedirectSourceController_update
+      - RedirectSourceController_remove
+      Tracking / Bot List:
+      - BotListController_stats
+      - BotListController_refresh
+      - BotListController_addCidr
+      - BotListController_removeCidr
+      - BotListController_addUa
+      - BotListController_removeUa
+      Admin / Honeypot:
+      - HoneypotController_fakeAdminLoginGet
+      - HoneypotController_fakeAdminLoginPost
+      - HoneypotController_fakeEnv
+      - HoneypotController_fakeWpAdmin
+      - HoneypotController_fakePhpMyAdmin
+      - HoneypotController_fakeActuator
+      Agent Card:
+      - AgentGuideController_guide
+      - AgentGuideController_context
+      - AgentGuideController_campaignSenderCapability
+      - AgentCardController_card
+      - AgentCardController_cardA2A
+      - AgentCardController_oauthProtectedResource
+      Support:
+      - SupportController_getThread
+      - SupportController_unreadCount
+      - SupportController_sendMessage
+      - SupportController_serveAttachment
+      - SupportController_markRead
+      - SupportController_setStatus
+      Prompt Templates:
+      - PromptTemplatesController_list
+      - PromptTemplatesController_create
+      - PromptTemplatesController_get
+      - PromptTemplatesController_update
+      - PromptTemplatesController_delete
+      - PromptTemplatesController_render
+      LinkedIn / Extension API:
+      - LinkedinExtApiController_session
+      - LinkedinExtApiController_next
+      - LinkedinExtApiController_report
+      - LinkedinExtApiController_events
+      - LinkedinExtApiController_config
+      - LinkedinExtApiController_heartbeat
+      Companies / Duplicates:
+      - DuplicatesController_getFields
+      - DuplicatesController_scan
+      - DuplicatesController_merge
+      - DuplicatesController_deleteDuplicates
+      - DuplicatesController_moveToList
+      Rules / Creative:
+      - CreativeRulesController_get
+      - CreativeRulesController_patch
+      - CreativeRulesController_getSchema
+      - CreativeRulesController_context
+      - CreativeRulesController_history
+      Rules / Sub-resource:
+      - SubResourceRulesController_listSubResources
+      - SubResourceRulesController_get
+      - SubResourceRulesController_patch
+      - SubResourceRulesController_getSchema
+      - SubResourceRulesController_history
+      Contact List Groups:
+      - ContactListGroupsController_findAll
+      - ContactListGroupsController_create
+      - ContactListGroupsController_reorder
+      - ContactListGroupsController_update
+      - ContactListGroupsController_remove
+      Company List Groups:
+      - CompanyListGroupsController_findAll
+      - CompanyListGroupsController_create
+      - CompanyListGroupsController_reorder
+      - CompanyListGroupsController_update
+      - CompanyListGroupsController_remove
+      Campaign Groups:
+      - CampaignGroupsController_findAll
+      - CampaignGroupsController_create
+      - CampaignGroupsController_reorder
+      - CampaignGroupsController_update
+      - CampaignGroupsController_remove
+      Canvas:
+      - CanvasController_getFlow
+      - CanvasController_putFlow
+      - CanvasController_stats
+      - CanvasController_enrollments
+      - CanvasController_tick
+      Development Pipeline — Conveyor Bridge:
+      - ConveyorBridgeController_createIssue
+      - ConveyorBridgeController_setPriority
+      - ConveyorBridgeController_setPaused
+      - ConveyorBridgeController_issueAction
+      - ConveyorBridgeController_getTemplate
+      Observability / API Monitor:
+      - ApiMonitorController_list
+      - ApiMonitorController_aggregates
+      - ApiMonitorController_mcpTools
+      - ApiMonitorController_mcpKeys
+      - ApiMonitorController_mcpTimeseries
+      Allowlist:
+      - AllowlistController_list
+      - AllowlistController_create
+      - AllowlistController_check
+      - AllowlistController_bulkCreate
+      - AllowlistController_delete
+      Phantom Browser / Download:
+      - PhantomBrowserDownloadController_syncByToken
+      - PhantomBrowserDownloadController_updateCheck
+      - PhantomBrowserDownloadController_updateBundle
+      - PhantomBrowserDownloadController_download
+      - PhantomBrowserDownloadController_receiveLogs
+      Import:
+      - ImportController_detectTemplate
+      - ImportController_applyTemplate
+      - ImportController_getLog
+      - ImportController_getLogCsv
+      - ImportController_rollbackTask
+      API Keys (tenant-scoped):
+      - ApiKeysController_reveal
+      - ApiKeysController_structuredScopes
+      - ApiKeysController_update
+      - ApiKeysController_revoke
+      Suppression:
+      - SuppressionController_addBulk
+      - SuppressionController_listDomains
+      - SuppressionController_addDomain
+      - SuppressionController_removeDomain
+      Browser Queue:
+      - BrowserQueueController_getJobs
+      - BrowserQueueController_cancelJob
+      - BrowserQueueController_retryJob
+      - BrowserQueueController_resume
+      Files / Serve:
+      - FileServeController_serveImage
+      - FileServeController_serveTenantAsset
+      - FileServeController_serveDialogAttachment
+      - FileServeController_serveAvatar
+      DSAR:
+      - DsarController_create
+      - DsarController_list
+      - DsarController_lookup
+      - DsarController_resolve
+      Observability / API Tests:
+      - ApiTestsController_catalog
+      - ApiTestsController_run
+      - ApiTestsController_list
+      - ApiTestsController_get
+      Agency:
+      - AgencyController_list
+      - AgencyController_create
+      - AgencyController_stats
+      - AgencyController_detach
+      Custom Events:
+      - CustomEventsController_track
+      - CustomEventsController_list
+      - CustomEventsController_bulkTrack
+      - CustomEventsController_aggregates
+      LinkedIn:
+      - LinkedinController_getAccount
+      - LinkedinController_patchAccount
+      - LinkedinController_patchCampaign
+      - LinkedinController_createScenario
+      Webhooks:
+      - WebhooksController_update
+      - WebhooksController_remove
+      - WebhooksController_retrigger
+      Mail Agent:
+      - MailAgentController_resetStats
+      - MailAgentController_downloadWindows
+      - MailAgentController_getQr
+      Dialog Linker:
+      - DialogLinkerController_backfill
+      - DialogLinkerController_getFailureSummary
+      - DialogLinkerController_getLogs
+      Activities:
+      - ActivitiesController_feed
+      - ActivitiesController_update
+      - ActivitiesController_remove
+      Marking:
+      - MarkingController_togglePattern
+      - MarkingController_deletePattern
+      - MarkingController_classifyDialog
+      Share Public:
+      - SharePublicController_getOgHtml
+      - SharePublicController_getByShortCode
+      - SharePublicController_getShared
+      Email Accounts — Deliverability:
+      - EmailAccountDeliverabilityController_getAccountSnapshot
+      - EmailAccountDeliverabilityController_probeAccount
+      - EmailAccountDeliverabilityController_unblockProvider
+      Audit:
+      - AuditController_list
+      - AuditController_manualWrite
+      - AuditController_aggregates
+      Branding:
+      - BrandingController_get
+      - BrandingController_update
+      - BrandingController_reset
+      Cohort Metrics:
+      - CohortMetricsController_funnel
+      - CohortMetricsController_latency
+      - CohortMetricsController_cohorts
+      ICP Extension:
+      - IcpExtensionController_remove
+      - IcpExtensionController_regenerateKey
+      - IcpExtensionController_downloadExtension
+      Profi Orders:
+      - ProfiOrdersController_list
+      - ProfiOrdersController_status
+      - ProfiOrdersController_ingest
+      Rules / Creative Bootstrap:
+      - CreativeBootstrapController_bootstrap
+      - CreativeBootstrapController_updateMeta
+      Rules / Discovery:
+      - DiscoveryController_discovery
+      - DiscoveryController_contract
+      Nalog ID:
+      - NalogIdController_lookup
+      - NalogIdController_test
+      User Settings:
+      - UserSettingsController_update
+      - UserSettingsController_availableTransports
+      Variable Resolver:
+      - VariableResolverController_resolve
+      - VariableResolverController_getAvailableVariables
+      SystemBriefIntake:
+      - SystemBriefIntakeController_limits
+      - SystemBriefIntakeController_receive
+      Saved Views:
+      - SavedViewsController_update
+      - SavedViewsController_remove
+      System:
+      - SystemController_getVersion
+      - SystemController_getOperator
+      Health:
+      - HealthController_liveness
+      - HealthController_capacity
+      Unsubscribe:
+      - UnsubscribeController_handleUnsubscribe
+      - UnsubscribeController_oneClickUnsubscribe
+      Enrichment:
+      - EnrichmentController_company
+      - EnrichmentController_findEmail
+      Domains:
+      - DomainsController_check
+      - DomainsController_bulk
+      Custom Extract:
+      - CustomExtractController_run
+      - CustomExtractController_getStatus
+      Mail Agent / Update:
+      - MailAgentUpdateController_check
+      Mail Transport:
+      - MailTransportController_stats
+      Email Verification:
+      - EmailVerificationController_verifyOne
+      Content Analyzer:
+      - ContentAnalyzerController_check
+      Names:
+      - NamesController_ping
+      Email Accounts / GAS Webhook:
+      - GasWebhookController_handleWebhook
+      Email Accounts / Inbox Ingest:
+      - InboxIngestController_mailArrived
+      Search:
+      - SearchController_search
+      Public:
+      - PublicPricingController_pricing
+      Share Links:
+      - ShareLinksController_revoke
+      Exports:
+      - ExportsController_status
+      A2A:
+      - A2AController_dispatch
+      Landing:
+      - LandingController_apply
+      Jobs:
+      - JobsController_getJob
+      RUM:
+      - RumController_vitals
+  inbox_check:
+    note: 'Inbox Check operations with no agent-card skill or MCP tool: the free public tier (/api/tests, presend,
+      sender-links, domain-watch), the account portal, workers, admin, amoCRM widget and the raw /api/mcp handler
+      itself.'
+    count: 175
+    by_tag:
+      health:
+      - HealthController_check
+      SelfControl:
+      - SelfControlController_history
+      - SelfControlController_run
+      tests:
+      - TestsController_create
+      - TestsController_get
+      - TestsController_deleteTest
+      - TestsSseController_stream
+      - TrackController_click
+      - WarmupController_finish
+      - WarmupController_warmup
+      - WarmupController_repoll
+      presend:
+      - PresendController_create
+      - PresendController_get
+      - PresendController_delete
+      PresendAdmin:
+      - PresendAdminController_stats
+      sender-links:
+      - SenderLinksController_unsubscribeGet
+      - SenderLinksController_unsubscribePost
+      - SenderLinksController_get
+      - SenderLinksController_revoke
+      - SenderLinksController_setReports
+      - SenderLinksController_reactivate
+      admin:
+      - AnalysisRefreshController_refresh
+      - FeedbackAdminController_list
+      - FeedbackAdminController_stats
+      - BetaSignupsAdminController_list
+      - BetaSignupsAdminController_stats
+      - ScreenshotOrdersAdminController_stats
+      - RecheckAdminController_list
+      - RecheckAdminController_stats
+      - AdminController_stats
+      - AdminController_slackInstallations
+      - AdminController_getDeliverabilityConfig
+      - AdminController_updateDeliverabilityConfig
+      - AdminController_listSeeds
+      - AdminController_addSeed
+      - AdminController_archiveSeed
+      - AdminController_restoreSeed
+      - AdminController_listAuditLog
+      - AdminController_seedHealth
+      - AdminController_bulkAddSeeds
+      - AdminController_patchSeed
+      - AdminController_syncSeedsFromLdm
+      - AdminController_listLdmControlAccounts
+      - AdminController_importFromLdm
+      - AdminController_importOauthCombo
+      - AdminController_probeSeed
+      - ProvidersAdminController_list
+      - ProvidersAdminController_create
+      - AdminController_getProvider
+      - ProvidersAdminController_update
+      - ProvidersAdminController_remove
+      - AdminController_listDeliveryBlocks
+      - AdminController_addDeliveryBlock
+      - AdminController_removeDeliveryBlock
+      - AdminController_seedStats
+      - AdminController_providerStats
+      - AdminController_runSeedHealthCheck
+      - AdminController_triggerImapCleanup
+      - AdminController_triggerBounceProcess
+      - AdminController_listTests
+      - AdminController_traceTest
+      - AdminController_queues
+      - AdminController_visitors
+      - AdminController_transportHealth
+      - AdminController_protocolStats
+      - AdminController_logs
+      - AdminController_operationsHealth
+      - ApiKeysController_scopes
+      - ApiKeysController_create
+      - ApiKeysController_list
+      - ApiKeysController_update
+      - ApiKeysController_revoke
+      - ApiKeysController_usage
+      - DmarcController_summary
+      - DmarcController_sources
+      - DmarcController_list
+      - DmarcController_one
+      - DmarcController_poll
+      workers:
+      - WorkersController_claim
+      - WorkersController_heartbeat
+      - WorkersController_uploadScreenshot
+      - WorkersController_complete
+      - WorkersController_fail
+      feedback:
+      - FeedbackController_submit
+      beta-signups:
+      - BetaSignupsController_submit
+      screenshots:
+      - ScreenshotOrdersController_track
+      subscriptions:
+      - SubscriptionsController_subscribe
+      - SubscriptionsController_verify
+      - SubscriptionsController_unsubscribeGet
+      - SubscriptionsController_unsubscribePost
+      SubscriptionsAdmin:
+      - SubscriptionsAdminController_list
+      - SubscriptionsAdminController_stats
+      domain-watch:
+      - DomainWatchController_start
+      - DomainWatchController_request
+      - DomainWatchController_confirmView
+      - DomainWatchController_confirm
+      - DomainWatchController_manage
+      - DomainWatchController_access
+      - DomainWatchController_stop
+      - DomainWatchController_unsubscribeView
+      - DomainWatchController_unsubscribe
+      DomainWatchPlacement:
+      - DomainWatchPlacementController_get
+      - DomainWatchPlacementController_start
+      recheck:
+      - RecheckController_schedule
+      - RecheckController_schedule24h
+      - RecheckController_status24h
+      - RecheckController_cancel24h
+      monitoring:
+      - MonitoringController_list
+      - MonitoringController_add
+      - MonitoringController_updateDomain
+      - MonitoringController_remove
+      - MonitoringController_pause
+      - MonitoringController_resume
+      - MonitoringController_run
+      - MonitoringController_history
+      - MonitoringController_latest
+      - MonitoringController_getSettings
+      - MonitoringController_updateSettings
+      auth:
+      - AuthController_register
+      - AuthController_verify
+      - AuthController_resend
+      - AuthController_login
+      - AuthController_logout
+      - AuthController_me
+      - EmailAccessController_request
+      - EmailAccessController_consume
+      oauth-tests:
+      - V1OAuthTestsController_list
+      - V1OAuthTestsController_create
+      - V1OAuthTestsController_get
+      oauth:
+      - OAuthController_authorizePage
+      - OAuthController_authorizeSubmit
+      - OAuthController_token
+      - OAuthController_me
+      reports:
+      - ReportsController_getReport
+      - ReportsController_getReportPdf
+      mcp-transport:
+      - McpController_handle_get
+      - McpController_handle_post
+      - McpController_handle_put
+      - McpController_handle_delete
+      - McpController_handle_patch
+      - McpController_handle_options
+      - McpController_handle_head
+      - McpController_handle_get
+      - McpController_handle_post
+      - McpController_handle_put
+      - McpController_handle_delete
+      - McpController_handle_patch
+      - McpController_handle_options
+      - McpController_handle_head
+      account:
+      - AccountController_list
+      - AccountController_create
+      - AccountController_dashboard
+      - AccountController_revoke
+      monitoring-enrollment:
+      - MonitoringEnrollmentController_enroll
+      telegram:
+      - TelegramController_webhook
+      - TelegramController_loginLink
+      - TelegramController_linkToken
+      providers:
+      - ProvidersPublicController_list
+      deploy:
+      - DeployController_enqueue
+      - DeployController_list
+      - DeployController_status
+      amo-widget:
+      - AmoWidgetController_listProviders
+      - AmoWidgetController_log
+      - AmoWidgetController_oauthInstall
+      - AmoWidgetController_uninstall
+      - AmoWidgetController_createTest
+      - AmoWidgetController_pollTest
+      - AmoWidgetController_saveNote
+      TlsRpt:
+      - TlsRptController_list
+      DomainObservations:
+      - DomainObservationsController_lookup
+      - DomainObservationsController_request
+      - DomainObservationsController_page
+      - DomainObservationsController_fallback
+      - DomainObservationsController_data
+      - DomainObservationsController_catalog
+coverage:
+  ldm:
+    tools_named_from_live_or_card: 240
+    tools_bound: 240
+    curated_card_capabilities: 237
+    card_capabilities_bound: 237
+    rest_operations_total: 1304
+    rest_operations_with_curated_tool: 240
+    declared_full_catalog: 1270
+  inbox_check:
+    card_skills: 21
+    skills_bound: 21
+    compat_aliases: 5
+    rest_operations_total: 196
+    rest_operations_with_tool: 21

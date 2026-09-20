@@ -1,0 +1,82 @@
+generated: '2026-09-19'
+method: searched
+source:
+- https://developers.live-direct-marketing.online/authentication
+- https://developers.live-direct-marketing.online/quickstart
+- https://developers.live-direct-marketing.online/limits
+- https://check.live-direct-marketing.online/llms.txt
+- openapi/live-direct-marketing-online-ldm-v3-openapi.json
+summary: 'Neither product publishes a sandbox ENVIRONMENT or magic test values: LDM keys "look like ldm_<64 hex
+  chars> — one format, no separate live/test prefix" and every call goes to production. What LDM offers instead
+  is a graduated live account — a PENDING workspace whose auto-issued key can read everything and draft safely but
+  cannot send — plus an unusually large set of read-only dry-run operations that rehearse the dangerous step (sending)
+  without performing it. Inbox Check is free to use without signup within daily limits, which is its own kind of
+  sandbox: real seed mailboxes, no cost, no credentials.'
+sandbox:
+  present: false
+  test_mode: false
+  test_key_prefix: null
+  test_credentials: false
+  test_data: null
+  time_simulation: false
+  fixtures_or_triggers: false
+  separate_host: The LDM contract declares https://api.dev.live-direct-marketing.online (Development) and http://127.0.0.1:3000
+    (Local) alongside Production. api.dev resolves to a different IP and serves /api/docs-json (653 KB, an older
+    build) but /health returns 404 and no docs mention it; it is the provider's own dev tier, not a customer sandbox.
+graduated_live_access:
+  ldm:
+    pending_account:
+      how: POST /api/auth/register with channel mcp|a2a|form (or the MCP ldm_terms → ldm_register tools) returns
+        an ldm_* key in the same response
+      scopes: SAFE_AGENT_SCOPES — "read-all + safe drafts; no email:send / mailing:write"
+      limits: 50 MB database quota (403 on writes over quota); 3 signups per hour per IP; auto-activation 1 per
+        hour platform-wide, else questionnaire + admin approval
+      credit: signupCreditUsd 50 (GET /api/public/pricing); "The $50 signup credit and your balance don't expire"
+      payment: payment.mode "demo", gateway "none" — no real money can be charged while the beta runs
+      source: https://developers.live-direct-marketing.online/api-registration
+    older_sdk_sandbox_scope: The GitHub README of @live-direct-marketing/sdk (0.2.0-beta.2) described a "sandbox"
+      key scope in which every messages.send was held for moderation (500 messages/month) until the key was promoted
+      to "approved". The current docs no longer use that vocabulary; recorded as history.
+  inbox_check:
+    free_tier: 3 tests per email per day, 10 per IP per day, no signup, results retained 7 days
+    self_issued_key: basic tier — 100 tests/day, 1,000/month, no screenshots
+    source: https://check.live-direct-marketing.online/llms.txt
+dry_run_operations:
+  note: Read-only or no-send operations the provider documents for rehearsing a write. Every operationId below exists
+    in openapi/live-direct-marketing-online-ldm-v3-openapi.json.
+  operations:
+  - operationId: CampaignsController_sendReadiness
+    method: GET
+    path: /api/campaigns/{id}/send-readiness
+    description: '"Dry-run all send gates for a campaign: status, breaker, send window, sender pool, routing, inbox-check,
+      due READY rows. Read-only, nothing is sent."'
+  - operationId: EmailAccountsController_testSend
+    method: POST
+    path: /api/email-accounts/{id}/test-send
+    description: '"Dry-run probe of the real send transport ... Never sends a real message." Rate-limited 1 per
+      5 s per account.'
+  - operationId: TrackingController_simulateClick
+    method: POST
+    path: /api/tracking/simulate-click
+    description: '"Dry-run the cloaking decision for a link ... WITHOUT logging an event or moving counters."'
+  - operationId: InboundRulesController_testRules
+    method: POST
+    path: /api/inbound-rules/test
+    description: Dry-run synthetic inbound message against active rules
+  - operationId: MailRoutingController_testRules
+    method: POST
+    path: /api/mail-routing-rules/test
+    description: Dry-run a synthetic email against active routing rules
+  - operationId: CampaignsController_backfillHistoricUnsubscribes
+    method: POST
+    path: /api/campaigns/backfill-historic-unsubscribes
+    description: dryRun (default true) only lists rows, no write
+  - operationId: CampaignsController_send
+    method: POST
+    path: /api/campaigns/{id}/send
+    description: limit=1 for a first test send — a real send, kept to one recipient by convention
+  - operationId: AgentGuideController_campaignSenderCapability
+    method: GET
+    path: /api/v1/agent-guide/campaign-sender-capability
+    description: '"SDR capability preflight (read-only) ... a receipt required before a campaign write"'
+  operationId_check: every operationId above verified by method+path lookup in the harvested contract on 2026-09-19

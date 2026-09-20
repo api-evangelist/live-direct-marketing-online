@@ -1,0 +1,84 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Inbox Check API
+  version: 1.0.0
+  x-generated: '2026-09-19'
+  x-method: generated
+  x-source: >-
+    Facts from https://check.live-direct-marketing.online/docs, the agent card and live responses on
+    2026-09-19 that the harvested contract (https://check.live-direct-marketing.online/api/openapi.json)
+    does not carry. The original is never mutated.
+extends: openapi/live-direct-marketing-online-inbox-check-openapi.json
+actions:
+  - target: $
+    description: The contract declares servers [] — no host at all. The docs state the base URL.
+    update:
+      servers:
+        - url: https://check.live-direct-marketing.online
+          description: Production (stated as "Base URL" in https://check.live-direct-marketing.online/llms.txt)
+      externalDocs:
+        description: Inbox Check REST API docs
+        url: https://check.live-direct-marketing.online/docs
+  - target: $.info
+    update:
+      contact:
+        name: Inbox Check support
+        email: support@live-direct-marketing.online
+        url: https://check.live-direct-marketing.online/support
+      termsOfService: https://check.live-direct-marketing.online/terms
+      x-agent-card: https://check.live-direct-marketing.online/.well-known/agent.json
+      x-mcp-endpoint: https://check.live-direct-marketing.online/mcp
+      x-provider: { organization: Live Direct Marketing, url: https://live-direct-marketing.online }
+  - target: $.components.securitySchemes
+    description: >-
+      21 operations under /api/account/* reference a `cookie` security scheme that the contract never
+      declares. Declared here so the document validates; the portal uses a session cookie after
+      /api/auth/login.
+    update:
+      cookie:
+        type: apiKey
+        in: cookie
+        name: session
+        description: Account-portal session cookie issued by POST /api/auth/login (undeclared in the original).
+  - target: $.components.securitySchemes.apiKey
+    update:
+      description: 'Bearer icp_live_* API key, self-issued at /account (max 3 active per user); carries tier, scopes (monitoring:read|write, reports:pdf), provider allowlist and daily/monthly quotas.'
+  - target: $.components.responses
+    description: Documented error table from /docs — the contract declares no 4xx/5xx at all. Observed live as RFC 9457 application/problem+json.
+    update:
+      Problem:
+        description: 'RFC 9457 Problem Details with a `code` member: auth_required (401), invalid_api_key (401), quota_exceeded (402), providers_not_allowed (400), no_seeds_for_provider (400), test_not_found (404), paid_api_disabled (503), service_overloaded (503).'
+        content:
+          application/problem+json:
+            schema:
+              type: object
+              required: [type, title, status]
+              properties:
+                type: { type: string, format: uri, example: 'https://check.live-direct-marketing.online/errors/auth_required' }
+                title: { type: string }
+                status: { type: integer }
+                detail: { type: string }
+                instance: { type: string }
+                code: { type: string }
+                hint: { type: string }
+  - target: $.paths['/api/v1/tests'].post
+    update:
+      x-quota: consumes one daily and one monthly quota unit on success; 402 quota_exceeded on exhaustion
+  - target: $.paths['/api/v1/tests'].get
+    update:
+      x-pagination: { style: cursor, param: cursor, value: created_at timestamp, response_field: next_cursor }
+  - target: $.paths['/api/v1/tests/{token}'].delete
+    update:
+      x-irreversible: true
+  - target: $.paths['/api/v1/monitoring/domains/{id}'].delete
+    update:
+      x-irreversible: true
+  - target: $.paths['/api/v1/tests/{token}/repoll'].post
+    update:
+      x-rate-limit: 30 second cooldown per token; quota not consumed
+  - target: $.paths['/api/tests/{token}/recheck-24h'].delete
+    update:
+      x-reversal-of: 'POST /api/tests/{token}/recheck-24h — cancel works until the scheduled recheck fires (delay_hours 1–168, default 24)'
+  - target: $.paths['/api/domain-watch/unsubscribe'].post
+    update:
+      x-standard: RFC 8058 one-click List-Unsubscribe POST

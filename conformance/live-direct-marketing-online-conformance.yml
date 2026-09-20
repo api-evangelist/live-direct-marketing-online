@@ -1,0 +1,147 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  Live probes of api.live-direct-marketing.online, check.live-direct-marketing.online and
+  developers.live-direct-marketing.online on 2026-09-19, cross-checked against the two harvested
+  OpenAPI documents and the provider's own docs (errors, authentication, legal-compliance pages).
+standards:
+  - id: openapi-3.0
+    name: OpenAPI 3.0
+    conforms: true
+    evidence: >-
+      Two contracts: https://api.live-direct-marketing.online/api/docs-json declares "openapi": "3.0.0"
+      with 1,083 paths / 1,304 operations / 224 schemas / unique operationIds / three securitySchemes /
+      a servers[] block (Production, Development, Local); https://check.live-direct-marketing.online/api/openapi.json
+      declares "openapi": "3.0.0" with 196 operations and 45 schemas. Both are NestJS-generated.
+    caveat: >-
+      Both contracts declare ONLY 2xx responses (no 4xx/5xx anywhere), info.contact is {}, the LDM
+      contract has 0 declared tags objects (119 tag names used inline) and 17 of 1,304 operations
+      carry an example; the Inbox Check contract declares servers [] and references an undeclared
+      `cookie` security scheme on 21 operations. Valid documents, thin ones.
+  - id: rfc9457
+    name: RFC 9457 Problem Details for HTTP APIs
+    conforms: true
+    evidence: >-
+      Observed live, not declared: every 401 and 404 from api.live-direct-marketing.online and
+      check.live-direct-marketing.online returned content-type application/problem+json with
+      type (https://<host>/errors/<code>), title, status, detail, instance and a `code` member —
+      e.g. POST /api/a2a → {"type":"https://api.live-direct-marketing.online/errors/unauthorized",
+      "title":"Unauthorized","status":401,"detail":"Invalid credentials","instance":"/api/a2a","code":"unauthorized"}.
+    caveat: >-
+      Neither OpenAPI declares application/problem+json anywhere (0 occurrences), and the LDM errors
+      page documents a DIFFERENT envelope — {statusCode, message} — for 400/401/402/403/409/429. Two
+      error shapes coexist on the same host (framework-level Problem Details for routing/auth, a flat
+      Nest envelope for validation and business errors). The `type` URIs (/errors/auth_required,
+      /errors/not_found) themselves return 404 HTML on the check host, so they are identifiers, not
+      documentation. See errors/live-direct-marketing-online-problem-types.yml.
+  - id: rfc9728
+    name: RFC 9728 OAuth 2.0 Protected Resource Metadata
+    conforms: false
+    evidence: >-
+      A document with the RFC 9728 shape (resource, authorization_servers, bearer_methods_supported,
+      resource_documentation) is served at https://api.live-direct-marketing.online/api/v1/.well-known/oauth-protected-resource
+      (HTTP 200) — but not at the RFC location /.well-known/oauth-protected-resource (404 on every
+      host), and authorization_servers is []. The provider's own description of the operation: "LDM
+      has no OAuth authorization server yet — this document is honest about that and points automatable
+      clients at the key-less MCP bootstrap flow (ldm_register) instead of a dead-end auth server."
+      Recorded as not conforming because a client following the RFC cannot discover it and it names
+      no authorization server; recorded here at all because the honesty is itself a data point.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    evidence: >-
+      No oauth2 securityScheme in either contract; no /.well-known/oauth-authorization-server or
+      openid-configuration on any host. Credentials are static Bearer API keys (ldm_*, icp_live_*)
+      plus a JWT session for the web UI. The LDM "OAuth" tag (7 operations) is the platform acting as
+      an OAuth CLIENT toward Gmail/Microsoft for the user's sending mailboxes, not an authorization
+      server for API consumers. Inbox Check has an /api/oauth/authorize + /api/oauth/token pair, but
+      it is undocumented, unscoped in the contract and not advertised by any discovery document.
+  - id: rfc9116
+    name: RFC 9116 security.txt
+    conforms: true
+    evidence: >-
+      https://live-direct-marketing.online/.well-known/security.txt (HTTP 200, text/plain) with
+      Contact, Expires (2027-05-06), Preferred-Languages, Canonical and Policy; byte-identical on
+      app.live-direct-marketing.online. Absent on the api, check and developers hosts.
+    caveat: The Policy URL https://live-direct-marketing.online/security returns 404.
+  - id: a2a
+    name: A2A Agent Card (protocol 0.3.0)
+    conforms: true
+    evidence: >-
+      https://api.live-direct-marketing.online/.well-known/agent.json passes the three A2A hard checks
+      (capabilities object, protocolVersion 0.3.0, skills array of 237) and POST /api/a2a answers a
+      JSON-RPC body with 401 Problem Details — a live dispatcher declared in the OpenAPI as
+      A2AController_dispatch. Graded conformant in a2a/live-direct-marketing-online-a2a.yml; the
+      Inbox Check card is discovery-only and graded flavored.
+  - id: mcp
+    name: Model Context Protocol (Streamable HTTP, 2025-06-18)
+    conforms: true
+    evidence: >-
+      initialize against https://api.live-direct-marketing.online/mcp returned protocolVersion
+      2025-06-18 over text/event-stream with an Mcp-Session-Id header; notifications/initialized 202;
+      tools/list 200 with inputSchema per tool. resources/list and prompts/list return -32601. The
+      check host server answers 401 application/problem+json without a key.
+  - id: llms-txt
+    name: llms.txt
+    conforms: true
+    evidence: >-
+      Served on three hosts: https://live-direct-marketing.online/llms.txt (5 KB, H1 + blockquote +
+      sectioned link lists), https://developers.live-direct-marketing.online/llms.txt (174 KB, indexes
+      all 1,304 endpoints) and https://check.live-direct-marketing.online/llms.txt (10 KB). All saved in llms/.
+  - id: rfc8058
+    name: RFC 8058 One-Click List-Unsubscribe
+    conforms: true
+    evidence: >-
+      Inbox Check contract: POST /api/domain-watch/unsubscribe is described as "Unsubscribe one domain,
+      including RFC 8058 one-click POST" and GET /api/sender-links/unsubscribe as the "List-Unsubscribe
+      target". These are the product's own notification emails, not the customer's campaign mail.
+    scope: provider notification email only
+  - id: cursor-pagination
+    name: Cursor pagination
+    conforms: true
+    evidence: >-
+      Inbox Check GET /api/v1/tests pages with ?cursor=<created_at> and returns next_cursor (docs +
+      contract). LDM uses offset pagination (page/pageSize on 45+ list operations, limit on 56) with a
+      cursor parameter on 13 operations (billing ledgers, feeds).
+    caveat: Mixed styles; no RFC 8288 Link headers.
+  - id: idempotency
+    name: Idempotency keys (IETF idempotency-key-header draft shape)
+    conforms: false
+    evidence: >-
+      Exactly one LDM operation declares an idempotency-key request header (POST /api/campaigns/{id}/test-task,
+      CampaignsController_createTestTask, required) and the RPA service protocol dedupes by a body
+      idempotencyKey; several other writes are idempotent by design (pour dedups by normalized email,
+      recheck-24h schedules once, warmup returns a cached summary). No cross-cutting Idempotency-Key
+      policy exists, so coverage is partial — see conventions/.
+  - id: scim
+    name: SCIM 2.0
+    conforms: false
+    evidence: No urn:ietf:params:scim URN, /Users or /scim path in either contract; user provisioning is a bespoke Users tag (15 operations).
+  - id: json-api
+    name: JSON:API
+    conforms: false
+    evidence: No application/vnd.api+json media type; responses are plain JSON objects and {items, next_cursor} / paged arrays.
+  - id: rfc8594
+    name: RFC 8594 Sunset header / deprecation signalling
+    conforms: false
+    evidence: "No Sunset or Deprecation header declared or documented; zero operations carry deprecated: true; no deprecation policy page."
+domain_standard:
+  market: B2B email outreach, CRM and email deliverability testing
+  applicable_standards_checked: [SCIM (identity), OpenRTB (advertising), ODATA (CRM data access), HL7/X12/ISO 20022 (not applicable)]
+  finding: none
+  note: >-
+    No recognised domain-standard signature (SCIM URN, OData $metadata, OpenRTB bid endpoint,
+    ActivityPub actor, OneRoster/LTI, OAI-PMH, ORCID/DataCite, HL7/X12/EDIFACT/ISO 20022) appears
+    in either contract. The email standards the product enforces on OUTBOUND mail (SPF, DKIM, DMARC,
+    RFC 8058) are what it tests for its customers, not a contract-level conformance of the API
+    itself; RFC 8058 on the provider's own notification mail is recorded above. Reward-only check;
+    nothing is claimed.
+compliance_programs:
+  certifications: []
+  note: >-
+    No SOC 2, ISO 27001, PCI DSS, HIPAA or GDPR certification is published. The "security" legal
+    document served by GET /api/legal/documents/security is a five-point draft ("ЧЕРНОВИК v0 —
+    требует проверки юристом") naming TLS, role-based access, no secrets in source, protected
+    suppression storage and per-tenant database isolation. developers.live-direct-marketing.online/legal/security
+    says "A complete overview of our security practices is being prepared". No Compliance pointer is
+    emitted.

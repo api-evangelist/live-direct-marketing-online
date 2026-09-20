@@ -1,0 +1,54 @@
+generated: '2026-09-19'
+method: searched
+source: https://developers.live-direct-marketing.online/webhooks
+docs:
+  - https://developers.live-direct-marketing.online/webhooks
+  - https://developers.live-direct-marketing.online/webhooks.md
+asyncapi_published: false
+asyncapi_note: >-
+  Live Direct Marketing publishes NO AsyncAPI document. /asyncapi.json and /asyncapi.yaml were not
+  offered on any host, the LDM OpenAPI declares no top-level `webhooks` object and no callbacks, and
+  neither GitHub repository carries an event specification. The event surface below is documented
+  in prose and in the Webhooks tag of the OpenAPI (7 operations). Nothing was fabricated.
+surface: Outbound HTTPS webhook deliveries for CRM lead, inbox dialog and mailing task events
+events:
+  - { name: lead.created, domain: leads }
+  - { name: lead.moved, domain: leads, note: pipeline stage change }
+  - { name: lead.won, domain: leads }
+  - { name: lead.lost, domain: leads }
+  - { name: dialog.received, domain: dialogs, note: inbound reply received }
+  - { name: dialog.replied, domain: dialogs }
+  - { name: task.completed, domain: tasks, note: mailing campaign task finished }
+  - { name: task.failed, domain: tasks }
+event_count: 8
+payload_schema_published: false
+subscription_api:
+  create: { operationId: WebhooksController_create, method: POST, path: /api/webhooks, scope: 'webhooks:write', body: '{ url, events[], secret }' }
+  list: { operationId: WebhooksController_list, method: GET, path: /api/webhooks }
+  update: { method: PATCH, path: '/api/webhooks/{id}' }
+  delete: { method: DELETE, path: '/api/webhooks/{id}' }
+  deliveries: { method: GET, path: '/api/webhooks/{id}/deliveries', note: 'filter ?status=FAILED' }
+  retry_one: { method: POST, path: '/api/webhooks/deliveries/{id}/retry' }
+  retrigger_last_n: { method: POST, path: '/api/webhooks/{id}/retrigger' }
+  spec: openapi/live-direct-marketing-online-ldm-v3-openapi.json
+signing:
+  header: X-LDM-Signature
+  format: 'sha256=<hex>'
+  algorithm: HMAC-SHA256 over the raw request body using the shared `secret` supplied at subscription time
+  verification_example: 'signature=$(echo -n "$RAW_BODY" | openssl dgst -sha256 -hmac "$SECRET" -hex)'
+  timestamp_in_signature: false
+  replay_protection_documented: false
+  secret_rules: 'docs example uses "shared-hmac-secret-32-chars-min"; no minimum is stated elsewhere'
+delivery_semantics:
+  retries: manual (single-delivery retry and last-N retrigger endpoints); no automatic retry schedule is documented
+  delivery_log: 'GET /api/webhooks/{id}/deliveries with status filter'
+  ordering: not documented
+  at_least_once: not documented
+inbox_check_webhooks:
+  note: >-
+    The Inbox Check monitoring settings (PATCH /api/v1/monitoring/settings, schema UpdateSettingsDto)
+    accept webhookUrl (uri, <= 2048) and webhookSecret (<= 256) for domain-monitoring alerts alongside
+    email, digest and Telegram delivery; the alert payload shape and signing are not documented.
+  spec: openapi/live-direct-marketing-online-inbox-check-openapi.json
+inbound_webhooks_received_by_ldm:
+  note: The platform also RECEIVES webhooks (Tilda form submissions via Connectors, Telegram bot updates, amoCRM widget uninstall, GAS mailbox webhooks) — those are inbound integrations, not an event surface for consumers.

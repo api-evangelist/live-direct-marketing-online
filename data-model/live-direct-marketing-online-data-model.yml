@@ -1,0 +1,448 @@
+generated: '2026-09-19'
+method: derived
+source:
+- openapi/live-direct-marketing-online-ldm-v3-openapi.json (224 component schemas, 1,304 operations)
+- openapi/live-direct-marketing-online-inbox-check-openapi.json (45 DTO schemas, 196 operations)
+summary: 'Derived from id-reference fields in request DTOs and from the resource paths. LDM links by id field, not
+  by $ref nesting: the 224 components are almost all request DTOs (Create*/Update*Dto), so response shapes are not
+  in the contract and the graph below is reconstructed from foreign-key style properties (<entity>Id) and the URL
+  hierarchy. Tenant is the root — every one of the 1,304 operations declares the X-Tenant-Id header. Inbox Check
+  is a separate, much smaller model rooted in the API key: a Test (addressed by an opaque token) owns per-provider
+  seed results; a monitored Domain owns Checks; a SenderLink is a permanent public page over a sender''s seed addresses.'
+id_style:
+  format: opaque string (cuid-like ids such as cmo2p666900067p7y9jqosenh in the SDK README; UUIDs for tenants)
+  prefixes_published: false
+  credential_prefixes:
+  - ldm_ (tenant API key, 64 hex)
+  - icp_live_ (Inbox Check key)
+  tenant_addressing: X-Tenant-Id header (uuid) or tenant_id MCP arg (slug or uuid) for agency pivots
+ldm:
+  entities:
+  - name: Tenant
+    description: Workspace root; every tenant-scoped call carries X-Tenant-Id. Created with the User at registration;
+      carries status PENDING/ACTIVE, DB quota, billing balance and legal acceptances.
+    schemas:
+    - RegisterDto
+    relationships:
+    - has_many: User
+    - has_many: ApiKey
+      via: keys.*
+    - has_many: Company
+    - has_many: Contact
+    - has_many: Lead
+    - has_many: Pipeline
+    - has_many: Campaign
+    - has_many: Task
+    - has_many: EmailAccount
+    - has_many: Webhook
+    - has_one: BillingBalance
+    - has_many: BillingLedgerEntry
+  - name: Company
+    description: Account record; imports (batch rollback), duplicates, custom fields, enrichment, site scoring.
+    schemas:
+    - CreateCompanyDto
+    - UpdateCompanyDto
+    - CompanyListsCreateDto
+    - CompanyListsUpdateDto
+    - CompanyListsReorderItemDto
+    - CompanyListsReorderDto
+    - CompanyListsAddCompaniesDto
+    - CompanyListsMergeDto
+    relationships:
+    - has_many: Contact
+      via: companyId
+    - has_many: Lead
+      via: companyId
+    - belongs_to_many: CompanyList
+      via: companyListId
+    - has_many: Activity
+    - has_many: CustomFieldValue
+  - name: Contact
+    description: Person under a Company with email channels (ACTIVE/bounced); verified in batch before sending;
+      poured into campaigns via contact lists.
+    schemas:
+    - ContactsBulkDto
+    - ExportContactsDto
+    - ContactsImportPreviewDto
+    - ContactsImportStartDto
+    - CreateContactDto
+    - UpdateContactDto
+    - MergeContactsDto
+    - ContactListsCreateDto
+    - ContactListsUpdateDto
+    - ContactListsReorderItemDto
+    - ContactListsReorderDto
+    - ContactListsAddContactsDto
+    relationships:
+    - belongs_to: Company
+      via: companyId
+    - belongs_to_many: ContactList
+      via: listId
+    - has_many: Dialog
+    - has_many: CampaignRecipient
+      via: recipientId
+    - has_many: SequenceEnrollment
+  - name: Lead
+    description: Deal card on a Pipeline stage; kanban, stats, export/import; created from dialogs by DialogsController_createLead.
+    schemas:
+    - CreateLeadDto
+    - UpdateLeadDto
+    - MoveLeadDto
+    - LeadsBulkDto
+    - ExportLeadsDto
+    - LeadsImportPreviewDto
+    - LeadsImportStartDto
+    - PourFromLeadsDto
+    relationships:
+    - belongs_to: Pipeline
+      via: pipelineId
+    - belongs_to: Stage
+      via: stageId
+    - belongs_to: Company
+      via: companyId
+    - belongs_to: Contact
+      via: contactId
+    - has_many: Activity
+    - emits: lead.created / lead.moved / lead.won / lead.lost webhooks
+  - name: Pipeline
+    description: Sales pipeline with ordered Stages (auto-seeded defaults) and stage automations.
+    schemas:
+    - CreatePipelineDto
+    - UpdatePipelineDto
+    - CreateStageDto
+    - ReorderStagesDto
+    - UpdateStageDto
+    - AddPipelineStepDto
+    - UpdatePipelineStepDto
+    - MoveRecipientsStageFilterDto
+    - MoveRecipientsStageDto
+    - PipelineTaskEventDto
+    relationships:
+    - has_many: Stage
+    - has_many: Lead
+      via: pipelineId
+  - name: Brief
+    description: ICP / value-proposition document with memory entries and intake items; input to creatives.
+    schemas:
+    - TransitionBriefIntakeItemDto
+    - LinkBriefIntakeItemDto
+    - LogBriefIntakeWorkDto
+    - CreateBriefDto
+    - UpdateBriefMetaDto
+    - UpdateBriefContentDto
+    - UpdateBriefVariablesDto
+    - UpdateBriefIntakeAliasDto
+    relationships:
+    - has_many: Creative
+      via: briefId
+    - has_many: IntakeItem
+  - name: Creative
+    description: Email template (subject + bodyHtml with spintax and {{vars}}) with versions, autopilot sandbox
+      runs, rule banks and inbox-placement tests.
+    schemas:
+    - CreateCreativeDto
+    - AiGenerateCreativeDto
+    - UpdateCreativeDto
+    - PreviewCreativeDto
+    relationships:
+    - belongs_to: Brief
+      via: briefId
+    - has_many: CreativeVersion
+      via: versionId
+    - used_by: Campaign
+      via: creativeId
+    - used_by: Task
+      via: creativeId
+  - name: Campaign
+    description: 'Outreach run: recipients poured from lists or leads, screened, rendered (PLATFORM or BYOC), dispatched
+      to senders inside a send window, sent, tracked; lifecycle DRAFT/ACTIVE/PAUSED/DONE/ERROR/AUDIT_BLOCKED.'
+    schemas:
+    - CampaignPreparationConfigDto
+    - CampaignPacingConfigDto
+    - CampaignSenderConfigDto
+    - CampaignSendWindowDto
+    - CreateCampaignDto
+    - PourCampaignDto
+    - UpdateCampaignDto
+    - CampaignPreparationRequestDto
+    - PauseCampaignDto
+    relationships:
+    - has_many: CampaignRecipient
+      via: recipientId
+    - uses: Creative
+      via: creativeId
+    - uses: EmailAccount (sender pool)
+      via: accountId
+    - belongs_to: CampaignGroup
+      via: parentId
+    - has_many: BillingLedgerEntry
+      via: campaignId
+  - name: Task
+    description: Mailing / scoring job (methodId) with steps, items, cron, circuit breaker, analytics; approval
+      via MailingController before start.
+    schemas:
+    - CreateTaskDto
+    - UpdateTaskDto
+    - UpdateTaskMemoryDto
+    relationships:
+    - uses: Creative
+      via: creativeId
+    - uses: EmailAccount
+      via: accountId
+    - uses: ContactList
+      via: contactListId
+    - uses: CompanyList
+      via: companyListId
+    - has_many: TaskItem
+      via: itemId
+    - has_many: Branch
+      via: branchId
+    - emits: task.completed / task.failed webhooks
+  - name: EmailAccount
+    description: Sending mailbox (IMAP/SMTP, OAuth, GAS or agent transport) with DNS checks, warm-up, relay health,
+      deliverability blocks; statuses ERROR/AUTO_PAUSED/RATE_LIMITED/SUSPENDED.
+    schemas:
+    - CreateEmailAccountDto
+    - AccountTransferPlanDto
+    - AccountTransferApplyDto
+    - AccountTransferDeactivateSourcesDto
+    relationships:
+    - has_one: OAuthConnection
+      via: accountId
+    - has_many: DeliverabilityProbe
+      via: relayAccountId
+    - has_many: Dialog
+  - name: Dialog
+    description: Inbox conversation thread with messages, outbox entries, attachments, shares; source of replies
+      and leads.
+    schemas: []
+    relationships:
+    - belongs_to: Contact
+      via: contactId
+    - belongs_to: EmailAccount
+      via: accountId
+    - has_many: Message
+      via: messageId
+    - has_many: File
+      via: fileId
+    - emits: dialog.received / dialog.replied webhooks
+  - name: Suppression / StopList / MarkingPattern
+    description: 'Pre-send guardrails: suppressed emails (global, hashed), stop-listed domains/companies (user and
+      global scope), regex marking patterns on outbound bodies; plus BlockGuard events after send.'
+    schemas: []
+    relationships:
+    - checked_before: Campaign send and Task start
+    - filled_by: bounces, unsubscribes, DSAR erasure
+  - name: Webhook
+    description: Tenant webhook endpoint with events[] and secret; deliveries with retry.
+    schemas: []
+    relationships:
+    - has_many: WebhookDelivery
+  - name: ApiKey
+    description: Tenant-scoped ldm_* key with scopes; list/create/revoke.
+    schemas:
+    - PushKeysDto
+    - RpaCreateKeyDto
+    relationships:
+    - belongs_to: Tenant
+    - grants: scopes[] (see scopes/)
+  - name: BillingLedgerEntry
+    description: Balance movement (CHARGE|CREDIT|ADJUSTMENT|REFUND) with operation, cost, balance_after, campaignId/recipientId.
+    schemas: []
+    relationships:
+    - belongs_to: Campaign
+      via: campaignId
+    - belongs_to: CampaignRecipient
+      via: recipientId
+  - name: LegalDocument
+    description: Versioned legal texts (terms|aup|privacy|dpa|mode2|campaign_guarantee|security) with per-user acceptances.
+    schemas: []
+    relationships:
+    - has_many: Acceptance
+  - name: DsarRequest
+    description: Public data-subject request; erasure erases and suppresses immediately; SUPER resolves.
+    schemas: []
+    relationships:
+    - writes: Suppression
+  id_reference_fields_top:
+  - field: companyId
+    schemas_declaring: 15
+  - field: contactId
+    schemas_declaring: 15
+  - field: listId
+    schemas_declaring: 13
+  - field: workerId
+    schemas_declaring: 11
+  - field: taskId
+    schemas_declaring: 11
+  - field: operationId
+    schemas_declaring: 10
+  - field: leadId
+    schemas_declaring: 10
+  - field: leaseId
+    schemas_declaring: 9
+  - field: pipelineId
+    schemas_declaring: 8
+  - field: stageId
+    schemas_declaring: 8
+  - field: accountId
+    schemas_declaring: 7
+  - field: briefId
+    schemas_declaring: 7
+  - field: projectId
+    schemas_declaring: 6
+  - field: relayAccountId
+    schemas_declaring: 5
+  - field: groupId
+    schemas_declaring: 5
+  - field: providerMessageId
+    schemas_declaring: 4
+  - field: accountListId
+    schemas_declaring: 4
+  - field: contactListId
+    schemas_declaring: 4
+  - field: creativeId
+    schemas_declaring: 4
+  - field: importBatchId
+    schemas_declaring: 3
+  - field: companyListId
+    schemas_declaring: 3
+  - field: keepId
+    schemas_declaring: 2
+  - field: taxId
+    schemas_declaring: 2
+  - field: eventId
+    schemas_declaring: 2
+  - field: evidenceId
+    schemas_declaring: 2
+  - field: methodId
+    schemas_declaring: 2
+  - field: attachmentCreativeId
+    schemas_declaring: 2
+  - field: previewContactId
+    schemas_declaring: 2
+  - field: previewCompanyId
+    schemas_declaring: 2
+  - field: targetCompanyListId
+    schemas_declaring: 2
+  tags_by_operation_count:
+  - tag: Creatives
+    operations: 104
+  - tag: Admin
+    operations: 83
+  - tag: Settings
+    operations: 55
+  - tag: Dialogs
+    operations: 49
+  - tag: Mailing
+    operations: 41
+  - tag: Tasks
+    operations: 41
+  - tag: Campaigns
+    operations: 41
+  - tag: Email Accounts
+    operations: 40
+  - tag: Phantom Browser
+    operations: 38
+  - tag: IMAP Orchestrator
+    operations: 28
+  - tag: Leads
+    operations: 27
+  - tag: Briefs
+    operations: 27
+  - tag: Contacts
+    operations: 24
+  - tag: Companies
+    operations: 23
+  - tag: Files
+    operations: 19
+  - tag: Site Enrichment
+    operations: 19
+  - tag: Sequences
+    operations: 18
+  - tag: Pipelines
+    operations: 17
+  - tag: Tracking
+    operations: 17
+  - tag: ICP Extension
+    operations: 17
+  - tag: ICP Extension / API
+    operations: 17
+  - tag: RPA service protocol
+    operations: 16
+  - tag: Project Templates
+    operations: 16
+  - tag: Users
+    operations: 15
+  - tag: Authentication
+    operations: 13
+inbox_check:
+  entities:
+  - name: ApiKey
+    description: icp_live_* key with tier (basic/pro/enterprise), scopes, allowed_providers, daily/monthly counters
+      (GET /api/v1/me).
+    schemas:
+    - CreateApiKeyDto
+    - UpdateApiKeyDto
+    - CreateAccountKeyDto
+    relationships:
+    - has_many: Test
+    - has_many: MonitoredDomain (user-bound keys only)
+  - name: Test
+    description: 'Deliverability test addressed by opaque token: status waiting/done/expired, send_to[] seed addresses,
+      per-seed results (placement, spf/dkim/dmarc, screenshot_url), summary, verdict, recommendations; deferred
+      rechecks; 7-day retention.'
+    schemas:
+    - CreateTestDto
+    - CreateV1TestDto
+    - CreateV1AutoTestDto
+    - ScheduleDeferredRecheckDto
+    - RecheckDto
+    - CreateOAuthTestDto
+    relationships:
+    - belongs_to: ApiKey
+    - has_many: SeedResult
+      via: provider
+    - has_many: Recheck
+    - has_one: Report (JSON or PDF)
+  - name: Provider
+    description: Mailbox provider (gmail, outlook, yahoo, icloud, aol, gmx, web.de, t-online, mail.ru, yandex) with
+      seed pool and delivery blocks; keys carry an allowlist.
+    schemas:
+    - CreateProviderDto
+    - PatchProviderDto
+    - AddDeliveryBlockDto
+    relationships:
+    - has_many: Seed
+    - has_many: DeliveryBlock
+      via: blockId
+  - name: MonitoredDomain
+    description: Domain under recurring SPF/DMARC/MX/blocklist/TLS checks; pause/resume/run; history of Checks;
+      100 per account.
+    schemas:
+    - AddDomainDto
+    - UpdateDomainDto
+    - UpdateSettingsDto
+    relationships:
+    - belongs_to: ApiKey owner
+    - has_many: Check
+    - notified_via: email / webhookUrl / Telegram (MonitoringSettings)
+  - name: SenderLink
+    description: 'Permanent public sender page: seed addresses, latest runs, report state; revoke/reactivate; List-Unsubscribe
+      target.'
+    schemas:
+    - SetReportsDto
+    relationships:
+    - has_many: Run
+  - name: DomainWatch / Subscription
+    description: Consent-gated per-domain email reports (double opt-in, RFC 8058 one-click unsubscribe).
+    schemas:
+    - WatchRequestDto
+    - WatchTokenDto
+    - WatchEmailDto
+    - WatchStopDto
+    - SubscribeDto
+    relationships:
+    - belongs_to: MonitoredDomain
+  id_reference_fields: []
+render: null

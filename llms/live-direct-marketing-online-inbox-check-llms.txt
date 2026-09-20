@@ -1,0 +1,85 @@
+# Inbox Placement Test
+
+> A free email-deliverability tool that reports where your email actually
+> lands — Inbox, Spam, Promotions, or Not received — across 10 major
+> mailbox providers: Gmail, Outlook (Microsoft 365 / Hotmail / Live), Yahoo Mail, iCloud Mail, AOL Mail, GMX, Web.de, T-Online, Mail.ru and Yandex. The user
+> picks which providers to include (default: all 10); each selected
+> provider contributes exactly one seed mailbox to the test. Results stream
+> live via SSE and include full SPF/DKIM/DMARC diagnostics, Rspamd and
+> SpamAssassin verdicts with rule breakdown, DNS-health checks (MX,
+> PTR/FCrDNS, DNSBL), and a link checker for URLs found inside the message.
+> No signup required. Ships with a REST API, an MCP server (for Claude /
+> Cursor / other LLM clients), and an A2A-compatible Agent Card so AI
+> agents can run inbox-placement tests programmatically.
+
+Operator: Live Direct Marketing. Base URL: https://check.live-direct-marketing.online
+
+## How the test works
+
+- User submits their sender email address on the homepage.
+- User picks which mailbox providers to test (Gmail, Outlook (Microsoft 365 / Hotmail / Live), Yahoo Mail, iCloud Mail, AOL Mail, GMX, Web.de, T-Online, Mail.ru and Yandex). One seed mailbox is generated per selected provider with a unique plus-addressing token (local+token@provider).
+- User sends their test email to those seeds from their normal mailing system (ESP / SMTP).
+- As each seed receives the message, the folder placement (Inbox / Spam / Promotions / Not received), auth results (SPF / DKIM / DMARC), spam-engine scores and per-URL link verdicts stream live to the results page via SSE.
+- Tests complete within ~15 minutes; unreceived seeds are reported as Not received.
+- Test records (placement + auth verdicts) are retained for 7 days, then auto-deleted. Subjects, senders and message bodies are never stored.
+- Free-tier limit: 3 tests per email per day, 10 per IP per day.
+
+## Interpreting single-provider tests
+
+A green result from a single provider (e.g. Gmail only) does NOT mean overall deliverability is fine. Reputation is tracked independently by each ESP (Gmail / Microsoft / Yahoo / Mail.ru / Yandex / iCloud are separate systems). Gmail is the most lenient of the major providers — passing Gmail is the minimum bar, not a full deliverability signal. A partial test (fewer than 4 providers) is indicative only for the providers tested.
+
+## Docs
+
+- [REST API docs](https://check.live-direct-marketing.online/docs): Bearer-authenticated HTTP endpoints for creating tests, listing results, and polling per-test placement. Tier-based quotas. Used by AI agents and custom integrations.
+- [MCP server](https://check.live-direct-marketing.online/docs/mcp): Model Context Protocol server that exposes inbox-check as tools to Claude Desktop, Cursor, and other MCP clients. Install via `npx ldm-inbox-check-mcp`.
+- [A2A agent card](https://check.live-direct-marketing.online/docs/a2a): A2A-protocol Agent Card served at `/.well-known/agent.json` for peer-agent discovery and capability negotiation.
+
+## Blog
+
+- [Blog index](https://check.live-direct-marketing.online/blog): 1060 articles (537 in English; 73 Русский, 50 Español, 50 Português, 50 Deutsch, 50 Français, 50 Polski, 50 Italiano, 50 Nederlands, 50 Türkçe, 50 Bahasa Indonesia) on inbox placement, SPF/DKIM/DMARC authentication, ESP comparisons, and the deliverability slice of B2B / SaaS / e-commerce / fintech.
+- [Русский blog index](https://check.live-direct-marketing.online/blog/lang/ru): 73 articles in Русский.
+- [Español blog index](https://check.live-direct-marketing.online/blog/lang/es): 50 articles in Español.
+- [Português blog index](https://check.live-direct-marketing.online/blog/lang/pt-br): 50 articles in Português.
+- [Deutsch blog index](https://check.live-direct-marketing.online/blog/lang/de): 50 articles in Deutsch.
+- [Français blog index](https://check.live-direct-marketing.online/blog/lang/fr): 50 articles in Français.
+- [Polski blog index](https://check.live-direct-marketing.online/blog/lang/pl): 50 articles in Polski.
+- [Italiano blog index](https://check.live-direct-marketing.online/blog/lang/it): 50 articles in Italiano.
+- [Nederlands blog index](https://check.live-direct-marketing.online/blog/lang/nl): 50 articles in Nederlands.
+- [Türkçe blog index](https://check.live-direct-marketing.online/blog/lang/tr): 50 articles in Türkçe.
+- [Bahasa Indonesia blog index](https://check.live-direct-marketing.online/blog/lang/id): 50 articles in Bahasa Indonesia.
+- [Full post index for LLMs](https://check.live-direct-marketing.online/llms-full.txt): every blog post (1060), dated, newest first, in a single text file. Preferred entry point for crawlers that want broad coverage in one fetch.
+- [Glossary](https://check.live-direct-marketing.online/glossary): plain-English definitions of every email deliverability term used across the docs and blog — SPF, DKIM, DMARC, BIMI, ARC, MTA-STS, FBL, seed mailboxes, inbox placement, and more.
+- [Best Free Email Deliverability Tools in 2026: Honest Comparison](https://check.live-direct-marketing.online/blog/best-free-email-deliverability-tools-2026): comparison of free tools that report where email lands.
+
+## Research / Reports
+
+Daily-updated open research on email infrastructure. Free to cite — please link back to the source URL. Methodology: OpenINTEL DNS measurements over the Tranco top-1M list, classified with open dictionaries for mailbox providers, ESPs (mass-mailing services), and SaaS senders.
+
+- [Email infrastructure of the Tranco top-1M (latest)](https://check.live-direct-marketing.online/email-stats/): main report. Daily snapshot of which mailbox providers and email service providers (ESPs) the world's top 1 million websites use, plus DMARC adoption and enforcement. Includes top mailbox providers, top ESPs, top SaaS senders, DMARC policy distribution, long-tail / unknown MX breakdown, and 100 most-used DMARC records (verbatim).
+- [Machine-readable summary (JSON)](https://check.live-direct-marketing.online/email-stats/summary.json): current snapshot as structured data. Fields: `scan_date`, `total_domains_scanned`, `domains_with_mx`, `domains_with_spf`, `domains_with_dmarc`, `top_mailbox_providers[]`, `top_esps[]`, `top_saas[]`, `dmarc.by_policy`, `dmarc.enforced_pct`, `long_tail` (TLD breakdown, self-hosted share, unique unmatched MX). Preferred entry for AI agents and data pipelines.
+- [Historical time series (JSON)](https://check.live-direct-marketing.online/email-stats/history.json): per-day values of headline KPIs and provider/ESP shares — for trend analysis.
+- [Archive index (JSON)](https://check.live-direct-marketing.online/email-stats/archive.json): list of all archived snapshots. Each entry links to a full HTML report at `/email-stats/archive/YYYY-MM-DD.html`.
+- [Long-tail / unknown MX dataset](https://check.live-direct-marketing.online/email-stats/long-tail.html) ([CSV top-1000](https://check.live-direct-marketing.online/email-stats/long_tail_top1000.csv), [CSV curiosities](https://check.live-direct-marketing.online/email-stats/long_tail_curiosities.csv)): breakdown of domains that don't match any known mailbox provider — self-hosted, regional providers, generic MX targets.
+- [Press kit](https://check.live-direct-marketing.online/email-stats/press-kit.html): citation-ready charts and headline figures for journalists and researchers.
+- [AI summary](https://check.live-direct-marketing.online/email-stats/ai-summary.md): the report's own Markdown summary, written for LLM ingestion.
+- [llms.txt (email-stats)](https://check.live-direct-marketing.online/email-stats/llms.txt): the research report's own machine-readable index — separate from this file, which describes the inbox-check tool.
+- [Blog: data deep-dives](https://check.live-direct-marketing.online/email-stats/blog/): posts analysing specific findings from the daily scan.
+- [Detail pages](https://check.live-direct-marketing.online/email-stats/detail/): per-provider and per-ESP domain breakdowns.
+
+Headline numbers (latest snapshot, 2026-09-18): 1,068,028 domains with MX, 637,944 publish SPF, 476,766 publish DMARC; 46.81% of DMARC publishers enforce (reject/quarantine); Self-Hosted 22.49% / Google Workspace 21.62% / Microsoft 365 17.01% / Unknown / Other 6.67%; top ESPs are Amazon SES, SendGrid (Twilio), Mailgun, Zendesk, Mailchimp. Refer to summary.json for the live values.
+
+## Account
+
+- [Sign up](https://check.live-direct-marketing.online/register): Create an account to self-issue API keys for programmatic use.
+- [Sign in](https://check.live-direct-marketing.online/login): Access the dashboard and manage API keys.
+- [Account dashboard](https://check.live-direct-marketing.online/account): Issue/revoke API keys (up to 3 active per user).
+
+## Legal
+
+- [Privacy policy](https://check.live-direct-marketing.online/privacy): What is and is not collected. Key points: emails and IPs used only for rate-limiting + test correlation; no message content stored; 7-day retention; analytics (Yandex Metrica (Webvisor), including first-party click events) loads only after explicit Accept; Decline leaves analytics off.
+- [Terms of service](https://check.live-direct-marketing.online/terms): Acceptable use, fair-use limits, rate-limit policy.
+
+## Optional
+
+- [Live Direct Marketing](https://live-direct-marketing.online): Parent product — a full CRM and outbound-email platform with managed warm-up, rotation, SPF/DKIM/DMARC, and reply handling. Targets 85%+ inbox rate out of the box.
+- [Developer portal](https://developers.live-direct-marketing.online): Higher-tier developer docs for the LDM Platform (not required for inbox-check usage).

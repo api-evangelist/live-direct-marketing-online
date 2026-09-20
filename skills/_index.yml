@@ -1,0 +1,295 @@
+generated: '2026-09-19'
+method: searched
+source: https://developers.live-direct-marketing.online/sdr-skills.md (machine-readable mirror of /sdr-skills),
+  saved verbatim as skills/live-direct-marketing-online-sdr-skills.md; plus two skills generated here from verified
+  operationIds in the harvested contracts.
+summary: 'Live Direct Marketing PUBLISHES its own agent skills: a pack of 39 Claude SKILL.md blocks in eight categories
+  (Building — prospect & data, Writing — copy that lands, Analysing — insight before action, Campaigning — launch
+  safely, Inbox placement — land in the inbox, not in spam, Inbox & handoff — close the loop, Guiding — steer the
+  SDR day by day, Moderating — keep the CRM clean), each a complete frontmatter + instructions block that references
+  LDM MCP tools. 34 of the 47 distinct ldm_* tool references in the pack resolve to an operationId in the harvested
+  LDM v3 OpenAPI under the provider''s ldm_<operationId> rule; the remaining 13 are short-form aliases (ldm_companies_list,
+  ldm_creatives_create, ldm_dialogs_list, ...) whose backing operations were not confirmed without an authenticated
+  tools/list.'
+install: Copy a block into ~/.claude/skills/<name>/SKILL.md, connect ldm-mcp (npx -y --package=@live-direct-marketing/sdk@latest
+  ldm-mcp) with an ldm_* key.
+provider_published:
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-icp-definer
+  method: searched
+  description: Turns a product brief into a structured Ideal Customer Profile ready for list building.
+  anchor: ldm-icp-definer
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-list-builder
+  method: searched
+  description: Builds segmented company & contact lists in LDM from ICP criteria.
+  anchor: ldm-list-builder
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-bulk-import
+  method: searched
+  description: Bulk-import companies + contacts + custom fields from CSV/Sheets via MCP.
+  anchor: ldm-bulk-import
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-company-enricher
+  method: searched
+  description: Enriches accounts with registry data, firmographics and finance fields.
+  anchor: ldm-company-enricher
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-email-verifier
+  method: searched
+  description: Verifies contact emails in bulk before any outreach touches them.
+  anchor: ldm-email-verifier
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-icp-review-dispatcher
+  method: searched
+  description: Feeds the LDM Chrome side-panel extension with review queues and harvests what the human captures.
+  anchor: ldm-icp-review-dispatcher
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-first-touch-writer
+  method: searched
+  description: Writes the first cold email as spintax with LDM personalization variables.
+  anchor: ldm-first-touch-writer
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-follow-up-writer
+  method: searched
+  description: Builds a 2-4 step follow-up sequence that adds value each touch.
+  anchor: ldm-follow-up-writer
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-value-prop-lister
+  method: searched
+  description: Extracts and ranks value propositions from a website or brief for copy reuse.
+  anchor: ldm-value-prop-lister
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-reply-handler
+  method: searched
+  description: Classifies replies and drafts the right answer for each intent.
+  anchor: ldm-reply-handler
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-segment-sequencer
+  method: searched
+  description: 'Writes seniority-tiered copy: one offer, three different angles per buyer level.'
+  anchor: ldm-segment-sequencer
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-ab-variant-designer
+  method: searched
+  description: Designs disciplined A/B tests on sequence steps and reads the verdicts.
+  anchor: ldm-ab-variant-designer
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-campaign-analyst
+  method: searched
+  description: Reads campaign metrics and turns them into concrete next actions.
+  anchor: ldm-campaign-analyst
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-deep-company-analyser
+  method: searched
+  description: Builds a research dossier on one target account before a high-value touch.
+  anchor: ldm-deep-company-analyser
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-persona-insights
+  method: searched
+  description: Mines reply data to learn which messaging works per buyer role.
+  anchor: ldm-persona-insights
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-trigger-finder
+  method: searched
+  description: Finds buying triggers in CRM signals to time the outreach.
+  anchor: ldm-trigger-finder
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-pain-identifier
+  method: searched
+  description: Extracts real pains per segment from actual reply text.
+  anchor: ldm-pain-identifier
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-campaign-architect
+  method: searched
+  description: 'Assembles and launches a full LDM campaign: list → creative → pour → prepare → screen → send.'
+  anchor: ldm-campaign-architect
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-qc-gatekeeper
+  method: searched
+  description: Runs creative quality control and a test send; blocks weak copy.
+  anchor: ldm-qc-gatekeeper
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-deliverability-guard
+  method: searched
+  description: Audits limits, warmup and anti-spam rules before a send window.
+  anchor: ldm-deliverability-guard
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-inbox-placement-tester
+  method: searched
+  description: Runs a seed-inbox placement test for a creative before the real send.
+  anchor: ldm-inbox-placement-tester
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-placement-matrix-analyst
+  method: searched
+  description: Reads the account×provider deliverability matrix and prescribes routing.
+  anchor: ldm-placement-matrix-analyst
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-content-spam-auditor
+  method: searched
+  description: Finds what in the copy triggers filters and tunes it until it passes.
+  anchor: ldm-content-spam-auditor
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-warmup-planner
+  method: searched
+  description: Plans and supervises account warmup so volume never outruns reputation.
+  anchor: ldm-warmup-planner
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-bounce-investigator
+  method: searched
+  description: Clusters bounces by cause and provider and fixes the source, not the symptom.
+  anchor: ldm-bounce-investigator
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-block-guard-operator
+  method: searched
+  description: Detects provider-level blocks and runs the recovery play.
+  anchor: ldm-block-guard-operator
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-sender-health-monitor
+  method: searched
+  description: 'Per-account reputation snapshot: probe, score, suspend the weak.'
+  anchor: ldm-sender-health-monitor
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-tracking-domain-auditor
+  method: searched
+  description: Keeps click-tracking domains clean — a burned tracker kills placement silently.
+  anchor: ldm-tracking-domain-auditor
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-dns-auth-checker
+  method: searched
+  description: Verifies SPF / DKIM / DMARC alignment for every sending domain.
+  anchor: ldm-dns-auth-checker
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-inbox-triage
+  method: searched
+  description: 'Sweeps the unified inbox: classify, act on negatives, escalate interest.'
+  anchor: ldm-inbox-triage
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-lead-qualifier
+  method: searched
+  description: Promotes interested replies to qualified leads and hands off to a human.
+  anchor: ldm-lead-qualifier
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-first-week-runbook
+  method: searched
+  description: Turns a fresh workspace into a running outbound machine in 5 working days.
+  anchor: ldm-first-week-runbook
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-sdr-day-planner
+  method: searched
+  description: Plans the SDR's working day from live CRM state every morning.
+  anchor: ldm-sdr-day-planner
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-sdr-coach
+  method: searched
+  description: 'Weekly retro: metrics vs targets, one thing to improve next week.'
+  anchor: ldm-sdr-coach
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-objection-coach
+  method: searched
+  description: Builds an objection-handling library from real reply threads.
+  anchor: ldm-objection-coach
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-best-send-time-picker
+  method: searched
+  description: Schedules sends into each segment's highest-attention window.
+  anchor: ldm-best-send-time-picker
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-meeting-briefer
+  method: searched
+  description: Preps the human for the first call with a qualified lead in one page.
+  anchor: ldm-meeting-briefer
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-crm-duplicate-detector
+  method: searched
+  description: Finds and safely merges duplicate companies and contacts.
+  anchor: ldm-crm-duplicate-detector
+- file: live-direct-marketing-online-sdr-skills.md
+  name: ldm-data-hygiene-auditor
+  method: searched
+  description: 'Audits list quality: stale contacts, missing fields, stop-list violations.'
+  anchor: ldm-data-hygiene-auditor
+provider_published_count: 39
+categories:
+- name: Building — prospect & data
+  count: 5
+- name: Writing — copy that lands
+  count: 6
+- name: Analysing — insight before action
+  count: 5
+- name: Campaigning — launch safely
+  count: 3
+- name: Inbox placement — land in the inbox, not in spam
+  count: 9
+- name: Inbox & handoff — close the loop
+  count: 2
+- name: Guiding — steer the SDR day by day
+  count: 6
+- name: Moderating — keep the CRM clean
+  count: 2
+tool_reference_audit:
+  distinct_tool_references: 47
+  resolving_to_operationId: 34
+  short_aliases_unresolved:
+  - ldm_CompaniesController_lookupInn
+  - ldm_activities_create
+  - ldm_best_send_time_calc
+  - ldm_briefs_list
+  - ldm_companies_create
+  - ldm_companies_list
+  - ldm_creatives_create
+  - ldm_dialogs_list
+  - ldm_icp_tasks_create
+  - ldm_stoplist_check
+  - ldm_suppression_add
+  - ldm_suppression_check
+  - ldm_utils_tz_lookup
+skills:
+- file: live-direct-marketing-online-inbox-placement-test.md
+  name: live-direct-marketing-online-inbox-placement-test
+  method: generated
+  api: openapi/live-direct-marketing-online-inbox-check-openapi.json
+  description: 'Run an inbox-placement test against the Inbox Check API: check quota, create the test, send to the
+    seed addresses, poll results, re-poll or schedule a recheck, and read the PDF report.'
+  operations:
+  - V1MeController_me
+  - V1ProvidersController_list
+  - V1TestsController_create
+  - V1TestsController_createAuto
+  - V1TestsController_get
+  - V1TestsController_repoll
+  - V1TestsController_scheduleDeferredRecheck
+  - V1TestsController_deferredRecheckStatus
+  - V1TestsController_list
+  - V1TestsController_remove
+- file: live-direct-marketing-online-domain-monitoring.md
+  name: live-direct-marketing-online-domain-monitoring
+  method: generated
+  api: openapi/live-direct-marketing-online-inbox-check-openapi.json
+  description: Put a sending domain under continuous SPF/DMARC/MX/blocklist/TLS monitoring with the Inbox Check
+    API, read its history, pause/resume, and configure alert delivery.
+  operations:
+  - V1MonitoringController_list
+  - V1MonitoringController_add
+  - V1MonitoringController_run
+  - V1MonitoringController_latest
+  - V1MonitoringController_listChecks
+  - V1MonitoringController_pause
+  - V1MonitoringController_resume
+  - V1MonitoringController_getSettings
+  - V1MonitoringController_updateSettings
+  - V1MonitoringController_remove
+- file: live-direct-marketing-online-agent-bootstrap.md
+  name: live-direct-marketing-online-agent-bootstrap
+  method: generated
+  api: openapi/live-direct-marketing-online-ldm-v3-openapi.json
+  description: Bootstrap an LDM workspace as an agent — read the terms, register with channel=mcp, use the PENDING-account
+    key for reads, check balance and pricing, and understand what waits for activation.
+  operations:
+  - LegalController_getTerms
+  - AuthController_register
+  - AuthController_getMe
+  - BillingController_getBalance
+  - PublicPricingController_pricing
+  - AgentGuideController_guide
+  - CampaignsController_sendReadiness

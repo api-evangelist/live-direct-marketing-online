@@ -64,5 +64,10 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Live Direct Marketing is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://live-direct-marketing.online/
+Live Direct Marketing (LDM) is a B2B outreach and CRM platform built to be operated by AI agents: one Bearer-authenticated HTTPS surface serves the web UI, MCP clients and A2A peers. This profile holds the LDM v3 OpenAPI (1,304 operations, 119 tags) harvested from `api.live-direct-marketing.online/api/docs-json`, the Inbox Check OpenAPI (196 operations) from `check.live-direct-marketing.online/api/openapi.json`, the A2A agent cards served on five hosts, the live anonymous MCP `tools/list`, three `llms.txt` files, the provider's own pack of 38 published Claude skills, and the derived conventions, error, lifecycle, security, plans and rate-limit artifacts. Everything was fetched from public URLs on 2026-09-19; see `apis.yml` for the pointers.
+
+- Website: https://live-direct-marketing.online/
+- Developer portal: https://developers.live-direct-marketing.online/
+- Inbox Check: https://check.live-direct-marketing.online/
+- MCP endpoint: https://api.live-direct-marketing.online/mcp
+- Agent card: https://api.live-direct-marketing.online/.well-known/agent.json

@@ -1,0 +1,51 @@
+{
+  "protocolVersion": "0.3.0",
+  "version": "0.1.0",
+  "name": "LDM.delivery",
+  "description": "Email delivery API for AI agents. Pay only for delivered inbox messages.",
+  "url": "https://api.live-direct-marketing.online/a2a",
+  "provider": {
+    "organization": "Live Direct Marketing",
+    "url": "https://live-direct-marketing.online"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [],
+  "skills_endpoint": "https://api.live-direct-marketing.online/.well-known/agent.json",
+  "skills_note": "This is a static pointer card served on the brand/app domain (issue #476, ldm/ldm3). It intentionally does not enumerate skills — a static file would go stale as the API grows. Fetch skills_endpoint for the live, curated skill list, or append ?full=1 there for the complete catalog.",
+  "mcp_endpoint": "https://api.live-direct-marketing.online/mcp",
+  "securitySchemes": {
+    "bearer": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "ldm_*",
+      "description": "LDM API key (tenant-scoped). Manage in CRM Settings → API Keys."
+    }
+  },
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
+  "signup": {
+    "endpoint": "CRM Settings → API Keys",
+    "body": {
+      "note": "Self-serve: POST /api/auth/register returns a key immediately (channel=mcp|a2a|form). Without a key at all: open an anonymous MCP session at mcp_endpoint and call ldm_terms, then ldm_register."
+    }
+  },
+  "contact": {
+    "billing": "welcome@live-direct-marketing.online",
+    "support": "welcome@live-direct-marketing.online"
+  }
+}

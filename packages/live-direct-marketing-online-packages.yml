@@ -1,0 +1,72 @@
+generated: '2026-09-19'
+method: searched
+source: https://registry.npmjs.org/ (metadata endpoints read 2026-09-19) + https://github.com/live-direct-marketing
+docs: https://developers.live-direct-marketing.online/
+note: >-
+  Three npm packages published by the same npm account (ldm.online) from the live-direct-marketing
+  GitHub organization. Every version/published pair below was read from registry.npmjs.org on
+  2026-09-19. No packages were found on PyPI (live-direct-marketing, ldm-sdk, ldm-mcp,
+  live_direct_marketing all 404), and no Maven, NuGet, Go, RubyGems, Packagist or crates.io
+  package is referenced anywhere in the provider's docs. The provider's own guidance for the Inbox
+  Check API is "Use the native HTTP client in your language; no separate Inbox Check SDK".
+packages:
+  - language: typescript
+    name: '@live-direct-marketing/sdk'
+    registry: npm
+    official: true
+    url: https://www.npmjs.com/package/@live-direct-marketing/sdk
+    install: npm install @live-direct-marketing/sdk
+    repository: https://github.com/live-direct-marketing/ldm-sdk-js
+    homepage: https://developers.live-direct-marketing.online
+    license: MIT
+    version: 0.6.3
+    published: '2026-09-09'
+    first_published: '2026-04-17'
+    release_count: 8
+    binaries: [ldm-mcp, ldm-mcp-http]
+    description: Official TypeScript SDK for LDM.delivery — email delivery API for AI agents. Zero runtime dependencies, native fetch, Node >= 18.
+    note: >-
+      The MCP server is the primary surface of this package per its README ("Most usage is through the
+      bundled MCP server, not the JS client"). Released eleven days before this profile, so the SDK is
+      current with the API it wraps.
+  - language: javascript
+    name: ldm-inbox-check-mcp
+    registry: npm
+    official: true
+    url: https://www.npmjs.com/package/ldm-inbox-check-mcp
+    install: npx -y ldm-inbox-check-mcp
+    repository: https://github.com/live-direct-marketing/ldm-inbox-check-mcp
+    homepage: https://check.live-direct-marketing.online/docs/mcp
+    license: MIT
+    version: 1.0.0
+    published: '2026-05-26'
+    first_published: '2026-04-19'
+    release_count: 5
+    binaries: [ldm-inbox-check-mcp]
+    description: MCP server for Inbox Check — five tools wrapping the /api/v1 test endpoints.
+    note: >-
+      Superseded in practice by the remote MCP endpoint; the provider docs call this package's catalog
+      older and its argument schemas incomplete. Last release 116 days before this profile.
+  - language: typescript
+    name: ldm-sdk
+    registry: npm
+    official: true
+    url: https://www.npmjs.com/package/ldm-sdk
+    install: npm install ldm-sdk
+    repository: https://github.com/live-direct-marketing/ldm-sdk-node
+    homepage: https://developers.live-direct-marketing.online/
+    license: null
+    version: 0.1.0
+    published: '2026-05-08'
+    first_published: '2026-05-08'
+    release_count: 1
+    description: Official Node/TypeScript SDK for LDM (Live Direct Marketing) — agent-grade CRM + cold-email + inbox-placement API.
+    note: >-
+      Single release from the same npm maintainer, self-described as official, exposing an LdmClient
+      with companies/leads/verify namespaces and an ldm_pk_ key prefix the current docs no longer use.
+      The declared repository ldm-sdk-node does not appear in the GitHub organization's public repo
+      list; treat as an abandoned predecessor of @live-direct-marketing/sdk.
+github_organization:
+  url: https://github.com/live-direct-marketing
+  public_repositories: [ldm-sdk-js, ldm-inbox-check-mcp, awesome-email-deliverability, awesome-mcp-servers (forks)]
+  note: No OpenAPI, protobuf, WSDL, AsyncAPI or AGENTS.md file is published in either first-party repository (main branch probed 2026-09-19).

@@ -1,0 +1,44 @@
+{
+  "protocolVersion": "0.2.5",
+  "version": "0.1.0",
+  "name": "LDM.delivery",
+  "description": "Email delivery API for AI agents. Pay only for delivered inbox messages.",
+  "url": "https://api.live-direct-marketing.online/a2a",
+  "provider": {
+    "organization": "Live Direct Marketing",
+    "url": "https://live-direct-marketing.online"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "skills": [],
+  "skills_endpoint": "https://api.live-direct-marketing.online/.well-known/agent.json",
+  "skills_note": "This is a static pointer card served on the developer-portal domain (issue #488, ldm/ldm3) — same convention as apps/web/public/.well-known/agent.json (issue #476). It intentionally does not enumerate skills — a static file would go stale as the API grows. Fetch skills_endpoint for the live, curated skill list, or append ?full=1 there for the complete catalog.",
+  "mcp_endpoint": "https://api.live-direct-marketing.online/mcp",
+  "securitySchemes": {
+    "bearer": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "ldm_*",
+      "description": "LDM API key (tenant-scoped). Manage in CRM Settings → API Keys."
+    }
+  },
+  "security": [{ "bearer": [] }],
+  "signup": {
+    "endpoint": "POST https://api.live-direct-marketing.online/api/auth/register",
+    "body": {
+      "email": "string, required",
+      "termsAccepted": "boolean, required — must be true",
+      "channel": "web | mcp | a2a | form, optional (default web)",
+      "note": "Agent channels (mcp/a2a/form) get an ldm_* api_key in the same response — no human approval needed to start. MCP clients: call ldm_terms then ldm_register instead of raw HTTP."
+    }
+  },
+  "contact": {
+    "billing": "welcome@live-direct-marketing.online",
+    "support": "welcome@live-direct-marketing.online"
+  }
+}

@@ -1,0 +1,309 @@
+generated: '2026-09-19'
+method: probed
+source: https://api.live-direct-marketing.online/.well-known/agent.json
+card:
+  file: a2a/live-direct-marketing-online-agent-card.json
+discovery:
+  path: /.well-known/agent.json
+  canonical: false
+  host: api.live-direct-marketing.online
+  note: 'The A2A-shaped card is served at the legacy /.well-known/agent.json path BY DESIGN: the provider''s own
+    developer docs call agent.json ''the A2A-compliant variant'' and agent-card.json ''the LDM-proprietary shape''.
+    The canonical path /.well-known/agent-card.json on the same host answers 200 but carries the proprietary card
+    (schema_version 1.0.0, capabilities as an ARRAY of 237 REST-bound entries with inputSchema) which fails the
+    A2A hard checks; it is saved alongside as a2a/live-direct-marketing-online-agent-card-proprietary.json. Both
+    cards are generated dynamically from the running API (the OpenAPI declares them as operations AgentCardController_*
+    under /api/v1/.well-known/), so the numbers below will drift.'
+  previously: First profile — the harvest stub (source a2aregistry.org, 2026-09-19) pointed only at the Inbox Check
+    card on check.live-direct-marketing.online; this pass found the LDM.delivery card on the api host, pointer cards
+    on the apex, app and developer-portal hosts, and the Inbox Check card, and graded the LDM.delivery card as primary
+    because it is the only one with an A2A JSON-RPC transport.
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://api.live-direct-marketing.online/.well-known/agent.json
+  http_status: 200
+  content_type: application/json; charset=utf-8
+  body_bytes: 101372
+  body_parses_as: JSON object with AgentCard shape (name, url, version, protocolVersion, capabilities, skills all
+    present)
+  corroborating_probes:
+  - url: https://api.live-direct-marketing.online/.well-known/agent-card.json
+    http_status: 200
+    note: Provider-proprietary card, 183,876 bytes, capabilities ARRAY (237 of 1,270).
+  - url: https://api.live-direct-marketing.online/.well-known/agent.json?full=1
+    http_status: 200
+    note: Complete catalog, 498,655 bytes.
+  - url: https://api.live-direct-marketing.online/api/v1/.well-known/agent.json
+    http_status: 200
+    note: Same document at the path the OpenAPI declares (operationId AgentCardController_getA2ACard family).
+  - url: https://live-direct-marketing.online/.well-known/agent.json
+    http_status: 200
+    note: Static pointer card, protocolVersion 0.3.0, skills [] with skills_endpoint delegating to the api host.
+  - url: https://live-direct-marketing.online/.well-known/agent-card.json
+    http_status: 200
+    note: Static proprietary pointer card, capabilities [].
+  - url: https://app.live-direct-marketing.online/.well-known/agent.json
+    http_status: 200
+    note: Byte-identical to the apex pointer card.
+  - url: https://developers.live-direct-marketing.online/.well-known/agent.json
+    http_status: 200
+    note: Pointer card declaring protocolVersion 0.2.5 (the live card says 0.3.0) — the developer portal copy is
+      behind.
+  - url: https://developers.live-direct-marketing.online/.well-known/agent-card.json
+    http_status: 404
+  - url: https://check.live-direct-marketing.online/.well-known/agent.json
+    http_status: 200
+    note: Inbox Check card; graded separately below.
+  - url: https://check.live-direct-marketing.online/.well-known/agent-card.json
+    http_status: 404
+  - url: https://api.live-direct-marketing.online/a2a
+    http_status: 404
+    note: GET on the URL the card declares returns 404 Problem Details (instance /api/a2a) — the interface is POST-only.
+  - url: https://api.live-direct-marketing.online/api/a2a
+    http_status: 401
+    note: 'POST with a JSON-RPC body returned 401 application/problem+json {"type":".../errors/unauthorized","title":"Unauthorized"}
+      — the dispatcher exists and requires a Bearer ldm_* key. The OpenAPI declares it as A2AController_dispatch:
+      "A2A JSON-RPC 2.0 dispatch (single or batch, supports SSE for streaming methods)".'
+  - url: https://api.live-direct-marketing.online/a2a
+    http_status: 401
+    note: POST to the card URL is also answered 401 (instance /api/a2a) — so the card URL does route to the dispatcher
+      for POST.
+agent_card:
+  name: LDM.delivery
+  description: Email delivery API for AI agents. Pay only for delivered inbox messages.
+  version: 0.1.0
+  protocol_version: 0.3.0
+  url: https://api.live-direct-marketing.online/a2a
+  provider:
+    organization: Live Direct Marketing
+    url: https://live-direct-marketing.online
+  capabilities:
+    streaming: true
+    pushNotifications: true
+    stateTransitionHistory: false
+  default_input_modes:
+  - text/plain
+  - application/json
+  default_output_modes:
+  - text/plain
+  - application/json
+  security_schemes:
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: ldm_*
+      description: 'LDM API key (tenant-scoped). Self-serve: POST /api/auth/register (MCP: ldm_terms → ldm_register).
+        Already have an account? Manage keys in CRM Settings → API Keys.'
+  security:
+  - bearer: []
+  skill_count: 237
+  skills_total_declared: 1270
+  skills_note: Showing 237 curated capabilities of 1270 total. Add ?full=1 to this URL for the complete catalog.
+  skill_tags:
+  - accounts
+  - activities
+  - admin
+  - agent
+  - ai
+  - best-send-time
+  - billing
+  - briefs
+  - campaigns
+  - companies
+  - company-lists
+  - connectors
+  - contact-lists
+  - contacts
+  - creatives
+  - crm
+  - customfields
+  - dialogs
+  - email
+  - email-verification
+  - exports
+  - files
+  - icp
+  - imap
+  - import
+  - inbound-rules
+  - integrations
+  - keys
+  - leads
+  - legal
+  - linkedin
+  - linker
+  - mailing
+  - marking
+  - me
+  - messages
+  - names
+  - notifications
+  - pipelines
+  - provider-configs
+  - reports
+  - resume
+  - rules
+  - settings
+  - share
+  - site-enrichment
+  - stoplist
+  - suppression
+  - tags
+  - tasks
+  - user-settings
+  - users
+  - utils
+  - views
+  - webhooks
+  skill_ids_sample:
+  - notifications.list
+  - notifications.self-note
+  - keys.list
+  - keys.create
+  - me
+  - keys.revoke
+  - webhooks.list
+  - webhooks.create
+  - webhooks.deliveries
+  - webhooks.retry
+  - users.list
+  - users.create
+  - companies.list
+  - companies.create
+  - companies.delete
+  - companies.restore
+  - companies.import_rollback
+  - suppression.list
+  - suppression.add
+  - suppression.check
+  - suppression.remove
+  - stoplist.list
+  - stoplist.add
+  - stoplist.remove
+  - stoplist.check
+  - reports.list
+  - reports.create
+  - reports.from_export
+  - reports.publish
+  - reports.unpublish
+  - reports.download
+  - agent.status
+  - agent.settings.get
+  - agent.settings.toggle
+  - agent.token.regenerate
+  - agent.disconnect
+  - ai.generate
+  - ai.providers
+  - email-verification.verify-batch
+  - customfields.list
+  scopes_declared: 79
+  signup:
+    endpoint: POST /api/auth/register
+    body:
+      email: string, required
+      termsAccepted: 'boolean, required — must be true (agreement text: GET /api/legal/terms)'
+      channel: web | mcp | a2a | form, optional — mcp/a2a/form skip the password requirement
+      org: string, optional
+      use_case: string, optional
+      firstName: string, optional
+    note: Creates a PENDING account + tenant, emails a confirmation link (valid 48h), and — for channel=mcp/a2a/form
+      — returns an ldm_* key immediately with read + safe-draft scopes (no email:send until the owner expands scopes
+      post-activation). Rate-limited per IP. Already have an account? CRM Settings → API Keys mints a wider key
+      directly.
+  contact:
+    billing: welcome@live-direct-marketing.online
+    support: welcome@live-direct-marketing.online
+  non_standard_fields:
+  - skills_total
+  - skills_note
+  - signup
+  - contact
+  - scopes
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: 0.3.0
+  preferred_transport: null
+  transport: JSONRPC (0.3.0 default when preferredTransport is absent)
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  optional_fields:
+    default_input_modes: true
+    default_output_modes: true
+    preferred_transport: false
+  grade_basis: 'Graded against the A2A 1.0.0 hard checks. capabilities is an OBJECT (streaming: true, pushNotifications:
+    true, stateTransitionHistory: false) — pass. protocolVersion is present at the top level, ''0.3.0'' — pass.
+    skills is an ARRAY of 237 fully-populated entries (id, name, description, tags, inputModes, outputModes) — pass.
+    Both defaultInputModes and defaultOutputModes are declared. preferredTransport is absent; A2A 0.3.0 defines
+    it as optional with JSONRPC as the default, so its absence is spec-permitted rather than a deviation, and the
+    card is 0.3.0-shaped throughout (top-level url + protocolVersion, flat securitySchemes).'
+  deviations:
+  - field: url
+    observed: https://api.live-direct-marketing.online/a2a
+    note: GET returns 404; POST is answered 401 by the dispatcher whose instance is /api/a2a. Functionally reachable,
+      but a client that probes the URL with GET first will read it as dead.
+  - field: skills
+    observed: 237 of a declared 1,270 (curated subset; ?full=1 returns all)
+    note: 'The card itself is a projection: a peer reading only the default document sees 19% of the skill catalog.
+      Each skill description is a mechanical "summary — METHOD /path (scope x:y)" string generated from the OpenAPI,
+      and tags are duplicated pairs (e.g. ["notifications","notifications"]).'
+  - field: skills[].examples / inputModes
+    observed: no examples; every skill inputModes/outputModes = application/json
+    note: No per-skill security requirements; a single top-level bearer requirement covers all 237.
+  - field: securitySchemes.bearer.bearerFormat
+    observed: ldm_*
+    note: Consistent with the docs (ldm_ + 64 hex). The OpenAPI, by contrast, declares bearerFormat JWT for the
+      same key — the card is the more accurate of the two.
+  - field: non-standard top-level fields
+    observed: skills_total, skills_note, scopes[79], signup{}, contact{}
+    note: Vendor extensions carried without an x- prefix; harmless to A2A parsers but not part of the schema.
+  - field: protocolVersion across hosts
+    observed: 0.3.0 on api host and apex/app pointer cards; 0.2.5 on the developer-portal pointer card
+    note: Inconsistent self-description across the five hosts that serve a card.
+  - field: iconUrl / documentationUrl / supportsAuthenticatedExtendedCard / signatures
+    observed: absent
+    note: Optional fields; the docs URL lives only in the proprietary card and the agent guide.
+secondary_cards:
+- agent: Inbox Check (inbox-check)
+  file: a2a/live-direct-marketing-online-inbox-check-agent-card.json
+  source: https://check.live-direct-marketing.online/.well-known/agent.json
+  http_status: 200
+  content_type: application/json
+  body_bytes: 9902
+  shape: 'provider-proprietary (schema_version 1.0.0): name, description, url, provider, contact_email, auth.schemes[],
+    capabilities.skills[21] each with id, name, description, url, method, input_schema, documentation_url'
+  grade: flavored
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: false
+    skills_is_array: false
+  grade_basis: 'capabilities is an object but its only member is a nested skills list; there is no top-level protocolVersion
+    and no top-level skills array, so two of three hard checks fail. The provider says so itself: "Current A2A protocol
+    support is limited to discovery via Agent Card — peer agents fetch /.well-known/agent.json and then call the
+    underlying REST endpoints directly. A full A2A JSON-RPC task transport is on the roadmap but not currently shipped."'
+  registry_note: This is the card a2aregistry.org listed (agent "Inbox Check"), which is how the company entered
+    the harvest backlog.
+  docs: https://check.live-direct-marketing.online/docs/a2a
+- agent: LDM.delivery (pointer cards)
+  file: a2a/live-direct-marketing-online-pointer-agent-card.json
+  source: https://live-direct-marketing.online/.well-known/agent.json
+  http_status: 200
+  grade: near-conformant
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  grade_basis: Passes the hard checks but skills is an EMPTY array by design — a static pointer that delegates to
+    skills_endpoint on the api host. Graded near-conformant rather than conformant because a peer that does not
+    follow the vendor skills_endpoint field learns nothing. Byte-identical copies on app.live-direct-marketing.online;
+    a 0.2.5 variant on developers.live-direct-marketing.online.
+surface_relationship:
+  note: 'Live Direct Marketing publishes three agent surfaces over one data core and the A2A card is the broadest,
+    not the narrowest: A2A — 1,270 skills (237 curated) behind POST /api/a2a; MCP — the same operations as tools
+    named ldm_<operationId> at https://api.live-direct-marketing.online/mcp, with an anonymous bootstrap of three
+    tools; REST — 1,304 operations in the OpenAPI at /api/docs-json. Because all three are generated from the same
+    OpenAPI, the crosswalk in mcp/live-direct-marketing-online-tool-crosswalk.yml is mechanical and high-confidence.
+    Inbox Check is a separate product with its own 196-operation OpenAPI, its own MCP server and a discovery-only
+    card.'

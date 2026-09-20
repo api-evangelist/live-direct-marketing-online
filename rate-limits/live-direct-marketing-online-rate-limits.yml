@@ -1,0 +1,106 @@
+generated: '2026-09-19'
+method: searched
+source: https://developers.live-direct-marketing.online/limits
+docs:
+  - https://developers.live-direct-marketing.online/limits
+  - https://developers.live-direct-marketing.online/errors
+  - https://check.live-direct-marketing.online/docs
+  - https://check.live-direct-marketing.online/terms
+limit_count: 9
+summary: >-
+  LDM documents limits on registration, activation and storage but deliberately publishes no
+  per-request rate limit and NO X-RateLimit-* headers ("anti-calibration"), while its pricing page
+  claims "No rate limits". Inbox Check limits are quota-shaped (daily / monthly counters per key,
+  resetting 00:00 UTC and on the 1st) and exhaustion is signalled with 402, not 429. Neither API
+  documents Retry-After.
+rate_limits:
+  - name: Agent registration (channel mcp / a2a / form)
+    api: LDM v3
+    scope: per-ip
+    limit: 3
+    window: 1h
+    metric: signups
+    applies_to: ['POST /api/auth/register']
+    note: Redis-tracked; "fails open — i.e. does not block — if Redis is unreachable".
+  - name: Account auto-activation
+    api: LDM v3
+    scope: platform-wide
+    limit: 1
+    window: 1h
+    metric: activations
+    note: Beyond the cap the account stays PENDING for questionnaire + admin approval.
+  - name: Self-signup database quota
+    api: LDM v3
+    scope: per-tenant
+    limit: 50
+    window: null
+    metric: MB stored
+    exhaustion_status: 403
+    note: Over quota, POST / PUT / PATCH return 403 while GET and DELETE keep working.
+  - name: Universal send test
+    api: LDM v3
+    scope: per-account
+    limit: 1
+    window: 5s
+    metric: requests
+    applies_to: ['POST /api/email-accounts/{id}/test-send']
+    source: developers llms.txt (Email Accounts section)
+  - name: Password reset requests
+    api: LDM v3
+    scope: per-email and per-ip
+    limit: null
+    window: null
+    note: 'POST /api/auth/forgot-password is "rate-limited per email and per IP"; the numbers are not published.'
+  - name: Inbox Check API quota (basic tier)
+    api: Inbox Check
+    scope: per-key
+    limit: 100
+    window: 1d
+    metric: tests
+    secondary: { limit: 1000, window: 30d }
+    exhaustion_status: 402
+    note: pro 500 / 10,000; enterprise 5,000 / 100,000; operator can override per key. Counters reset at 00:00 UTC and on the first of each month.
+  - name: Inbox Placement Test (free, no signup)
+    api: Inbox Check
+    scope: per-email
+    limit: 3
+    window: 1d
+    metric: tests
+    secondary: { scope: per-ip, limit: 10, window: 1d }
+    source: https://check.live-direct-marketing.online/llms.txt
+  - name: IMAP re-poll cooldown
+    api: Inbox Check
+    scope: per-test-token
+    limit: 1
+    window: 30s
+    metric: requests
+    applies_to: ['POST /api/v1/tests/{token}/repoll']
+  - name: Domain monitoring
+    api: Inbox Check
+    scope: per-account
+    limit: 100
+    window: null
+    metric: active domains
+    note: Shared with the website and Telegram surfaces; up to 3 active API keys per user.
+exhaustion:
+  ldm:
+    status: 429
+    media_type: application/json
+    body_example: { error: rate_limited, message: 'Too many signups from this address. Max 3 per hour.' }
+    also: '413 Payload Too Large is returned by nginx as plain HTML, not JSON'
+  inbox_check:
+    status: 402
+    media_type: application/problem+json
+    body_example: { error: quota_exceeded }
+    note: '"signal to upgrade your tier, not to retry"; 503 service_overloaded ("seed pool exhausted; retry in a few minutes") is the transient case.'
+headers:
+  response: []
+  note: >-
+    LDM states under "What we deliberately do NOT return": X-RateLimit-* headers (anti-calibration).
+    No Retry-After or RateLimit-* header is declared in either OpenAPI or shown in either docs site,
+    so an agent has no runtime signal of remaining quota except GET /api/v1/me on Inbox Check
+    (usage.daily_used / daily_limit / monthly_used / monthly_limit) and the 402/429 bodies.
+marketing_claim: >-
+  "No rate limits" appears as a feature of the Pay-as-you-go plan on
+  https://developers.live-direct-marketing.online/pricing. The limits page documents the ones above;
+  read the claim as "no per-request throttle on paid API calls is published", not as absence of limits.

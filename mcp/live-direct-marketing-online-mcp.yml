@@ -1,0 +1,155 @@
+generated: '2026-09-19'
+method: probed
+status: published
+source: https://api.live-direct-marketing.online/mcp
+docs:
+  - https://live-direct-marketing.online/academy/mcp-flow
+  - https://developers.live-direct-marketing.online/
+  - https://check.live-direct-marketing.online/docs/mcp
+  - https://www.npmjs.com/package/@live-direct-marketing/sdk
+  - https://www.npmjs.com/package/ldm-inbox-check-mcp
+summary: >-
+  Live Direct Marketing operates TWO remote Streamable-HTTP MCP servers and ships TWO stdio packages.
+  The LDM.delivery server at https://api.live-direct-marketing.online/mcp accepted an anonymous
+  initialize on 2026-09-19 (protocol 2025-06-18, serverInfo ldm-delivery 0.6.1) and answered
+  tools/list with three bootstrap tools — ldm_health, ldm_terms, ldm_register — the last of which
+  mints a scoped ldm_* API key without a human; an authenticated session exposes one tool per API
+  operation named ldm_<operationId>. The Inbox Check server at
+  https://check.live-direct-marketing.online/mcp answers 401 Problem Details without a Bearer
+  icp_live_* key. The npm package @live-direct-marketing/sdk (0.6.3, 2026-09-09) ships the ldm-mcp
+  stdio server, which generates its tools from the live agent card at connect time; ldm-inbox-check-mcp
+  (1.0.0, 2026-05-26) is an older five-tool stdio wrapper the provider now calls outdated.
+deployment:
+  mode: both
+  endpoint: https://api.live-direct-marketing.online/mcp
+  install: npx -y --package=@live-direct-marketing/sdk@latest ldm-mcp
+  package: https://www.npmjs.com/package/@live-direct-marketing/sdk
+  auth: api-key
+  verified: probed
+  note: >-
+    `both` because a hosted HTTPS endpoint an MCP client POSTs to directly AND a provider-published
+    npx stdio package both exist for the same product. auth is api-key: the endpoint accepts an
+    anonymous session for the bootstrap tools and a Bearer ldm_* tenant key for everything else;
+    there is no OAuth authorization server (the provider's own RFC 9728 document says so). The
+    endpoint is session-based — a bare tools/list POST without a prior initialize returns 400
+    "No valid MCP session. Send an initialize request first." (jsonrpc error -32000), which is how
+    the first blind probe read it.
+servers:
+  - id: ldm-delivery
+    name: LDM.delivery
+    endpoint: https://api.live-direct-marketing.online/mcp
+    transport: streamable-http
+    stateful: true
+    session_header: Mcp-Session-Id
+    protocol_version: '2025-06-18'
+    server_info: { name: ldm-delivery, version: 0.6.1 }
+    capabilities_advertised: [tools]
+    auth: bearer (ldm_*) or anonymous bootstrap
+    status: live
+    probe:
+      fetched: '2026-09-19'
+      initialize: { http_status: 200, content_type: text/event-stream, session_id_issued: true }
+      notifications_initialized: { http_status: 202 }
+      tools_list: { http_status: 200, tools: 3, file: mcp/live-direct-marketing-online-mcp-tools-anonymous.json }
+      resources_list: { http_status: 200, jsonrpc_error: -32601 Method not found }
+      prompts_list: { http_status: 200, jsonrpc_error: -32601 Method not found }
+      cors: 'Access-Control-Allow-Origin: *; Allow-Methods GET, POST, DELETE, OPTIONS; Expose-Headers Mcp-Session-Id'
+    anonymous_tools:
+      - name: ldm_health
+        description: Check LDM.delivery API health. No auth required.
+        input_schema: {}
+        backing_operation: GET /api/v1/health
+      - name: ldm_terms
+        description: Fetch the LDM user agreement text (plain). Show it to the user before calling ldm_register. No auth required.
+        input_schema: {}
+        backing_operation: GET /api/legal/terms
+      - name: ldm_register
+        description: >-
+          Bootstrap a new LDM workspace for the user (no API key needed). Creates a PENDING account,
+          emails a confirmation link, and returns an ldm_* API key with read + safe-draft scopes.
+          Rate-limited per IP. Pass `website` (company site on the email domain) for automatic activation.
+        input_schema:
+          required: [email, termsAccepted]
+          optional: [website, org, use_case, firstName]
+        backing_operation: POST /api/auth/register (channel=mcp)
+    authenticated_tools:
+      schema_status: auth-gated
+      naming_rule: ldm_<operationId> — quoted from GET /api/v1/agent-guide ("Each capability is one MCP tool named ldm_<operationId> (e.g. ldm_CampaignsController_pour). Path params are top-level string args; request bodies go in `body`; tenant in `tenant_id` (or X-Tenant-Id).")
+      declared_count: 1270 (agent card skills_total / capabilities_total; 237 curated by default)
+      guidance_layer: "every response carries an `_expert` block (hint + next_steps + pitfalls); suppress with header X-LDM-Guidance: off"
+      billing_layer: every paid response carries a `_billing { operation, cost, balance_after }` block
+      capability_map: mcp/live-direct-marketing-online-agent-guide.json (GET /api/v1/agent-guide, 33 domains, recommended 8-step outreach flow, saved verbatim)
+      crosswalk: mcp/live-direct-marketing-online-tool-crosswalk.yml
+      note: >-
+        An authenticated tools/list was not performed (no credential). The per-tool inputSchema is the
+        backing operation's parameters + requestBody in openapi/live-direct-marketing-online-ldm-v3-openapi.json;
+        the proprietary agent card publishes an inputSchema per curated capability as well.
+    guardrails_documented: >-
+      From the apex llms.txt: campaign launch requires explicit human confirmation; stop lists and
+      suppression are enforced automatically before every send; unsubscribes are honored permanently;
+      "The platform will not send what must not be sent, even if instructed to." From the OpenAPI:
+      PATCH /api/campaigns/{id}/recipients/{rid}/manual returns 403 human_only to agents because it
+      bypasses the auditor.
+  - id: inbox-check
+    name: Inbox Check
+    endpoint: https://check.live-direct-marketing.online/mcp
+    transport: streamable-http
+    auth: bearer (icp_live_*)
+    status: live
+    probe:
+      fetched: '2026-09-19'
+      tools_list:
+        http_status: 401
+        content_type: application/problem+json; charset=utf-8
+        body: '{"type":"https://check.live-direct-marketing.online/errors/auth_required","title":"Unauthorized","status":401,"detail":"Auth required","instance":"/api/mcp","code":"auth_required","hint":"Send Authorization: Bearer icp_live_... header"}'
+        note: /mcp is served by the /api/mcp handler (instance /api/mcp); the OpenAPI declares it as McpController_handle_* for every HTTP method.
+    tools_schema_status: auth-gated
+    documented_tools:
+      source: https://check.live-direct-marketing.online/.well-known/agent.json (capabilities.skills) and https://check.live-direct-marketing.online/docs/mcp
+      names: [me_get, providers_list, tests_create, tests_auto_create, tests_get, tests_list, tests_delete, tests_repoll, tests_recheck, tests_recheck-status, sender-links_get, monitor_domain_list, monitor_domain_create, monitor_domain_latest, monitor_domain_checks, monitor_domain_run, monitor_domain_pause, monitor_domain_resume, monitor_domain_delete, monitor_settings_get, monitor_settings_update]
+      compatibility_aliases: [inbox_check_create, inbox_check_status, inbox_check_list, inbox_check_delete, inbox_check_me]
+      note: >-
+        The card publishes an input_schema per skill, so the tool schemas are effectively public even
+        though tools/list is gated. PDF reports arrive as application/pdf resources (base64) when the key
+        has reports:pdf. Monitoring tools need a user-bound key with monitoring:write.
+    clients_documented: [Claude Code (claude mcp add --transport http), Cursor, Claude Desktop (stdio only — "Claude cloud custom connectors do not currently accept a user-pasted Bearer API key")]
+stdio_packages:
+  - id: ldm-mcp
+    package: '@live-direct-marketing/sdk'
+    registry: npm
+    version: 0.6.3
+    published: '2026-09-09'
+    binaries: [ldm-mcp, ldm-mcp-http]
+    install: npx -y --package=@live-direct-marketing/sdk@latest ldm-mcp
+    env: LDM_API_KEY=ldm_...
+    repository: https://github.com/live-direct-marketing/ldm-sdk-js
+    tool_generation: fetches the live agent card at connect time and exposes every advertised capability as a tool
+    note: >-
+      The GitHub main branch README still describes an older 0.2.0-beta.2 build with four tools
+      (ldm_health, ldm_request_key, ldm_send_message, ldm_get_message) and a /v1 base path; the npm
+      README for 0.6.3 is current. Clients named in the provider docs: Claude Desktop, Claude Code,
+      Cursor, Perplexity, n8n.
+  - id: ldm-inbox-check-mcp
+    package: ldm-inbox-check-mcp
+    registry: npm
+    version: 1.0.0
+    published: '2026-05-26'
+    binaries: [ldm-inbox-check-mcp]
+    install: npx -y ldm-inbox-check-mcp
+    env: INBOX_CHECK_API_KEY=icp_live_...
+    repository: https://github.com/live-direct-marketing/ldm-inbox-check-mcp
+    tools: [inbox_check_create, inbox_check_status, inbox_check_list, inbox_check_delete, inbox_check_me]
+    note: >-
+      The provider's /docs/mcp page says of this package: "Published package 1.0.0 supports basic tests.
+      Its catalog is older, argument schemas are incomplete and PDF transfer is unavailable. Use remote
+      HTTP above for the current complete catalog."
+tools:
+  - name: ldm_health
+    description: Check LDM.delivery API health. No auth required.
+    source_operation: openapi/live-direct-marketing-online-ldm-v3-openapi.json#GET /api/v1/health
+  - name: ldm_terms
+    description: Fetch the LDM user agreement text (plain). No auth required.
+    source_operation: openapi/live-direct-marketing-online-ldm-v3-openapi.json#GET /api/legal/terms
+  - name: ldm_register
+    description: Bootstrap a new LDM workspace and return an ldm_* API key with read + safe-draft scopes.
+    source_operation: openapi/live-direct-marketing-online-ldm-v3-openapi.json#POST /api/auth/register

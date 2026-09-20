@@ -1,0 +1,72 @@
+generated: '2026-09-19'
+method: searched
+source: https://developers.live-direct-marketing.online/changelog
+derived_from:
+  - openapi/live-direct-marketing-online-ldm-v3-openapi.json
+  - openapi/live-direct-marketing-online-inbox-check-openapi.json
+docs:
+  - https://developers.live-direct-marketing.online/status
+  - https://developers.live-direct-marketing.online/changelog
+  - https://developers.live-direct-marketing.online/limits
+versioning:
+  scheme: >-
+    Mostly unversioned URI paths (/api/*) with a /api/v1/ prefix reserved for the agent-facing tier
+    (health, agent-guide, .well-known cards) on LDM and for the public key-authenticated tier on
+    Inbox Check; info.version is 1.0.0 on both contracts; no version header.
+  current_version: '1.0.0'
+  spec_urls:
+    - https://api.live-direct-marketing.online/api/docs-json
+    - https://check.live-direct-marketing.online/api/openapi.json
+  base_urls:
+    - https://api.live-direct-marketing.online
+    - https://check.live-direct-marketing.online
+  policy_published: false
+  status_label: "closed beta (developers llms.txt Conventions: \"Status: closed beta\"); pricing page says beta capacity is limited with a waitlist"
+  note: >-
+    The developer portal footer reads "v2026-09-15 · dev" and the LDM contract carries an
+    api.dev.live-direct-marketing.online server, so the provider versions its portal by date and
+    runs a visible development tier, but publishes no API versioning policy, no compatibility promise
+    and no notice period. Operation descriptions cite internal issue numbers (#265 … #1245), i.e. the
+    contract changes with the tracker.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_operations: []
+  note: >-
+    Zero of 1,304 LDM operations and zero of 196 Inbox Check operations carry deprecated: true;
+    no Sunset or Deprecation header is declared or documented. Evidence of change without
+    deprecation exists on the agent side: the proprietary card notes "Self-serve signup was removed
+    in 2026-05" while the live A2A card and docs describe self-serve signup as available again;
+    the MCP stdio package went from four tools (0.2.0-beta.2 README) to card-generated tools (0.6.3);
+    and the Inbox Check provider docs mark five inbox_check_* tools as compatibility aliases. None of
+    these transitions carried a deprecation notice.
+sla:
+  published: false
+  note: >-
+    No uptime target. The pricing page states "Beta capacity is limited — waitlist beyond active
+    seats". The campaign_guarantee legal document is about legal responsibility for outreach, not
+    service availability.
+status_page:
+  url: null
+  status: none
+  probed:
+    - { url: 'https://developers.live-direct-marketing.online/status', http_status: 200, note: 'static page: "All systems operational. A full, real-time status page is coming soon at status.ldm.delivery. Until then, contact support@ldm.delivery for incident reports."' }
+    - { url: 'https://status.ldm.delivery/', http_status: null, note: 'host does not resolve (curl: Could not resolve host)' }
+    - { url: 'https://ldm.delivery/', http_status: null, note: 'host does not resolve — the brand domain the portal footer and legal pages reference is not live' }
+    - { url: 'https://api.live-direct-marketing.online/health', http_status: 200, note: '{"status":"ok","ts":...} liveness probe; also /api/v1/health and /api/health/capacity' }
+  note: >-
+    No StatusPage pointer is emitted: the "status" page is a hand-written sentence with no incident
+    history, and the announced status host does not exist in DNS. The API does expose a public
+    liveness endpoint, which is an agent-usable health signal but not a status page.
+changelog:
+  url: https://developers.live-direct-marketing.online/changelog
+  artifact: changelog/live-direct-marketing-online-changelog.yml
+  last_entry: '2026-04-15'
+  note: Three entries, none after April 2026, while the contract and SDK kept changing through September.
+data_retention_lifecycle:
+  - { surface: Inbox Check tests, rule: 'retained 7 days then auto-deleted; subjects, senders and bodies never stored', source: https://check.live-direct-marketing.online/terms }
+  - { surface: LDM user accounts, rule: 'inactive 60 days → deactivated automatically (data kept, access restorable via support)', source: 'GET /api/legal/documents/privacy §3.6' }
+  - { surface: LDM email-confirmation links, rule: 'valid 48 hours (410 Gone after)', source: https://developers.live-direct-marketing.online/errors }
+  - { surface: Inbox Check API keys, rule: 'shown once; revoke and replace if lost; up to 3 active per user', source: https://check.live-direct-marketing.online/docs }

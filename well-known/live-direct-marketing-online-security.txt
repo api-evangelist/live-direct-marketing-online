@@ -1,0 +1,5 @@
+Contact: mailto:welcome@live-direct-marketing.online
+Expires: 2027-05-06T00:00:00.000Z
+Preferred-Languages: en, ru
+Canonical: https://live-direct-marketing.online/.well-known/security.txt
+Policy: https://live-direct-marketing.online/security

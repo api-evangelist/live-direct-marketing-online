@@ -1,0 +1,1 @@
+{"currency":"USD","unit":"per email × operation (creative_approval — per creative)","pricing":{"inbox_placement":0.015,"inbox_placement_byoc":0.005,"creative_approval":5,"platform_render":0,"audit":0,"audit_failed":0.0005,"send":0},"signupCreditUsd":50,"payment":{"mode":"demo","gateway":"none","topUp":"manual_by_admin"},"version":0,"updatedAt":null}

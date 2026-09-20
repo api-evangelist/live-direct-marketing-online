@@ -1,0 +1,32 @@
+generated: '2026-09-19'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: live-direct-marketing.online
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 24 00:37:58 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: developers.live-direct-marketing.online
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 13 19:09:05 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: api.live-direct-marketing.online
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 13 19:08:37 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+domains:
+- domain: live-direct-marketing.online
+  dnssec: false
+  caa:
+  - 0 issue "letsencrypt.org"
+  - 0 iodef "mailto:welcome@live-direct-marketing.online"
+  - 0 issuewild "letsencrypt.org"
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine

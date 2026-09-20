@@ -1,0 +1,729 @@
+generated: '2026-09-19'
+method: derived
+scheme_type: api-key scopes (NOT OAuth 2.0)
+source: openapi/live-direct-marketing-online-ldm-v3-openapi.json (x-required-scope on 406 operations) + https://api.live-direct-marketing.online/.well-known/agent.json
+  (scopes[79]) + https://check.live-direct-marketing.online/docs
+docs:
+- https://developers.live-direct-marketing.online/authentication
+- https://developers.live-direct-marketing.online/limits
+- https://check.live-direct-marketing.online/docs
+note: 'Neither OpenAPI declares an oauth2 securityScheme and the provider publishes no OAuth authorization server
+  (its RFC 9728 document says authorization_servers: []). What it DOES publish is a fine-grained scope model attached
+  to Bearer API keys: the LDM OpenAPI stamps x-required-scope on 406 operations, the A2A card lists 79 scopes, and
+  per-method @RequireScope checks are described in the authentication docs. This file records that catalog under
+  the OAuthScopes pointer because it is the scope contract an agent must satisfy; the credential is a static ldm_*
+  key, not an OAuth token. Inbox Check keys carry a smaller scope set. derive-oauth-scopes.py produced nothing for
+  this repo, correctly.'
+issuance:
+  ldm: Keys are minted in CRM Settings → API Keys with chosen scopes, or auto-issued at POST /api/auth/register
+    (channel mcp/a2a/form) with SAFE_AGENT_SCOPES = read-all + safe drafts, explicitly excluding email:send and
+    mailing:write until the owner expands them after activation.
+  inbox_check: Keys are self-issued at /account (up to 3 active); monitoring:write must be ticked at creation; reports:pdf
+    is tier/feature gated.
+ldm_scopes:
+- scope: a2a:read
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: a2a
+  access: read
+- scope: a2a:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: a2a
+  access: write
+- scope: accounts:read
+  operations_declaring: 7
+  sample_operations:
+  - EmailAccountsController_lookupProvider
+  - EmailAccountsController_findAll
+  - EmailAccountsController_getStats
+  in_agent_card: true
+  family: accounts
+  access: read
+- scope: accounts:write
+  operations_declaring: 6
+  sample_operations:
+  - EmailAccountsController_testUnsaved
+  - EmailAccountsController_create
+  - EmailAccountsController_relayProbe
+  in_agent_card: true
+  family: accounts
+  access: write
+- scope: activities:read
+  operations_declaring: 1
+  sample_operations:
+  - ActivitiesController_feed
+  in_agent_card: true
+  family: activities
+  access: read
+- scope: activities:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: activities
+  access: write
+- scope: admin:read
+  operations_declaring: 66
+  sample_operations:
+  - BrowserQueueController_getJobs
+  - ImapOrchestratorController_getImapHealth
+  - ImapOrchestratorController_getConveyorWatchdogLast
+  in_agent_card: true
+  family: admin
+  access: read
+- scope: admin:write
+  operations_declaring: 34
+  sample_operations:
+  - BotListController_refresh
+  - BotListController_addCidr
+  - BotListController_removeCidr
+  in_agent_card: true
+  family: admin
+  access: write
+- scope: agent:read
+  operations_declaring: 7
+  sample_operations:
+  - MailAgentController_getStatus
+  - MailAgentController_getSettings
+  - MailAgentController_getQr
+  in_agent_card: true
+  family: agent
+  access: read
+- scope: agent:write
+  operations_declaring: 5
+  sample_operations:
+  - MailAgentController_toggleEnabled
+  - MailAgentController_regenerateToken
+  - MailAgentController_resetStats
+  in_agent_card: true
+  family: agent
+  access: write
+- scope: ai:generate
+  operations_declaring: 1
+  sample_operations:
+  - AiController_generate
+  in_agent_card: false
+  family: ai
+  access: generate
+- scope: ai:read
+  operations_declaring: 6
+  sample_operations:
+  - AiController_getBalance
+  - AiController_getAllBalances
+  - AiController_getUsage
+  in_agent_card: true
+  family: ai
+  access: read
+- scope: ai:write
+  operations_declaring: 1
+  sample_operations:
+  - AiController_checkBalance
+  in_agent_card: true
+  family: ai
+  access: write
+- scope: billing:read
+  operations_declaring: 2
+  sample_operations:
+  - BillingController_getBalance
+  - BillingController_listLedger
+  in_agent_card: false
+  family: billing
+  access: read
+- scope: briefs:read
+  operations_declaring: 3
+  sample_operations:
+  - BriefsController_getSchemas
+  - BriefsController_intake
+  - BriefsController_listIntakeItems
+  in_agent_card: true
+  family: briefs
+  access: read
+- scope: briefs:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: briefs
+  access: write
+- scope: campaigns:read
+  operations_declaring: 2
+  sample_operations:
+  - CampaignsController_conveyorHealth
+  - CampaignsController_overview
+  in_agent_card: false
+  family: campaigns
+  access: read
+- scope: campaigns:write
+  operations_declaring: 1
+  sample_operations:
+  - CampaignsController_backfillHistoricUnsubscribes
+  in_agent_card: false
+  family: campaigns
+  access: write
+- scope: connectors:read
+  operations_declaring: 5
+  sample_operations:
+  - NalogIdController_lookup
+  - NalogIdController_test
+  - ConnectorsController_dadataName
+  in_agent_card: true
+  family: connectors
+  access: read
+- scope: connectors:write
+  operations_declaring: 1
+  sample_operations:
+  - ConnectorsController_tildaWebhook
+  in_agent_card: true
+  family: connectors
+  access: write
+- scope: creatives:read
+  operations_declaring: 3
+  sample_operations:
+  - CreativesController_pdfStatus
+  - CreativesController_getAvailableVariables
+  - CreativesController_listPendingChannelCreatives
+  in_agent_card: true
+  family: creatives
+  access: read
+- scope: creatives:write
+  operations_declaring: 2
+  sample_operations:
+  - CreativesController_aiGenerate
+  - CreativesController_createAutopilotV2
+  in_agent_card: true
+  family: creatives
+  access: write
+- scope: crm:read
+  operations_declaring: 12
+  sample_operations:
+  - DuplicatesController_getFields
+  - DuplicatesController_scan
+  - CompaniesController_getStats
+  in_agent_card: true
+  family: crm
+  access: read
+- scope: crm:write
+  operations_declaring: 22
+  sample_operations:
+  - CompanyCustomFieldController_reorder
+  - DuplicatesController_merge
+  - DuplicatesController_deleteDuplicates
+  in_agent_card: true
+  family: crm
+  access: write
+- scope: customfields:read
+  operations_declaring: 1
+  sample_operations:
+  - CustomFieldsController_inventory
+  in_agent_card: true
+  family: customfields
+  access: read
+- scope: customfields:write
+  operations_declaring: 1
+  sample_operations:
+  - CustomFieldsController_reorder
+  in_agent_card: true
+  family: customfields
+  access: write
+- scope: deliverability:read
+  operations_declaring: 4
+  sample_operations:
+  - DeliverabilityController_getMatrix
+  - DeliverabilityController_listProbes
+  - DeliverabilityController_listBlockRules
+  in_agent_card: false
+  family: deliverability
+  access: read
+- scope: deliverability:write
+  operations_declaring: 5
+  sample_operations:
+  - DeliverabilityController_startRelayReach
+  - DeliverabilityController_startCreativeThroughRelay
+  - DeliverabilityController_startCreativeTune
+  in_agent_card: false
+  family: deliverability
+  access: write
+- scope: dialogs:read
+  operations_declaring: 7
+  sample_operations:
+  - DialogsController_getStats
+  - DialogsController_getBadges
+  - DialogsController_getAccounts
+  in_agent_card: true
+  family: dialogs
+  access: read
+- scope: dialogs:write
+  operations_declaring: 9
+  sample_operations:
+  - DialogsController_bulk
+  - DialogsController_imapMove
+  - DialogsController_imapDelete
+  in_agent_card: true
+  family: dialogs
+  access: write
+- scope: email:send
+  operations_declaring: 1
+  sample_operations:
+  - EmailVerificationController_verifyBatch
+  in_agent_card: true
+  family: email
+  access: send
+- scope: events:read
+  operations_declaring: 1
+  sample_operations:
+  - CustomEventsController_aggregates
+  in_agent_card: true
+  family: events
+  access: read
+- scope: events:write
+  operations_declaring: 1
+  sample_operations:
+  - CustomEventsController_bulkTrack
+  in_agent_card: true
+  family: events
+  access: write
+- scope: exports:read
+  operations_declaring: 1
+  sample_operations:
+  - ExportsController_getColumns
+  in_agent_card: true
+  family: exports
+  access: read
+- scope: exports:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: exports
+  access: write
+- scope: files:read
+  operations_declaring: 5
+  sample_operations:
+  - FilesController_listImages
+  - FilesController_listAssets
+  - FilesController_getAssetsQuota
+  in_agent_card: true
+  family: files
+  access: read
+- scope: files:write
+  operations_declaring: 4
+  sample_operations:
+  - FilesController_importImages
+  - FilesController_uploadImage
+  - FilesController_uploadAsset
+  in_agent_card: true
+  family: files
+  access: write
+- scope: icp:read
+  operations_declaring: 1
+  sample_operations:
+  - IcpExtensionController_scrapePreview
+  in_agent_card: true
+  family: icp
+  access: read
+- scope: icp:write
+  operations_declaring: 1
+  sample_operations:
+  - IcpExtensionController_scrapeCompanies
+  in_agent_card: true
+  family: icp
+  access: write
+- scope: imap:read
+  operations_declaring: 10
+  sample_operations:
+  - ImapOrchestratorController_getStats
+  - ImapOrchestratorController_getJobs
+  - ImapOrchestratorController_getAttention
+  in_agent_card: true
+  family: imap
+  access: read
+- scope: imap:write
+  operations_declaring: 6
+  sample_operations:
+  - ImapOrchestratorController_heal
+  - ImapOrchestratorController_healAll
+  - ImapOrchestratorController_fetchAll
+  in_agent_card: true
+  family: imap
+  access: write
+- scope: import:read
+  operations_declaring: 3
+  sample_operations:
+  - ImportController_getTemplates
+  - ImportController_detectTemplate
+  - ImportController_applyTemplate
+  in_agent_card: true
+  family: import
+  access: read
+- scope: import:write
+  operations_declaring: 2
+  sample_operations:
+  - ImportController_createTask
+  - ImportController_importFromUrl
+  in_agent_card: true
+  family: import
+  access: write
+- scope: keys:read
+  operations_declaring: 1
+  sample_operations:
+  - ApiKeysController_structuredScopes
+  in_agent_card: true
+  family: keys
+  access: read
+- scope: keys:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: keys
+  access: write
+- scope: leads:read
+  operations_declaring: 4
+  sample_operations:
+  - LeadsController_getStats
+  - LeadsController_findDuplicates
+  - LeadsController_interestBreakdown
+  in_agent_card: true
+  family: leads
+  access: read
+- scope: leads:write
+  operations_declaring: 4
+  sample_operations:
+  - LeadsController_bulk
+  - LeadsController_exportLeads
+  - LeadsController_importPreview
+  in_agent_card: true
+  family: leads
+  access: write
+- scope: legal:read
+  operations_declaring: 2
+  sample_operations:
+  - LegalController_listAcceptances
+  - DsarController_lookup
+  in_agent_card: true
+  family: legal
+  access: read
+- scope: legal:write
+  operations_declaring: 1
+  sample_operations:
+  - LegalController_updateTerms
+  in_agent_card: true
+  family: legal
+  access: write
+- scope: linkedin:read
+  operations_declaring: 5
+  sample_operations:
+  - LinkedinController_getIntegration
+  - LinkedinController_listAccounts
+  - LinkedinController_listCampaigns
+  in_agent_card: false
+  family: linkedin
+  access: read
+- scope: linkedin:write
+  operations_declaring: 3
+  sample_operations:
+  - LinkedinController_updateIntegration
+  - LinkedinController_createCampaign
+  - LinkedinController_createScenario
+  in_agent_card: false
+  family: linkedin
+  access: write
+- scope: linker:read
+  operations_declaring: 3
+  sample_operations:
+  - DialogLinkerController_getStats
+  - DialogLinkerController_getFailureSummary
+  - DialogLinkerController_getAllLogs
+  in_agent_card: true
+  family: linker
+  access: read
+- scope: linker:write
+  operations_declaring: 1
+  sample_operations:
+  - DialogLinkerController_backfill
+  in_agent_card: true
+  family: linker
+  access: write
+- scope: mailing:read
+  operations_declaring: 25
+  sample_operations:
+  - MailTransportController_stats
+  - MailingController_getOverview
+  - MailingController_getBounceOverview
+  in_agent_card: true
+  family: mailing
+  access: read
+- scope: mailing:write
+  operations_declaring: 3
+  sample_operations:
+  - MailingController_getBatchStats
+  - TrackingController_createLink
+  - TrackingController_updatePixelSettings
+  in_agent_card: true
+  family: mailing
+  access: write
+- scope: marking:read
+  operations_declaring: 2
+  sample_operations:
+  - MarkingController_listPatterns
+  - MarkingController_classify
+  in_agent_card: true
+  family: marking
+  access: read
+- scope: marking:write
+  operations_declaring: 1
+  sample_operations:
+  - MarkingController_createPattern
+  in_agent_card: true
+  family: marking
+  access: write
+- scope: notifications:read
+  operations_declaring: 2
+  sample_operations:
+  - NotificationsController_pushPublicKey
+  - NotificationsController_unreadCount
+  in_agent_card: true
+  family: notifications
+  access: read
+- scope: notifications:write
+  operations_declaring: 5
+  sample_operations:
+  - NotificationsController_pushSubscribe
+  - NotificationsController_pushUnsubscribe
+  - NotificationsController_readAll
+  in_agent_card: true
+  family: notifications
+  access: write
+- scope: pipelines:read
+  operations_declaring: 1
+  sample_operations:
+  - PipelinesController_getAllAutomationLogs
+  in_agent_card: true
+  family: pipelines
+  access: read
+- scope: pipelines:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: pipelines
+  access: write
+- scope: reports:read
+  operations_declaring: 1
+  sample_operations:
+  - ReportsController_limits
+  in_agent_card: true
+  family: reports
+  access: read
+- scope: reports:write
+  operations_declaring: 1
+  sample_operations:
+  - ReportsController_upload
+  in_agent_card: true
+  family: reports
+  access: write
+- scope: rules:read
+  operations_declaring: 3
+  sample_operations:
+  - InboundRulesController_listAutomationEvents
+  - InboundRulesController_testRules
+  - MailRoutingController_testRules
+  in_agent_card: true
+  family: rules
+  access: read
+- scope: rules:write
+  operations_declaring: 2
+  sample_operations:
+  - InboundRulesController_reorder
+  - InboundRulesController_reapply
+  in_agent_card: true
+  family: rules
+  access: write
+- scope: settings:read
+  operations_declaring: 23
+  sample_operations:
+  - SettingsController_getProfile
+  - SettingsController_getUiPreferences
+  - SettingsController_getSessions
+  in_agent_card: true
+  family: settings
+  access: read
+- scope: settings:write
+  operations_declaring: 30
+  sample_operations:
+  - SettingsController_updateAiProviders
+  - SettingsController_requestLdmAi
+  - SettingsController_updateNotifications
+  in_agent_card: true
+  family: settings
+  access: write
+- scope: share:read
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: share
+  access: read
+- scope: share:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: share
+  access: write
+- scope: site-enrichment:read
+  operations_declaring: 5
+  sample_operations:
+  - SiteEnrichmentController_detectFormsRoute
+  - SiteEnrichmentController_findAll
+  - SiteEnrichmentController_preview
+  in_agent_card: true
+  family: site-enrichment
+  access: read
+- scope: site-enrichment:write
+  operations_declaring: 3
+  sample_operations:
+  - SiteEnrichmentController_create
+  - SiteEnrichmentController_requeueStaleOkBacklog
+  - SiteEnrichmentController_requeueDownBacklog
+  in_agent_card: true
+  family: site-enrichment
+  access: write
+- scope: stoplist:read
+  operations_declaring: 4
+  sample_operations:
+  - StopListController_stats
+  - StopListController_check
+  - StopListController_globalList
+  in_agent_card: true
+  family: stoplist
+  access: read
+- scope: stoplist:write
+  operations_declaring: 3
+  sample_operations:
+  - StopListController_addBulk
+  - StopListController_globalAdd
+  - StopListController_globalAddBulk
+  in_agent_card: true
+  family: stoplist
+  access: write
+- scope: support:read
+  operations_declaring: 2
+  sample_operations:
+  - SupportController_getThread
+  - SupportController_unreadCount
+  in_agent_card: false
+  family: support
+  access: read
+- scope: support:write
+  operations_declaring: 3
+  sample_operations:
+  - SupportController_sendMessage
+  - SupportController_markRead
+  - SupportController_setStatus
+  in_agent_card: false
+  family: support
+  access: write
+- scope: suppression:read
+  operations_declaring: 3
+  sample_operations:
+  - SuppressionController_check
+  - SuppressionController_listDomains
+  - AllowlistController_check
+  in_agent_card: true
+  family: suppression
+  access: read
+- scope: suppression:write
+  operations_declaring: 3
+  sample_operations:
+  - SuppressionController_addBulk
+  - SuppressionController_addDomain
+  - AllowlistController_bulkCreate
+  in_agent_card: true
+  family: suppression
+  access: write
+- scope: tags:read
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: tags
+  access: read
+- scope: tags:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: tags
+  access: write
+- scope: tasks:create
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: tasks
+  access: create
+- scope: tasks:read
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: tasks
+  access: read
+- scope: tasks:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: tasks
+  access: write
+- scope: users:read
+  operations_declaring: 1
+  sample_operations:
+  - UsersController_systemStats
+  in_agent_card: true
+  family: users
+  access: read
+- scope: users:write
+  operations_declaring: 2
+  sample_operations:
+  - UsersController_acceptTerms
+  - UsersController_cleanupOrphans
+  in_agent_card: true
+  family: users
+  access: write
+- scope: utils:read
+  operations_declaring: 4
+  sample_operations:
+  - NamesController_decline
+  - NamesController_ping
+  - UtilsController_listTimezones
+  in_agent_card: true
+  family: utils
+  access: read
+- scope: views:read
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: views
+  access: read
+- scope: views:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: views
+  access: write
+- scope: webhooks:read
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: webhooks
+  access: read
+- scope: webhooks:write
+  operations_declaring: 0
+  sample_operations: []
+  in_agent_card: true
+  family: webhooks
+  access: write
+ldm_scope_count: 89
+ldm_operations_with_x_required_scope: 406
+inbox_check_scopes:
+- scope: monitoring:read
+  description: Read monitored domains and results (default for keys)
+- scope: monitoring:write
+  description: Add, pause, resume, run and delete monitored domains — must be explicitly enabled on the key
+- scope: reports:pdf
+  description: Download PDF reports (GET /api/v1/tests/{token}?format=pdf)
+role_scopes_note: Web-UI sessions receive the scopes their role grants (OWNER, MANAGER, SUPER); SUPER-only operations
+  (legal publishing, DSAR registry, admin) are marked in the operation descriptions.

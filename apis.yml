@@ -1,23 +1,293 @@
 aid: live-direct-marketing-online
 name: Live Direct Marketing
-description: 'Live Direct Marketing is a company surfaced via the API Evangelist harvest backlog (source:
-  a2a-registry) and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Live Direct Marketing (LDM) is a B2B outreach and CRM platform built to be operated by AI agents:
+  the same Bearer-authenticated HTTPS surface serves the web UI, MCP clients and A2A peers. The
+  LDM v3 API publishes an OpenAPI 3.0 contract with 1,304 operations across 119 tags (companies,
+  contacts, leads, pipelines, campaigns, creatives, mailboxes, deliverability probes, suppression
+  and stop-lists, webhooks, billing, DSAR) and a remote Streamable-HTTP MCP server with an anonymous
+  bootstrap (ldm_terms / ldm_register) that mints a scoped ldm_* key without a human. A second
+  product, Inbox Check, is a free inbox-placement test with its own 196-operation OpenAPI, a remote
+  MCP server and an A2A agent card at check.live-direct-marketing.online. Billing is per confirmed
+  inbox delivery ($0.015 managed / $0.005 BYOC), read from a public pricing endpoint. The operator
+  is a Russian entity (OOO LDM, Yaroslavl); legal documents are drafts pending lawyer review.
+image: https://live-direct-marketing.online/img/logo.png
 url: https://raw.githubusercontent.com/api-evangelist/live-direct-marketing-online/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:a2a-registry
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-09-19
 specificationVersion: '0.20'
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
 - Company
-apis: []
+- Email
+- Email Deliverability
+- Sales & marketing automation
+- CRM
+- Lead Management
+- Cold Outreach
+- agent-native
+- MCP
+- A2A
+- Webhook
+- B2B
+apis:
+- aid: live-direct-marketing-online:ldm-v3-api
+  name: LDM v3 API
+  image: https://live-direct-marketing.online/img/logo.png
+  description: >-
+    Multi-tenant B2B outreach automation platform exposed as one Bearer-authenticated HTTPS surface
+    for the web UI, MCP and A2A clients. 1,304 operations across 119 tags: companies, contacts,
+    leads and pipelines, briefs and creatives, mailing tasks and campaigns with send-readiness
+    dry-runs, email accounts and warm-up, three-phase deliverability probes, suppression / stop-list
+    / marking guardrails, webhooks, billing ledger, legal documents and a public DSAR endpoint.
+    Tenant-scoped calls carry X-Tenant-Id; 406 operations declare x-required-scope from a 79-scope
+    catalog. Self-serve registration returns a PENDING-account ldm_* key immediately.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - CRM
+  - Sales & marketing automation
+  - Email
+  - Lead Management
+  - Cold Outreach
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-ldm-v3-openapi.json
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (live)
+    url: https://api.live-direct-marketing.online/api/docs-json
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: Overlay
+    url: overlays/live-direct-marketing-online-ldm-v3-overlay.yaml
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+- aid: live-direct-marketing-online:ldm-mcp-server
+  name: LDM MCP Server
+  image: https://live-direct-marketing.online/img/logo.png
+  description: >-
+    Remote Streamable-HTTP MCP server at https://api.live-direct-marketing.online/mcp (protocol
+    2025-06-18, server ldm-delivery 0.6.1). An anonymous session exposes three bootstrap tools —
+    ldm_health, ldm_terms, ldm_register — and a Bearer ldm_* session exposes one tool per API
+    operation named ldm_<operationId> (about 1,270 per the agent guide), each response carrying an
+    _expert guidance block. The same package (@live-direct-marketing/sdk) ships ldm-mcp, a stdio
+    server that generates its tools from the live agent card at connect time.
+  humanURL: https://live-direct-marketing.online/academy/mcp-flow
+  baseURL: https://api.live-direct-marketing.online/mcp
+  tags:
+  - MCP
+  - agent-native
+  properties:
+  - type: MCPServer
+    url: mcp/live-direct-marketing-online-mcp.yml
+  - type: MCPServer
+    name: Remote endpoint (Streamable HTTP)
+    url: https://api.live-direct-marketing.online/mcp
+  - type: ToolCrosswalk
+    url: mcp/live-direct-marketing-online-tool-crosswalk.yml
+  - type: Documentation
+    url: https://live-direct-marketing.online/academy/mcp-flow
+- aid: live-direct-marketing-online:ldm-a2a-agent
+  name: LDM.delivery A2A Agent
+  image: https://live-direct-marketing.online/img/logo.png
+  description: >-
+    A2A 0.3.0-shaped agent card served at https://api.live-direct-marketing.online/.well-known/agent.json
+    (237 curated skills of 1,270, ?full=1 for all; capabilities streaming + pushNotifications) with
+    a JSON-RPC 2.0 dispatcher at POST /api/a2a that answers 401 Problem Details without a Bearer
+    ldm_* key. Pointer cards on the brand, app and developer-portal hosts delegate to this live card.
+  humanURL: https://developers.live-direct-marketing.online/agent-card
+  baseURL: https://api.live-direct-marketing.online/api/a2a
+  tags:
+  - A2A
+  - agent-native
+  properties:
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/agent-card
+- aid: live-direct-marketing-online:ldm-webhook-events
+  name: LDM Webhook Events
+  image: https://live-direct-marketing.online/img/logo.png
+  description: >-
+    Outbound HTTPS webhook subscriptions for lead, dialog and task events (lead.created, lead.moved,
+    lead.won, lead.lost, dialog.received, dialog.replied, task.completed, task.failed), signed with
+    X-LDM-Signature sha256=<HMAC-SHA256 of the raw body>, with a delivery log, single-delivery retry
+    and last-N retrigger. No AsyncAPI document is published.
+  humanURL: https://developers.live-direct-marketing.online/webhooks
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Webhook
+  properties:
+  - type: Webhooks
+    url: asyncapi/live-direct-marketing-online-webhooks.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/webhooks
+- aid: live-direct-marketing-online:inbox-check-api
+  name: Inbox Check API
+  image: https://live-direct-marketing.online/img/logo.png
+  description: >-
+    Email deliverability test API behind the free Inbox Placement Test at check.live-direct-marketing.online:
+    create a test, send to the returned seed mailboxes across ten providers, poll placement, SPF /
+    DKIM / DMARC and spam-engine verdicts, schedule same-message rechecks, and run continuous domain
+    monitoring. Bearer icp_live_* keys with daily / monthly quotas; the OpenAPI 3.0 document covers
+    196 operations including the public /api/v1 tier, the account portal and admin surfaces.
+  humanURL: https://check.live-direct-marketing.online/docs
+  baseURL: https://check.live-direct-marketing.online
+  tags:
+  - Email Deliverability
+  - Email
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-inbox-check-openapi.json
+  - type: OpenAPI
+    name: Provider-hosted OpenAPI (live)
+    url: https://check.live-direct-marketing.online/api/openapi.json
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    name: Swagger UI
+    url: https://check.live-direct-marketing.online/api/docs
+  - type: Overlay
+    url: overlays/live-direct-marketing-online-inbox-check-overlay.yaml
+- aid: live-direct-marketing-online:inbox-check-mcp-server
+  name: Inbox Check MCP Server
+  image: https://live-direct-marketing.online/img/logo.png
+  description: >-
+    Remote Streamable-HTTP MCP server at https://check.live-direct-marketing.online/mcp requiring
+    Authorization: Bearer icp_live_* (anonymous tools/list answers 401 Problem Details). Tools mirror
+    the agent card skills — tests_create, tests_get, tests_list, tests_recheck, monitor_domain_*,
+    providers_list, me_get — plus five inbox_check_* compatibility aliases from the older stdio
+    package ldm-inbox-check-mcp 1.0.0 on npm.
+  humanURL: https://check.live-direct-marketing.online/docs/mcp
+  baseURL: https://check.live-direct-marketing.online/mcp
+  tags:
+  - MCP
+  - Email Deliverability
+  properties:
+  - type: MCPServer
+    name: Remote endpoint (Streamable HTTP)
+    url: https://check.live-direct-marketing.online/mcp
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs/mcp
+- aid: live-direct-marketing-online:inbox-check-a2a-agent
+  name: Inbox Check A2A Agent Card
+  image: https://live-direct-marketing.online/img/logo.png
+  description: >-
+    Provider-shaped agent card at https://check.live-direct-marketing.online/.well-known/agent.json
+    listing 21 REST-bound skills with HTTP method, URL and input_schema. The provider states that
+    A2A support is discovery-only — peers read the card and call the REST bindings directly; no
+    JSON-RPC task transport is shipped.
+  humanURL: https://check.live-direct-marketing.online/docs/a2a
+  baseURL: https://check.live-direct-marketing.online
+  tags:
+  - A2A
+  - Email Deliverability
+  properties:
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs/a2a
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: VulnerabilityDisclosure
+  url: security/live-direct-marketing-online-vulnerability-disclosure.yml
+- type: Security
+  url: https://developers.live-direct-marketing.online/legal/security
+- type: DomainSecurity
+  url: security/live-direct-marketing-online-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/live-direct-marketing-online-agentic-access.yml
 - type: Website
   url: https://live-direct-marketing.online/
+- type: DeveloperPortal
+  url: https://developers.live-direct-marketing.online/
+- type: Documentation
+  url: https://developers.live-direct-marketing.online/
+- type: APIReference
+  url: https://developers.live-direct-marketing.online/api-reference
+- type: GettingStarted
+  url: https://developers.live-direct-marketing.online/quickstart
+- type: Support
+  url: https://live-direct-marketing.online/contact
+- type: Blog
+  url: https://live-direct-marketing.online/blog/
+- type: GitHubOrganization
+  url: https://github.com/live-direct-marketing
+- type: Pricing
+  url: https://developers.live-direct-marketing.online/pricing
+- type: SignUp
+  url: https://developers.live-direct-marketing.online/signup
+- type: Login
+  url: https://app.live-direct-marketing.online/login
+- type: TermsOfService
+  url: https://live-direct-marketing.online/terms
+- type: PrivacyPolicy
+  url: https://live-direct-marketing.online/policy
+- type: LinkedIn
+  url: https://www.linkedin.com/company/101983165/
+- type: ChangeLog
+  url: https://developers.live-direct-marketing.online/changelog
+- type: ChangeLog
+  url: changelog/live-direct-marketing-online-changelog.yml
+- type: LLMsTxt
+  url: llms/live-direct-marketing-online-llms.txt
+- type: LLMsTxt
+  name: Developer portal llms.txt
+  image: https://live-direct-marketing.online/img/logo.png
+  url: llms/live-direct-marketing-online-developers-llms.txt
+- type: LLMsTxt
+  name: Inbox Check llms.txt
+  image: https://live-direct-marketing.online/img/logo.png
+  url: llms/live-direct-marketing-online-inbox-check-llms.txt
+- type: Packages
+  url: packages/live-direct-marketing-online-packages.yml
+- type: SDKs
+  url: packages/live-direct-marketing-online-packages.yml
+- type: WellKnown
+  url: well-known/live-direct-marketing-online-well-known.yml
+- type: SecurityTxt
+  url: well-known/live-direct-marketing-online-security.txt
+- type: AgentCard
+  url: a2a/live-direct-marketing-online-a2a.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Conformance
+  url: conformance/live-direct-marketing-online-conformance.yml
+- type: ErrorCatalog
+  url: errors/live-direct-marketing-online-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/live-direct-marketing-online-lifecycle.yml
+- type: Authentication
+  url: authentication/live-direct-marketing-online-authentication.yml
+- type: OAuthScopes
+  url: scopes/live-direct-marketing-online-scopes.yml
+- type: Conventions
+  url: conventions/live-direct-marketing-online-conventions.yml
+- type: Idempotency
+  url: conventions/live-direct-marketing-online-conventions.yml
+- type: Sandbox
+  url: sandbox/live-direct-marketing-online-sandbox.yml
+- type: Plans
+  url: plans/live-direct-marketing-online-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/live-direct-marketing-online-rate-limits.yml
+- type: Webhooks
+  url: asyncapi/live-direct-marketing-online-webhooks.yml
+- type: DataModel
+  url: data-model/live-direct-marketing-online-data-model.yml
+- type: DataSubjectRequest
+  url: regulatory/live-direct-marketing-online-regulatory-posture.yml
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 48
+  pass: local-v3

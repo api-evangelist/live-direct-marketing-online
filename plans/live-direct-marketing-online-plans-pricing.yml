@@ -1,0 +1,75 @@
+generated: '2026-09-19'
+method: probed
+source: https://api.live-direct-marketing.online/api/public/pricing
+docs:
+  - https://developers.live-direct-marketing.online/pricing
+  - https://developers.live-direct-marketing.online/billing-byoc
+  - https://check.live-direct-marketing.online/docs
+raw: plans/live-direct-marketing-online-public-pricing.json
+plan_count: 3
+currency: USD
+model: >-
+  Prepaid USD balance billed per operation; delivery is charged only for messages marked SENT for at
+  least 24 hours without a recorded bounce (the provider is explicit that this "does not prove the
+  final recipient's Inbox folder"). The public pricing endpoint answers without authentication;
+  tenant overrides are visible only in the authenticated GET /api/billing/balance.
+payment_status: >-
+  The pricing endpoint reports payment.mode "demo", gateway "none", topUp "manual_by_admin" — no
+  payment gateway is connected while the beta runs, top-ups are handled by the operator, and the
+  legal documents say payment and chargeback terms apply only once billing is enabled.
+plans:
+  - id: ldm-welcome-credit
+    name: Welcome credit
+    price: 0
+    currency: USD
+    period: one-time
+    included:
+      - $50.00 prepaid balance on signup (signupCreditUsd: 50), stated never to expire
+      - Full platform and API access at the same pay-per-inbox rates
+      - Agent API key auto-issued on signup (read + safe-draft scopes until activation)
+      - Support chat in the app
+    limits:
+      - Beta capacity is limited — self-signup workspaces beyond the active seats join a waitlist
+      - Self-signup database quota 50 MB per tenant (writes return 403 over quota)
+      - Auto-activation capped at 1 per hour platform-wide; agent registration 3 per hour per IP
+    source: https://developers.live-direct-marketing.online/pricing
+  - id: ldm-pay-as-you-go
+    name: Pay as you go
+    price: null
+    currency: USD
+    period: usage
+    unit: per email x operation (creative_approval per creative)
+    entries:
+      - { name: inbox_placement, price: 0.015, unit: per inbox delivery, note: managed sending pool }
+      - { name: inbox_placement_byoc, price: 0.005, unit: per inbox delivery, note: 'BYOC = bring your own finished content (recipient contentSource=byoc), not your own sending account' }
+      - { name: creative_approval, price: 5, unit: per creative (one-time), note: waived on automatic system:* approval }
+      - { name: platform_render, price: 0, unit: per preparation }
+      - { name: audit, price: 0, unit: per passed content audit }
+      - { name: audit_failed, price: 0.0005, unit: per failed content audit, note: independently priced — not a fraction of audit }
+      - { name: send, price: 0, unit: per queued send }
+    included:
+      - Unlimited API keys and webhooks
+      - Email support
+      - '"No rate limits" (marketing claim on the pricing page; see rate-limits/ for the limits that are in fact documented)'
+    source: https://api.live-direct-marketing.online/api/public/pricing
+    snapshot_note: 'pricing.version 0, updatedAt null at fetch time; the billing page dates the same figures to 2026-09-06 and calls them "a dated example, not a fixed quote".'
+  - id: inbox-check-tiers
+    name: Inbox Check API tiers
+    price: null
+    currency: USD
+    period: month
+    description: >-
+      The Inbox Placement Test is free without signup (3 tests per email per day, 10 per IP per day,
+      results retained 7 days). API keys are self-issued at the basic tier; pro and enterprise are
+      "contact the operator only for a tier upgrade" — no prices are published for them.
+    tiers:
+      - { name: basic, daily_tests: 100, monthly_tests: 1000, screenshots: false, price: null, note: default for self-service keys }
+      - { name: pro, daily_tests: 500, monthly_tests: 10000, screenshots: true, price: null }
+      - { name: enterprise, daily_tests: 5000, monthly_tests: 100000, screenshots: true, price: null }
+    limits:
+      - Up to 3 active API keys per user; up to 100 monitored domains per account
+      - Quota exhaustion returns 402 Payment Required {"error":"quota_exceeded"}
+    source: https://check.live-direct-marketing.online/docs
+comparison_claims: >-
+  The pricing page compares LDM to SendGrid, Mailgun and Instantly on "pay for fails", inbox
+  verification and agent-nativeness; these are the provider's claims and were not verified here.
