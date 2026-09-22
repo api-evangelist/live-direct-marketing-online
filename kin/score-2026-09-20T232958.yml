@@ -1,0 +1,45 @@
+# Kin Score artifact — live-direct-marketing-online — 2026-09-20T232958
+# The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
+---
+kin_score:
+  slug: live-direct-marketing-online
+  schema_version: 0.22.0
+  scored_at: '2026-09-20'
+  run_ts: 2026-09-20T232958
+  composite: 63.9
+  band: strong
+  facets:
+    discoverability: 75.9
+    contract_quality: 49.5
+    contract_governance: 18.2
+    operational_transparency: 71.1
+    developer_ergonomics: 78.6
+    access_clarity: 76.3
+  agent_readiness:
+    score: 50.9
+    band: agent-native
+    dimensions:
+      spec_presence: true
+      agentic_access: derived
+      reversibility_documented: false
+      mcp_server: documented
+      auth_clarity: bearer
+      idempotency: verified
+      error_semantics: documented
+      openapi_examples: false
+      rate_limit_signal: documented
+      event_surface_described: true
+      agent_skills: true
+      well_known_catalog: false
+      consent_identity: false
+      agent_card: conformant
+      dry_run_mode: true
+      delegated_identity: false
+      protected_resource_metadata: documented
+      dynamic_client_registration: false
+      agentic_commerce: false
+  provenance:
+    mcp: first-party
+    skills: first-party
+    agentic_access: derived
+    conformance: first-party
