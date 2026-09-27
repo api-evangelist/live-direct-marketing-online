@@ -28,62 +28,41 @@ tags:
 - CRM
 - Lead Management
 - Cold Outreach
+- Agent-Native
+- MCP
+- A2A
+- Webhook
+- B2B
+tags_raw:
+- Company
+- Email
+- Email Deliverability
+- Sales & marketing automation
+- CRM
+- Lead Management
+- Cold Outreach
 - agent-native
 - MCP
 - A2A
 - Webhook
 - B2B
 apis:
-- aid: live-direct-marketing-online:ldm-v3-api
-  name: LDM v3 API
-  image: https://live-direct-marketing.online/img/logo.png
-  description: >-
-    Multi-tenant B2B outreach automation platform exposed as one Bearer-authenticated HTTPS surface
-    for the web UI, MCP and A2A clients. 1,304 operations across 119 tags: companies, contacts,
-    leads and pipelines, briefs and creatives, mailing tasks and campaigns with send-readiness
-    dry-runs, email accounts and warm-up, three-phase deliverability probes, suppression / stop-list
-    / marking guardrails, webhooks, billing ledger, legal documents and a public DSAR endpoint.
-    Tenant-scoped calls carry X-Tenant-Id; 406 operations declare x-required-scope from a 79-scope
-    catalog. Self-serve registration returns a PENDING-account ldm_* key immediately.
-  humanURL: https://developers.live-direct-marketing.online/
-  baseURL: https://api.live-direct-marketing.online
-  tags:
-  - CRM
-  - Sales & marketing automation
-  - Email
-  - Lead Management
-  - Cold Outreach
-  properties:
-  - type: OpenAPI
-    url: openapi/live-direct-marketing-online-ldm-v3-openapi.json
-  - type: OpenAPI
-    name: Provider-hosted OpenAPI (live)
-    url: https://api.live-direct-marketing.online/api/docs-json
-  - type: Documentation
-    url: https://developers.live-direct-marketing.online/
-  - type: APIReference
-    url: https://developers.live-direct-marketing.online/api-reference
-  - type: GettingStarted
-    url: https://developers.live-direct-marketing.online/quickstart
-  - type: Authentication
-    url: https://developers.live-direct-marketing.online/authentication
-  - type: Overlay
-    url: overlays/live-direct-marketing-online-ldm-v3-overlay.yaml
-  - type: DataModel
-    url: data-model/live-direct-marketing-online-data-model.yml
 - aid: live-direct-marketing-online:ldm-mcp-server
   name: LDM MCP Server
   image: https://live-direct-marketing.online/img/logo.png
   description: >-
-    Remote Streamable-HTTP MCP server at https://api.live-direct-marketing.online/mcp (protocol
-    2025-06-18, server ldm-delivery 0.6.1). An anonymous session exposes three bootstrap tools —
-    ldm_health, ldm_terms, ldm_register — and a Bearer ldm_* session exposes one tool per API
-    operation named ldm_<operationId> (about 1,270 per the agent guide), each response carrying an
-    _expert guidance block. The same package (@live-direct-marketing/sdk) ships ldm-mcp, a stdio
-    server that generates its tools from the live agent card at connect time.
+    Remote Streamable-HTTP MCP server at https://api.live-direct-marketing.online/mcp (protocol 2025-06-18,
+    server ldm-delivery 0.6.1). An anonymous session exposes three bootstrap tools — ldm_health, ldm_terms,
+    ldm_register — and a Bearer ldm_* session exposes one tool per API operation named ldm_<operationId>
+    (about 1,270 per the agent guide), each response carrying an _expert guidance block. The same package
+    (@live-direct-marketing/sdk) ships ldm-mcp, a stdio server that generates its tools from the live
+    agent card at connect time.
   humanURL: https://live-direct-marketing.online/academy/mcp-flow
   baseURL: https://api.live-direct-marketing.online/mcp
   tags:
+  - MCP
+  - Agent-Native
+  tags_raw:
   - MCP
   - agent-native
   properties:
@@ -101,12 +80,15 @@ apis:
   image: https://live-direct-marketing.online/img/logo.png
   description: >-
     A2A 0.3.0-shaped agent card served at https://api.live-direct-marketing.online/.well-known/agent.json
-    (237 curated skills of 1,270, ?full=1 for all; capabilities streaming + pushNotifications) with
-    a JSON-RPC 2.0 dispatcher at POST /api/a2a that answers 401 Problem Details without a Bearer
-    ldm_* key. Pointer cards on the brand, app and developer-portal hosts delegate to this live card.
+    (237 curated skills of 1,270, ?full=1 for all; capabilities streaming + pushNotifications) with a
+    JSON-RPC 2.0 dispatcher at POST /api/a2a that answers 401 Problem Details without a Bearer ldm_* key.
+    Pointer cards on the brand, app and developer-portal hosts delegate to this live card.
   humanURL: https://developers.live-direct-marketing.online/agent-card
   baseURL: https://api.live-direct-marketing.online/api/a2a
   tags:
+  - A2A
+  - Agent-Native
+  tags_raw:
   - A2A
   - agent-native
   properties:
@@ -116,10 +98,10 @@ apis:
   name: LDM Webhook Events
   image: https://live-direct-marketing.online/img/logo.png
   description: >-
-    Outbound HTTPS webhook subscriptions for lead, dialog and task events (lead.created, lead.moved,
-    lead.won, lead.lost, dialog.received, dialog.replied, task.completed, task.failed), signed with
-    X-LDM-Signature sha256=<HMAC-SHA256 of the raw body>, with a delivery log, single-delivery retry
-    and last-N retrigger. No AsyncAPI document is published.
+    Outbound HTTPS webhook subscriptions for lead, dialog and task events (lead.created, lead.moved, lead.won,
+    lead.lost, dialog.received, dialog.replied, task.completed, task.failed), signed with X-LDM-Signature
+    sha256=<HMAC-SHA256 of the raw body>, with a delivery log, single-delivery retry and last-N retrigger.
+    No AsyncAPI document is published.
   humanURL: https://developers.live-direct-marketing.online/webhooks
   baseURL: https://api.live-direct-marketing.online
   tags:
@@ -129,42 +111,15 @@ apis:
     url: asyncapi/live-direct-marketing-online-webhooks.yml
   - type: Documentation
     url: https://developers.live-direct-marketing.online/webhooks
-- aid: live-direct-marketing-online:inbox-check-api
-  name: Inbox Check API
-  image: https://live-direct-marketing.online/img/logo.png
-  description: >-
-    Email deliverability test API behind the free Inbox Placement Test at check.live-direct-marketing.online:
-    create a test, send to the returned seed mailboxes across ten providers, poll placement, SPF /
-    DKIM / DMARC and spam-engine verdicts, schedule same-message rechecks, and run continuous domain
-    monitoring. Bearer icp_live_* keys with daily / monthly quotas; the OpenAPI 3.0 document covers
-    196 operations including the public /api/v1 tier, the account portal and admin surfaces.
-  humanURL: https://check.live-direct-marketing.online/docs
-  baseURL: https://check.live-direct-marketing.online
-  tags:
-  - Email Deliverability
-  - Email
-  properties:
-  - type: OpenAPI
-    url: openapi/live-direct-marketing-online-inbox-check-openapi.json
-  - type: OpenAPI
-    name: Provider-hosted OpenAPI (live)
-    url: https://check.live-direct-marketing.online/api/openapi.json
-  - type: Documentation
-    url: https://check.live-direct-marketing.online/docs
-  - type: APIReference
-    name: Swagger UI
-    url: https://check.live-direct-marketing.online/api/docs
-  - type: Overlay
-    url: overlays/live-direct-marketing-online-inbox-check-overlay.yaml
 - aid: live-direct-marketing-online:inbox-check-mcp-server
   name: Inbox Check MCP Server
   image: https://live-direct-marketing.online/img/logo.png
   description: >-
-    Remote Streamable-HTTP MCP server at https://check.live-direct-marketing.online/mcp requiring
-    Authorization: Bearer icp_live_* (anonymous tools/list answers 401 Problem Details). Tools mirror
-    the agent card skills — tests_create, tests_get, tests_list, tests_recheck, monitor_domain_*,
-    providers_list, me_get — plus five inbox_check_* compatibility aliases from the older stdio
-    package ldm-inbox-check-mcp 1.0.0 on npm.
+    Remote Streamable-HTTP MCP server at https://check.live-direct-marketing.online/mcp requiring Authorization:
+    Bearer icp_live_* (anonymous tools/list answers 401 Problem Details). Tools mirror the agent card
+    skills — tests_create, tests_get, tests_list, tests_recheck, monitor_domain_*, providers_list, me_get
+    — plus five inbox_check_* compatibility aliases from the older stdio package ldm-inbox-check-mcp 1.0.0
+    on npm.
   humanURL: https://check.live-direct-marketing.online/docs/mcp
   baseURL: https://check.live-direct-marketing.online/mcp
   tags:
@@ -180,10 +135,10 @@ apis:
   name: Inbox Check A2A Agent Card
   image: https://live-direct-marketing.online/img/logo.png
   description: >-
-    Provider-shaped agent card at https://check.live-direct-marketing.online/.well-known/agent.json
-    listing 21 REST-bound skills with HTTP method, URL and input_schema. The provider states that
-    A2A support is discovery-only — peers read the card and call the REST bindings directly; no
-    JSON-RPC task transport is shipped.
+    Provider-shaped agent card at https://check.live-direct-marketing.online/.well-known/agent.json listing
+    21 REST-bound skills with HTTP method, URL and input_schema. The provider states that A2A support
+    is discovery-only — peers read the card and call the REST bindings directly; no JSON-RPC task transport
+    is shipped.
   humanURL: https://check.live-direct-marketing.online/docs/a2a
   baseURL: https://check.live-direct-marketing.online
   tags:
@@ -192,12 +147,3551 @@ apis:
   properties:
   - type: Documentation
     url: https://check.live-direct-marketing.online/docs/a2a
+- aid: live-direct-marketing-online:live-direct-marketing-online-a2a-api
+  name: Live Direct Marketing A2A API
+  description: The A2A API from Live Direct Marketing — 1 operation(s) for a2a.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - A2A
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-a2a-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-account-api
+  name: Live Direct Marketing Account API
+  description: The account API from Live Direct Marketing — 4 operation(s) for account.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - account
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-account-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-activities-api
+  name: Live Direct Marketing Activities API
+  description: The Activities API from Live Direct Marketing — 3 operation(s) for activities.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Activities
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-activities-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-admin-api
+  name: Live Direct Marketing Admin API
+  description: The admin API from Live Direct Marketing — 123 operation(s) for admin.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - admin
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-admin-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-admin-honeypot-api
+  name: Live Direct Marketing Admin / Honeypot API
+  description: >-
+    The Admin / Honeypot API from Live Direct Marketing — 5 operation(s) for admin / honeypot.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Admin / Honeypot
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-admin-honeypot-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-admin-rpa-api
+  name: Live Direct Marketing Admin RPA API
+  description: The Admin RPA API from Live Direct Marketing — 11 operation(s) for admin rpa.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Admin RPA
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-admin-rpa-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-agency-api
+  name: Live Direct Marketing Agency API
+  description: The Agency API from Live Direct Marketing — 3 operation(s) for agency.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Agency
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-agency-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-agent-card-api
+  name: Live Direct Marketing Agent Card API
+  description: The Agent Card API from Live Direct Marketing — 8 operation(s) for agent card.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Agent Card
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-agent-card-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-ai-api
+  name: Live Direct Marketing AI API
+  description: The AI API from Live Direct Marketing — 8 operation(s) for ai.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - AI
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-ai-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-allowlist-api
+  name: Live Direct Marketing Allowlist API
+  description: The Allowlist API from Live Direct Marketing — 4 operation(s) for allowlist.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Allowlist
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-allowlist-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-amo-widget-api
+  name: Live Direct Marketing Amo Widget API
+  description: The amo-widget API from Live Direct Marketing — 7 operation(s) for amo-widget.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - amo-widget
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-amo-widget-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-api-keys-tenant-scoped-api
+  name: Live Direct Marketing API Keys (tenant-scoped) API
+  description: >-
+    The API Keys (tenant-scoped) API from Live Direct Marketing — 6 operation(s) for api keys (tenant-scoped).
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - API Keys (tenant-scoped)
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-api-keys-tenant-scoped-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-audit-api
+  name: Live Direct Marketing Audit API
+  description: The Audit API from Live Direct Marketing — 2 operation(s) for audit.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Audit
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-audit-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-auth-api
+  name: Live Direct Marketing Auth API
+  description: The auth API from Live Direct Marketing — 8 operation(s) for auth.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-auth-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-authentication-api
+  name: Live Direct Marketing Authentication API
+  description: The Authentication API from Live Direct Marketing — 13 operation(s) for authentication.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-best-send-time-api
+  name: Live Direct Marketing Best Send Time API
+  description: The Best Send Time API from Live Direct Marketing — 1 operation(s) for best send time.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Best Send Time
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-best-send-time-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-beta-signups-api
+  name: Live Direct Marketing Beta Signups API
+  description: The beta-signups API from Live Direct Marketing — 1 operation(s) for beta-signups.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - beta-signups
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-beta-signups-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-billing-api
+  name: Live Direct Marketing Billing API
+  description: The Billing API from Live Direct Marketing — 2 operation(s) for billing.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Billing
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-billing-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-branding-api
+  name: Live Direct Marketing Branding API
+  description: The Branding API from Live Direct Marketing — 1 operation(s) for branding.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Branding
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-branding-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-briefs-api
+  name: Live Direct Marketing Briefs API
+  description: The Briefs API from Live Direct Marketing — 23 operation(s) for briefs.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Briefs
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-briefs-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-browser-queue-api
+  name: Live Direct Marketing Browser Queue API
+  description: The Browser Queue API from Live Direct Marketing — 6 operation(s) for browser queue.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Browser Queue
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-browser-queue-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-campaign-groups-api
+  name: Live Direct Marketing Campaign Groups API
+  description: The Campaign Groups API from Live Direct Marketing — 3 operation(s) for campaign groups.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Campaign Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-campaign-groups-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-campaigns-api
+  name: Live Direct Marketing Campaigns API
+  description: The Campaigns API from Live Direct Marketing — 38 operation(s) for campaigns.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-campaigns-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-canvas-api
+  name: Live Direct Marketing Canvas API
+  description: The Canvas API from Live Direct Marketing — 4 operation(s) for canvas.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Canvas
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-canvas-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-cohort-metrics-api
+  name: Live Direct Marketing Cohort Metrics API
+  description: The Cohort Metrics API from Live Direct Marketing — 3 operation(s) for cohort metrics.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Cohort Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-cohort-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-companies-api
+  name: Live Direct Marketing Companies API
+  description: The Companies API from Live Direct Marketing — 19 operation(s) for companies.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Companies
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-companies-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-companies-custom-fields-api
+  name: Live Direct Marketing Companies / Custom Fields API
+  description: >-
+    The Companies / Custom Fields API from Live Direct Marketing — 4 operation(s) for companies / custom
+    fields.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Companies / Custom Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-companies-custom-fields-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-companies-duplicates-api
+  name: Live Direct Marketing Companies / Duplicates API
+  description: >-
+    The Companies / Duplicates API from Live Direct Marketing — 5 operation(s) for companies / duplicates.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Companies / Duplicates
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-companies-duplicates-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-company-list-groups-api
+  name: Live Direct Marketing Company List Groups API
+  description: >-
+    The Company List Groups API from Live Direct Marketing — 3 operation(s) for company list groups.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Company List Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-company-list-groups-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-company-lists-api
+  name: Live Direct Marketing Company Lists API
+  description: The Company Lists API from Live Direct Marketing — 7 operation(s) for company lists.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Company Lists
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-company-lists-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-connectors-api
+  name: Live Direct Marketing Connectors API
+  description: The Connectors API from Live Direct Marketing — 2 operation(s) for connectors.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Connectors
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-connectors-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-contact-list-groups-api
+  name: Live Direct Marketing Contact List Groups API
+  description: >-
+    The Contact List Groups API from Live Direct Marketing — 3 operation(s) for contact list groups.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Contact List Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-contact-list-groups-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-contact-lists-api
+  name: Live Direct Marketing Contact Lists API
+  description: The Contact Lists API from Live Direct Marketing — 8 operation(s) for contact lists.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Contact Lists
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-contact-lists-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-contacts-api
+  name: Live Direct Marketing Contacts API
+  description: The Contacts API from Live Direct Marketing — 19 operation(s) for contacts.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-contacts-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-content-analyzer-api
+  name: Live Direct Marketing Content Analyzer API
+  description: >-
+    The Content Analyzer API from Live Direct Marketing — 1 operation(s) for content analyzer.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Content Analyzer
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-content-analyzer-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-creatives-api
+  name: Live Direct Marketing Creatives API
+  description: The Creatives API from Live Direct Marketing — 90 operation(s) for creatives.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Creatives
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-creatives-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-creatives-on-demand-api
+  name: Live Direct Marketing Creatives / On-Demand API
+  description: >-
+    The Creatives / On-Demand API from Live Direct Marketing — 6 operation(s) for creatives / on-demand.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Creatives / On-Demand
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-creatives-on-demand-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-custom-events-api
+  name: Live Direct Marketing Custom Events API
+  description: The Custom Events API from Live Direct Marketing — 3 operation(s) for custom events.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Custom Events
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-custom-events-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-custom-extract-api
+  name: Live Direct Marketing Custom Extract API
+  description: The Custom Extract API from Live Direct Marketing — 2 operation(s) for custom extract.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Custom Extract
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-custom-extract-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-custom-fields-api
+  name: Live Direct Marketing Custom Fields API
+  description: The Custom Fields API from Live Direct Marketing — 6 operation(s) for custom fields.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Custom Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-custom-fields-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-custom-objects-api
+  name: Live Direct Marketing Custom Objects API
+  description: The Custom Objects API from Live Direct Marketing — 4 operation(s) for custom objects.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Custom Objects
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-custom-objects-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-deliverability-api
+  name: Live Direct Marketing Deliverability API
+  description: The Deliverability API from Live Direct Marketing — 11 operation(s) for deliverability.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Deliverability
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-deliverability-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-deploy-api
+  name: Live Direct Marketing Deploy API
+  description: The deploy API from Live Direct Marketing — 2 operation(s) for deploy.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - deploy
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-deploy-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-development-pipeline-api
+  name: Live Direct Marketing Development Pipeline API
+  description: >-
+    The Development Pipeline API from Live Direct Marketing — 13 operation(s) for development pipeline.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Development Pipeline
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-development-pipeline-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: >-
+    live-direct-marketing-online:live-direct-marketing-online-development-pipeline-conveyor-bridge-api
+  name: Live Direct Marketing Development Pipeline — Conveyor Bridge API
+  description: >-
+    The Development Pipeline — Conveyor Bridge API from Live Direct Marketing — 5 operation(s) for development
+    pipeline — conveyor bridge.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Development Pipeline — Conveyor Bridge
+  properties:
+  - type: OpenAPI
+    url: >-
+      openapi/live-direct-marketing-online-development-pipeline-conveyor-bridge-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-dialog-linker-api
+  name: Live Direct Marketing Dialog Linker API
+  description: The Dialog Linker API from Live Direct Marketing — 6 operation(s) for dialog linker.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Dialog Linker
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-dialog-linker-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-dialogs-api
+  name: Live Direct Marketing Dialogs API
+  description: The Dialogs API from Live Direct Marketing — 44 operation(s) for dialogs.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Dialogs
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-dialogs-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-domain-watch-api
+  name: Live Direct Marketing Domain Watch API
+  description: The domain-watch API from Live Direct Marketing — 7 operation(s) for domain-watch.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - domain-watch
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-domain-watch-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-domainobservations-api
+  name: Live Direct Marketing Domain Observations API
+  description: >-
+    The DomainObservations API from Live Direct Marketing — 6 operation(s) for domainobservations.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - DomainObservations
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-domainobservations-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-domains-api
+  name: Live Direct Marketing Domains API
+  description: The Domains API from Live Direct Marketing — 2 operation(s) for domains.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Domains
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-domains-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-domainwatchplacement-api
+  name: Live Direct Marketing Domain Watch Placement API
+  description: >-
+    The DomainWatchPlacement API from Live Direct Marketing — 1 operation(s) for domainwatchplacement.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - DomainWatchPlacement
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-domainwatchplacement-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-dsar-api
+  name: Live Direct Marketing DSAR API
+  description: The DSAR API from Live Direct Marketing — 3 operation(s) for dsar.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - DSAR
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-dsar-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-email-accounts-api
+  name: Live Direct Marketing Email Accounts API
+  description: The Email Accounts API from Live Direct Marketing — 34 operation(s) for email accounts.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Email Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-email-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: >-
+    live-direct-marketing-online:live-direct-marketing-online-email-accounts-deliverability-api
+  name: Live Direct Marketing Email Accounts — Deliverability API
+  description: >-
+    The Email Accounts — Deliverability API from Live Direct Marketing — 3 operation(s) for email accounts
+    — deliverability.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Email Accounts — Deliverability
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-email-accounts-deliverability-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-email-accounts-gas-webhook-api
+  name: Live Direct Marketing Email Accounts / GAS Webhook API
+  description: >-
+    The Email Accounts / GAS Webhook API from Live Direct Marketing — 1 operation(s) for email accounts
+    / gas webhook.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Email Accounts / GAS Webhook
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-email-accounts-gas-webhook-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: >-
+    live-direct-marketing-online:live-direct-marketing-online-email-accounts-inbox-ingest-api
+  name: Live Direct Marketing Email Accounts / Inbox Ingest API
+  description: >-
+    The Email Accounts / Inbox Ingest API from Live Direct Marketing — 1 operation(s) for email accounts
+    / inbox ingest.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Email Accounts / Inbox Ingest
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-email-accounts-inbox-ingest-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-email-verification-api
+  name: Live Direct Marketing Email Verification API
+  description: >-
+    The Email Verification API from Live Direct Marketing — 2 operation(s) for email verification.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Email Verification
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-email-verification-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-enrichment-api
+  name: Live Direct Marketing Enrichment API
+  description: The Enrichment API from Live Direct Marketing — 2 operation(s) for enrichment.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Enrichment
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-enrichment-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-exports-api
+  name: Live Direct Marketing Exports API
+  description: The Exports API from Live Direct Marketing — 4 operation(s) for exports.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Exports
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-exports-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-feedback-api
+  name: Live Direct Marketing Feedback API
+  description: The feedback API from Live Direct Marketing — 1 operation(s) for feedback.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - feedback
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-feedback-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-files-api
+  name: Live Direct Marketing Files API
+  description: The Files API from Live Direct Marketing — 15 operation(s) for files.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Files
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-files-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-files-serve-api
+  name: Live Direct Marketing Files / Serve API
+  description: The Files / Serve API from Live Direct Marketing — 4 operation(s) for files / serve.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Files / Serve
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-files-serve-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-health-api
+  name: Live Direct Marketing Health API
+  description: The health API from Live Direct Marketing — 2 operation(s) for health.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - health
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-health-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-icp-extension-api-api
+  name: Live Direct Marketing ICP Extension / API
+  description: >-
+    The ICP Extension / API API from Live Direct Marketing — 17 operation(s) for icp extension / api.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - ICP Extension / API
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-icp-extension-api-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-icp-extension-api
+  name: Live Direct Marketing ICP Extension API
+  description: The ICP Extension API from Live Direct Marketing — 14 operation(s) for icp extension.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - ICP Extension
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-icp-extension-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-imap-orchestrator-api
+  name: Live Direct Marketing IMAP Orchestrator API
+  description: >-
+    The IMAP Orchestrator API from Live Direct Marketing — 24 operation(s) for imap orchestrator.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - IMAP Orchestrator
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-imap-orchestrator-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-import-api
+  name: Live Direct Marketing Import API
+  description: The Import API from Live Direct Marketing — 10 operation(s) for import.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Import
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-import-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-inbound-rules-api
+  name: Live Direct Marketing Inbound Rules API
+  description: The Inbound Rules API from Live Direct Marketing — 7 operation(s) for inbound rules.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Inbound Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-inbound-rules-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-jobs-api
+  name: Live Direct Marketing Jobs API
+  description: The Jobs API from Live Direct Marketing — 1 operation(s) for jobs.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-jobs-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-landing-api
+  name: Live Direct Marketing Landing API
+  description: The Landing API from Live Direct Marketing — 1 operation(s) for landing.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Landing
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-landing-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-leads-api
+  name: Live Direct Marketing Leads API
+  description: The Leads API from Live Direct Marketing — 21 operation(s) for leads.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Leads
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-leads-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-legal-api
+  name: Live Direct Marketing Legal API
+  description: The Legal API from Live Direct Marketing — 8 operation(s) for legal.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Legal
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-legal-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-linkedin-extension-api-api
+  name: Live Direct Marketing LinkedIn / Extension API
+  description: >-
+    The LinkedIn / Extension API API from Live Direct Marketing — 6 operation(s) for linkedin / extension
+    api.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - LinkedIn / Extension API
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-linkedin-extension-api-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-mail-agent-api
+  name: Live Direct Marketing Mail Agent API
+  description: The Mail Agent API from Live Direct Marketing — 7 operation(s) for mail agent.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Mail Agent
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-mail-agent-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-mail-agent-update-api
+  name: Live Direct Marketing Mail Agent / Update API
+  description: >-
+    The Mail Agent / Update API from Live Direct Marketing — 1 operation(s) for mail agent / update.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Mail Agent / Update
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-mail-agent-update-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-mail-routing-rules-api
+  name: Live Direct Marketing Mail Routing Rules API
+  description: >-
+    The Mail Routing Rules API from Live Direct Marketing — 4 operation(s) for mail routing rules.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Mail Routing Rules
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-mail-routing-rules-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-mail-transport-api
+  name: Live Direct Marketing Mail Transport API
+  description: The Mail Transport API from Live Direct Marketing — 1 operation(s) for mail transport.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Mail Transport
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-mail-transport-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-mailing-api
+  name: Live Direct Marketing Mailing API
+  description: The Mailing API from Live Direct Marketing — 39 operation(s) for mailing.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Mailing
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-mailing-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-marking-api
+  name: Live Direct Marketing Marking API
+  description: The Marking API from Live Direct Marketing — 5 operation(s) for marking.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Marking
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-marking-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-mcp-transport-api
+  name: Live Direct Marketing MCP Transport API
+  description: The mcp-transport API from Live Direct Marketing — 2 operation(s) for mcp-transport.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - mcp-transport
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-mcp-transport-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-monitoring-api
+  name: Live Direct Marketing Monitoring API
+  description: The monitoring API from Live Direct Marketing — 16 operation(s) for monitoring.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-monitoring-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-monitoring-enrollment-api
+  name: Live Direct Marketing Monitoring Enrollment API
+  description: >-
+    The monitoring-enrollment API from Live Direct Marketing — 1 operation(s) for monitoring-enrollment.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - monitoring-enrollment
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-monitoring-enrollment-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-nalog-id-api
+  name: Live Direct Marketing Nalog ID API
+  description: The Nalog ID API from Live Direct Marketing — 2 operation(s) for nalog id.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Nalog ID
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-nalog-id-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-names-api
+  name: Live Direct Marketing Names API
+  description: The Names API from Live Direct Marketing — 2 operation(s) for names.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Names
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-names-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-notifications-api
+  name: Live Direct Marketing Notifications API
+  description: The Notifications API from Live Direct Marketing — 10 operation(s) for notifications.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-notifications-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-oauth-api
+  name: Live Direct Marketing OAuth API
+  description: The oauth API from Live Direct Marketing — 10 operation(s) for oauth.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-oauth-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-oauth-tests-api
+  name: Live Direct Marketing OAUTH Tests API
+  description: The oauth-tests API from Live Direct Marketing — 2 operation(s) for oauth-tests.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - oauth-tests
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-oauth-tests-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-observability-api-monitor-api
+  name: Live Direct Marketing Observability / API Monitor API
+  description: >-
+    The Observability / API Monitor API from Live Direct Marketing — 6 operation(s) for observability
+    / api monitor.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Observability / API Monitor
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-observability-api-monitor-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-observability-api-tests-api
+  name: Live Direct Marketing Observability / API Tests API
+  description: >-
+    The Observability / API Tests API from Live Direct Marketing — 4 operation(s) for observability /
+    api tests.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Observability / API Tests
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-observability-api-tests-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-phantom-browser-api
+  name: Live Direct Marketing Phantom Browser API
+  description: >-
+    The Phantom Browser API from Live Direct Marketing — 28 operation(s) for phantom browser.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Phantom Browser
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-phantom-browser-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-phantom-browser-download-api
+  name: Live Direct Marketing Phantom Browser / Download API
+  description: >-
+    The Phantom Browser / Download API from Live Direct Marketing — 5 operation(s) for phantom browser
+    / download.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Phantom Browser / Download
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-phantom-browser-download-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-pipeline-events-api
+  name: Live Direct Marketing Pipeline Events API
+  description: The Pipeline Events API from Live Direct Marketing — 9 operation(s) for pipeline events.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Pipeline Events
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-pipeline-events-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-pipelines-api
+  name: Live Direct Marketing Pipelines API
+  description: The Pipelines API from Live Direct Marketing — 11 operation(s) for pipelines.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Pipelines
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-pipelines-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-presend-api
+  name: Live Direct Marketing Presend API
+  description: The presend API from Live Direct Marketing — 2 operation(s) for presend.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - presend
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-presend-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-presendadmin-api
+  name: Live Direct Marketing Presend Admin API
+  description: The PresendAdmin API from Live Direct Marketing — 1 operation(s) for presendadmin.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - PresendAdmin
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-presendadmin-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-profi-orders-api
+  name: Live Direct Marketing Profi Orders API
+  description: The Profi Orders API from Live Direct Marketing — 3 operation(s) for profi orders.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Profi Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-profi-orders-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-project-templates-api
+  name: Live Direct Marketing Project Templates API
+  description: >-
+    The Project Templates API from Live Direct Marketing — 10 operation(s) for project templates.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Project Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-project-templates-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-prompt-templates-api
+  name: Live Direct Marketing Prompt Templates API
+  description: >-
+    The Prompt Templates API from Live Direct Marketing — 3 operation(s) for prompt templates.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Prompt Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-prompt-templates-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-provider-config-api
+  name: Live Direct Marketing Provider Config API
+  description: The Provider Config API from Live Direct Marketing — 6 operation(s) for provider config.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Provider Config
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-provider-config-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-providers-api
+  name: Live Direct Marketing Providers API
+  description: The providers API from Live Direct Marketing — 2 operation(s) for providers.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - providers
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-providers-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-public-api
+  name: Live Direct Marketing Public API
+  description: The Public API from Live Direct Marketing — 1 operation(s) for public.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Public
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-public-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-recheck-api
+  name: Live Direct Marketing Recheck API
+  description: The recheck API from Live Direct Marketing — 2 operation(s) for recheck.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - recheck
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-recheck-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-reports-api
+  name: Live Direct Marketing Reports API
+  description: The reports API from Live Direct Marketing — 11 operation(s) for reports.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - reports
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-reports-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-rpa-api
+  name: Live Direct Marketing RPA API
+  description: The RPA API from Live Direct Marketing — 7 operation(s) for rpa.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - RPA
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-rpa-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-rpa-service-protocol-api
+  name: Live Direct Marketing RPA service protocol API
+  description: >-
+    The RPA service protocol API from Live Direct Marketing — 16 operation(s) for rpa service protocol.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - RPA service protocol
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-rpa-service-protocol-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-rules-creative-api
+  name: Live Direct Marketing Rules / Creative API
+  description: >-
+    The Rules / Creative API from Live Direct Marketing — 4 operation(s) for rules / creative.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Rules / Creative
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-rules-creative-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-rules-creative-bootstrap-api
+  name: Live Direct Marketing Rules / Creative Bootstrap API
+  description: >-
+    The Rules / Creative Bootstrap API from Live Direct Marketing — 2 operation(s) for rules / creative
+    bootstrap.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Rules / Creative Bootstrap
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-rules-creative-bootstrap-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-rules-discovery-api
+  name: Live Direct Marketing Rules / Discovery API
+  description: >-
+    The Rules / Discovery API from Live Direct Marketing — 2 operation(s) for rules / discovery.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Rules / Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-rules-discovery-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-rules-sub-resource-api
+  name: Live Direct Marketing Rules / Sub-resource API
+  description: >-
+    The Rules / Sub-resource API from Live Direct Marketing — 4 operation(s) for rules / sub-resource.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Rules / Sub-resource
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-rules-sub-resource-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-rum-api
+  name: Live Direct Marketing RUM API
+  description: The RUM API from Live Direct Marketing — 1 operation(s) for rum.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - RUM
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-rum-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-saved-views-api
+  name: Live Direct Marketing Saved Views API
+  description: The Saved Views API from Live Direct Marketing — 2 operation(s) for saved views.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Saved Views
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-saved-views-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-screenshots-api
+  name: Live Direct Marketing Screenshots API
+  description: The screenshots API from Live Direct Marketing — 1 operation(s) for screenshots.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - screenshots
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-screenshots-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-search-api
+  name: Live Direct Marketing Search API
+  description: The Search API from Live Direct Marketing — 1 operation(s) for search.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-search-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-selfcontrol-api
+  name: Live Direct Marketing Self Control API
+  description: The SelfControl API from Live Direct Marketing — 2 operation(s) for selfcontrol.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - SelfControl
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-selfcontrol-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-sender-links-api
+  name: Live Direct Marketing Sender Links API
+  description: The sender-links API from Live Direct Marketing — 5 operation(s) for sender-links.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - sender-links
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-sender-links-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-seo-index-api
+  name: Live Direct Marketing SEO Index API
+  description: The SEO Index API from Live Direct Marketing — 12 operation(s) for seo index.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - SEO Index
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-seo-index-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-sequences-api
+  name: Live Direct Marketing Sequences API
+  description: The Sequences API from Live Direct Marketing — 12 operation(s) for sequences.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Sequences
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-sequences-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-settings-api
+  name: Live Direct Marketing Settings API
+  description: The Settings API from Live Direct Marketing — 37 operation(s) for settings.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-settings-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-share-links-api
+  name: Live Direct Marketing Share Links API
+  description: The Share Links API from Live Direct Marketing — 2 operation(s) for share links.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Share Links
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-share-links-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-share-public-api
+  name: Live Direct Marketing Share Public API
+  description: The Share Public API from Live Direct Marketing — 3 operation(s) for share public.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Share Public
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-share-public-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-site-enrichment-api
+  name: Live Direct Marketing Site Enrichment API
+  description: >-
+    The Site Enrichment API from Live Direct Marketing — 17 operation(s) for site enrichment.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Site Enrichment
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-site-enrichment-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-stop-list-api
+  name: Live Direct Marketing Stop List API
+  description: The Stop List API from Live Direct Marketing — 9 operation(s) for stop list.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Stop List
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-stop-list-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-subscriptions-api
+  name: Live Direct Marketing Subscriptions API
+  description: The subscriptions API from Live Direct Marketing — 3 operation(s) for subscriptions.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-subscriptionsadmin-api
+  name: Live Direct Marketing Subscriptions Admin API
+  description: >-
+    The SubscriptionsAdmin API from Live Direct Marketing — 2 operation(s) for subscriptionsadmin.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - SubscriptionsAdmin
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-subscriptionsadmin-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-support-api
+  name: Live Direct Marketing Support API
+  description: The Support API from Live Direct Marketing — 6 operation(s) for support.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Support
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-support-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-suppression-api
+  name: Live Direct Marketing Suppression API
+  description: The Suppression API from Live Direct Marketing — 6 operation(s) for suppression.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Suppression
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-suppression-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-system-api
+  name: Live Direct Marketing System API
+  description: The System API from Live Direct Marketing — 2 operation(s) for system.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - System
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-system-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-systembriefintake-api
+  name: Live Direct Marketing System Brief Intake API
+  description: >-
+    The SystemBriefIntake API from Live Direct Marketing — 2 operation(s) for systembriefintake.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - SystemBriefIntake
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-systembriefintake-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-tags-api
+  name: Live Direct Marketing Tags API
+  description: The Tags API from Live Direct Marketing — 8 operation(s) for tags.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-tags-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-tasks-api
+  name: Live Direct Marketing Tasks API
+  description: The Tasks API from Live Direct Marketing — 31 operation(s) for tasks.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-tasks-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-telegram-api
+  name: Live Direct Marketing Telegram API
+  description: The telegram API from Live Direct Marketing — 3 operation(s) for telegram.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - telegram
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-telegram-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-tests-api
+  name: Live Direct Marketing Tests API
+  description: The tests API from Live Direct Marketing — 13 operation(s) for tests.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - tests
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-tests-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-tlsrpt-api
+  name: Live Direct Marketing Tls Rpt API
+  description: The TlsRpt API from Live Direct Marketing — 1 operation(s) for tlsrpt.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - TlsRpt
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-tlsrpt-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-tracking-api
+  name: Live Direct Marketing Tracking API
+  description: The Tracking API from Live Direct Marketing — 14 operation(s) for tracking.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Tracking
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-tracking-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-tracking-bot-list-api
+  name: Live Direct Marketing Tracking / Bot List API
+  description: >-
+    The Tracking / Bot List API from Live Direct Marketing — 4 operation(s) for tracking / bot list.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Tracking / Bot List
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-tracking-bot-list-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-tracking-domain-api
+  name: Live Direct Marketing Tracking / Domain API
+  description: >-
+    The Tracking / Domain API from Live Direct Marketing — 7 operation(s) for tracking / domain.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Tracking / Domain
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-tracking-domain-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-tracking-redirect-source-api
+  name: Live Direct Marketing Tracking / Redirect Source API
+  description: >-
+    The Tracking / Redirect Source API from Live Direct Marketing — 3 operation(s) for tracking / redirect
+    source.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Tracking / Redirect Source
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-tracking-redirect-source-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-unsubscribe-api
+  name: Live Direct Marketing Unsubscribe API
+  description: The Unsubscribe API from Live Direct Marketing — 1 operation(s) for unsubscribe.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Unsubscribe
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-unsubscribe-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-user-settings-api
+  name: Live Direct Marketing User Settings API
+  description: The User Settings API from Live Direct Marketing — 2 operation(s) for user settings.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - User Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-user-settings-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-users-api
+  name: Live Direct Marketing Users API
+  description: The Users API from Live Direct Marketing — 12 operation(s) for users.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-users-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-utils-api
+  name: Live Direct Marketing Utils API
+  description: The Utils API from Live Direct Marketing — 2 operation(s) for utils.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Utils
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-utils-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-variable-resolver-api
+  name: Live Direct Marketing Variable Resolver API
+  description: >-
+    The Variable Resolver API from Live Direct Marketing — 2 operation(s) for variable resolver.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Variable Resolver
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-variable-resolver-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-webhooks-api
+  name: Live Direct Marketing Webhooks API
+  description: The Webhooks API from Live Direct Marketing — 5 operation(s) for webhooks.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-workers-api
+  name: Live Direct Marketing Workers API
+  description: The workers API from Live Direct Marketing — 5 operation(s) for workers.
+  humanURL: https://developers.live-direct-marketing.online/
+  baseURL: https://api.live-direct-marketing.online
+  tags:
+  - workers
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-workers-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
+- aid: live-direct-marketing-online:live-direct-marketing-online-linked-in-api
+  name: Live Direct Marketing Linked In API
+  description: The Linked In API from Live Direct Marketing — 9 operation(s) for linked in.
+  humanURL: https://live-direct-marketing.online/academy/mcp-flow
+  baseURL: https://api.live-direct-marketing.online/mcp
+  tags:
+  - Linked In
+  properties:
+  - type: OpenAPI
+    url: openapi/live-direct-marketing-online-linked-in-api-openapi.yml
+  - type: Documentation
+    url: https://developers.live-direct-marketing.online/
+  - type: APIReference
+    url: https://developers.live-direct-marketing.online/api-reference
+  - type: GettingStarted
+    url: https://developers.live-direct-marketing.online/quickstart
+  - type: Authentication
+    url: https://developers.live-direct-marketing.online/authentication
+  - type: DataModel
+    url: data-model/live-direct-marketing-online-data-model.yml
+  - type: Documentation
+    url: https://check.live-direct-marketing.online/docs
+  - type: APIReference
+    url: https://check.live-direct-marketing.online/api/docs
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/live-direct-marketing-online-ldm-v3-overlay.yaml
+- type: Overlay
+  url: overlays/live-direct-marketing-online-inbox-check-overlay.yaml
 - type: VulnerabilityDisclosure
   url: security/live-direct-marketing-online-vulnerability-disclosure.yml
 - type: Security
@@ -291,3 +3785,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 48
   pass: local-v3
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://api.live-direct-marketing.online/.well-known/agent.json"
+  grade: "near-conformant"
+  protocol_version: "0.3.0"
+  control: 404

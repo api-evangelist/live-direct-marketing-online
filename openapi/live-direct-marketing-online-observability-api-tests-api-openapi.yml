@@ -1,0 +1,161 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Observability / API Tests API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Observability / API Tests across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Observability / API Tests
+paths:
+  /api/admin/api-tests/catalog:
+    get:
+      operationId: ApiTestsController_catalog
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List the catalog of synthetic API test suites
+      tags:
+      - Observability / API Tests
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/api-tests/run:
+    post:
+      operationId: ApiTestsController_run
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run a synthetic API test suite (SUPER only)
+      tags:
+      - Observability / API Tests
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/api-tests/runs:
+    get:
+      operationId: ApiTestsController_list
+      parameters:
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: suiteId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List recent synthetic API test runs
+      tags:
+      - Observability / API Tests
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/api-tests/runs/{id}:
+    get:
+      operationId: ApiTestsController_get
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get details of a single synthetic API test run
+      tags:
+      - Observability / API Tests
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

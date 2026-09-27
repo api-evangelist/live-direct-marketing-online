@@ -1,0 +1,106 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Account API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged account across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Account
+paths:
+  /api/v1/me:
+    get:
+      description: Returns this key's tier, scopes, allowed providers, and daily/monthly usage counters. Useful for self-checking remaining quota before a batch.
+      operationId: V1MeController_me
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Caller introspection — key metadata + current period usage
+      tags:
+      - Account
+  /api/account/api-keys:
+    get:
+      operationId: AccountController_list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Account
+      summary: Account controller list
+      x-summary-source: derived
+    post:
+      operationId: AccountController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountKeyDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Account
+      summary: Account controller create
+      x-summary-source: derived
+  /api/account/dashboard:
+    get:
+      operationId: AccountController_dashboard
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      summary: 'W1b — portal dashboard: usage chart + recent tests + provider mix'
+      tags:
+      - Account
+  /api/account/api-keys/{id}:
+    delete:
+      operationId: AccountController_revoke
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Account
+      summary: Account controller revoke
+      x-summary-source: derived
+components:
+  schemas:
+    CreateAccountKeyDto:
+      type: object
+      properties:
+        monitoringWrite:
+          type: boolean
+        name:
+          type: string
+          minLength: 1
+          maxLength: 60
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

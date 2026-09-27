@@ -1,0 +1,362 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Creatives / On-Demand API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Creatives / On-Demand across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Creatives / On-Demand
+paths:
+  /api/creative-on-demand/{creativeId}/generate:
+    post:
+      operationId: OnDemandController_generate
+      parameters:
+      - name: creativeId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateRequestDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Enqueue an on-demand generation request for a creative
+      tags:
+      - Creatives / On-Demand
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creative-on-demand/{creativeId}/requests/{requestId}:
+    get:
+      operationId: OnDemandController_getRequest
+      parameters:
+      - name: creativeId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single on-demand request by id
+      tags:
+      - Creatives / On-Demand
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creative-on-demand/{creativeId}/requests/{requestId}/cancel:
+    post:
+      operationId: OnDemandController_cancel
+      parameters:
+      - name: creativeId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: requestId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel an in-flight on-demand request
+      tags:
+      - Creatives / On-Demand
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creative-on-demand/{creativeId}/requests:
+    get:
+      operationId: OnDemandController_list
+      parameters:
+      - name: creativeId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: offset
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: from
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: to
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List on-demand requests for a creative
+      tags:
+      - Creatives / On-Demand
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creative-on-demand/{creativeId}/stats:
+    get:
+      operationId: OnDemandController_stats
+      parameters:
+      - name: creativeId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: from
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: to
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregated on-demand stats for a creative
+      tags:
+      - Creatives / On-Demand
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creative-on-demand/{creativeId}/qc-config:
+    get:
+      operationId: OnDemandController_getQcConfig
+      parameters:
+      - name: creativeId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get QC configuration for a creative
+      tags:
+      - Creatives / On-Demand
+    put:
+      operationId: OnDemandController_putQcConfig
+      parameters:
+      - name: creativeId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QcConfigDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Upsert QC configuration for a creative
+      tags:
+      - Creatives / On-Demand
+    delete:
+      operationId: OnDemandController_resetQcConfig
+      parameters:
+      - name: creativeId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reset QC configuration to defaults
+      tags:
+      - Creatives / On-Demand
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    QcConfigDto:
+      type: object
+      properties:
+        tier1:
+          type: object
+        tier2:
+          type: object
+      required:
+      - tier1
+      - tier2
+    GenerateRequestDto:
+      type: object
+      properties:
+        contactId:
+          type: string
+        source:
+          type: string
+        overrides:
+          $ref: '#/components/schemas/GenerateOverridesDto'
+        saveAsVersion:
+          type: boolean
+      required:
+      - contactId
+    GenerateOverridesDto:
+      type: object
+      properties:
+        subjectPrompt:
+          type: string
+        bodyPrompt:
+          type: string
+        model:
+          type: string
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

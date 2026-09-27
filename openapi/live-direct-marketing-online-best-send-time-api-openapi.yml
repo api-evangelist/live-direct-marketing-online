@@ -1,0 +1,97 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Best Send Time API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Best Send Time across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Best Send Time
+paths:
+  /api/best-send-time:
+    post:
+      operationId: BestSendTimeController_resolve
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BestSendTimeDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Resolve recommended send time without scheduling; AI fallback uses normal usage…
+      tags:
+      - Best Send Time
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    BestSendTimeDto:
+      type: object
+      properties:
+        contactId:
+          type: string
+        leadId:
+          type: string
+        dossier:
+          type: object
+          description: Pre-built dossier (same shape as LeadsService.getDossier returns).
+        dialogId:
+          type: string
+          description: 'If provided, enables Tier 0 ("mirror reply time"): the analyzer reads this
+
+            inbound dialog''s createdAt, projects its (weekday, hour, minute) into the
+
+            contact''s local TZ, and returns the next future occurrence of that slot.
+
+            Falls back to lower tiers when the dialog is auto-reply / non-email / OUT.
+
+            Combine with contactId/leadId to also fetch the dossier for TZ resolution.'
+        now:
+          type: string
+          description: 'Optional reference moment (ISO). Used as "now" when computing the next
+
+            Tue/Wed/Thu × hour slot. Defaults to current time. Useful for tests and
+
+            for asking "what would best-send-time recommend if I asked yesterday".'
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

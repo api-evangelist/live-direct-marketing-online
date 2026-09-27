@@ -1,0 +1,46 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Providers API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged providers across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Providers
+paths:
+  /api/providers:
+    get:
+      operationId: ProvidersPublicController_list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Providers
+      summary: Providers public controller list
+      x-summary-source: derived
+  /api/v1/providers:
+    get:
+      description: Lists all deliverability providers, marking which ones the calling key may use (with a reason for those it can’t) so clients can surface accurate upgrade prompts.
+      operationId: V1ProvidersController_list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: List available providers
+      tags:
+      - Providers
+components:
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

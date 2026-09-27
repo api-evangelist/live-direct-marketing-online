@@ -1,0 +1,221 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Support API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Support across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Support
+paths:
+  /api/support/thread:
+    get:
+      operationId: SupportController_getThread
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get own support thread with message history
+      tags:
+      - Support
+      x-required-scope:
+      - support:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/support/unread-count:
+    get:
+      operationId: SupportController_unreadCount
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Unread support messages badge count
+      tags:
+      - Support
+      x-required-scope:
+      - support:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/support/messages:
+    post:
+      operationId: SupportController_sendMessage
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Send a message to support (optional JPG/PNG attachments)
+      tags:
+      - Support
+      x-required-scope:
+      - support:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/support/attachments/{id}:
+    get:
+      operationId: SupportController_serveAttachment
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Serve a support attachment (thread owner or SUPER only)
+      tags:
+      - Support
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/support/read:
+    post:
+      operationId: SupportController_markRead
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Mark support replies as read
+      tags:
+      - Support
+      x-required-scope:
+      - support:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/support/status:
+    post:
+      operationId: SupportController_setStatus
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Close or reopen own support ticket
+      tags:
+      - Support
+      x-required-scope:
+      - support:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

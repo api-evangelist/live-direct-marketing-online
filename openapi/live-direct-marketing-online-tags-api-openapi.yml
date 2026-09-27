@@ -1,0 +1,391 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Tags API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Tags across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Tags
+paths:
+  /api/tags:
+    get:
+      operationId: TagsController_findAll
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List all tags in the workspace
+      tags:
+      - Tags
+    post:
+      operationId: TagsController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTagDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new tag
+      tags:
+      - Tags
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tags/{id}:
+    patch:
+      operationId: TagsController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTagDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update an existing tag
+      tags:
+      - Tags
+    delete:
+      operationId: TagsController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a tag
+      tags:
+      - Tags
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tags/companies/{companyId}:
+    post:
+      operationId: TagsController_attachToCompany
+      parameters:
+      - name: companyId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachTagDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Attach a tag to a company
+      tags:
+      - Tags
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tags/companies/{companyId}/{tagId}:
+    delete:
+      operationId: TagsController_detachFromCompany
+      parameters:
+      - name: companyId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: tagId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Detach a tag from a company
+      tags:
+      - Tags
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tags/contacts/{contactId}:
+    post:
+      operationId: TagsController_attachToContact
+      parameters:
+      - name: contactId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachTagDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Attach a tag to a contact
+      tags:
+      - Tags
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tags/contacts/{contactId}/{tagId}:
+    delete:
+      operationId: TagsController_detachFromContact
+      parameters:
+      - name: contactId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: tagId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Detach a tag from a contact
+      tags:
+      - Tags
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tags/leads/{leadId}:
+    post:
+      operationId: TagsController_attachToLead
+      parameters:
+      - name: leadId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachTagDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Attach a tag to a lead
+      tags:
+      - Tags
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tags/leads/{leadId}/{tagId}:
+    delete:
+      operationId: TagsController_detachFromLead
+      parameters:
+      - name: leadId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: tagId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Detach a tag from a lead
+      tags:
+      - Tags
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    AttachTagDto:
+      type: object
+      properties:
+        tagId:
+          type: string
+      required:
+      - tagId
+    UpdateTagDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        color:
+          type: string
+    CreateTagDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        color:
+          type: string
+      required:
+      - name
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

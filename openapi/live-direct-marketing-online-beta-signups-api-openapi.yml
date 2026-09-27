@@ -1,0 +1,43 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Beta Signups API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged beta-signups across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: beta-signups
+paths:
+  /api/beta-signups:
+    post:
+      operationId: BetaSignupsController_submit
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitBetaDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+      - beta-signups
+      summary: Beta signups controller submit
+      x-summary-source: derived
+components:
+  schemas:
+    SubmitBetaDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

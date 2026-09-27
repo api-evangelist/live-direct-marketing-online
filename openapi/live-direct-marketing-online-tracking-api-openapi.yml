@@ -1,0 +1,596 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Tracking API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Tracking across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Tracking
+paths:
+  /api/t/o/{trackingId}.gif:
+    get:
+      operationId: TrackingController_pixelOpen
+      parameters:
+      - name: trackingId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Serve a 1x1 tracking pixel GIF and log an OPEN event.
+      tags:
+      - Tracking
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/t/c/{trackingId}/{slug}:
+    get:
+      operationId: TrackingController_clickRedirect
+      parameters:
+      - name: trackingId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: slug
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Redirect a tracked click (/t/c/:trackingId/:slug) to target and log a CLICK.
+      tags:
+      - Tracking
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/r/{slug}:
+    get:
+      operationId: TrackingController_legacyRedirect
+      parameters:
+      - name: slug
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Short redirect by slug (/r/:slug) — click path for directly-created links…
+      tags:
+      - Tracking
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/links:
+    post:
+      operationId: TrackingController_createLink
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a tracking link.
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/links/{slug}:
+    get:
+      operationId: TrackingController_getLinkInfo
+      parameters:
+      - name: slug
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get tracking link info by slug
+      tags:
+      - Tracking
+    patch:
+      operationId: TrackingController_updateLink
+      parameters:
+      - name: slug
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Update a tracking link: cloakMode (off|bot_split|captcha), botDecoyUrl and/or…'
+      tags:
+      - Tracking
+    delete:
+      operationId: TrackingController_deleteLink
+      parameters:
+      - name: slug
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a tracking link by slug
+      tags:
+      - Tracking
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/simulate-click:
+    post:
+      operationId: TrackingController_simulateClick
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Dry-run the cloaking decision for a link given userAgent/ip/v — returns…
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/events:
+    get:
+      operationId: TrackingController_getEvents
+      parameters:
+      - name: mailingItemId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dialogId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: contactId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: type
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: from
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: to
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'List raw tracking events (type filter: OPEN | CLICK | BOT_CLICK).'
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/stats:
+    get:
+      operationId: TrackingController_getStats
+      parameters:
+      - name: taskId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregated tracking stats for a task
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/pixel-settings:
+    get:
+      operationId: TrackingController_getPixelSettings
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get tenant pixel tracking settings
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    patch:
+      operationId: TrackingController_updatePixelSettings
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update tenant pixel tracking settings
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/analytics/stats:
+    get:
+      operationId: TrackingController_getAnalyticsStats
+      parameters:
+      - name: taskId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dialogId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: from
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: to
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Aggregated tracking analytics (open rate, click rate, unique opens/clicks).
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/analytics/timeline:
+    get:
+      operationId: TrackingController_getTimeline
+      parameters:
+      - name: taskId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: days
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get opens/clicks timeline
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/analytics/top-links:
+    get:
+      operationId: TrackingController_getTopLinks
+      parameters:
+      - name: taskId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Top clicked links with per-link click counts (from campaign-sent CLICK events)
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/analytics/email-clients:
+    get:
+      operationId: TrackingController_getEmailClients
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get email client distribution from tracking events
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tracking/analytics/devices:
+    get:
+      operationId: TrackingController_getDevices
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get device type distribution from tracking events
+      tags:
+      - Tracking
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

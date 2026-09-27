@@ -1,0 +1,1951 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Campaigns API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Campaigns across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Campaigns
+paths:
+  /api/campaigns/{id}/test-task:
+    post:
+      operationId: CampaignsController_createTestTask
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: idempotency-key
+        required: true
+        in: header
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTestTaskDto'
+      responses:
+        '202':
+          description: ''
+      security:
+      - jwt: []
+      tags:
+      - Campaigns
+      summary: Campaigns controller create test task
+      x-summary-source: derived
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/test-task/{taskId}:
+    get:
+      operationId: CampaignsController_getTestTask
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: taskId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      tags:
+      - Campaigns
+      summary: Campaigns controller get test task
+      x-summary-source: derived
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/conveyor-health:
+    get:
+      operationId: CampaignsController_conveyorHealth
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Campaign conveyor health for this tenant (#347), read-only.
+      tags:
+      - Campaigns
+      x-required-scope:
+      - campaigns:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns:
+    get:
+      operationId: CampaignsController_list
+      parameters:
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List campaigns
+      tags:
+      - Campaigns
+    post:
+      operationId: CampaignsController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCampaignDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a campaign.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/backfill-historic-unsubscribes:
+    post:
+      operationId: CampaignsController_backfillHistoricUnsubscribes
+      parameters:
+      - name: dryRun
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'One-off backfill: mark campaign_recipients as UNSUBSCRIBED for addresses…'
+      tags:
+      - Campaigns
+      x-required-scope:
+      - campaigns:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/overview:
+    get:
+      operationId: CampaignsController_overview
+      parameters:
+      - name: statuses
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Campaigns overview for dashboard mailings widget
+      tags:
+      - Campaigns
+      x-required-scope:
+      - campaigns:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}:
+    get:
+      operationId: CampaignsController_get
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a campaign by id
+      tags:
+      - Campaigns
+    patch:
+      operationId: CampaignsController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCampaignDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a campaign (creative pool, routing, status and campaign-owned…
+      tags:
+      - Campaigns
+    delete:
+      operationId: CampaignsController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a campaign (cascades recipients; ACTIVE must be paused first)
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/geo-risk:
+    get:
+      operationId: CampaignsController_geoRisk
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Geo channel-policy risk breakdown of recipients (read-only WARN report)
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/metrics:
+    get:
+      operationId: CampaignsController_metrics
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Campaign metrics.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/send-series:
+    get:
+      operationId: CampaignsController_sendSeries
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: bucket
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: tz
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: from
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: to
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Sending speed time series.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/send-readiness:
+    get:
+      operationId: CampaignsController_sendReadiness
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Dry-run all send gates for a campaign: status, breaker, campaign-owned send…'
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/operational-status:
+    get:
+      operationId: CampaignsController_operationalStatus
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          minimum: 1
+          maximum: 200
+          default: 50
+          type: number
+      - name: cursor
+        required: false
+        in: query
+        description: Opaque tenant/resource-bound keyset cursor
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Single source of truth for "what is happening with this campaign right now".
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/task-history:
+    get:
+      operationId: CampaignsController_taskHistory
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          minimum: 1
+          maximum: 200
+          default: 50
+          type: number
+      - name: cursor
+        required: false
+        in: query
+        description: Opaque tenant/resource-bound keyset cursor
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Paginated durable delivery-task history for a campaign
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/hard-report:
+    get:
+      operationId: CampaignsController_hardReport
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Deterministic read-only quality snapshot for a campaign (#1245, first slice…
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/activity:
+    get:
+      operationId: CampaignsController_activity
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: cursor
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: type
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: recipientId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: stage
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: kind
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: since
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Unified chronological event feed for a campaign: the full recipient lifecycle…'
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/recipients:
+    get:
+      operationId: CampaignsController_listRecipients
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: stage
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: canvasStage
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: finalStatus
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: emailValid
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: auditLevel
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: inboxPlacement
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: sentFrom
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: sentTo
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: evStep
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: evMetric
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: failureReason
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: sortBy
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: sortDir
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List campaign recipients.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/recipients/move-stage:
+    post:
+      operationId: CampaignsController_moveRecipientsStage
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveRecipientsStageDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Move campaign recipients to a canvas stage (no send)
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/recipients/rerender:
+    post:
+      operationId: CampaignsController_rerenderRecipients
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RerenderRecipientsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reset unsent recipients back to SCREENED for a fresh re-render; force:true also…
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/recipients/repair-unsubscribe:
+    post:
+      operationId: CampaignsController_repairUnsubscribe
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepairUnsubscribeDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Backfill missing unsubscribe block and reconcile bodyHash for already-rendered…
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/retry-ai-failures:
+    post:
+      description: 'Returns CREATIVE_FAILED rows with an AI cause back into the pipeline (stage SCREENED). Response: {reset, reason, effectiveProvider, model, failureReasons, lastRecovery}. reason is the outcome code: retried (reset>0, failureReasons = which causes were fixed), nothing_to_retry (no AI failures and nothing was recovered), already_recovered (no failures because a previous call already returned them — most often a side effect of resume; when and how many — in lastRecovery), same_provider (rows have already been tried on the current provider). reset=0 by itself does NOT mean an error — check reason. If the AI provider is not configured — 409 ai_provider_unavailable.'
+      operationId: CampaignsController_retryAiFailures
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Retry unsent AI failures with the current tenant provider/model — reset=0 is an…
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/reconcile-from-dialogs:
+    post:
+      operationId: CampaignsController_reconcileFromDialogs
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: dryRun
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: linkCreatives
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'One-time: reconcile campaign recipients from existing dialogs (migration)'
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/pour:
+    post:
+      operationId: CampaignsController_pour
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PourCampaignDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Pour recipients into a campaign.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/push:
+    post:
+      operationId: CampaignsController_push
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushContactsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Push contacts directly into campaign (API-push, e.g. from form webhook)
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/pour-from-leads:
+    post:
+      operationId: CampaignsController_pourFromLeads
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PourFromLeadsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Pour recipients into a campaign from CRM leads by filter…
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/screen:
+    post:
+      operationId: CampaignsController_screen
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Screening of NEW recipients (suppression + stop-list): NEW→SCREENED|SKIPPED.'
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/recipients/content:
+    post:
+      operationId: CampaignsController_submitRenderedContent
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitRenderedContentDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Submit self-rendered (BYOC) email content for SCREENED recipients…
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/recipients/{rid}/manual:
+    patch:
+      operationId: CampaignsController_manualUpdateRecipient
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: rid
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Manual edit of a job by an operator: subject/body/scheduledAt/stage.'
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/recipients/{recipientId}/attachment-link:
+    get:
+      operationId: CampaignsController_recipientAttachmentLink
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: recipientId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Refresh a signed link to a recipient personal PDF without regeneration.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/preparations:
+    post:
+      operationId: CampaignsController_enqueuePreparation
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CampaignPreparationRequestDto'
+      responses:
+        '202':
+          description: ''
+      security:
+      - jwt: []
+      summary: Start or join a durable bounded preparation operation (no sending).
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/preparations/{generationId}:
+    get:
+      operationId: CampaignsController_preparationStatus
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: generationId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Read a tenant-bound preparation operation.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/prepare:
+    post:
+      operationId: CampaignsController_prepare
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Prepare and audit a bounded window of provider-eligible recipients.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/dispatch:
+    post:
+      operationId: CampaignsController_dispatch
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Assign sender account + schedule to READY recipients (no send yet).
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/send:
+    post:
+      operationId: CampaignsController_send
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Hand dispatched READY recipients to the mail_outbox queue (limit=1 for first…
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/sync-events:
+    post:
+      operationId: CampaignsController_syncEvents
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Sync open/click/bounce events from Dialog records back to recipients.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/restore-infra-failed:
+    post:
+      description: 'Resets the circuit breaker (PAUSED → ACTIVE) AND, as a side effect, recovers unsent AI failures the same way retry-ai-failures with force does. The recovery result is in the aiRecovery field {reset, reason, effectiveProvider, model, failureReasons}: reset — how many rows returned to the pipeline, failureReasons — the reasons they failed for. So retry-ai-failures called right after resume normally returns reset=0 with reason=already_recovered — that is not an error.'
+      operationId: CampaignsController_restoreInfraFailed
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestoreInfraFailedDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Resume a PAUSED campaign (reset circuit breaker) — also retries AI failures
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/resume:
+    post:
+      operationId: CampaignsController_resume
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      tags:
+      - Campaigns
+      summary: Campaigns controller resume
+      x-summary-source: derived
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/pause:
+    post:
+      description: 'Stops sending (ACTIVE → PAUSED) with the same attribution as /resume: a PAUSED event in the campaign feed with actor{who,reason}. Unlike /resume this is NOT a timer — auto-resume will not happen, work can only be resumed by another /resume or PATCH {status:"ACTIVE"}. An optional body.reason goes into the feed event. From a status other than ACTIVE — 409 invalid_status_transition. PATCH /campaigns/:id {status:"PAUSED"} keeps working as before (compatibility) — this endpoint does not replace it, it closes an asymmetry: the start/stop pair had no named endpoint for stopping, unlike resume.'
+      operationId: CampaignsController_pause
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PauseCampaignDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Pause an ACTIVE campaign (symmetric to /resume)
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/campaigns/{id}/recipients/{rid}:
+    get:
+      operationId: CampaignsController_getRecipient
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: rid
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a recipient with its event log.
+      tags:
+      - Campaigns
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    CampaignPreparationRequestDto:
+      type: object
+      properties:
+        limit:
+          type: number
+          minimum: 1
+          maximum: 50
+          description: Requested preparation batch, bounded by remaining preparation and relay capacity.
+          default: 50
+    PushContactsDto:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/PushRowDto'
+      required:
+      - rows
+    MoveRecipientsStageFilterDto:
+      type: object
+      properties:
+        stage:
+          type: string
+        search:
+          type: string
+        canvasStage:
+          type: string
+        finalStatus:
+          type: string
+        emailValid:
+          type: string
+        auditLevel:
+          type: string
+        inboxPlacement:
+          type: string
+        sentFrom:
+          type: string
+        sentTo:
+          type: string
+    PauseCampaignDto:
+      type: object
+      properties:
+        reason:
+          type: string
+          description: Идёт в событие PAUSED в ленте кампании (#514)
+    CampaignSendWindowDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: true = bounded calendar window; false = explicit 24/7
+        workDays:
+          description: 'ISO weekdays: 1 Monday … 7 Sunday'
+          type: array
+          items:
+            type: number
+            maximum: 7
+            minimum: 1
+        startTime:
+          type: string
+          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
+          description: Local start time, HH:MM
+        endTime:
+          type: string
+          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
+          description: Local end time, HH:MM (exclusive)
+        timezone:
+          type: string
+          description: IANA timezone, for example Europe/Moscow
+    PourFromLeadsDto:
+      type: object
+      properties:
+        pipelineId:
+          type: string
+        stageId:
+          type: string
+        interestStatus:
+          type: string
+        limit:
+          type: number
+    PourCampaignDto:
+      type: object
+      properties:
+        listId:
+          type: string
+          description: Contact-list id; required unless allContacts:true (#565)
+        allContacts:
+          type: boolean
+          description: Pour to all contacts
+        companyListId:
+          type: string
+          description: '#1221: Company-list id — pour live contacts of ALL companies in this COMPANY list (not a contact list). Mutually exclusive with listId/allContacts.'
+    CampaignPreparationConfigDto:
+      type: object
+      properties:
+        maxInFlight:
+          type: number
+          description: Maximum unique unsent touches across preparation, audit and delivery. Not a batch size.
+          minimum: 1
+          maximum: 50
+          default: 50
+        maxPendingPlacement:
+          type: number
+          description: Maximum sent touches awaiting placement feedback before new preparation pauses.
+          minimum: 1
+          maximum: 50
+          default: 50
+    MoveRecipientsStageDto:
+      type: object
+      properties:
+        toStage:
+          type: string
+          description: 'Целевая стадия канваса: STEP:n | WAIT:n | COMPLETED | STOPPED | __none__'
+        recipientIds:
+          type: array
+          items:
+            type: string
+        filter:
+          $ref: '#/components/schemas/MoveRecipientsStageFilterDto'
+      required:
+      - toStage
+    CreateTestTaskDto:
+      type: object
+      properties:
+        requestKey:
+          type: string
+          maxLength: 200
+          description: Stable retry key; Idempotency-Key header takes precedence when present
+        intendedRecipientId:
+          type: string
+          maxLength: 128
+          description: Existing CampaignRecipient id from this DRAFT campaign
+    RestoreInfraFailedDto:
+      type: object
+      properties:
+        dryRun:
+          type: boolean
+          description: По умолчанию true — только показать, кого вернёт (#765)
+    CreateCampaignDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Campaign name
+        description:
+          type: string
+          description: Campaign description
+        sourceType:
+          type: string
+          description: Source type
+          enum:
+          - API
+          - LIST
+          - CRM_TRIGGER
+        sourceConfig:
+          type: object
+          description: Source configuration
+        creativeIds:
+          description: Creative ids
+          type: array
+          items:
+            type: string
+        creativeRouting:
+          type: object
+          description: Creative routing
+        briefId:
+          type: string
+          description: Brief id
+        authorConfig:
+          type: object
+          description: Author config
+        auditorConfig:
+          type: object
+          description: Auditor config
+        senderConfig:
+          description: Sender config. senderAssignment defaults to send for new campaigns; dispatch must be selected explicitly.
+          allOf:
+          - $ref: '#/components/schemas/CampaignSenderConfigDto'
+        sendWindow:
+          description: Campaign-owned send window. Omitted fields use the safe initial default; explicit enabled:false means 24/7.
+          allOf:
+          - $ref: '#/components/schemas/CampaignSendWindowDto'
+        canvas:
+          type: object
+          description: Canvas config
+        renderMode:
+          type: string
+          description: Render mode
+          enum:
+          - PLATFORM
+          - BYOC
+      required:
+      - name
+    PushAttachmentDto:
+      type: object
+      properties:
+        filename:
+          type: string
+        contentBase64:
+          type: string
+        contentType:
+          type: string
+    PushRowDto:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        contactId:
+          type: string
+        companyId:
+          type: string
+        leadId:
+          type: string
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PushAttachmentDto'
+    SubmitRenderedContentDto:
+      type: object
+      properties:
+        items:
+          description: batch <=100, bodyHtml <=256KB
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmitRenderedContentItemDto'
+      required:
+      - items
+    RerenderRecipientsDto:
+      type: object
+      properties:
+        recipientIds:
+          type: array
+          items:
+            type: string
+        stages:
+          type: array
+          items:
+            type: string
+        force:
+          type: boolean
+          description: '#531: явный грант нового окна платных аудит-попыток'
+    SubmitRenderedContentItemDto:
+      type: object
+      properties:
+        recipientId:
+          type: string
+        subject:
+          type: string
+        bodyHtml:
+          type: string
+        bodyText:
+          type: string
+      required:
+      - recipientId
+      - subject
+    UpdateCampaignDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum:
+          - DRAFT
+          - ACTIVE
+          - PAUSED
+          - DONE
+          - ERROR
+        sourceType:
+          type: string
+          enum:
+          - API
+          - LIST
+          - CRM_TRIGGER
+        sourceConfig:
+          type: object
+        creativeIds:
+          type: array
+          items:
+            type: string
+        creativeRouting:
+          type: object
+        briefId:
+          type:
+          - object
+          - 'null'
+        authorConfig:
+          type: object
+        auditorConfig:
+          type: object
+        senderConfig:
+          description: Partial sender config. Changing dispatch→send atomically unpins sender/From only for READY rows and preserves scheduledAt; SENDING/SENT/outbox are never rewritten.
+          allOf:
+          - $ref: '#/components/schemas/CampaignSenderConfigDto'
+        sendWindow:
+          description: Partial campaign-owned send-window patch. Omitted fields are preserved; null is rejected. enabled:false is explicit 24/7.
+          allOf:
+          - $ref: '#/components/schemas/CampaignSendWindowDto'
+        canvas:
+          type: object
+        groupId:
+          type:
+          - object
+          - 'null'
+        renderMode:
+          type: string
+          enum:
+          - PLATFORM
+          - BYOC
+        acknowledgeUngroundedAudience:
+          type: boolean
+          description: Explicit acknowledgement for a high ungrounded-audience ratio.
+    RepairUnsubscribeDto:
+      type: object
+      properties:
+        recipientIds:
+          type: array
+          items:
+            type: string
+        stages:
+          type: array
+          items:
+            type: string
+    CampaignSenderConfigDto:
+      type: object
+      properties:
+        deliveryMode:
+          type: string
+          enum:
+          - SMTP
+          - RPA
+          - MIX
+          description: 'RPA is strict: it never falls back to SMTP. MIX uses the selected eligible relay method.'
+        senderAssignment:
+          type: string
+          description: When to bind a sender. send (default) selects an eligible account at send time with failover; dispatch is an explicit legacy opt-in that pins READY rows in advance.
+          enum:
+          - send
+          - dispatch
+          default: send
+        preparation:
+          $ref: '#/components/schemas/CampaignPreparationConfigDto'
+        pacing:
+          $ref: '#/components/schemas/CampaignPacingConfigDto'
+    CampaignPacingConfigDto:
+      type: object
+      properties:
+        dailyTarget:
+          type: number
+          minimum: 1
+          maximum: 1000000
+          description: Maximum unique REAL campaign recipients admitted in the campaign calendar day.
+        bestTimeMode:
+          type: string
+          enum:
+          - advisory
+          default: advisory
+          description: best_send_time is a recommendation; the send point may ignore it to meet the daily target.
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

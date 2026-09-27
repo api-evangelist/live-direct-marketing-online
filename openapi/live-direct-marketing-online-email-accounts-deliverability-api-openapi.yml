@@ -1,0 +1,140 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Email Accounts…
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Email Accounts — Deliverability across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Email Accounts — Deliverability
+paths:
+  /api/email-accounts/{id}/deliverability:
+    get:
+      operationId: EmailAccountDeliverabilityController_getAccountSnapshot
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Embedded deliverability snapshot for this email account (providers × {baseline…
+      tags:
+      - Email Accounts — Deliverability
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/email-accounts/{id}/deliverability/probe:
+    post:
+      operationId: EmailAccountDeliverabilityController_probeAccount
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '202':
+          description: ''
+      security:
+      - jwt: []
+      summary: '"Probe now" — convenience C1 trigger scoped to this account'
+      tags:
+      - Email Accounts — Deliverability
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/email-accounts/{id}/deliverability/block-rules/{provider}:
+    delete:
+      operationId: EmailAccountDeliverabilityController_unblockProvider
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: provider
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        description: '#509: attribute the unblock in this campaign''s feed'
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Unblock a (this account × provider) block rule — narrower scope required
+      tags:
+      - Email Accounts — Deliverability
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

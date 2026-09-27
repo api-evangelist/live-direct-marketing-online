@@ -1,0 +1,83 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Health API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged health across 4 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Health
+paths:
+  /api/health:
+    get:
+      operationId: HealthController_check
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Health
+      summary: Health controller check
+      x-summary-source: derived
+  /api/health/capacity:
+    get:
+      operationId: HealthController_capacity
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Resource capacity check for load admission
+      tags:
+      - Health
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

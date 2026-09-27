@@ -1,0 +1,1171 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Leads API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Leads across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Leads
+paths:
+  /api/leads:
+    get:
+      operationId: LeadsController_findAll
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: 1-based page number
+        schema:
+          example: 1
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Items per page (default 25)
+        schema:
+          example: 25
+          type: number
+      - name: pipelineId
+        required: false
+        in: query
+        description: Filter by pipeline ID
+        schema:
+          type: string
+      - name: stageId
+        required: false
+        in: query
+        description: Filter by stage ID within the pipeline
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: Full-text search across title/description
+        schema:
+          type: string
+      - name: sortBy
+        required: false
+        in: query
+        description: Sort column (e.g. createdAt, amount)
+        schema:
+          type: string
+      - name: sortDir
+        required: false
+        in: query
+        description: Sort direction
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+      - name: includeDeleted
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: onlyDeleted
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List leads with pagination, search, and pipeline/stage filters
+      tags:
+      - Leads
+    post:
+      operationId: LeadsController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLeadDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new lead
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/stats:
+    get:
+      operationId: LeadsController_getStats
+      parameters:
+      - name: pipelineId
+        required: false
+        in: query
+        description: Restrict stats to a single pipeline
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get lead statistics, optionally scoped to a pipeline
+      tags:
+      - Leads
+      x-required-scope:
+      - leads:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/kanban/{pipelineId}:
+    get:
+      operationId: LeadsController_kanban
+      parameters:
+      - name: pipelineId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: perStage
+        required: false
+        in: query
+        description: Max leads per stage (capped at 200)
+        schema:
+          example: 50
+          type: number
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the kanban board for a pipeline
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/kanban/{pipelineId}/stage/{stageId}:
+    get:
+      operationId: LeadsController_kanbanStageMore
+      parameters:
+      - name: pipelineId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: stageId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        description: Number of items to skip
+        schema:
+          example: 0
+          type: number
+      - name: limit
+        required: false
+        in: query
+        description: Items to load (capped at 100)
+        schema:
+          example: 25
+          type: number
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Load more leads for a single kanban stage
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/stages/{pipelineId}:
+    get:
+      operationId: LeadsController_stages
+      parameters:
+      - name: pipelineId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List stages of a pipeline (for lead filters)
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/duplicates:
+    get:
+      operationId: LeadsController_findDuplicates
+      parameters:
+      - name: field
+        required: false
+        in: query
+        description: Which signal to detect duplicates by (default all)
+        schema:
+          enum:
+          - title
+          - contact
+          - company
+          - all
+          type: string
+      - name: pipelineId
+        required: false
+        in: query
+        description: Restrict scan to a single pipeline
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Find duplicate leads across the workspace (by title/contact/company within a…
+      tags:
+      - Leads
+      x-required-scope:
+      - leads:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/{id}:
+    get:
+      operationId: LeadsController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single lead by ID
+      tags:
+      - Leads
+    patch:
+      operationId: LeadsController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLeadDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update an existing lead
+      tags:
+      - Leads
+    delete:
+      operationId: LeadsController_softDelete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Soft-delete a lead
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/{id}/duplicates:
+    get:
+      operationId: LeadsController_checkDuplicates
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Check for duplicates of a specific lead
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/{id}/dossier:
+    get:
+      operationId: LeadsController_dossier
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the full dossier (company + contact + activity) for a lead
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/{id}/interest:
+    get:
+      operationId: LeadsController_getInterest
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the AI interest classification for a lead
+      tags:
+      - Leads
+    patch:
+      operationId: LeadsController_setInterest
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetInterestDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Manually set the interest status of a lead
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/interest/breakdown:
+    get:
+      operationId: LeadsController_interestBreakdown
+      parameters:
+      - name: pipelineId
+        required: false
+        in: query
+        description: Restrict breakdown to a single pipeline
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the breakdown of leads by interest status
+      tags:
+      - Leads
+      x-required-scope:
+      - leads:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/{id}/deal:
+    get:
+      operationId: LeadsController_getDeal
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the deal projection (amount/probability/weighted) for a lead
+      tags:
+      - Leads
+    patch:
+      operationId: LeadsController_updateDeal
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDealDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update deal fields (amount/currency/probability/close date)
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/deal/forecast:
+    get:
+      operationId: LeadsController_forecast
+      parameters:
+      - name: pipelineId
+        required: false
+        in: query
+        description: Restrict forecast to a single pipeline
+        schema:
+          type: string
+      - name: dateFrom
+        required: false
+        in: query
+        description: Lower bound on expectedCloseDate (ISO)
+        schema:
+          example: '2026-01-01'
+          type: string
+      - name: dateTo
+        required: false
+        in: query
+        description: Upper bound on expectedCloseDate (ISO)
+        schema:
+          example: '2026-12-31'
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Compute the weighted-amount forecast across leads in scope
+      tags:
+      - Leads
+      x-required-scope:
+      - leads:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/{id}/move:
+    post:
+      operationId: LeadsController_move
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveLeadDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Move a lead to a different stage (and optionally pipeline)
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/bulk:
+    post:
+      operationId: LeadsController_bulk
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadsBulkDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Enqueue a bulk action on multiple leads (async)
+      tags:
+      - Leads
+      x-required-scope:
+      - leads:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/bulk/{jobId}:
+    get:
+      operationId: LeadsController_getBulkStatus
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the status of a bulk lead job
+      tags:
+      - Leads
+    delete:
+      operationId: LeadsController_cancelBulk
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel an in-progress bulk lead job
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/{id}/restore:
+    post:
+      operationId: LeadsController_restore
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Restore a soft-deleted lead
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/{id}/purge:
+    delete:
+      operationId: LeadsController_purge
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: PERMANENTLY delete a trashed lead (requires isDeleted). Irreversible
+      tags:
+      - Leads
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/export:
+    post:
+      operationId: LeadsController_exportLeads
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportLeadsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Export leads to a downloadable file
+      tags:
+      - Leads
+      x-required-scope:
+      - leads:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/import/preview:
+    post:
+      operationId: LeadsController_importPreview
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadsImportPreviewDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Preview a leads import with proposed mapping
+      tags:
+      - Leads
+      x-required-scope:
+      - leads:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/leads/import/start:
+    post:
+      operationId: LeadsController_importStart
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeadsImportStartDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Start a leads import job
+      tags:
+      - Leads
+      x-required-scope:
+      - leads:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    UpdateLeadDto:
+      type: object
+      properties:
+        priority:
+          type: string
+          enum:
+          - LOW
+          - MEDIUM
+          - HIGH
+          - URGENT
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        companyId:
+          type: string
+        contactId:
+          type: string
+        source:
+          type: string
+        expectedCloseDate:
+          type: string
+    LeadsImportPreviewDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+      required:
+      - rows
+      - mapping
+    LeadsBulkDto:
+      type: object
+      properties:
+        action:
+          type: string
+          description: Bulk action name (e.g. delete, addTags, removeTags, setField, moveStage)
+        ids:
+          description: Lead ids to act on
+          type: array
+          items:
+            type: string
+        leadIds:
+          description: Alias for ids
+          type: array
+          items:
+            type: string
+        tagIds:
+          description: Tag ids for addTags/removeTags actions
+          type: array
+          items:
+            type: string
+        fieldName:
+          type: string
+          description: Field name for a setField-style action
+        fieldValue:
+          type: object
+          description: Field value for a setField-style action (shape depends on fieldName)
+        stageId:
+          type: string
+          description: Target stage id for a moveStage-style action
+        priority:
+          type: object
+          description: Priority value for a setPriority-style action
+      required:
+      - action
+    UpdateDealDto:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+        probability:
+          type: number
+        expectedCloseDate:
+          type: string
+          description: ISO date string
+    ExportLeadsDto:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Which leads to export
+          enum:
+          - all
+          - filtered
+          - selected
+        leadIds:
+          description: Lead ids to export when scope is "selected"
+          type: array
+          items:
+            type: string
+        pipelineId:
+          type: string
+          description: Restrict export to leads in this pipeline
+        stageId:
+          type: string
+          description: Restrict export to leads in this stage
+        format:
+          type: string
+          description: Export file format (e.g. csv, xlsx)
+      required:
+      - scope
+    CreateLeadDto:
+      type: object
+      properties:
+        priority:
+          type: string
+          enum:
+          - LOW
+          - MEDIUM
+          - HIGH
+          - URGENT
+        title:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        pipelineId:
+          type: string
+        stageId:
+          type: string
+        companyId:
+          type: string
+        contactId:
+          type: string
+        source:
+          type: string
+      required:
+      - title
+    LeadsImportStartDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+        options:
+          type: object
+      required:
+      - rows
+      - mapping
+    MoveLeadDto:
+      type: object
+      properties:
+        stageId:
+          type: string
+        pipelineId:
+          type: string
+        lostReason:
+          type: string
+      required:
+      - stageId
+    SetInterestDto:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Interest status value (validated against the allowed set in LeadsService)
+        note:
+          type: string
+          description: Free-text note, max 500 chars (enforced in LeadsService)
+      required:
+      - status
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

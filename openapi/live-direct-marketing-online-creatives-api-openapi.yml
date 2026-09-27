@@ -1,0 +1,3877 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Creatives API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Creatives across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Creatives
+paths:
+  /api/creatives:
+    get:
+      operationId: CreativesController_findAll
+      parameters:
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: type
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List creatives with pagination and search
+      tags:
+      - Creatives
+    post:
+      operationId: CreativesController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCreativeDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/ai-generate:
+    post:
+      operationId: CreativesController_aiGenerate
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AiGenerateCreativeDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Generate a creative draft via AI
+      tags:
+      - Creatives
+      x-required-scope:
+      - creatives:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/autopilot-v2:
+    post:
+      operationId: CreativesController_createAutopilotV2
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new Autopilot v2 creative
+      tags:
+      - Creatives
+      x-required-scope:
+      - creatives:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/pdf-status:
+    get:
+      operationId: CreativesController_pdfStatus
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the PDF generation queue status
+      tags:
+      - Creatives
+      x-required-scope:
+      - creatives:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/pdf/{filename}:
+    get:
+      operationId: CreativesController_servePdf
+      parameters:
+      - name: filename
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Download a generated PDF by filename
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/variables/available:
+    get:
+      operationId: CreativesController_getAvailableVariables
+      parameters:
+      - name: source
+        required: false
+        in: query
+        description: Legacy single-source filter (use `sources` instead)
+        schema:
+          type: string
+      - name: sources
+        required: false
+        in: query
+        description: CSV of contactList,company,pipeline
+        schema:
+          type: string
+      - name: contactListId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: companyId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: pipelineId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: stageId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List available template variables
+      tags:
+      - Creatives
+      x-required-scope:
+      - creatives:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}:
+    get:
+      operationId: CreativesController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single creative by ID
+      tags:
+      - Creatives
+    patch:
+      operationId: CreativesController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCreativeDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a creative
+      tags:
+      - Creatives
+    delete:
+      operationId: CreativesController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/brief-intake:
+    get:
+      operationId: CreativesController_briefIntake
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: locale
+        required: false
+        in: query
+        schema:
+          enum:
+          - ru
+          - en
+          type: string
+      - name: accept-language
+        required: true
+        in: header
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Canonical brief intake email and localized help for customer materials linked…
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/stats:
+    get:
+      operationId: CreativesController_getStats
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get stats for a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/preview:
+    post:
+      operationId: CreativesController_preview
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreviewCreativeDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Render a preview of a creative for a sample contact
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/inbox-placement-test:
+    post:
+      operationId: CreativesController_startInboxPlacementTest
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartInboxPlacementTestDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Start an inbox placement test for a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/inbox-placement-test/{token}:
+    get:
+      operationId: CreativesController_getInboxPlacementTest
+      parameters:
+      - name: token
+        required: true
+        in: path
+        description: Token returned by startInboxPlacementTest
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        description: Creative id the placement test belongs to
+        schema: {}
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the result of an inbox placement test
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/variables:
+    get:
+      operationId: CreativesController_getVariables
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get template variables used in a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/spintax:
+    get:
+      operationId: CreativesController_analyzeSpintax
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Analyze spintax patterns in a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/copy:
+    post:
+      operationId: CreativesController_duplicate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Duplicate a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/versions:
+    get:
+      operationId: CreativesController_getVersions
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List versions of a creative
+      tags:
+      - Creatives
+    post:
+      operationId: CreativesController_createVersion
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new version of a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/versions/{versionId}/restore:
+    post:
+      operationId: CreativesController_restoreVersion
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: versionId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Restore a creative to a prior version
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/test-sends:
+    get:
+      operationId: CreativesController_getTestSends
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List test sends of a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/test-send:
+    post:
+      operationId: CreativesController_createTestSend
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestSendDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Send a test copy of this creative.
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/moderation/pending:
+    get:
+      operationId: CreativesController_listPendingChannelCreatives
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List channel creatives pending moderation (SUPER)
+      tags:
+      - Creatives
+      x-required-scope:
+      - creatives:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/moderate:
+    post:
+      operationId: CreativesController_moderateChannelCreative
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Approve/reject a channel creative (SUPER)
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/generate-prompt:
+    post:
+      operationId: CreativesController_autopilotGeneratePrompt
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Generate an Autopilot meta-prompt for a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/v2/generate-prompt:
+    post:
+      operationId: CreativesController_autopilotGeneratePromptV2
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Generate an Autopilot v2 meta-prompt
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/rules/bank/generate:
+    post:
+      operationId: CreativesController_bankV2Generate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Enqueue a bank-generation job for a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/rules/bank/jobs/{jobId}:
+    get:
+      operationId: CreativesController_bankGenGet
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the status of a bank-generation job
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/rules/bank/jobs:
+    get:
+      operationId: CreativesController_bankGenList
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List bank-generation jobs for a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/rules/bank/jobs/{jobId}/cancel:
+    post:
+      operationId: CreativesController_bankGenCancel
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel a bank-generation job
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/rules/bank/{tid}:
+    patch:
+      operationId: CreativesController_bankV2Edit
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: tid
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a single bank template (rules v2)
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/rules/bank/{tid}/action:
+    post:
+      operationId: CreativesController_bankV2Action
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: tid
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run an action on a bank template (approve/reject/etc.)
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/preview-meta-prompt:
+    post:
+      operationId: CreativesController_autopilotPreviewMetaPrompt
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Preview the meta-prompt for a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/segment/{segmentId}/meta-prompt:
+    patch:
+      operationId: CreativesController_autopilotSegmentMetaPrompt
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: segmentId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update the meta-prompt of a segment
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/test-batch:
+    post:
+      operationId: CreativesController_autopilotTestBatch
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run a test batch through Autopilot
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/generate:
+    post:
+      operationId: CreativesController_bankGenerate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Trigger Autopilot bank generation
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/pipeline/{jobId}:
+    get:
+      operationId: CreativesController_bankPipelineStatus
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the status of an Autopilot bank pipeline job
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank:
+    get:
+      operationId: CreativesController_bankGet
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: segmentId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List Autopilot bank templates
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/templates/{templateId}:
+    patch:
+      operationId: CreativesController_bankTemplateAction
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: templateId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update an Autopilot bank template
+      tags:
+      - Creatives
+    delete:
+      operationId: CreativesController_bankDeleteTemplate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: templateId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a single Autopilot bank template
+      tags:
+      - Creatives
+    get:
+      operationId: CreativesController_bankGetTemplate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: templateId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: segmentId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single Autopilot bank template
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/approve-all:
+    post:
+      operationId: CreativesController_bankApproveAll
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Approve all pending Autopilot bank templates
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/templates:
+    delete:
+      operationId: CreativesController_bankDeleteAll
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete all Autopilot bank templates
+      tags:
+      - Creatives
+    post:
+      operationId: CreativesController_bankCreateTemplate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new Autopilot bank template
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/regenerate:
+    post:
+      operationId: CreativesController_bankRegenerate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Regenerate Autopilot bank templates
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/config:
+    patch:
+      operationId: CreativesController_bankUpdateConfig
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update Autopilot bank configuration
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/preview:
+    post:
+      operationId: CreativesController_bankPreview
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Preview Autopilot bank output
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/preview-with-qc:
+    post:
+      operationId: CreativesController_bankPreviewWithQc
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Preview Autopilot bank output with QC checks
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/usage:
+    get:
+      operationId: CreativesController_bankUsage
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get Autopilot bank usage stats
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/generate-for-contact:
+    post:
+      operationId: CreativesController_generateForContact
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Generate a creative for a specific contact
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/dashboard:
+    get:
+      operationId: CreativesController_autopilotDashboard
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: verdict
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the Autopilot dashboard for a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/dashboard/backfill-t2:
+    post:
+      operationId: CreativesController_backfillTier2
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Backfill Tier-2 QC results on the Autopilot dashboard
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/auditor:
+    get:
+      operationId: CreativesController_auditorGet
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the Autopilot auditor configuration
+      tags:
+      - Creatives
+    patch:
+      operationId: CreativesController_auditorUpdate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update the Autopilot auditor configuration (proxies `enabled` to canon; see…
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/auditor/start:
+    post:
+      operationId: CreativesController_auditorStart
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Start the Autopilot auditor
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/auditor/pause:
+    post:
+      operationId: CreativesController_auditorPause
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Pause the Autopilot auditor
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/auditor/stop:
+    post:
+      operationId: CreativesController_auditorStop
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Stop the Autopilot auditor
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/auditor/run:
+    post:
+      operationId: CreativesController_auditorRun
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run the Autopilot auditor once
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/auditor/logs:
+    get:
+      operationId: CreativesController_auditorLogs
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get logs for the Autopilot auditor
+      tags:
+      - Creatives
+    delete:
+      operationId: CreativesController_auditorClearLogs
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Clear logs for the Autopilot auditor
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/checklist:
+    get:
+      operationId: CreativesController_checklistGet
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the Autopilot launch checklist
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/checklist/sandbox:
+    post:
+      operationId: CreativesController_checklistSandbox
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run the sandbox step of the Autopilot checklist
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/checklist/qc:
+    post:
+      operationId: CreativesController_checklistQC
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run the QC step of the Autopilot checklist
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/checklist/test-send:
+    post:
+      operationId: CreativesController_checklistTestSend
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run the test-send step of the Autopilot checklist
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/checklist/cost-estimate:
+    post:
+      operationId: CreativesController_checklistCostEstimate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Estimate cost for the Autopilot launch
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/checklist/lock:
+    post:
+      operationId: CreativesController_checklistLock
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Lock the Autopilot checklist before launch
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/checklist/unlock:
+    post:
+      operationId: CreativesController_checklistUnlock
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Unlock the Autopilot checklist
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/qc/config:
+    get:
+      operationId: CreativesController_qcConfig
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the Autopilot QC configuration
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/qc/rules:
+    patch:
+      operationId: CreativesController_qcUpdateRules
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update Autopilot QC Tier-1 rules
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/qc/tier2:
+    patch:
+      operationId: CreativesController_qcUpdateTier2
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update Autopilot QC Tier-2 configuration (proxies…
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/qc/test:
+    post:
+      operationId: CreativesController_qcTest
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run a QC test on sample content
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/run-observable:
+    post:
+      operationId: CreativesController_sandboxRunObservable
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Start an observable Autopilot sandbox run
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/observable-status:
+    get:
+      operationId: CreativesController_sandboxObservableStatus
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the status of an observable sandbox run
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/cancel-observable:
+    post:
+      operationId: CreativesController_sandboxCancelObservable
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel an observable sandbox run
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/observable:
+    delete:
+      operationId: CreativesController_sandboxClearObservable
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete the observable sandbox state
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/run:
+    post:
+      operationId: CreativesController_sandboxRun
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run the Autopilot sandbox pipeline
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/available-vars:
+    get:
+      operationId: CreativesController_sandboxAvailableVars
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: source
+        required: false
+        in: query
+        description: Legacy single-source filter (use `sources` instead)
+        schema:
+          type: string
+      - name: sources
+        required: false
+        in: query
+        description: CSV of contactList,company,pipeline
+        schema:
+          type: string
+      - name: contactListId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: companyId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: pipelineId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: stageId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List variables available to the sandbox
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/variable-values:
+    get:
+      operationId: CreativesController_variableValues
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: key
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: sources
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: contactListId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: companyId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pipelineId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: stageId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get computed variable values for a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/segment-count:
+    post:
+      operationId: CreativesController_segmentCount
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Count contacts matching a sandbox segment
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/all-field-definitions:
+    get:
+      operationId: CreativesController_allFieldDefinitions
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get all field definitions available to Autopilot
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/match-contacts:
+    post:
+      operationId: CreativesController_sandboxMatchContacts
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Match contacts against a sandbox segment definition
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/test-selection:
+    post:
+      operationId: CreativesController_sandboxTestSelection
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run a test selection against the sandbox
+      tags:
+      - Creatives
+    get:
+      operationId: CreativesController_sandboxGetTestSelection
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the cached test selection result
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/history:
+    get:
+      operationId: CreativesController_sandboxHistory
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the sandbox run history
+      tags:
+      - Creatives
+    delete:
+      operationId: CreativesController_sandboxHistoryClearAll
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Clear the sandbox run history
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/history/{idx}:
+    delete:
+      operationId: CreativesController_sandboxHistoryDeleteOne
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: idx
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete one entry from the sandbox history
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/status:
+    get:
+      operationId: CreativesController_sandboxStatus
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the current sandbox status
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/cancel:
+    post:
+      operationId: CreativesController_sandboxCancel
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel a running sandbox run
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/sandbox/apply:
+    post:
+      operationId: CreativesController_sandboxApply
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Apply the sandbox result to the creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/variable-rules:
+    patch:
+      operationId: CreativesController_saveVariableRules
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveVariableRulesDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update the Autopilot variable rules
+      tags:
+      - Creatives
+    get:
+      operationId: CreativesController_getVariableRules
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the Autopilot variable rules
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/variable-rules/preview:
+    post:
+      operationId: CreativesController_previewVariableRules
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Preview the effect of variable rules
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/pipeline/run:
+    post:
+      operationId: CreativesController_runPipeline
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run the full Autopilot generation pipeline
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/pdf-generations/{generationId}:
+    get:
+      operationId: CreativesController_getPdfGenerationStatus
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: generationId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the status of an asynchronous PDF generation
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/generate-pdf:
+    post:
+      operationId: CreativesController_generatePdf
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeneratePdfDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Generate a PDF from a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/v2/meta-prompt-base:
+    get:
+      operationId: CreativesController_getMetaPromptBaseV2
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the base meta-prompt for Autopilot v2
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/meta-prompt:
+    get:
+      operationId: CreativesController_getMetaPrompt
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: segmentId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the meta-prompt for a creative
+      tags:
+      - Creatives
+    put:
+      operationId: CreativesController_putMetaPrompt
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: segmentId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Replace the meta-prompt for a creative
+      tags:
+      - Creatives
+    delete:
+      operationId: CreativesController_deleteMetaPrompt
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: segmentId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete the meta-prompt of a creative
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/templates/{templateId}/stats:
+    get:
+      operationId: CreativesController_bankGetTemplateStats
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: templateId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: segmentId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get stats for a single Autopilot bank template
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/templates/generate-one:
+    post:
+      operationId: CreativesController_bankGenerateOneTemplate
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Generate a single Autopilot bank template
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/{id}/autopilot/bank/templates/{templateId}/content:
+    put:
+      operationId: CreativesController_bankUpdateTemplateContent
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: templateId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Replace the content of a bank template
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/creatives/pdf-link/{token}:
+    get:
+      operationId: CreativePdfLinkController_servePdfByToken
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      summary: Download a generated PDF via a signed, tenant-bound, time-limited link (#1015…
+      tags:
+      - Creatives
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    AiGenerateCreativeDto:
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: Prompt describing the creative to generate
+        tone:
+          type: string
+          description: Desired tone of voice, free text
+        language:
+          type: string
+          description: Output language, e.g. "ru" or "en"
+        type:
+          type: string
+          enum:
+          - email
+          - message
+          description: Creative kind to generate
+        provider:
+          type: string
+          description: AI provider override
+        model:
+          type: string
+          description: AI model override
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+        creativeId:
+          type: string
+          description: Existing creative to regenerate in place
+      required:
+      - prompt
+    GeneratePdfDto:
+      type: object
+      properties:
+        async:
+          type: boolean
+          description: Return a durable generation handle immediately and poll the PDF generation status endpoint.
+          default: false
+        sampleData:
+          type: object
+          additionalProperties:
+            type: string
+          description: Explicit variable values overriding resolved company/contact/lead data.
+        companyId:
+          type: string
+        contactId:
+          type: string
+        leadId:
+          type: string
+        format:
+          type: string
+          enum:
+          - A4
+          - Letter
+          default: A4
+        landscape:
+          type: boolean
+          default: false
+        pageNumbers:
+          type: boolean
+          description: Show page numbers in footer.
+          default: false
+        metadata:
+          $ref: '#/components/schemas/GeneratePdfMetadataDto'
+    VariableNormalizationRuleDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - regex_replace
+          - truncate
+          - default_if_empty
+          - skip_if_equals
+          - skip_if_matches
+          - ai_normalize
+        pattern:
+          type: string
+        replacement:
+          type: string
+        maxLength:
+          type: number
+        ellipsis:
+          type: boolean
+        defaultValue:
+          type: string
+        equalsVariable:
+          type: string
+        prompt:
+          type: string
+        model:
+          type: string
+        cacheKey:
+          type: string
+      required:
+      - type
+    CreateCreativeDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - EMAIL
+          - ATTACHMENT
+          - VK
+          - TELEGRAM
+          - FORM
+          - PHONE
+          - WHATSAPP
+          - LINKEDIN
+          - AUTOPILOT
+          - AUTOPILOT_V2
+        autopilotConfig:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+          description: Autopilot configuration. aiVariables entries may carry requiredInputs and fallback.
+        senderMethod:
+          type: string
+          enum:
+          - NONE
+          - SPINTAX
+          - AI
+        subjectMethod:
+          type: string
+          enum:
+          - NONE
+          - SPINTAX
+          - AI
+        bodyMethod:
+          type: string
+          enum:
+          - NONE
+          - SPINTAX
+          - AI
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        subject:
+          type:
+          - string
+          - 'null'
+        bodyHtml:
+          type:
+          - string
+          - 'null'
+        bodyText:
+          type:
+          - string
+          - 'null'
+        messageText:
+          type:
+          - string
+          - 'null'
+        formConfig:
+          type:
+          - object
+          - 'null'
+        attachmentUrl:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+        attachmentName:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        attachmentCreativeId:
+          type:
+          - string
+          - 'null'
+        variables:
+          type:
+          - object
+          - 'null'
+        previewContactId:
+          type:
+          - string
+          - 'null'
+        previewCompanyId:
+          type:
+          - string
+          - 'null'
+        aiPromptSubject:
+          type:
+          - object
+          - 'null'
+        aiPromptBody:
+          type:
+          - object
+          - 'null'
+        aiModel:
+          type:
+          - string
+          - 'null'
+        aiTemperature:
+          type: number
+        briefId:
+          type:
+          - string
+          - 'null'
+        includeDossier:
+          type: boolean
+        formCompanyName:
+          type:
+          - string
+          - 'null'
+        formContactName:
+          type:
+          - string
+          - 'null'
+        formEmail:
+          type:
+          - string
+          - 'null'
+        formPhone:
+          type:
+          - string
+          - 'null'
+        formTitle:
+          type:
+          - string
+          - 'null'
+        pixelTracking:
+          type: boolean
+        linkTracking:
+          type: boolean
+        unsubscribeLink:
+          type: boolean
+      required:
+      - type
+      - name
+    GeneratePdfMetadataDto:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        subject:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        filename:
+          type: string
+        creator:
+          type: string
+        producer:
+          type: string
+        creationDate:
+          type: string
+        modificationDate:
+          type: string
+    SaveVariableRulesDto:
+      type: object
+      properties:
+        variableRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariableRuleEntryDto'
+      required:
+      - variableRules
+    UpdateCreativeDto:
+      type: object
+      properties:
+        autopilotConfig:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+          description: Autopilot configuration. aiVariables entries may carry requiredInputs and fallback.
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        subject:
+          type:
+          - string
+          - 'null'
+        bodyHtml:
+          type:
+          - string
+          - 'null'
+        bodyText:
+          type:
+          - string
+          - 'null'
+        messageText:
+          type:
+          - string
+          - 'null'
+        formConfig:
+          type:
+          - object
+          - 'null'
+        attachmentUrl:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+        attachmentName:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        attachmentCreativeId:
+          type:
+          - string
+          - 'null'
+        variables:
+          type:
+          - object
+          - 'null'
+        previewContactId:
+          type:
+          - string
+          - 'null'
+        previewCompanyId:
+          type:
+          - string
+          - 'null'
+        senderMethod:
+          type: object
+        subjectMethod:
+          type: object
+        bodyMethod:
+          type: object
+        aiPromptSubject:
+          type:
+          - object
+          - 'null'
+        aiPromptBody:
+          type:
+          - object
+          - 'null'
+        aiModel:
+          type:
+          - string
+          - 'null'
+        aiTemperature:
+          type: number
+        briefId:
+          type:
+          - string
+          - 'null'
+        includeDossier:
+          type: boolean
+        formCompanyName:
+          type:
+          - string
+          - 'null'
+        formContactName:
+          type:
+          - string
+          - 'null'
+        formEmail:
+          type:
+          - string
+          - 'null'
+        formPhone:
+          type:
+          - string
+          - 'null'
+        formTitle:
+          type:
+          - string
+          - 'null'
+        pixelTracking:
+          type: boolean
+        linkTracking:
+          type: boolean
+        unsubscribeLink:
+          type: boolean
+    TestSendDto:
+      type: object
+      properties:
+        toEmail:
+          type: string
+          description: Recipient for sender="account". Omit for sender="platform" to use the tenant owner address.
+        companyId:
+          type: string
+          description: Company used to resolve template variables
+        contactId:
+          type: string
+          description: Contact used to resolve template variables
+        leadId:
+          type: string
+          description: Lead used to resolve template variables
+        accountId:
+          type: string
+          description: Connected email account used when sender="account"
+        sender:
+          type: string
+          enum:
+          - account
+          - platform
+          default: account
+        sampleData:
+          type: object
+          description: Explicit variable values overriding company/contact/lead data
+          additionalProperties:
+            type: string
+    VariableRuleEntryDto:
+      type: object
+      properties:
+        variable:
+          type: string
+        enabled:
+          type: boolean
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariableNormalizationRuleDto'
+      required:
+      - variable
+      - enabled
+      - rules
+    StartInboxPlacementTestDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: 'Email account the seed letters are sent from. Required: seed reservation is paid, and the platform deliberately does not pick an account for you (#791).'
+        providers:
+          description: Seed providers to cover, e.g. ["gmail","outlook","yandex"]. Omit for the default set.
+          type: array
+          items:
+            type: string
+        companyId:
+          type: string
+          description: Company used to resolve merge variables while rendering the seed letter
+        contactId:
+          type: string
+          description: Contact used to resolve merge variables while rendering the seed letter
+        leadId:
+          type: string
+          description: Lead used to resolve merge variables while rendering the seed letter
+      required:
+      - accountId
+    PreviewCreativeDto:
+      type: object
+      properties:
+        sampleData:
+          type: object
+          description: Sample values keyed by variable name, override for resolved contact/company/lead data
+        seed:
+          type: number
+          description: Deterministic seed for spintax/variant resolution
+        companyId:
+          type: string
+        contactId:
+          type: string
+        leadId:
+          type: string
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

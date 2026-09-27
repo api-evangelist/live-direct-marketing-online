@@ -1,0 +1,121 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Email Verification API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Email Verification across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Email Verification
+paths:
+  /api/verify:
+    post:
+      operationId: EmailVerificationController_verifyOne
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyOneDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Verify a single email address synchronously
+      tags:
+      - Email Verification
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/verify/batch:
+    post:
+      operationId: EmailVerificationController_verifyBatch
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyBatchDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Verify a batch of email addresses synchronously
+      tags:
+      - Email Verification
+      x-required-scope:
+      - email:send
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    VerifyOneDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email to verify
+      required:
+      - email
+    VerifyBatchDto:
+      type: object
+      properties:
+        emails:
+          description: Emails to verify
+          type: array
+          items:
+            type: string
+      required:
+      - emails
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

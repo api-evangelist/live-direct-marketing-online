@@ -1,0 +1,542 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Deliverability API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Deliverability across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Deliverability
+paths:
+  /api/deliverability/probe/relay-reach:
+    post:
+      operationId: DeliverabilityController_startRelayReach
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '202':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'C1: probe whether the given relay can deliver to the given providers (Layer 1…'
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/probe/creative-through-relay:
+    post:
+      operationId: DeliverabilityController_startCreativeThroughRelay
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '202':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'C2: probe whether a specific creative reaches inbox through (relay × provider)'
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/matrix:
+    get:
+      operationId: DeliverabilityController_getMatrix
+      parameters:
+      - name: relayAccountId
+        required: false
+        in: query
+        description: 'optional; default — the tenant''s whole send pool (smtpHost set, status not DISABLED); #512 — NOT isRelay=true, that flag is about probe sources'
+        schema:
+          type: string
+      - name: creativeId
+        required: false
+        in: query
+        description: optional; if set — adds the creative axis to the matrix
+        schema:
+          type: string
+      - name: freshSince
+        required: false
+        in: query
+        description: ISO date; consider probes fresher than this date (default = now - 7d)
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the deliverability matrix for the tenant (baseline / creative / block-rule…
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/probe/creative-tune:
+    post:
+      operationId: DeliverabilityController_startCreativeTune
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '202':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'C3: iteratively tune a creative (remove markers) until it reaches inbox via…'
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/probe/full-pipeline:
+    post:
+      operationId: DeliverabilityController_startFullPipeline
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '202':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Full pipeline: run C1 across all (relay × provider) and auto-chain C2/C3 via…'
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/tuned-variants/{id}/promote:
+    post:
+      operationId: DeliverabilityController_promoteTunedVariant
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Promote a tuned variant to a new Creative row in the tenant
+      tags:
+      - Deliverability
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/probe/{jobId}:
+    get:
+      operationId: DeliverabilityController_getJobStatus
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregate status for a probe batch (jobId)
+      tags:
+      - Deliverability
+    delete:
+      operationId: DeliverabilityController_cancelProbeJob
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel pending probes in a batch (in-flight workers no-op safely)
+      tags:
+      - Deliverability
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/probes:
+    get:
+      operationId: DeliverabilityController_listProbes
+      parameters:
+      - name: relayAccountId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: provider
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: creativeId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: layer
+        required: false
+        in: query
+        description: 1 | 2 | 3
+        schema:
+          example: 1
+          type: number
+      - name: status
+        required: false
+        in: query
+        description: pending|sent|placed|failed|timed_out|cancelled
+        schema:
+          type: string
+      - name: since
+        required: false
+        in: query
+        description: ISO startedAt lower bound
+        schema:
+          type: string
+      - name: until
+        required: false
+        in: query
+        description: ISO startedAt upper bound
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: capped at 200
+        schema:
+          example: 50
+          type: number
+      - name: offset
+        required: false
+        in: query
+        schema:
+          example: 0
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List probe history with filters (raw audit-style log)
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/block-rules:
+    post:
+      operationId: DeliverabilityController_createManualBlockRule
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateManualBlockRuleDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a manual block rule (defaults to category=should_not_send, reason=manual)
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:write
+    get:
+      operationId: DeliverabilityController_listBlockRules
+      parameters:
+      - name: relayAccountId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: provider
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: category
+        required: false
+        in: query
+        schema:
+          enum:
+          - cannot_deliver
+          - should_not_send
+          - marginal
+          type: string
+      - name: includeExpired
+        required: false
+        in: query
+        description: '#701: include rules whose TTL has already run out (each row carries `active`)'
+        schema:
+          type: boolean
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List block rules for the tenant — active only by default; includeExpired=true…
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/block-rules/{id}:
+    delete:
+      operationId: DeliverabilityController_deleteBlockRule
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: campaignId
+        required: false
+        in: query
+        description: '#509: attribute the unblock in this campaign''s feed'
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a block rule (manual unblock) — narrower scope required
+      tags:
+      - Deliverability
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/deliverability/tuned-variants:
+    get:
+      operationId: DeliverabilityController_listTunedVariants
+      parameters:
+      - name: creativeId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List Layer-3 tuned creative variants (optionally filtered by parent creativeId)
+      tags:
+      - Deliverability
+      x-required-scope:
+      - deliverability:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    CreateManualBlockRuleDto:
+      type: object
+      properties:
+        relayAccountId:
+          type: string
+          description: Relay EmailAccount id (isRelay=true) within the tenant
+        provider:
+          type: string
+          description: Canonical name of the recipient provider. A domain ("gmail.com") or an address ("lead@gmail.com") is accepted and canonicalized; an unknown value → 400.
+          example: gmail
+        category:
+          type: string
+          enum:
+          - cannot_deliver
+          - should_not_send
+          - marginal
+          default: should_not_send
+        reason:
+          type: string
+          description: Sub-code; defaults to "manual"
+          default: manual
+        expiresAtIso:
+          type:
+          - object
+          - 'null'
+          description: ISO time of auto-release; null/absent = indefinite
+        campaignId:
+          type: string
+          description: '#509: attribute the block to this campaign in the feed'
+      required:
+      - relayAccountId
+      - provider
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

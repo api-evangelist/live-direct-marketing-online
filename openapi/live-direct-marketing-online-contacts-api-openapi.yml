@@ -1,0 +1,1212 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Contacts API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Contacts across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Contacts
+paths:
+  /api/contacts/stats:
+    get:
+      operationId: ContactsController_getStats
+      parameters:
+      - name: listId
+        required: false
+        in: query
+        description: Restrict stats to a single list
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get contact statistics, optionally scoped to a list
+      tags:
+      - Contacts
+      x-required-scope:
+      - crm:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/duplicates:
+    get:
+      operationId: ContactsController_findAllDuplicates
+      parameters:
+      - name: field
+        required: false
+        in: query
+        description: Which field to detect duplicates by
+        schema:
+          enum:
+          - email
+          - name
+          - all
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Find duplicate contacts across the workspace
+      tags:
+      - Contacts
+      x-required-scope:
+      - crm:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts:
+    get:
+      operationId: ContactsController_findAll
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: 1-based page number
+        schema:
+          example: 1
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Items per page (default 25)
+        schema:
+          example: 25
+          type: number
+      - name: search
+        required: false
+        in: query
+        description: Full-text search across name/position/channels
+        schema:
+          type: string
+      - name: companyId
+        required: false
+        in: query
+        description: Filter to contacts of a single company
+        schema:
+          type: string
+      - name: listId
+        required: false
+        in: query
+        description: Filter to contacts in a single list
+        schema:
+          type: string
+      - name: sortBy
+        required: false
+        in: query
+        description: Sort column
+        schema:
+          type: string
+      - name: sortDir
+        required: false
+        in: query
+        description: Sort direction
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+      - name: sort
+        required: false
+        in: query
+        description: Combined sort token (alternative to sortBy/sortDir)
+        schema:
+          type: string
+      - name: digProvider
+        required: false
+        in: query
+        description: 'DIG: filter by MX provider (e.g. google, yandex)'
+        schema:
+          type: string
+      - name: digDomainType
+        required: false
+        in: query
+        description: 'DIG: filter by domain type'
+        schema:
+          type: string
+      - name: digHasMx
+        required: false
+        in: query
+        description: 'DIG: has MX records (true/false)'
+        schema:
+          type: string
+      - name: digHasSpf
+        required: false
+        in: query
+        description: 'DIG: has SPF record (true/false)'
+        schema:
+          type: string
+      - name: digHasDmarc
+        required: false
+        in: query
+        description: 'DIG: has DMARC record (true/false)'
+        schema:
+          type: string
+      - name: digIsRoleBased
+        required: false
+        in: query
+        description: 'DIG: role-based mailbox (true/false)'
+        schema:
+          type: string
+      - name: digIsDisposable
+        required: false
+        in: query
+        description: 'DIG: disposable address (true/false)'
+        schema:
+          type: string
+      - name: digIsSuspicious
+        required: false
+        in: query
+        description: 'DIG: suspicious heuristics (true/false)'
+        schema:
+          type: string
+      - name: digAnalyzed
+        required: false
+        in: query
+        description: 'DIG: enrichment completed (true/false)'
+        schema:
+          type: string
+      - name: emailValidStatus
+        required: false
+        in: query
+        description: Filter by email validation status
+        schema:
+          type: string
+      - name: taskId
+        required: false
+        in: query
+        description: Filter to contacts attached to a task
+        schema:
+          type: string
+      - name: includeDeleted
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: onlyDeleted
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: filters
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List contacts with pagination, search, and filters
+      tags:
+      - Contacts
+    post:
+      operationId: ContactsController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateContactDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new contact.
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/{id}:
+    get:
+      operationId: ContactsController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single contact by ID
+      tags:
+      - Contacts
+    patch:
+      operationId: ContactsController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateContactDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update an existing contact
+      tags:
+      - Contacts
+    delete:
+      operationId: ContactsController_softDelete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Soft-delete a contact
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/{id}/timeline:
+    get:
+      operationId: ContactsController_getTimeline
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: 1-based page number
+        schema:
+          example: 1
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Items per page (default 20)
+        schema:
+          example: 20
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a paginated timeline of events for a contact
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/bulk:
+    post:
+      operationId: ContactsController_bulk
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactsBulkDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Bulk action on contacts (async, BullMQ).
+      tags:
+      - Contacts
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/bulk/{jobId}:
+    get:
+      operationId: ContactsController_getBulkStatus
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the status of a bulk contact job
+      tags:
+      - Contacts
+    delete:
+      operationId: ContactsController_cancelBulk
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel an in-progress bulk contact job
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/export:
+    post:
+      operationId: ContactsController_exportContacts
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportContactsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Export contacts to a downloadable file
+      tags:
+      - Contacts
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/import/preview:
+    post:
+      operationId: ContactsController_importPreview
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactsImportPreviewDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Preview a contacts import with proposed mapping
+      tags:
+      - Contacts
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/import/start:
+    post:
+      operationId: ContactsController_importStart
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactsImportStartDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Start a contacts import job
+      tags:
+      - Contacts
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/{id}/restore:
+    post:
+      operationId: ContactsController_restore
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Restore a soft-deleted contact
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/{id}/purge:
+    delete:
+      operationId: ContactsController_purge
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: PERMANENTLY delete a trashed contact (requires isDeleted). Irreversible
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/merge:
+    post:
+      operationId: ContactsController_mergeContacts
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MergeContactsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Merge multiple contacts into one keeper record
+      tags:
+      - Contacts
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/{id}/dig:
+    post:
+      operationId: ContactsController_triggerDig
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Manually trigger DIG email enrichment for a contact
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/{id}/duplicates:
+    get:
+      operationId: ContactsController_checkDuplicates
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Check for duplicates of a specific contact
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/{id}/channels:
+    post:
+      operationId: ContactsController_addChannel
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddChannelDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Add a communication channel to a contact
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/{contactId}/channels/{channelId}:
+    patch:
+      operationId: ContactsController_updateChannel
+      parameters:
+      - name: contactId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: channelId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateChannelDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a contact channel
+      tags:
+      - Contacts
+    delete:
+      operationId: ContactsController_deleteChannel
+      parameters:
+      - name: contactId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: channelId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a contact channel
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/import/rollback/{batchId}:
+    delete:
+      operationId: ContactsController_rollbackImport
+      parameters:
+      - name: batchId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Roll back a contact import batch by ID
+      tags:
+      - Contacts
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/contacts/duplicates/by-email:
+    get:
+      operationId: ContactsController_findDuplicates
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Find contacts that share duplicate email addresses
+      tags:
+      - Contacts
+      x-required-scope:
+      - crm:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    MergeContactsDto:
+      type: object
+      properties:
+        keepId:
+          type: string
+          description: Id of the contact record to keep
+        mergeIds:
+          description: Ids of the contacts to merge into keepId and delete
+          type: array
+          items:
+            type: string
+      required:
+      - keepId
+      - mergeIds
+    UpdateContactDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 100
+        lastName:
+          type: string
+          maxLength: 100
+        middleName:
+          type: string
+          maxLength: 100
+        gender:
+          type: string
+          enum:
+          - male
+          - female
+          - unknown
+        position:
+          type: string
+        department:
+          type: string
+        companyId:
+          type: string
+        source:
+          type: string
+        contactType:
+          type: string
+          enum:
+          - PERSONAL
+          - COMPANY
+    ContactsImportPreviewDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+      required:
+      - rows
+      - mapping
+    ContactsImportStartDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+        options:
+          type: object
+          description: 'duplicateHandling: "skip"|"update"|"create" (default skip); listId; tagIds'
+      required:
+      - rows
+      - mapping
+    AddChannelDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - EMAIL
+          - PHONE
+          - LINKEDIN
+          - TELEGRAM
+          - VK
+          - WHATSAPP
+          - WEBSITE
+          - SKYPE
+          - OTHER
+          example: EMAIL
+          description: Channel type — UPPERCASE enum. Use field name "type", NOT "kind".
+        value:
+          type: string
+          example: anna@acme.com
+          description: Channel value — email address, phone number, URL, etc.
+        label:
+          type: string
+          example: work
+        isPrimary:
+          type: boolean
+          example: false
+          description: Set as primary channel of this type for the contact.
+      required:
+      - type
+      - value
+    ExportContactsDto:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Which contacts to export
+          enum:
+          - all
+          - filtered
+          - selected
+          - list
+        contactIds:
+          description: Contact ids to export when scope is "selected"
+          type: array
+          items:
+            type: string
+        listId:
+          type: string
+          description: Restrict export to contacts in this list
+        search:
+          type: string
+          description: Search term applied when scope is "filtered"
+        format:
+          type: string
+          description: Export file format (e.g. csv, xlsx)
+        includeCustomFields:
+          type: boolean
+          description: Include tenant custom field columns
+      required:
+      - scope
+    CreateContactDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 100
+        lastName:
+          type: string
+          maxLength: 100
+        middleName:
+          type: string
+          maxLength: 100
+        gender:
+          type: string
+          enum:
+          - male
+          - female
+          - unknown
+        position:
+          type: string
+        department:
+          type: string
+        companyId:
+          type: string
+        source:
+          type: string
+        contactType:
+          type: string
+          enum:
+          - PERSONAL
+          - COMPANY
+        importBatchId:
+          type: string
+          description: '[LEGACY] import_task_id for import rollback'
+      required:
+      - firstName
+    ContactsBulkDto:
+      type: object
+      properties:
+        action:
+          type: string
+          description: Bulk action name (delete, addTags, removeTags, addToList, removeFromList, updateField)
+        contactIds:
+          description: Contact ids to act on
+          type: array
+          items:
+            type: string
+        ids:
+          description: Alias for contactIds
+          type: array
+          items:
+            type: string
+        selectAll:
+          type: boolean
+          description: Resolve target ids server-side from the current filter instead of contactIds/ids
+        search:
+          type: string
+          description: Search term used when selectAll is true
+        listId:
+          type: string
+          description: Target list id for addToList/removeFromList; also the fallback selectAll filter list
+        filterListId:
+          type: string
+          description: Source filter list id when selectAll is true (listId is reserved for the addToList/removeFromList target)
+        tagIds:
+          description: Tag ids for addTags/removeTags actions
+          type: array
+          items:
+            type: string
+        companyId:
+          type: string
+          description: Company id for a company-scoped action
+        fieldName:
+          type: string
+          description: Field name for an updateField-style action
+        fieldValue:
+          type: object
+          description: Field value for an updateField-style action (shape depends on fieldName)
+        digProvider:
+          type: string
+          description: 'DIG selectAll filter: enrichment provider'
+        digDomainType:
+          type: string
+          description: 'DIG selectAll filter: domain type'
+        digHasMx:
+          type: string
+          description: 'DIG selectAll filter: has MX ("true"/"false")'
+        digHasSpf:
+          type: string
+          description: 'DIG selectAll filter: has SPF ("true"/"false")'
+        digHasDmarc:
+          type: string
+          description: 'DIG selectAll filter: has DMARC ("true"/"false")'
+        digIsRoleBased:
+          type: string
+          description: 'DIG selectAll filter: role-based mailbox ("true"/"false")'
+        digIsDisposable:
+          type: string
+          description: 'DIG selectAll filter: disposable domain ("true"/"false")'
+        digIsSuspicious:
+          type: string
+          description: 'DIG selectAll filter: suspicious ("true"/"false")'
+        digAnalyzed:
+          type: string
+          description: 'DIG selectAll filter: already analyzed ("true"/"false")'
+        emailValidStatus:
+          type: string
+          description: 'DIG selectAll filter: email validation status'
+      required:
+      - action
+    UpdateChannelDto:
+      type: object
+      properties:
+        value:
+          type: string
+        label:
+          type: string
+        isPrimary:
+          type: boolean
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - BOUNCED
+          - OPTED_OUT
+          - INVALID
+          - STOP_ALL
+          - CHECKING
+        emailValidStatus:
+          type: string
+          enum:
+          - UNKNOWN
+          - VALID
+          - INVALID
+          - CATCH_ALL
+          - DISPOSABLE
+          - ROLE
+          - SPAM_TRAP
+          - HARD_BOUNCE
+          - UNSUBSCRIBED
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

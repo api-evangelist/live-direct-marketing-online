@@ -1,0 +1,93 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online A2A API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged A2A across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: a2a
+paths:
+  /api/a2a:
+    post:
+      operationId: A2AController_dispatch
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        description: Single JSON-RPC 2.0 request. A JSON array of requests (batch, §6) is also accepted at runtime — documented shape here is the single-request form.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/A2ABodyDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: A2A JSON-RPC 2.0 dispatch (single or batch, supports SSE for streaming methods)
+      tags:
+      - a2a
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    A2ABodyDto:
+      type: object
+      properties:
+        jsonrpc:
+          type: string
+          enum:
+          - '2.0'
+          description: JSON-RPC 2.0 protocol marker
+        id:
+          type:
+          - object
+          - 'null'
+          description: 'Request id: string, number, or null (JSON-RPC 2.0)'
+        method:
+          type: string
+          description: A2A JSON-RPC method, e.g. message/send, tasks/get, tasks/cancel
+        params:
+          type: object
+          description: Method-specific params object
+      required:
+      - jsonrpc
+      - id
+      - method
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

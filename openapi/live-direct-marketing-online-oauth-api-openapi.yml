@@ -1,0 +1,467 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online OAuth API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged oauth across 4 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: OAuth
+paths:
+  /api/oauth/authorize:
+    get:
+      operationId: OAuthController_authorizePage
+      parameters:
+      - name: client_id
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: redirect_uri
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: response_type
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: state
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: scope
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: mode
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: code_challenge
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: code_challenge_method
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: string
+      tags:
+      - OAuth
+      summary: OAuth controller authorize page
+      x-summary-source: derived
+    post:
+      operationId: OAuthController_authorizeSubmit
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizeFormDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+      - OAuth
+      summary: OAuth controller authorize submit
+      x-summary-source: derived
+  /api/oauth/token:
+    post:
+      operationId: OAuthController_token
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenDto'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - OAuth
+      summary: OAuth controller token
+      x-summary-source: derived
+  /api/oauth/me:
+    get:
+      operationId: OAuthController_me
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - OAuth
+      summary: OAuth controller me
+      x-summary-source: derived
+  /api/oauth/connect:
+    get:
+      operationId: OAuthController_connectPage
+      parameters:
+      - name: key
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: tenant
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Public OAuth connect page for anti-detect browser flow
+      tags:
+      - OAuth
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/oauth/connect/{accountId}:
+    get:
+      operationId: OAuthController_connectRedirect
+      parameters:
+      - name: accountId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: key
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: tenant
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Public OAuth consent redirect for a specific account
+      tags:
+      - OAuth
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/oauth/auth-url/{accountId}:
+    get:
+      operationId: OAuthController_getAuthUrl
+      parameters:
+      - name: accountId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: provider
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the OAuth consent URL for an email account
+      tags:
+      - OAuth
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/oauth/callback:
+    get:
+      operationId: OAuthController_callback
+      parameters:
+      - name: code
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: state
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: error
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: OAuth provider callback endpoint (public, used by provider redirect)
+      tags:
+      - OAuth
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/oauth/{accountId}/status:
+    get:
+      operationId: OAuthController_getStatus
+      parameters:
+      - name: accountId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get OAuth connection status for an account
+      tags:
+      - OAuth
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/oauth/{accountId}/revoke:
+    post:
+      operationId: OAuthController_revoke
+      parameters:
+      - name: accountId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Revoke OAuth tokens for an account
+      tags:
+      - OAuth
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/oauth/{accountId}/refresh:
+    post:
+      operationId: OAuthController_refresh
+      parameters:
+      - name: accountId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Manually refresh the OAuth access token for an account
+      tags:
+      - OAuth
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    AuthorizeFormDto:
+      type: object
+      properties:
+        email:
+          type: string
+          maxLength: 254
+          format: email
+        password:
+          type: string
+          maxLength: 200
+        client_id:
+          type: string
+          maxLength: 128
+        redirect_uri:
+          type: string
+          maxLength: 2048
+        state:
+          type: string
+          maxLength: 256
+        scope:
+          type: string
+          maxLength: 256
+        mode:
+          type: string
+          enum:
+          - login
+          - register
+        code_challenge:
+          type: string
+          maxLength: 128
+        code_challenge_method:
+          type: string
+          enum:
+          - S256
+          - plain
+      required:
+      - email
+      - password
+      - client_id
+      - redirect_uri
+    TokenDto:
+      type: object
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - authorization_code
+          - refresh_token
+        client_id:
+          type: string
+          maxLength: 128
+        client_secret:
+          type: string
+          maxLength: 256
+        code:
+          type: string
+          maxLength: 128
+        redirect_uri:
+          type: string
+          maxLength: 2048
+        refresh_token:
+          type: string
+          maxLength: 128
+        code_verifier:
+          type: string
+          maxLength: 128
+      required:
+      - grant_type
+      - client_id
+      - client_secret
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

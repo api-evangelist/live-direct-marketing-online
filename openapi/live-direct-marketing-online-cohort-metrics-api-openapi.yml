@@ -1,0 +1,165 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Cohort Metrics API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Cohort Metrics across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Cohort Metrics
+paths:
+  /api/cohort-metrics/funnel:
+    get:
+      operationId: CohortMetricsController_funnel
+      parameters:
+      - name: sequenceId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateFrom
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateTo
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get sequence funnel metrics for a date range
+      tags:
+      - Cohort Metrics
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/cohort-metrics/latency:
+    get:
+      operationId: CohortMetricsController_latency
+      parameters:
+      - name: sequenceId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateFrom
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateTo
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get reply latency metrics for a sequence/date range
+      tags:
+      - Cohort Metrics
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/cohort-metrics/cohorts:
+    get:
+      operationId: CohortMetricsController_cohorts
+      parameters:
+      - name: sequenceId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateFrom
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateTo
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get cohort breakdown for a sequence/date range
+      tags:
+      - Cohort Metrics
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,0 +1,3848 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Admin API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged admin across 4 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Admin
+paths:
+  /api/admin/tests/{token}/reanalyze:
+    post:
+      operationId: AnalysisRefreshController_refresh
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      summary: Recompute analysis of the original received copy; preserve placement and…
+      tags:
+      - Admin
+  /api/admin/feedback:
+    get:
+      operationId: FeedbackAdminController_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Feedback admin controller list
+      x-summary-source: derived
+  /api/admin/feedback/stats:
+    get:
+      operationId: FeedbackAdminController_stats
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Feedback admin controller stats
+      x-summary-source: derived
+  /api/admin/beta-signups:
+    get:
+      operationId: BetaSignupsAdminController_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: platform
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Beta signups admin controller list
+      x-summary-source: derived
+  /api/admin/beta-signups/stats:
+    get:
+      operationId: BetaSignupsAdminController_stats
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Beta signups admin controller stats
+      x-summary-source: derived
+  /api/admin/screenshot-orders/stats:
+    get:
+      operationId: ScreenshotOrdersAdminController_stats
+      parameters:
+      - name: days
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Screenshot orders admin controller stats
+      x-summary-source: derived
+  /api/admin/recheck-jobs:
+    get:
+      operationId: RecheckAdminController_list
+      parameters:
+      - name: status
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Recheck admin controller list
+      x-summary-source: derived
+  /api/admin/recheck-jobs/stats:
+    get:
+      operationId: RecheckAdminController_stats
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Recheck admin controller stats
+      x-summary-source: derived
+  /api/admin/stats:
+    get:
+      operationId: AdminController_stats
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller stats
+      x-summary-source: derived
+  /api/admin/slack/installations:
+    get:
+      operationId: AdminController_slackInstallations
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: List Slack installations (workspaces)
+      tags:
+      - Admin
+  /api/admin/deliverability/config:
+    get:
+      operationId: AdminController_getDeliverabilityConfig
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Get deliverability control config
+      tags:
+      - Admin
+    put:
+      operationId: AdminController_updateDeliverabilityConfig
+      parameters:
+      - name: x-admin-actor
+        required: true
+        in: header
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeliverabilityConfigDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Update deliverability control config
+      tags:
+      - Admin
+  /api/admin/seeds:
+    get:
+      operationId: AdminController_listSeeds
+      parameters:
+      - name: status
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: provider
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: health
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller list seeds
+      x-summary-source: derived
+    post:
+      operationId: AdminController_addSeed
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddSeedDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller add seed
+      x-summary-source: derived
+  /api/admin/seeds/{id}/archive:
+    post:
+      operationId: AdminController_archiveSeed
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: x-admin-actor
+        required: true
+        in: header
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArchiveSeedDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller archive seed
+      x-summary-source: derived
+  /api/admin/seeds/{id}/restore:
+    post:
+      operationId: AdminController_restoreSeed
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: x-admin-actor
+        required: true
+        in: header
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller restore seed
+      x-summary-source: derived
+  /api/admin/audit-log:
+    get:
+      operationId: AdminController_listAuditLog
+      parameters:
+      - name: entityType
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: entityId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: action
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: List admin audit log entries
+      tags:
+      - Admin
+  /api/admin/seed-health:
+    get:
+      operationId: AdminController_seedHealth
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller seed health
+      x-summary-source: derived
+  /api/admin/seeds/bulk:
+    post:
+      operationId: AdminController_bulkAddSeeds
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkSeedsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Bulk-upload custom seed accounts
+      tags:
+      - Admin
+  /api/admin/seeds/{id}:
+    patch:
+      operationId: AdminController_patchSeed
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchSeedDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller patch seed
+      x-summary-source: derived
+  /api/admin/seeds/sync-ldm:
+    post:
+      operationId: AdminController_syncSeedsFromLdm
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller sync seeds from ldm
+      x-summary-source: derived
+  /api/admin/ldm/control-accounts:
+    get:
+      operationId: AdminController_listLdmControlAccounts
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller list ldm control accounts
+      x-summary-source: derived
+  /api/admin/seeds/import-from-ldm:
+    post:
+      operationId: AdminController_importFromLdm
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportFromLdmDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller import from ldm
+      x-summary-source: derived
+  /api/admin/seeds/import-oauth-combo:
+    post:
+      operationId: AdminController_importOauthCombo
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportOauthComboDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Import Outlook combo (public-client) seeds via IMAP XOAUTH2
+      tags:
+      - Admin
+  /api/admin/seeds/{id}/probe:
+    post:
+      operationId: AdminController_probeSeed
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller probe seed
+      x-summary-source: derived
+  /api/admin/providers:
+    get:
+      operationId: ProvidersAdminController_list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Providers admin controller list
+      x-summary-source: derived
+    post:
+      operationId: ProvidersAdminController_create
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Providers admin controller create
+      x-summary-source: derived
+  /api/admin/providers/{id}:
+    get:
+      operationId: AdminController_getProvider
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller get provider
+      x-summary-source: derived
+    patch:
+      operationId: ProvidersAdminController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Providers admin controller update
+      x-summary-source: derived
+    delete:
+      operationId: ProvidersAdminController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Providers admin controller remove
+      x-summary-source: derived
+  /api/admin/providers/{id}/delivery-blocks:
+    get:
+      operationId: AdminController_listDeliveryBlocks
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller list delivery blocks
+      x-summary-source: derived
+    post:
+      operationId: AdminController_addDeliveryBlock
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddDeliveryBlockDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller add delivery block
+      x-summary-source: derived
+  /api/admin/providers/{id}/delivery-blocks/{blockId}:
+    delete:
+      operationId: AdminController_removeDeliveryBlock
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: blockId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller remove delivery block
+      x-summary-source: derived
+  /api/admin/seeds/{id}/stats:
+    get:
+      operationId: AdminController_seedStats
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: recent
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller seed stats
+      x-summary-source: derived
+  /api/admin/providers/{id}/stats:
+    get:
+      operationId: AdminController_providerStats
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller provider stats
+      x-summary-source: derived
+  /api/admin/seeds/health-check:
+    post:
+      operationId: AdminController_runSeedHealthCheck
+      parameters:
+      - name: includeInactive
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller run seed health check
+      x-summary-source: derived
+  /api/admin/cleanup/imap:
+    post:
+      operationId: AdminController_triggerImapCleanup
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller trigger imap cleanup
+      x-summary-source: derived
+  /api/admin/bounces/process-now:
+    post:
+      operationId: AdminController_triggerBounceProcess
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller trigger bounce process
+      x-summary-source: derived
+  /api/admin/tests:
+    get:
+      operationId: AdminController_listTests
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: offset
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: q
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller list tests
+      x-summary-source: derived
+  /api/admin/tests/{token}/trace:
+    get:
+      operationId: AdminController_traceTest
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - adminKey: []
+      summary: One-stop visual trace of a single test for debugging logical errors.
+      tags:
+      - Admin
+  /api/admin/queues:
+    get:
+      operationId: AdminController_queues
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller queues
+      x-summary-source: derived
+  /api/admin/visitors:
+    get:
+      operationId: AdminController_visitors
+      parameters:
+      - name: hours
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: detail
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: agent
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: source
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: destination
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller visitors
+      x-summary-source: derived
+  /api/admin/transport-health:
+    get:
+      operationId: AdminController_transportHealth
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Live end-to-end probe of each public transport endpoint.
+      tags:
+      - Admin
+  /api/admin/protocol-stats:
+    get:
+      operationId: AdminController_protocolStats
+      parameters:
+      - name: hours
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: protocol
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Aggregated request traffic for the AI-agent transports — MCP (streamable HTTP…
+      tags:
+      - Admin
+  /api/admin/logs:
+    get:
+      operationId: AdminController_logs
+      parameters:
+      - name: stream
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: lines
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: level
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: q
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller logs
+      x-summary-source: derived
+  /api/admin/operations-health:
+    get:
+      operationId: AdminController_operationsHealth
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Admin controller operations health
+      x-summary-source: derived
+  /api/admin/api-keys/scopes/structured:
+    get:
+      description: Returns presets (agent/readOnly/fullAuto/full) + per-scope catalog entry with description and danger flag.
+      operationId: ApiKeysController_scopes
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Structured scope catalog for the wizard UI
+      tags:
+      - Admin
+  /api/admin/api-keys:
+    post:
+      operationId: ApiKeysController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateApiKeyDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Create a new API key (admin)
+      tags:
+      - Admin
+    get:
+      operationId: ApiKeysController_list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: List all API keys (admin)
+      tags:
+      - Admin
+  /api/admin/api-keys/{id}:
+    patch:
+      operationId: ApiKeysController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateApiKeyDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Update an API key (admin)
+      tags:
+      - Admin
+    delete:
+      operationId: ApiKeysController_revoke
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Revoke an API key (soft-delete)
+      tags:
+      - Admin
+  /api/admin/api-keys/{id}/usage:
+    get:
+      operationId: ApiKeysController_usage
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: from
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: to
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      summary: Get usage events + aggregate for an API key
+      tags:
+      - Admin
+  /api/admin/dmarc/summary:
+    get:
+      operationId: DmarcController_summary
+      parameters:
+      - name: days
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Dmarc controller summary
+      x-summary-source: derived
+  /api/admin/dmarc/sources:
+    get:
+      operationId: DmarcController_sources
+      parameters:
+      - name: days
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Dmarc controller sources
+      x-summary-source: derived
+  /api/admin/dmarc/reports:
+    get:
+      operationId: DmarcController_list
+      parameters:
+      - name: domain
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: days
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Dmarc controller list
+      x-summary-source: derived
+  /api/admin/dmarc/reports/{id}:
+    get:
+      operationId: DmarcController_one
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Dmarc controller one
+      x-summary-source: derived
+  /api/admin/dmarc/poll:
+    post:
+      operationId: DmarcController_poll
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Admin
+      summary: Dmarc controller poll
+      x-summary-source: derived
+  /api/admin/account-transfers/plan:
+    post:
+      operationId: AdminController_planAccountTransfer
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountTransferPlanDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Dry-run an account transfer between tenant databases (SUPER)
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/account-transfers/apply:
+    post:
+      operationId: AdminController_applyAccountTransfer
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountTransferApplyDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Apply a confirmed, idempotent account transfer plan (SUPER)
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/account-transfers/{operationId}/deactivate-sources:
+    post:
+      operationId: AdminController_deactivateAccountTransferSources
+      parameters:
+      - name: operationId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountTransferDeactivateSourcesDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Deactivate source users of a completed account transfer (SUPER)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/account-transfers/{operationId}:
+    get:
+      operationId: AdminController_getAccountTransfer
+      parameters:
+      - name: operationId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get account transfer operation audit status (SUPER)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{id}/freeze:
+    post:
+      operationId: AdminController_freezeTenant
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Freeze a tenant — stop all sending immediately (SUPER)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{id}/unfreeze:
+    post:
+      operationId: AdminController_unfreezeTenant
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Unfreeze a tenant — resume sending (SUPER)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{id}/legal-hold:
+    post:
+      operationId: AdminController_setLegalHold
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set/clear legal-hold — pause TTL/purge for a tenant (SUPER)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/suppression/global/retro-release:
+    post:
+      operationId: AdminController_retroReleaseGlobalSuppression
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Retroactive release of global_suppression for policy/routing/soft addresses…
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/scoring/health:
+    get:
+      operationId: AdminController_getScoringHealth
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Scoring pipeline health: browser worker reachability and queue depths'
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/queues/{name}/jobs:
+    get:
+      operationId: AdminController_getQueueJobs
+      parameters:
+      - name: name
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: start
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: end
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List jobs in a queue by status
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/queues/{name}/pause:
+    post:
+      operationId: AdminController_pauseQueue
+      parameters:
+      - name: name
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Pause a BullMQ queue
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/queues/{name}/resume:
+    post:
+      operationId: AdminController_resumeQueue
+      parameters:
+      - name: name
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Resume a BullMQ queue
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/queues/{name}/jobs/{id}/cancel:
+    post:
+      operationId: AdminController_cancelQueueJob
+      parameters:
+      - name: name
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel a queue job by id
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/queues/{name}/jobs/{id}/retry:
+    post:
+      operationId: AdminController_retryQueueJob
+      parameters:
+      - name: name
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Retry a failed queue job
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/queues/{name}/clean:
+    post:
+      operationId: AdminController_cleanQueue
+      parameters:
+      - name: name
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Clean queue jobs (completed/failed)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/storage:
+    get:
+      operationId: AdminController_getStorageStats
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get storage usage stats
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/storage/pdfs:
+    get:
+      operationId: AdminController_listPdfs
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List stored PDFs with metadata
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/storage/cleanup-pdfs:
+    post:
+      operationId: AdminController_cleanupPdfs
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cleanup old PDFs from storage
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants:
+    get:
+      operationId: AdminController_getTenants
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List all tenants with metadata
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/ldm-ai:
+    patch:
+      operationId: AdminController_toggleLdmAi
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Toggle LDM AI for a tenant
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/campaigns/{dbName}/{id}/audit-unblock:
+    patch:
+      operationId: AdminController_auditUnblockCampaign
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Unblock an AUDIT_BLOCKED campaign (manual moderation): reset audit iterations…'
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/ldm-ai/balance:
+    patch:
+      operationId: AdminController_setLdmAiBalance
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set / top up per-tenant LDM AI balance (USD)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/db-quota:
+    get:
+      operationId: AdminController_getTenantDbQuota
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get DB quota + current usage for a tenant (SUPER)
+      tags:
+      - Admin
+    patch:
+      operationId: AdminController_updateTenantDbQuota
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set DB quota (MB) for a tenant; null = unlimited (SUPER)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/email-accounts-max:
+    get:
+      operationId: AdminController_getTenantEmailAccountsMax
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get email accounts cap + current usage for a tenant (SUPER)
+      tags:
+      - Admin
+    patch:
+      operationId: AdminController_updateTenantEmailAccountsMax
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set email accounts cap for a tenant; null = platform default (SUPER)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/max-streams:
+    patch:
+      operationId: AdminController_updateMaxStreams
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update max parallel streams for a tenant
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/transport:
+    patch:
+      operationId: AdminController_updateTransport
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update mail transport config for a tenant
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/settings-menu:
+    get:
+      operationId: AdminController_getSettingsMenu
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get hidden settings-menu tabs for a tenant (#275)
+      tags:
+      - Admin
+    patch:
+      operationId: AdminController_updateSettingsMenu
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set hidden settings-menu tabs for a tenant (#275)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/inbox-check:
+    get:
+      operationId: AdminController_getInboxCheckTenants
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List inbox-check status across tenants
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/inbox-check:
+    patch:
+      operationId: AdminController_updateInboxCheckTenant
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update inbox-check config for a tenant
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/inbox-check/connect:
+    post:
+      operationId: AdminController_connectInboxCheckTenant
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectInboxCheckTenantDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Atomically connect paid Inbox Placement for a user workspace
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/tenants/{dbName}/inbox-check/test:
+    post:
+      operationId: AdminController_testInboxCheckTenant
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run inbox-check test for a tenant
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/ldmai-usage:
+    get:
+      operationId: AdminController_getLdmAiUsage
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get LDM AI usage statistics
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/ldmai-queue:
+    get:
+      operationId: AdminController_getLdmAiQueueStats
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get LDM AI queue snapshot
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/ai-monitor:
+    get:
+      operationId: AdminController_getAiMonitor
+      parameters:
+      - name: provider
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: context
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: tenant
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: success
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: days
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: offset
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get AI monitor dashboard data
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/ai-model-mapping:
+    get:
+      operationId: AdminController_getAiModelMapping
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get AI model mapping configuration
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/i18n:
+    get:
+      operationId: AdminController_getI18n
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get i18n translations bundle
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/i18n/key:
+    put:
+      operationId: AdminController_updateI18nKey
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a single i18n translation key
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    delete:
+      operationId: AdminController_deleteI18nKey
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete an i18n translation key
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/i18n/bulk:
+    put:
+      operationId: AdminController_bulkUpdateI18n
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Bulk-update i18n translation keys
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/memory:
+    get:
+      operationId: AdminController_listMemory
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List memory files
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/memory/stats:
+    get:
+      operationId: AdminController_memoryStats
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get memory storage stats
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/memory/{filename}:
+    get:
+      operationId: AdminController_readMemory
+      parameters:
+      - name: filename
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Read a memory file by name
+      tags:
+      - Admin
+    put:
+      operationId: AdminController_saveMemory
+      parameters:
+      - name: filename
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Write a memory file by name
+      tags:
+      - Admin
+    delete:
+      operationId: AdminController_deleteMemory
+      parameters:
+      - name: filename
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a memory file by name
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/memory/rename:
+    post:
+      operationId: AdminController_renameMemory
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Rename a memory file
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/overview:
+    get:
+      operationId: AdminController_getSecurityOverview
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get security overview dashboard
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/ports:
+    get:
+      operationId: AdminController_getPortStatus
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List open network ports detected on the host
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/score:
+    get:
+      operationId: AdminController_getSecurityScore
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregate security score
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/recommendations:
+    get:
+      operationId: AdminController_getRecommendations
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get security hardening recommendations
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/integrity:
+    get:
+      operationId: AdminController_getIntegrity
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Check file-integrity vs baseline
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/baseline:
+    post:
+      operationId: AdminController_initBaseline
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new file-integrity baseline
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/check:
+    post:
+      operationId: AdminController_runIntegrityCheck
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run an on-demand security check
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/intrusions:
+    get:
+      operationId: AdminController_getIntrusions
+      parameters:
+      - name: hours
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List detected intrusion attempts
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/summary:
+    get:
+      operationId: AdminController_getAttackSummary
+      parameters:
+      - name: hours
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get security summary report
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/honeypot:
+    get:
+      operationId: AdminController_getHoneypotEvents
+      parameters:
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List recent honeypot events
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/honeypot/stats:
+    get:
+      operationId: AdminController_getHoneypotStats
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregate honeypot statistics
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/lockdown:
+    get:
+      operationId: AdminController_getLockdownStatus
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get current lockdown state
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/lockdown/activate:
+    post:
+      operationId: AdminController_activateLockdown
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Activate lockdown mode
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/lockdown/deactivate:
+    post:
+      operationId: AdminController_deactivateLockdown
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Deactivate lockdown mode
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/lockdown/history:
+    get:
+      operationId: AdminController_getLockdownHistory
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get lockdown activation history
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/events:
+    get:
+      operationId: AdminController_getRecentEvents
+      parameters:
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List security events log
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/cross-tenant-denied:
+    get:
+      operationId: AdminController_getCrossTenantDenied
+      parameters:
+      - name: hours
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Aggregate security.cross_tenant_denied events by actor x target tenant (#1159)
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/security/backups:
+    get:
+      operationId: AdminController_getBackupStatus
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List available backups
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/alert-canary:
+    get:
+      operationId: AdminController_getAlertCanaryStatus
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'System alert channel canary status: last success, consecutive failures (#1160)'
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/alert-canary/run:
+    post:
+      operationId: AdminController_runAlertCanary
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Manually run one system alert canary tick (#1160)
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/pipelines:
+    get:
+      operationId: AdminController_getPipelines
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List all pipelines (cross-tenant admin view)
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/agent-guide/overrides:
+    get:
+      operationId: AgentGuideAdminController_getOverrides
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the editable agent-guide overrides (raw JSON overlay + meta)
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    put:
+      operationId: AgentGuideAdminController_putOverrides
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentGuideOverridesDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Replace the agent-guide overrides.
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/agent-guide/effective:
+    get:
+      operationId: AgentGuideAdminController_getEffective
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Preview the effective (defaults + overrides) guide map
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/agent-guide/coverage:
+    get:
+      operationId: AgentGuideAdminController_coverage
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Guidance coverage report: how many MCP tools have op-level guidance vs…'
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/billing/tenants:
+    get:
+      operationId: AdminBillingController_listTenantBalances
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Balances of all tenants (wave 4): dbName, name, selfSignup, balance (null =…'
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/billing/tenants/{dbName}/ledger:
+    get:
+      operationId: AdminBillingController_tenantLedger
+      parameters:
+      - name: dbName
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: entryType
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: cursor
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Ledger for a specific tenant (wave 4): CHARGE|CREDIT|ADJUSTMENT|REFUND…'
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/billing/pricing:
+    get:
+      operationId: AdminBillingController_getPricing
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Platform price registry: code defaults, registry overrides and effective prices…'
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    patch:
+      operationId: AdminBillingController_patchPricing
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Change the platform price (field-level merge): { pricing: { : usd | null }…'
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/support/threads:
+    get:
+      operationId: SupportAdminController_listThreads
+      parameters:
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List all support threads
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/support/unread-count:
+    get:
+      operationId: SupportAdminController_unreadCount
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Total unread user messages across threads
+      tags:
+      - Admin
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/support/threads/{id}:
+    get:
+      operationId: SupportAdminController_getThread
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a support thread with messages (marks as read)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/support/threads/{id}/reply:
+    post:
+      operationId: SupportAdminController_reply
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                body:
+                  type: string
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reply to a support thread (optional JPG/PNG attachments)
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/support/threads/{id}/status:
+    post:
+      operationId: SupportAdminController_setStatus
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Close or reopen a support thread
+      tags:
+      - Admin
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    ImportOauthComboDto:
+      type: object
+      properties: {}
+    ImportFromLdmDto:
+      type: object
+      properties: {}
+    BulkSeedsDto:
+      type: object
+      properties: {}
+    UpdateApiKeyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 120
+        tier:
+          type: string
+          enum:
+          - basic
+          - pro
+          - enterprise
+        dailyLimit:
+          type: number
+          minimum: 1
+        monthlyLimit:
+          type: number
+          minimum: 1
+        allowedProviders:
+          type: array
+          items:
+            type: string
+        features:
+          type: object
+        active:
+          type: boolean
+    CreateApiKeyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 120
+        tier:
+          type: string
+          enum:
+          - basic
+          - pro
+          - enterprise
+        dailyLimit:
+          type: number
+          minimum: 1
+        monthlyLimit:
+          type: number
+          minimum: 1
+        allowedProviders:
+          type: array
+          items:
+            type: string
+        features:
+          type: object
+        scopes:
+          description: 'Scope ids from `src/api-keys/scopes.ts`. If omitted, the service
+
+            chooses a default by source (portal → PRESETS.agent, admin → [''*'']).'
+          type: array
+          items:
+            type: string
+      required:
+      - name
+    PatchSeedDto:
+      type: object
+      properties: {}
+    ArchiveSeedDto:
+      type: object
+      properties: {}
+    UpdateDeliverabilityConfigDto:
+      type: object
+      properties: {}
+    AddSeedDto:
+      type: object
+      properties: {}
+    AddDeliveryBlockDto:
+      type: object
+      properties: {}
+    AccountTransferPlanDto:
+      type: object
+      properties:
+        sourceEmails:
+          minItems: 1
+          maxItems: 10
+          type: array
+          items:
+            type: string
+            format: email
+        targetEmail:
+          type: string
+          format: email
+        resources:
+          minItems: 1
+          maxItems: 4
+          type: array
+          items:
+            type: object
+      required:
+      - sourceEmails
+      - targetEmail
+      - resources
+    AgentGuideOverridesDto:
+      type: object
+      properties:
+        domains:
+          type: object
+          description: Domain overrides
+        operations:
+          type: object
+          description: Operation overrides
+        controllerDomain:
+          type: object
+          description: Controller-domain override
+    AccountTransferDeactivateSourcesDto:
+      type: object
+      properties:
+        sourceEmails:
+          minItems: 1
+          maxItems: 10
+          type: array
+          items:
+            type: string
+            format: email
+        targetEmail:
+          type: string
+          format: email
+        reason:
+          type: string
+      required:
+      - sourceEmails
+      - targetEmail
+    AccountTransferApplyDto:
+      type: object
+      properties:
+        sourceEmails:
+          minItems: 1
+          maxItems: 10
+          type: array
+          items:
+            type: string
+            format: email
+        targetEmail:
+          type: string
+          format: email
+        resources:
+          minItems: 1
+          maxItems: 4
+          type: array
+          items:
+            type: object
+        planHash:
+          type: string
+          minLength: 64
+          maxLength: 64
+          pattern: /^[a-f0-9]{64}$/
+        operationId:
+          type: string
+          pattern: /^[a-zA-Z0-9][a-zA-Z0-9._:-]{7,99}$/
+        reason:
+          type: string
+      required:
+      - sourceEmails
+      - targetEmail
+      - resources
+      - planHash
+      - operationId
+    ConnectInboxCheckTenantDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

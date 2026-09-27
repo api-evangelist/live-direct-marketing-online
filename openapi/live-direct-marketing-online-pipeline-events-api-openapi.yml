@@ -1,0 +1,423 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Pipeline Events API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Pipeline Events across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Pipeline Events
+paths:
+  /api/pipeline/events:
+    post:
+      operationId: PipelineController_events
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PipelineEventDto'
+      responses:
+        '202':
+          description: ''
+      summary: Ingest a conveyor event from the orchestrator host (upsert task/step, append…
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipeline/summary:
+    get:
+      operationId: PipelineController_getSummary
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Task counters by status + how many reached prod per hour/shift (issue #998)'
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipeline/speed:
+    get:
+      operationId: PipelineController_getSpeed
+      parameters:
+      - name: force
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: '"Speed" block: lead time 7/30d, per-stage breakdown, throughput, WIP (issue…'
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipeline/speed/stage/{name}/tasks:
+    get:
+      operationId: PipelineController_getStageTasks
+      parameters:
+      - name: name
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Tasks in a specific stage, sorted by time spent in it (issue #1009, click on…'
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipeline/tasks:
+    get:
+      operationId: PipelineController_listTasks
+      parameters:
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List of conveyor tasks (status filter, pagination)
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipeline/tasks/{id}:
+    get:
+      operationId: PipelineController_getTask
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: A conveyor task together with its steps
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipeline/tasks/{id}/stage-timeline:
+    get:
+      operationId: PipelineController_getStageTimeline
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Per-stage breakdown of one task (issue #998): queued→in_progress→review→…→prod'
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipeline/steps/{id}/logs:
+    get:
+      operationId: PipelineController_getStepLogs
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Conveyor step logs (pagination, total is a separate count, without all row…
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipeline/files/{name}:
+    get:
+      operationId: PipelineController_getFile
+      parameters:
+      - name: name
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Snapshot of a conveyor service file (GATES.md/questions.md/TEMPLATE.md)
+      tags:
+      - Pipeline Events
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    PipelineEventDto:
+      type: object
+      properties:
+        type:
+          type: object
+        task:
+          $ref: '#/components/schemas/PipelineTaskEventDto'
+        step:
+          $ref: '#/components/schemas/PipelineStepEventDto'
+        log:
+          $ref: '#/components/schemas/PipelineLogEventDto'
+        file:
+          $ref: '#/components/schemas/PipelineFileEventDto'
+      required:
+      - type
+    PipelineStepEventDto:
+      type: object
+      properties:
+        id:
+          type: string
+        taskId:
+          type: string
+        kind:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        startedAt:
+          type: string
+        finishedAt:
+          type: string
+        exitCode:
+          type: number
+        meta:
+          type: object
+      required:
+      - id
+      - taskId
+      - kind
+      - name
+      - status
+    PipelineTaskEventDto:
+      type: object
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        priority:
+          type: string
+        tier:
+          type: string
+        round:
+          type: number
+        branch:
+          type: string
+        updatedAt:
+          type: string
+      required:
+      - id
+      - slug
+      - title
+      - status
+    PipelineFileEventDto:
+      type: object
+      properties:
+        name:
+          type: string
+        content:
+          type: string
+      required:
+      - name
+      - content
+    PipelineLogEventDto:
+      type: object
+      properties:
+        stepId:
+          type: string
+        ts:
+          type: string
+        level:
+          type: string
+        message:
+          type: string
+      required:
+      - stepId
+      - level
+      - message
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,0 +1,136 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Variable Resolver API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Variable Resolver across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Variable Resolver
+paths:
+  /api/variable-resolver/resolve:
+    post:
+      operationId: VariableResolverController_resolve
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResolveVariablesDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Resolve contact context and variable map for templates
+      tags:
+      - Variable Resolver
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/variable-resolver/available-variables:
+    get:
+      operationId: VariableResolverController_getAvailableVariables
+      parameters:
+      - name: source
+        required: false
+        in: query
+        description: Legacy single-source filter (use `sources` instead)
+        schema:
+          type: string
+      - name: sources
+        required: false
+        in: query
+        description: CSV of contactList,company,pipeline
+        schema:
+          type: string
+      - name: contactListId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: companyId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: pipelineId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: stageId
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List all available template variables (canonical — same source as…
+      tags:
+      - Variable Resolver
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    ResolveVariablesDto:
+      type: object
+      properties:
+        contactId:
+          type: string
+        recipientEmail:
+          type: string
+      required:
+      - contactId
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

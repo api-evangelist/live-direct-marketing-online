@@ -1,0 +1,274 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Activities API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Activities across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Activities
+paths:
+  /api/activities/feed:
+    get:
+      operationId: ActivitiesController_feed
+      parameters:
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateFrom
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateTo
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: type
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: entityType
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Unified tenant event feed (activities + emails) for /crm/events — filters: date…'
+      tags:
+      - Activities
+      x-required-scope:
+      - activities:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/activities:
+    get:
+      operationId: ActivitiesController_findAll
+      parameters:
+      - name: leadId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: contactId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: companyId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: type
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List activities filtered by lead/contact/company/type
+      tags:
+      - Activities
+    post:
+      operationId: ActivitiesController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateActivityDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create an activity (call/task/note) linked to a lead/contact/company
+      tags:
+      - Activities
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/activities/{id}:
+    patch:
+      operationId: ActivitiesController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateActivityDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update an activity (subject, description, due date, done flag)
+      tags:
+      - Activities
+    delete:
+      operationId: ActivitiesController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete an activity by id
+      tags:
+      - Activities
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    UpdateActivityDto:
+      type: object
+      properties:
+        isDone:
+          type: boolean
+          description: Is done
+        subject:
+          type: string
+          description: Activity subject
+        description:
+          type: string
+          description: Activity description
+        dueDate:
+          type: string
+          description: Due date
+    CreateActivityDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Activity type
+        subject:
+          type: string
+          description: Activity subject
+        description:
+          type: string
+          description: Activity description
+        dueDate:
+          type: string
+          description: Due date
+        isDone:
+          type: boolean
+          description: Is done
+        leadId:
+          type: string
+          description: Lead id
+        contactId:
+          type: string
+          description: Contact id
+        companyId:
+          type: string
+          description: Company id
+      required:
+      - type
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,0 +1,316 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Companies / Custom Fields API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Companies / Custom Fields across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Companies / Custom Fields
+paths:
+  /api/companies/custom-fields:
+    get:
+      operationId: CompanyCustomFieldController_getDefinitions
+      parameters:
+      - name: entity
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List custom field definitions for the given entity (company/contact/lead)
+      tags:
+      - Companies / Custom Fields
+    post:
+      operationId: CompanyCustomFieldController_createDefinition
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomFieldDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a custom field definition
+      tags:
+      - Companies / Custom Fields
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/custom-fields/reorder:
+    put:
+      operationId: CompanyCustomFieldController_reorder
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reorder custom field definitions by id array
+      tags:
+      - Companies / Custom Fields
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/custom-fields/{companyId}/values:
+    get:
+      operationId: CompanyCustomFieldController_getValues
+      parameters:
+      - name: companyId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get custom field values for a company
+      tags:
+      - Companies / Custom Fields
+    post:
+      operationId: CompanyCustomFieldController_setValues
+      parameters:
+      - name: companyId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetValuesDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set custom field values for a company
+      tags:
+      - Companies / Custom Fields
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/custom-fields/{id}:
+    put:
+      operationId: CompanyCustomFieldController_updateDefinition
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomFieldDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a custom field definition
+      tags:
+      - Companies / Custom Fields
+    delete:
+      operationId: CompanyCustomFieldController_deleteDefinition
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: confirm
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a custom field definition (requires confirm=true)
+      tags:
+      - Companies / Custom Fields
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    UpdateCustomFieldDto:
+      type: object
+      properties:
+        label:
+          type: string
+        labelEn:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+        isRequired:
+          type: boolean
+        isVisibleInTable:
+          type: boolean
+        isFilterable:
+          type: boolean
+        isSortable:
+          type: boolean
+        numberFormat:
+          type: object
+        group:
+          type: string
+        sortOrder:
+          type: number
+    SetValuesDto:
+      type: object
+      properties:
+        values:
+          type: object
+        source:
+          type: string
+      required:
+      - values
+    CreateCustomFieldDto:
+      type: object
+      properties:
+        entity:
+          type: string
+          default: company
+        slug:
+          type: string
+          pattern: /^[a-z0-9_]+$/
+        label:
+          type: string
+        labelEn:
+          type: string
+        fieldType:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+        isRequired:
+          type: boolean
+        isVisibleInTable:
+          type: boolean
+        isFilterable:
+          type: boolean
+        isSortable:
+          type: boolean
+        numberFormat:
+          type: object
+        group:
+          type: string
+        settings:
+          type: object
+      required:
+      - slug
+      - label
+      - fieldType
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,0 +1,1062 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Companies API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Companies across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Companies
+paths:
+  /api/companies/stats:
+    get:
+      operationId: CompaniesController_getStats
+      parameters:
+      - name: listId
+        required: false
+        in: query
+        description: Restrict stats to a single list
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get company statistics, optionally scoped to a list
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies:
+    get:
+      operationId: CompaniesController_findAll
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: 1-based page number
+        schema:
+          example: 1
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Items per page (default 25)
+        schema:
+          example: 25
+          type: number
+      - name: search
+        required: false
+        in: query
+        description: Full-text search across name/domain/description
+        schema:
+          type: string
+      - name: listId
+        required: false
+        in: query
+        description: Filter to companies in this list
+        schema:
+          type: string
+      - name: sortBy
+        required: false
+        in: query
+        description: Sort column (e.g. createdAt, name)
+        schema:
+          type: string
+      - name: sortDir
+        required: false
+        in: query
+        description: Sort direction
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+      - name: sort
+        required: false
+        in: query
+        description: Combined sort token (alternative to sortBy/sortDir)
+        schema:
+          type: string
+      - name: quickFilter
+        required: false
+        in: query
+        description: Named quick-filter preset
+        schema:
+          type: string
+      - name: filters
+        required: false
+        in: query
+        description: JSON-stringified array of advanced filter rules
+        schema:
+          type: string
+      - name: includeDeleted
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: onlyDeleted
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Cap the number of rows returned (overrides pageSize when set)
+        schema:
+          type: number
+      - name: ids
+        required: false
+        in: query
+        description: Restrict to these company ids (repeat the param or send an array)
+        schema:
+          type: array
+          items:
+            type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List companies with pagination, search, and filters
+      tags:
+      - Companies
+    post:
+      operationId: CompaniesController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCompanyDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new company.
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/duplicates:
+    get:
+      operationId: CompaniesController_findDuplicates
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: 1-based page number
+        schema:
+          example: 1
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Groups per page (default 100, max 500)
+        schema:
+          example: 100
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Find duplicate companies in the workspace.
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/{id}:
+    get:
+      operationId: CompaniesController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single company by ID
+      tags:
+      - Companies
+    patch:
+      operationId: CompaniesController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCompanyDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update an existing company
+      tags:
+      - Companies
+    delete:
+      operationId: CompaniesController_softDelete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Soft-delete a company
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/{id}/timeline:
+    get:
+      operationId: CompaniesController_getTimeline
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: 1-based page number
+        schema:
+          example: 1
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Items per page (default 20)
+        schema:
+          example: 20
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a paginated timeline of events for a company
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/bulk:
+    post:
+      operationId: CompaniesController_bulk
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompaniesBulkDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Enqueue a bulk action on multiple companies (async)
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/bulk/{jobId}:
+    get:
+      operationId: CompaniesController_getBulkStatus
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the status of a bulk company job
+      tags:
+      - Companies
+    delete:
+      operationId: CompaniesController_cancelBulk
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel an in-progress bulk company job
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/export/columns:
+    get:
+      operationId: CompaniesController_getExportColumns
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List exportable column definitions for companies
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/export:
+    post:
+      operationId: CompaniesController_exportCompanies
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportCompaniesDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Export companies to a downloadable file
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/merge:
+    post:
+      operationId: CompaniesController_mergeCompanies
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MergeCompaniesDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Merge multiple companies into one keeper record
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/import/google-sheets:
+    post:
+      operationId: CompaniesController_importFromGoogleSheets
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportFromGoogleSheetsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Fetch rows from a Google Sheets URL for import.
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/import/preview:
+    post:
+      operationId: CompaniesController_importPreview
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompaniesImportPreviewDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Preview a companies import with proposed mapping
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/import/start:
+    post:
+      operationId: CompaniesController_importStart
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompaniesImportStartDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Start a companies import.
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/import/combined:
+    post:
+      operationId: CompaniesController_importCombined
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompaniesImportCombinedDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Combined companies + contacts import.
+      tags:
+      - Companies
+      x-required-scope:
+      - crm:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/{id}/restore:
+    post:
+      operationId: CompaniesController_restore
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Restore a soft-deleted company
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/{id}/purge:
+    delete:
+      operationId: CompaniesController_purge
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: PERMANENTLY delete a trashed company (requires isDeleted). Irreversible
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/import/rollback/{batchId}:
+    delete:
+      operationId: CompaniesController_rollbackImport
+      parameters:
+      - name: batchId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Roll back a company import batch by ID
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/{id}/freeze:
+    patch:
+      operationId: CompaniesController_freeze
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Freeze a company (set status FROZEN). Blocks campaign sending (#369)
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/companies/{id}/unfreeze:
+    patch:
+      operationId: CompaniesController_unfreeze
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Unfreeze a company (set status ACTIVE).
+      tags:
+      - Companies
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    CreateCompanyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        domain:
+          type: string
+        industry:
+          type: string
+        size:
+          type: object
+        country:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        website:
+          type: string
+        description:
+          type: string
+        source:
+          type: string
+        taxId:
+          type: string
+          maxLength: 20
+        status:
+          type: object
+        importBatchId:
+          type: string
+      required:
+      - name
+    CompaniesImportCombinedDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping. Company fields (name, domain, inn, industry, size, country, city, address, state, phone, website, source), custom cf:<key>, contact c:firstName/c:lastName/c:email/c:phone/c:position/c:personalEmail/c:linkedin
+        options:
+          type: object
+          description: dedupeBy, genericContactName, listId — see POST /companies/import/combined summary
+      required:
+      - rows
+      - mapping
+    UpdateCompanyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        domain:
+          type: string
+        industry:
+          type: string
+        size:
+          type: object
+        country:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        website:
+          type: string
+        description:
+          type: string
+        source:
+          type: string
+        taxId:
+          type: string
+          maxLength: 20
+        status:
+          type: object
+        importBatchId:
+          type: string
+        state:
+          type: string
+        linkedin:
+          type: string
+        foundedYear:
+          type: string
+          pattern: /^\d{4}$/
+        catalogInn:
+          type: string
+          maxLength: 12
+        logo:
+          type: string
+    CompaniesImportStartDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+        options:
+          type: object
+          description: 'dedupeBy: "auto"|"inn"|"domain" (default auto); duplicateHandling: "skip"|"update"|"enrich"|"create" (default skip). "enrich" (#1057) fills only EMPTY fields of the matched duplicate from the file, never overwrites non-empty ones; customFields merge by the same rule (canon mergeCustomFields). listId (#1057): every row that matched a card — created, updated, OR a found duplicate (skip/enrich) — is added to this list; must be an existing list id in this tenant.'
+      required:
+      - rows
+      - mapping
+    MergeCompaniesDto:
+      type: object
+      properties:
+        keepId:
+          type: string
+          description: Id of the company record to keep
+        mergeIds:
+          description: Ids of the companies to merge into keepId and delete
+          type: array
+          items:
+            type: string
+      required:
+      - keepId
+      - mergeIds
+    CompaniesBulkDto:
+      type: object
+      properties:
+        action:
+          type: string
+          description: Bulk action name (e.g. delete, addTags, removeTags, setField, addToList)
+        companyIds:
+          description: Company ids to act on
+          type: array
+          items:
+            type: string
+        ids:
+          description: Alias for companyIds
+          type: array
+          items:
+            type: string
+        tagIds:
+          description: Tag ids for addTags/removeTags actions
+          type: array
+          items:
+            type: string
+        listId:
+          type: string
+          description: Target list id for addToList action
+        fieldName:
+          type: string
+          description: Field name for a setField-style action
+        fieldValue:
+          type: object
+          description: Field value for a setField-style action (shape depends on fieldName)
+      required:
+      - action
+    CompaniesImportPreviewDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+      required:
+      - rows
+      - mapping
+    ImportFromGoogleSheetsDto:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Google Sheets URL to fetch rows from
+      required:
+      - url
+    ExportCompaniesDto:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Which companies to export
+          enum:
+          - all
+          - filtered
+          - selected
+        companyIds:
+          description: Company ids to export when scope is "selected"
+          type: array
+          items:
+            type: string
+        search:
+          type: string
+          description: Search term applied when scope is "filtered"
+        format:
+          type: string
+          description: Export file format (e.g. csv, xlsx)
+        columns:
+          description: Column keys to include (defaults to COMPANY_EXPORT_COLUMNS defaults)
+          type: array
+          items:
+            type: string
+        listId:
+          type: string
+          description: Restrict export to companies in this list id
+      required:
+      - scope
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

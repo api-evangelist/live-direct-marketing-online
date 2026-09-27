@@ -1,0 +1,158 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Audit API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Audit across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Audit
+paths:
+  /api/audit-events:
+    get:
+      operationId: AuditController_list
+      parameters:
+      - name: action
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: actorId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: targetType
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: targetId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateFrom
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateTo
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List audit events with filters (action, actor, target, date range)
+      tags:
+      - Audit
+    post:
+      operationId: AuditController_manualWrite
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Manually write an audit event (used by agents to attribute their actions)
+      tags:
+      - Audit
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/audit-events/aggregates:
+    get:
+      operationId: AuditController_aggregates
+      parameters:
+      - name: dateFrom
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateTo
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregate audit-event counts over a date range
+      tags:
+      - Audit
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

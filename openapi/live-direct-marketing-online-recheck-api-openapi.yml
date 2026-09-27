@@ -1,0 +1,96 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Recheck API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged recheck across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: recheck
+paths:
+  /api/tests/{token}/recheck:
+    post:
+      operationId: RecheckController_schedule
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecheckDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+      - recheck
+      summary: Recheck controller schedule
+      x-summary-source: derived
+  /api/tests/{token}/recheck-24h:
+    post:
+      description: Schedules one idempotent delayed scan of the original test token. No new message is sent and no email subscription is required.
+      operationId: RecheckController_schedule24h
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '202':
+          description: ''
+      summary: Schedule a same-message placement recheck after 24 hours
+      tags:
+      - recheck
+    get:
+      operationId: RecheckController_status24h
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      summary: Get the 24-hour placement recheck state and snapshots
+      tags:
+      - recheck
+    delete:
+      operationId: RecheckController_cancel24h
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      summary: Cancel a scheduled 24-hour recheck
+      tags:
+      - recheck
+components:
+  schemas:
+    RecheckDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

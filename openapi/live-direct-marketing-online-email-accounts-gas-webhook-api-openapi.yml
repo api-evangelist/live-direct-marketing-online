@@ -1,0 +1,61 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Email Accounts / GAS Webhook…
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Email Accounts / GAS Webhook across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Email Accounts / GAS Webhook
+paths:
+  /api/gas/webhook:
+    post:
+      description: PUBLIC endpoint, NOT protected by JWT. Authenticated via `body.secret` — a per-account UUID v4 (`EmailAccount.gasSecret`) generated when the user connects a Google Apps Script mailbox, compared constant-time against the value the user's own Apps Script sends. Unknown accountId / missing or wrong secret → 403.
+      operationId: GasWebhookController_handleWebhook
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      summary: Receive a GAS push notification and trigger IMAP fetch
+      tags:
+      - Email Accounts / GAS Webhook
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

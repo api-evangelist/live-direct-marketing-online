@@ -1,0 +1,222 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online MCP Transport API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged mcp-transport across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: mcp-transport
+paths:
+  /api/mcp:
+    search:
+      operationId: McpController_handle_search
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: 'Single handler for GET / POST / DELETE because the streamable-http
+
+        transport cares about verbs internally and Nest would otherwise need
+
+        three separate decorators.'
+      tags:
+      - mcp-transport
+    get:
+      operationId: McpController_handle_get
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+    post:
+      operationId: McpController_handle_post
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+    put:
+      operationId: McpController_handle_put
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+    delete:
+      operationId: McpController_handle_delete
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+    patch:
+      operationId: McpController_handle_patch
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+    options:
+      operationId: McpController_handle_options
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+    head:
+      operationId: McpController_handle_head
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+  /api/mcp/{path}:
+    search:
+      operationId: McpController_handle_search
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: 'Single handler for GET / POST / DELETE because the streamable-http
+
+        transport cares about verbs internally and Nest would otherwise need
+
+        three separate decorators.'
+      tags:
+      - mcp-transport
+    get:
+      operationId: getApiMcpByPath
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+      x-operation-id-source: normalized
+      x-operation-id-original: McpController_handle_get
+    post:
+      operationId: postApiMcpByPath
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+      x-operation-id-source: normalized
+      x-operation-id-original: McpController_handle_post
+    put:
+      operationId: putApiMcpByPath
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+      x-operation-id-source: normalized
+      x-operation-id-original: McpController_handle_put
+    delete:
+      operationId: deleteApiMcpByPath
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+      x-operation-id-source: normalized
+      x-operation-id-original: McpController_handle_delete
+    patch:
+      operationId: patchApiMcpByPath
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+      x-operation-id-source: normalized
+      x-operation-id-original: McpController_handle_patch
+    options:
+      operationId: optionsApiMcpByPath
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+      x-operation-id-source: normalized
+      x-operation-id-original: McpController_handle_options
+    head:
+      operationId: headApiMcpByPath
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Single handler for GET / POST / DELETE because the streamable-http transport…
+      tags:
+      - mcp-transport
+      x-operation-id-source: normalized
+      x-operation-id-original: McpController_handle_head
+components:
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

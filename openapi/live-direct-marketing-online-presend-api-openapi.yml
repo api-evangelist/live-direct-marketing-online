@@ -1,0 +1,111 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Presend API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged presend across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: presend
+paths:
+  /api/presend:
+    post:
+      operationId: PresendController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePresendDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - presend
+      summary: Presend controller create
+      x-summary-source: derived
+  /api/presend/{token}:
+    get:
+      operationId: PresendController_get
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - presend
+      summary: Presend controller get
+      x-summary-source: derived
+    delete:
+      operationId: PresendController_delete
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - presend
+      summary: Presend controller delete
+      x-summary-source: derived
+components:
+  schemas:
+    CreatePresendDto:
+      type: object
+      properties:
+        from:
+          type: string
+          format: email
+        subject:
+          type: string
+          maxLength: 500
+        html:
+          type: string
+          maxLength: 524288
+        text:
+          type: string
+          maxLength: 131072
+        reply_to:
+          type: string
+          format: email
+        tiers:
+          type: array
+          items:
+            type: string
+            enum:
+            - t1
+            - t2
+            - t3
+        hcaptcha_token:
+          type: string
+          maxLength: 2048
+      required:
+      - from
+      - subject
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

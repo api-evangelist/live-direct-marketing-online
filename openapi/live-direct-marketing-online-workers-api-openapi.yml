@@ -1,0 +1,136 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Workers API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged workers across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Workers
+paths:
+  /api/workers/jobs/claim:
+    post:
+      operationId: WorkersController_claim
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Workers
+      summary: Workers controller claim
+      x-summary-source: derived
+  /api/workers/jobs/{id}/heartbeat:
+    post:
+      operationId: WorkersController_heartbeat
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Workers
+      summary: Workers controller heartbeat
+      x-summary-source: derived
+  /api/workers/jobs/{id}/screenshot:
+    post:
+      operationId: WorkersController_uploadScreenshot
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: placement
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: variant
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Workers
+      summary: Workers controller upload screenshot
+      x-summary-source: derived
+  /api/workers/jobs/{id}/complete:
+    post:
+      operationId: WorkersController_complete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Workers
+      summary: Workers controller complete
+      x-summary-source: derived
+  /api/workers/jobs/{id}/fail:
+    post:
+      operationId: WorkersController_fail
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FailDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Workers
+      summary: Workers controller fail
+      x-summary-source: derived
+components:
+  schemas:
+    FailDto:
+      type: object
+      properties: {}
+    ClaimDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

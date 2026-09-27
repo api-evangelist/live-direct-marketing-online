@@ -1,0 +1,153 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Amo Widget API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged amo-widget across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: amo-widget
+paths:
+  /api/amo-widget/v1/providers:
+    get:
+      operationId: AmoWidgetController_listProviders
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - amo-widget
+      summary: Amo widget controller list providers
+      x-summary-source: derived
+  /api/amo-widget/v1/log:
+    post:
+      operationId: AmoWidgetController_log
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - amo-widget
+      summary: Amo widget controller log
+      x-summary-source: derived
+  /api/amo-widget/v1/oauth/install:
+    get:
+      operationId: AmoWidgetController_oauthInstall
+      parameters:
+      - name: client_id
+        required: false
+        in: query
+        schema: {}
+      - name: referer
+        required: false
+        in: query
+        schema: {}
+      - name: code
+        required: false
+        in: query
+        schema: {}
+      responses:
+        '200':
+          description: ''
+      tags:
+      - amo-widget
+      summary: Amo widget controller oauth install
+      x-summary-source: derived
+  /api/amo-widget/v1/webhooks/uninstall:
+    post:
+      operationId: AmoWidgetController_uninstall
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - amo-widget
+      summary: Amo widget controller uninstall
+      x-summary-source: derived
+  /api/amo-widget/v1/tests:
+    post:
+      operationId: AmoWidgetController_createTest
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAmoTestDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+      - amo-widget
+      summary: Amo widget controller create test
+      x-summary-source: derived
+  /api/amo-widget/v1/tests/{token}/poll:
+    get:
+      operationId: AmoWidgetController_pollTest
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - amo-widget
+      summary: Amo widget controller poll test
+      x-summary-source: derived
+  /api/amo-widget/v1/tests/{token}/save-note:
+    post:
+      operationId: AmoWidgetController_saveNote
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - amo-widget
+      summary: Amo widget controller save note
+      x-summary-source: derived
+components:
+  schemas:
+    CreateAmoTestDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        providers:
+          type: array
+          items:
+            type: string
+        entity_type:
+          type: string
+          enum:
+          - contacts
+          - leads
+        entity_id:
+          type: number
+      required:
+      - email
+      - entity_type
+      - entity_id
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

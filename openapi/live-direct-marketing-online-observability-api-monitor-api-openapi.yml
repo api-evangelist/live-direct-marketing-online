@@ -1,0 +1,352 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Observability / API Monitor API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Observability / API Monitor across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Observability / API Monitor
+paths:
+  /api/admin/api-monitor:
+    get:
+      operationId: ApiMonitorController_list
+      parameters:
+      - name: since
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: until
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: authMode
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: statusClass
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: path
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: keyPrefix
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: userId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: tenantId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: mcpToolName
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: a2aMethod
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List API request log entries with filters (SUPER only)
+      tags:
+      - Observability / API Monitor
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/api-monitor/aggregates:
+    get:
+      operationId: ApiMonitorController_aggregates
+      parameters:
+      - name: since
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregated API monitor metrics (RPS, latency percentiles, top paths)
+      tags:
+      - Observability / API Monitor
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/api-monitor/mcp/tools:
+    get:
+      operationId: ApiMonitorController_mcpTools
+      parameters:
+      - name: since
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: MCP tools usage breakdown — per-tool counts, latency p95, error rate.
+      tags:
+      - Observability / API Monitor
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/api-monitor/mcp/keys:
+    get:
+      operationId: ApiMonitorController_mcpKeys
+      parameters:
+      - name: since
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Per-bearer-key usage — count, error rate, top-3 tools per key. SUPER only
+      tags:
+      - Observability / API Monitor
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/admin/api-monitor/mcp/timeseries:
+    get:
+      operationId: ApiMonitorController_mcpTimeseries
+      parameters:
+      - name: since
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: bucketMinutes
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: toolName
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: MCP requests time series bucketed by N minutes (default 60).
+      tags:
+      - Observability / API Monitor
+      x-required-scope:
+      - admin:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/me/api-monitor/calls:
+    get:
+      operationId: ApiMonitorSelfController_calls
+      parameters:
+      - name: since
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: until
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: statusClass
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: mcpToolName
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: path
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: includeInternal
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Read your own API/MCP call journal — time, MCP tool name, method, path, HTTP…
+      tags:
+      - Observability / API Monitor
+      x-required-scope:
+      - agent:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

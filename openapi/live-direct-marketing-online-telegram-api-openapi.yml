@@ -1,0 +1,55 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Telegram API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged telegram across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: telegram
+paths:
+  /api/telegram/webhook:
+    post:
+      operationId: TelegramController_webhook
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - telegram
+      summary: Telegram controller webhook
+      x-summary-source: derived
+  /api/telegram/login-link:
+    get:
+      operationId: TelegramController_loginLink
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+      - telegram
+      summary: Telegram controller login link
+      x-summary-source: derived
+  /api/telegram/link-token:
+    post:
+      operationId: TelegramController_linkToken
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+      - telegram
+      summary: Telegram controller link token
+      x-summary-source: derived
+components:
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

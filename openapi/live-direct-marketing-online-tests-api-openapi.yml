@@ -1,0 +1,423 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Tests API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged tests across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Tests
+paths:
+  /api/tests:
+    post:
+      operationId: TestsController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTestDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+      - Tests
+      summary: Tests controller create
+      x-summary-source: derived
+  /api/tests/{token}:
+    get:
+      operationId: TestsController_get
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Tests
+      summary: Tests controller get
+      x-summary-source: derived
+    delete:
+      operationId: TestsController_deleteTest
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Tests
+      summary: Tests controller delete test
+      x-summary-source: derived
+  /api/tests/{token}/live:
+    get:
+      operationId: TestsSseController_stream
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - Tests
+      summary: Tests sse controller stream
+      x-summary-source: derived
+  /api/track/click:
+    post:
+      operationId: TrackController_click
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Tests
+      summary: Track controller click
+      x-summary-source: derived
+  /api/tests/{token}/finish:
+    post:
+      operationId: WarmupController_finish
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      summary: Finish the current check and return its saved partial report
+      tags:
+      - Tests
+  /api/tests/{token}/warmup:
+    post:
+      operationId: WarmupController_warmup
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      summary: Free warmup — move the test's spam-placed emails back to Inbox on our seed…
+      tags:
+      - Tests
+  /api/tests/{token}/repoll:
+    post:
+      description: Same one-shot IMAP re-check as the owner-key POST /api/v1/tests/{token}/repoll, but usable by anyone who knows the test token (web/Telegram tests never have an API key to call the v1 endpoint with). 30s cooldown per token, quota NOT consumed (no email sent), refused on waiting/checking, 7-day age cap.
+      operationId: WarmupController_repoll
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      summary: Force IMAP re-poll of a test (within cooldown) — public by token
+      tags:
+      - Tests
+  /api/v1/tests:
+    post:
+      description: Returns a seed mailbox the caller must send their campaign email to (with the +token plus-addressing). Workers then poll the seed via IMAP and report placement (inbox/spam/other/not_received); polling backs off over up to a 2h window before giving up (api#27).
+      operationId: V1TestsController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateV1TestDto'
+      responses:
+        '202':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Create a deliverability test (manual mode)
+      tags:
+      - Tests
+    get:
+      description: Returns tests created by this API key, newest first. Use `?cursor=` to page back.
+      operationId: V1TestsController_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: List own tests (paginated by created_at cursor)
+      tags:
+      - Tests
+  /api/v1/tests/auto:
+    post:
+      description: 'For campaign-style delivery checks: pass `recipient_email` and we auto-classify the provider via MX, picking ONE matching seed (vs the manual mode which fans across all seeds). Custom-domain recipients fall back to the `ldm` spam-analyzer seed.'
+      operationId: V1TestsController_createAuto
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateV1AutoTestDto'
+      responses:
+        '202':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Create a deliverability test (auto mode — per-recipient single-seed)
+      tags:
+      - Tests
+  /api/v1/tests/{token}:
+    get:
+      description: 'Returns full test snapshot: status (waiting/done/expired), per-seed results (placement, spf/dkim/dmarc, screenshot URL), aggregate summary, verdict, and recommendations. Pass `?format=pdf` or `Accept: application/pdf` to download a PDF report instead — requires `reports:pdf` scope.'
+      operationId: V1TestsController_get
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: format
+        required: false
+        in: query
+        description: Response format. Default `json`. Use `pdf` for a downloadable report.
+        schema:
+          enum:
+          - json
+          - pdf
+          type: string
+      responses:
+        '200':
+          description: Owner-scoped snapshot with persisted observed-receipt evidence on each result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        received_sender_email:
+                          type:
+                          - string
+                          - 'null'
+                        received_sender_verified:
+                          type:
+                          - boolean
+                          - 'null'
+                        message_identity:
+                          type:
+                          - string
+                          - 'null'
+      security:
+      - apiKey: []
+      summary: Fetch test status + results (JSON or PDF)
+      tags:
+      - Tests
+    delete:
+      description: Removes the test, its results, and any associated screenshot jobs. Cannot be undone.
+      operationId: V1TestsController_remove
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Delete a test (irreversible)
+      tags:
+      - Tests
+  /api/v1/tests/{token}/repoll:
+    post:
+      description: Triggers a one-shot IMAP fetch on every seed of this test. 30s cooldown per token. Quota NOT consumed (no email sent). Useful when delivery is delayed past the auto-window.
+      operationId: V1TestsController_repoll
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Owner-scoped repoll snapshot with the same observed-receipt fields as GET /v1/tests/{token}.
+      security:
+      - apiKey: []
+      summary: Force IMAP re-poll of a test (within cooldown)
+      tags:
+      - Tests
+  /api/v1/tests/{token}/recheck:
+    post:
+      description: Schedules a durable re-scan of the original message after delay_hours (24 by default). Does not send a new email and does not consume test quota. Use GET /api/v1/tests/{token}/recheck-status to read both snapshots and the transition matrix.
+      operationId: V1TestsController_scheduleDeferredRecheck
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleDeferredRecheckDto'
+      responses:
+        '202':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Schedule a same-message placement recheck
+      tags:
+      - Tests
+  /api/v1/tests/{token}/recheck-status:
+    get:
+      operationId: V1TestsController_deferredRecheckStatus
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - apiKey: []
+      summary: Get delayed placement snapshots and transitions
+      tags:
+      - Tests
+components:
+  schemas:
+    CreateV1AutoTestDto:
+      type: object
+      properties:
+        recipient_email:
+          type: string
+          format: email
+        sender_email:
+          type: string
+          format: email
+        meta:
+          type: object
+      required:
+      - recipient_email
+    PresendOptionsDto:
+      type: object
+      properties:
+        enableTier2:
+          type: boolean
+    CreateTestDto:
+      type: object
+      properties:
+        emailLocale:
+          type: string
+          enum:
+          - ru
+          - en
+        email:
+          type: string
+          maxLength: 200
+          format: email
+        hcaptchaToken:
+          type: string
+          maxLength: 4096
+        providers:
+          maxItems: 20
+          type: array
+          items:
+            type: string
+        presend:
+          $ref: '#/components/schemas/PresendOptionsDto'
+        consentVersion:
+          type: string
+          maxLength: 32
+        consentLocale:
+          type: string
+          maxLength: 8
+        senderLinkReports:
+          type: boolean
+      required:
+      - email
+    CreateV1TestDto:
+      type: object
+      properties:
+        recipient_email:
+          type: string
+          format: email
+        providers:
+          type: array
+          items:
+            type: string
+        meta:
+          type: object
+        screenshots:
+          type: boolean
+    ScheduleDeferredRecheckDto:
+      type: object
+      properties:
+        delay_hours:
+          type: number
+          description: Delay before the same-message recheck. Defaults to 24 hours.
+          default: 24
+          minimum: 1
+          maximum: 168
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

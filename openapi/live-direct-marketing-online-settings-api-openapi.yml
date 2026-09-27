@@ -1,0 +1,1570 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Settings API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Settings across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Settings
+paths:
+  /api/settings:
+    get:
+      operationId: SettingsController_getSettings
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the full workspace settings document
+      tags:
+      - Settings
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/ai-providers:
+    patch:
+      operationId: SettingsController_updateAiProviders
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAiProvidersDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update AI provider keys and defaults
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/ldm-ai/request:
+    post:
+      operationId: SettingsController_requestLdmAi
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestLdmAiDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Request LDM AI access / balance increase (tenant → admin)
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/notifications:
+    patch:
+      operationId: SettingsController_updateNotifications
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNotificationsDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update notification preferences (push and email)
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/workspace:
+    patch:
+      operationId: SettingsController_updateWorkspace
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWorkspaceDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update workspace metadata (name, currency, language)
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/profile:
+    get:
+      operationId: SettingsController_getProfile
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the current user profile
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateProfile
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update the current user profile
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/ui-preferences:
+    get:
+      operationId: SettingsController_getUiPreferences
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get current user UI preferences (dashboard blocks, left menu)
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateUiPreferences
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Replace current user UI preferences
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/profile/avatar:
+    post:
+      operationId: SettingsController_uploadAvatar
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Upload a new avatar for the current user
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    delete:
+      operationId: SettingsController_deleteAvatar
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete the current user avatar
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/security/change-password:
+    post:
+      operationId: SettingsController_changePassword
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Change the current user password
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/security/sessions:
+    get:
+      operationId: SettingsController_getSessions
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List active sessions for the current user
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    delete:
+      operationId: SettingsController_revokeAllSessions
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Revoke all active sessions for the current user
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/security/sessions/{sessionId}:
+    delete:
+      operationId: SettingsController_revokeSession
+      parameters:
+      - name: sessionId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Revoke a single user session
+      tags:
+      - Settings
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/bo-nalog:
+    get:
+      operationId: SettingsController_getBoNalogIntegration
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Get bo.nalog.gov.ru integration state: enabled, our rate limit, requests today…'
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateBoNalogIntegration
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Update bo.nalog.gov.ru integration: enable/disable, requests-per-minute cap'
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/dadata:
+    get:
+      operationId: SettingsController_getDadataIntegration
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get DaData integration configuration
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateDadataIntegration
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update DaData integration configuration
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/dadata/reset-counter:
+    post:
+      operationId: SettingsController_resetDadataCounter
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reset the DaData daily request counter
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/inbox-check:
+    get:
+      operationId: SettingsController_getInboxCheckIntegration
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get Inbox Check integration configuration
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateInboxCheckIntegration
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update Inbox Check integration configuration
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/inbox-check/test:
+    post:
+      operationId: SettingsController_testInboxCheckConnection
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Test the Inbox Check connection
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/smartlead:
+    get:
+      operationId: SettingsController_getSmartleadIntegration
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get Smartlead integration configuration
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateSmartleadIntegration
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update Smartlead integration configuration
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/smartlead/test:
+    post:
+      operationId: SettingsController_testSmartleadConnection
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Test the Smartlead connection
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/smartlead/placement-matrix:
+    get:
+      operationId: SettingsController_getSmartleadPlacementMatrix
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Smartlead placement matrix — mailbox × provider (#1040)
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/integrations/smartlead/placement-history:
+    get:
+      operationId: SettingsController_getSmartleadPlacementHistory
+      parameters:
+      - name: mailbox
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: provider
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Smartlead placement history for one mailbox × provider cell (#1040)
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/transports:
+    get:
+      operationId: SettingsController_getTransports
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get enabled mail transport flags
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateTransports
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update enabled mail transport flags
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/mailing-auto-approve:
+    get:
+      operationId: SettingsController_listMailingAutoApprove
+      parameters:
+      - name: userId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List users with mailing auto-approve enabled (SUPER only).
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/users/{userId}/mailing-auto-approve:
+    patch:
+      operationId: SettingsController_setMailingAutoApprove
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Enable/disable mailing auto-approve for a user (SUPER only)
+      tags:
+      - Settings
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/mailing-auto-approve-tenant:
+    get:
+      operationId: SettingsController_getTenantMailingAutoApprove
+      parameters:
+      - name: tenantId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get tenant-level mailing auto-approve — whether the WHOLE workspace sends…
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_setTenantMailingAutoApprove
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set tenant-level mailing auto-approve.
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/auditor-rules:
+    get:
+      operationId: SettingsController_getAuditorRules
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Get workspace send window (#194): { enabled, workDays[1-7], startTime, endTime…'
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_setAuditorRules
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Partial PATCH of the tenant auditor canon (#100): { minScore?, tier2?…'
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/send-window:
+    get:
+      operationId: SettingsController_getSendWindow
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      tags:
+      - Settings
+      summary: Settings controller get send window
+      x-summary-source: derived
+    patch:
+      operationId: SettingsController_setSendWindow
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set workspace send window (#194). enabled=false → 24/7 (default). SUPER only
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/relay-health:
+    get:
+      operationId: SettingsController_getRelayHealth
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Relay health thresholds of the whole workspace (#337): block-guard, bounce…'
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_setRelayHealth
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set workspace relay health defaults (#337).
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/min-send-interval:
+    get:
+      operationId: SettingsController_getMinSendInterval
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get workspace default min send interval per account, seconds (#194). 0 = off
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_setMinSendInterval
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set workspace default min send interval per account, seconds 0..86400 (#194).
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/platform-tracking-allowed:
+    get:
+      operationId: SettingsController_getPlatformTrackingAllowed
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get whether SUPER allowed this tenant to serve the open-pixel via the SHARED…
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_setPlatformTrackingAllowed
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Allow/deny this tenant to serve the open-pixel via the SHARED platform domain…
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/notify-rules:
+    get:
+      operationId: SettingsController_getNotifyRules
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the notification routing rules
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateNotifyRules
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update the notification routing rules
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/crm-event-rules:
+    get:
+      operationId: SettingsController_getCrmEventRules
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get CRM event → notification bridge rules
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateCrmEventRules
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update CRM event → notification bridge rules
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/memory-notes:
+    get:
+      operationId: SettingsController_getMemoryNotes
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the current user memory notes for AI features
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    patch:
+      operationId: SettingsController_updateMemoryNotes
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update the current user memory notes
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/trash:
+    get:
+      operationId: SettingsController_getTrash
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Trash counters: soft-deleted dialogs/leads/contacts/companies awaiting restore…'
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/trash/empty:
+    post:
+      operationId: SettingsController_emptyTrash
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Empty trash — PERMANENTLY delete soft-deleted records.
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/delete-data:
+    delete:
+      operationId: SettingsController_deleteAllData
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete all tenant data (irreversible danger-zone action)
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/account/deactivation-preview:
+    get:
+      operationId: SettingsController_getAccountDeactivationPreview
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Preview before account deactivation: confirmation phrase + blockers (active…'
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/settings/account/deactivate:
+    post:
+      operationId: SettingsController_deactivateAccount
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Deactivate the tenant account (irreversible self-service action).
+      tags:
+      - Settings
+      x-required-scope:
+      - settings:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    UpdateNotificationsDto:
+      type: object
+      properties:
+        pushKey:
+          type: string
+        pushNotify:
+          type: boolean
+        notifyEmail:
+          type: string
+        emailNotify:
+          type: boolean
+    ChangePasswordDto:
+      type: object
+      properties:
+        currentPassword:
+          type: string
+        newPassword:
+          type: string
+          minLength: 8
+      required:
+      - currentPassword
+      - newPassword
+    UpdateProfileDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+    UpdateWorkspaceDto:
+      type: object
+      properties:
+        workspaceName:
+          type: string
+        defaultCurrency:
+          type: string
+        defaultLanguage:
+          type: string
+    UpdateAiProvidersDto:
+      type: object
+      properties:
+        aiProvider:
+          type: string
+        aitunnelKey:
+          type:
+          - string
+          - 'null'
+        hydraaiKey:
+          type:
+          - string
+          - 'null'
+        claudeApiKey:
+          type:
+          - string
+          - 'null'
+        balanceThreshold:
+          type: number
+        defaultAiModel:
+          type: string
+        fallbackProvider:
+          type: string
+    RequestLdmAiDto:
+      type: object
+      properties:
+        note:
+          type: string
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

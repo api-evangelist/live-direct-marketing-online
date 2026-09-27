@@ -1,0 +1,1794 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Dialogs API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Dialogs across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Dialogs
+paths:
+  /api/dialogs:
+    get:
+      operationId: DialogsController_findAll
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: 1-based page number
+        schema:
+          example: 1
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Items per page
+        schema:
+          example: 25
+          type: number
+      - name: channel
+        required: false
+        in: query
+        description: Filter by channel (EMAIL/TELEGRAM/...)
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: Filter by dialog status
+        schema:
+          type: string
+      - name: direction
+        required: false
+        in: query
+        description: IN / OUT
+        schema:
+          type: string
+      - name: contactId
+        required: false
+        in: query
+        description: Filter to dialogs linked to a contact
+        schema:
+          type: string
+      - name: companyId
+        required: false
+        in: query
+        description: Filter to dialogs linked to a company
+        schema:
+          type: string
+      - name: leadId
+        required: false
+        in: query
+        description: Filter to dialogs linked to a lead
+        schema:
+          type: string
+      - name: accountId
+        required: false
+        in: query
+        description: Filter to dialogs on a single email account
+        schema:
+          type: string
+      - name: mailingId
+        required: false
+        in: query
+        description: Filter to dialogs from a single mailing
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: Full-text search across subject/body
+        schema:
+          type: string
+      - name: needsAttention
+        required: false
+        in: query
+        description: true/false — only items flagged for review
+        schema:
+          type: string
+      - name: dateFrom
+        required: false
+        in: query
+        description: Lower bound on createdAt (ISO)
+        schema:
+          example: '2026-01-01'
+          type: string
+      - name: dateTo
+        required: false
+        in: query
+        description: Upper bound on createdAt (ISO)
+        schema:
+          example: '2026-12-31'
+          type: string
+      - name: sort
+        required: false
+        in: query
+        description: Sort token
+        schema:
+          type: string
+      - name: marking
+        required: false
+        in: query
+        description: Include only dialogs with this marking/messageType
+        schema:
+          type: string
+      - name: excludeMarking
+        required: false
+        in: query
+        description: Exclude dialogs with this marking
+        schema:
+          type: string
+      - name: emailFolder
+        required: false
+        in: query
+        description: IMAP folder path
+        schema:
+          type: string
+      - name: starred
+        required: false
+        in: query
+        description: true/false — starred only
+        schema:
+          type: string
+      - name: includeDrafts
+        required: false
+        in: query
+        description: true to include unsent drafts
+        schema:
+          type: string
+      - name: pendingSend
+        required: false
+        in: query
+        description: true for queued-but-not-sent outbox items
+        schema:
+          type: string
+      - name: placement
+        required: false
+        in: query
+        description: inbox-check placement bucket
+        schema:
+          enum:
+          - inbox
+          - spam
+          - unchecked
+          type: string
+      - name: snoozed
+        required: false
+        in: query
+        description: Snooze visibility filter
+        schema:
+          enum:
+          - hidden
+          - only
+          - all
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List dialogs with filters (channel, status, folder, etc.)
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/stats:
+    get:
+      operationId: DialogsController_getStats
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregate dialog statistics
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/badges:
+    post:
+      operationId: DialogsController_getBadges
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get bulk dialog badges for a set of leads
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/accounts:
+    get:
+      operationId: DialogsController_getAccounts
+      parameters:
+      - name: activeOnly
+        required: false
+        in: query
+        description: true to return only active accounts
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List email accounts used in dialogs
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/folders:
+    get:
+      operationId: DialogsController_getFolders
+      parameters:
+      - name: accountId
+        required: false
+        in: query
+        description: Restrict folders to one account
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List folders, optionally scoped to an account
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/thread/{threadId}:
+    get:
+      operationId: DialogsController_getThread
+      parameters:
+      - name: threadId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a full dialog thread by thread ID
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/bulk:
+    post:
+      operationId: DialogsController_bulk
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Perform a bulk action on multiple dialogs
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/imap/move:
+    post:
+      operationId: DialogsController_imapMove
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Move dialogs to an IMAP folder
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/imap/delete:
+    post:
+      operationId: DialogsController_imapDelete
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Permanently delete dialogs from IMAP
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/imap/folders:
+    get:
+      operationId: DialogsController_imapListFolders
+      parameters:
+      - name: accountId
+        required: true
+        in: query
+        description: Email account to query (required)
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List IMAP folders live from the mail server
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:read
+    post:
+      operationId: DialogsController_imapCreateFolder
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create an IMAP folder
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    patch:
+      operationId: DialogsController_imapRenameFolder
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Rename an IMAP folder
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/imap/folders/delete:
+    post:
+      operationId: DialogsController_imapDeleteFolder
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete an IMAP folder
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/outbox:
+    get:
+      operationId: DialogsController_getOutbox
+      parameters:
+      - name: status
+        required: false
+        in: query
+        description: Filter by outbox status (queued/sent/failed/...)
+        schema:
+          type: string
+      - name: scheduled
+        required: false
+        in: query
+        description: only=future-scheduled, none=immediate
+        schema:
+          enum:
+          - only
+          - none
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: 1-based page number
+        schema:
+          example: 1
+          type: number
+      - name: pageSize
+        required: false
+        in: query
+        description: Items per page (default 20)
+        schema:
+          example: 20
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List outbox entries with status and scheduling info
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/outbox/{id}/history:
+    get:
+      operationId: DialogsController_getOutboxHistory
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          maximum: 200
+          example: 50
+          type: number
+      - name: cursor
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: revisionId
+        required: false
+        in: query
+        description: Read one archived pre-send revision with content detail
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Read safe, paginated history for one durable outbox task
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/outbox/{id}:
+    patch:
+      operationId: DialogsController_rescheduleOutbox
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reschedule (or clear schedule on) a queued outbox send
+      tags:
+      - Dialogs
+    delete:
+      operationId: DialogsController_cancelOutbox
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel a queued or failed outbox entry
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/outbox/stats:
+    get:
+      operationId: DialogsController_getOutboxStats
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get outbox queue statistics
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/outbox/{id}/retry:
+    post:
+      operationId: DialogsController_retryOutbox
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Manually retry a failed outbox entry
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/outbox/{id}/refresh-control:
+    post:
+      operationId: DialogsController_refreshControlEmail
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Poll inbox-check for the placement status of a control email
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/outbox/{id}/resend-control:
+    post:
+      operationId: DialogsController_resendControlEmail
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Re-enqueue the control-copy send for an outbox entry
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}:
+    get:
+      operationId: DialogsController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single dialog by ID
+      tags:
+      - Dialogs
+    patch:
+      operationId: DialogsController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update dialog metadata or edit a queued outbox message
+      tags:
+      - Dialogs
+    delete:
+      operationId: DialogsController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/mark-read:
+    post:
+      operationId: DialogsController_markRead
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Mark a dialog as read
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/star:
+    post:
+      operationId: DialogsController_toggleStar
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Toggle the starred flag on a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/snooze:
+    post:
+      operationId: DialogsController_snooze
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Snooze a dialog until a future timestamp
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/unsnooze:
+    post:
+      operationId: DialogsController_unsnooze
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Unsnooze a dialog immediately
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/reminder:
+    post:
+      operationId: DialogsController_setReminder
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set a reminder on a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/reminder/clear:
+    post:
+      operationId: DialogsController_clearReminder
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Clear an existing reminder on a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/classify-reply:
+    post:
+      operationId: DialogsController_classifyReply
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run AI reply classification on a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/mark-type:
+    post:
+      operationId: DialogsController_markType
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Manually mark the message type / marking of a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/action/unsubscribe:
+    post:
+      operationId: DialogsController_actionUnsubscribe
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Process an unsubscribe action triggered by a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/action/bounce:
+    post:
+      operationId: DialogsController_actionBounce
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Process a bounce action (hard or soft) on a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/action/spam:
+    post:
+      operationId: DialogsController_actionSpam
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Mark a dialog as spam and apply side effects
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/action/stop-list:
+    post:
+      operationId: DialogsController_actionStopList
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Add the dialog sender to the stop-list
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/generate-reply:
+    post:
+      operationId: DialogsController_generateReply
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Generate an AI reply draft for a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/reply:
+    post:
+      operationId: DialogsController_reply
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                bodyText:
+                  type: string
+                bodyHtml:
+                  type: string
+                subject:
+                  type: string
+                accountId:
+                  type: string
+                fromName:
+                  type: string
+                sendSmtp:
+                  type: string
+                attachments:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reply to a dialog (optionally send via SMTP with attachments).
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/forward:
+    post:
+      operationId: DialogsController_forward
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - toEmail
+              properties:
+                toEmail:
+                  type: string
+                toName:
+                  type: string
+                bodyText:
+                  type: string
+                bodyHtml:
+                  type: string
+                subject:
+                  type: string
+                accountId:
+                  type: string
+                fromName:
+                  type: string
+                sendSmtp:
+                  type: string
+                attachments:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Forward an existing dialog to a new recipient.
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/compose:
+    post:
+      operationId: DialogsController_compose
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComposeDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Compose and send a new outbound email.
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/auto-link:
+    post:
+      operationId: DialogsController_autoLink
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Auto-link a dialog to matching contact/company/lead
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/create-lead:
+    post:
+      operationId: DialogsController_createLead
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new lead from a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/extract-entities:
+    post:
+      operationId: DialogsController_extractEntities
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Run AI entity extraction (company/contact) on a dialog
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/track/set-token:
+    post:
+      operationId: DialogsController_setTrackingToken
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Set the tracking token on a dialog (internal use)
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/track/open:
+    post:
+      operationId: DialogsController_trackOpen
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Record an email-open tracking event
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/track/click:
+    post:
+      operationId: DialogsController_trackClick
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Record an email-click tracking event
+      tags:
+      - Dialogs
+      x-required-scope:
+      - dialogs:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/restore:
+    post:
+      operationId: DialogsController_restore
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Restore a deleted dialog (status DELETED → NEW)
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/purge:
+    delete:
+      operationId: DialogsController_purge
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: PERMANENTLY delete a trashed dialog (requires status DELETED). Irreversible
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/dialogs/{id}/share:
+    post:
+      operationId: DialogsController_shareDialog
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Generate a public share token for a dialog (30-day TTL)
+      tags:
+      - Dialogs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    ComposeAttachmentDto:
+      type: object
+      properties:
+        filename:
+          type: string
+        contentBase64:
+          type: string
+        contentType:
+          type: string
+      required:
+      - filename
+      - contentBase64
+    ComposeDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+        accountListId:
+          type: string
+        toEmail:
+          type: string
+          format: email
+        toName:
+          type: string
+        fromName:
+          type: string
+        subject:
+          type: string
+        bodyText:
+          type: string
+        bodyHtml:
+          type: string
+        contactId:
+          type: string
+        companyId:
+          type: string
+        leadId:
+          type: string
+        scheduledAt:
+          type: string
+        timezone:
+          type: string
+        intentKey:
+          type: string
+          description: Validated business intent for customer outreach; LIVE without it is held.
+        policyWindowDays:
+          type: number
+          minimum: 1
+          maximum: 3650
+        attachmentsJson:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComposeAttachmentDto'
+      required:
+      - toEmail
+      - subject
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,0 +1,454 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Monitoring API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged monitoring across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Monitoring
+paths:
+  /api/account/monitoring/domains:
+    get:
+      operationId: MonitoringController_list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller list
+      x-summary-source: derived
+    post:
+      operationId: MonitoringController_add
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddDomainDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller add
+      x-summary-source: derived
+  /api/account/monitoring/domains/{id}:
+    patch:
+      operationId: MonitoringController_updateDomain
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDomainDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller update domain
+      x-summary-source: derived
+    delete:
+      operationId: MonitoringController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller remove
+      x-summary-source: derived
+  /api/account/monitoring/domains/{id}/pause:
+    post:
+      operationId: MonitoringController_pause
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller pause
+      x-summary-source: derived
+  /api/account/monitoring/domains/{id}/resume:
+    post:
+      operationId: MonitoringController_resume
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller resume
+      x-summary-source: derived
+  /api/account/monitoring/domains/{id}/run:
+    post:
+      operationId: MonitoringController_run
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller run
+      x-summary-source: derived
+  /api/account/monitoring/domains/{id}/checks:
+    get:
+      operationId: MonitoringController_history
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller history
+      x-summary-source: derived
+  /api/account/monitoring/domains/{id}/latest:
+    get:
+      operationId: MonitoringController_latest
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller latest
+      x-summary-source: derived
+  /api/account/monitoring/settings:
+    get:
+      operationId: MonitoringController_getSettings
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller get settings
+      x-summary-source: derived
+    patch:
+      operationId: MonitoringController_updateSettings
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSettingsDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Monitoring
+      summary: Monitoring controller update settings
+      x-summary-source: derived
+  /api/v1/monitoring/domains:
+    get:
+      description: Returns all domains under continuous deliverability monitoring for the key owner, plus the per-user active-domain limit.
+      operationId: V1MonitoringController_list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: List monitored domains
+      tags:
+      - Monitoring
+    post:
+      description: Registers a domain for recurring SPF/DMARC/MX/blocklist/TLS checks. Requires a user-bound API key.
+      operationId: V1MonitoringController_add
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddDomainDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Add a domain to monitoring
+      tags:
+      - Monitoring
+  /api/v1/monitoring/domains/{id}:
+    delete:
+      description: Stops monitoring and deletes the domain and its check history. Irreversible.
+      operationId: V1MonitoringController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Remove a monitored domain
+      tags:
+      - Monitoring
+  /api/v1/monitoring/domains/{id}/pause:
+    post:
+      description: Suspends scheduled checks for the domain without deleting its history.
+      operationId: V1MonitoringController_pause
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Pause monitoring for a domain
+      tags:
+      - Monitoring
+  /api/v1/monitoring/domains/{id}/resume:
+    post:
+      description: Re-enables scheduled checks for a previously paused domain.
+      operationId: V1MonitoringController_resume
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Resume monitoring for a domain
+      tags:
+      - Monitoring
+  /api/v1/monitoring/domains/{id}/run:
+    post:
+      description: Triggers an immediate deliverability check for the domain, outside the schedule.
+      operationId: V1MonitoringController_run
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Run an on-demand check now
+      tags:
+      - Monitoring
+  /api/v1/monitoring/domains/{id}/checks:
+    get:
+      description: Returns past deliverability check results for the domain, newest first.
+      operationId: V1MonitoringController_listChecks
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: List a domain’s check history
+      tags:
+      - Monitoring
+  /api/v1/monitoring/domains/{id}/latest:
+    get:
+      description: Returns the most recent deliverability check result for the domain.
+      operationId: V1MonitoringController_latest
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Get a domain’s latest check
+      tags:
+      - Monitoring
+  /api/v1/monitoring/settings:
+    get:
+      description: Returns the key owner’s alert/digest/webhook/telegram monitoring preferences.
+      operationId: V1MonitoringController_getSettings
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Get monitoring notification settings
+      tags:
+      - Monitoring
+    patch:
+      description: Patches alert thresholds, digest frequency, webhook and telegram delivery options.
+      operationId: V1MonitoringController_updateSettings
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSettingsDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Update monitoring notification settings
+      tags:
+      - Monitoring
+components:
+  schemas:
+    UpdateDomainDto:
+      type: object
+      properties:
+        enabledChecks:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - spf
+            - dmarc
+            - mx
+            - blocklist
+            - tls
+        intervalMinutes:
+          type: number
+          minimum: 15
+          maximum: 10080
+    AddDomainDto:
+      type: object
+      properties:
+        domain:
+          type: string
+          minLength: 3
+          maxLength: 253
+        enabledChecks:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - spf
+            - dmarc
+            - mx
+            - blocklist
+            - tls
+      required:
+      - domain
+    UpdateSettingsDto:
+      type: object
+      properties:
+        emailEnabled:
+          type: boolean
+        webhookUrl:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+          format: uri
+        webhookSecret:
+          type:
+          - string
+          - 'null'
+          maxLength: 256
+        alertOnInfo:
+          type: boolean
+        alertOnWarn:
+          type: boolean
+        alertOnCrit:
+          type: boolean
+        digestFrequency:
+          enum:
+          - 'off'
+          - weekly
+          - monthly
+          type: string
+        telegramEnabled:
+          type: boolean
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

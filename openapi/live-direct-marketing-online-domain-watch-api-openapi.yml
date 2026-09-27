@@ -1,0 +1,185 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Domain Watch API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged domain-watch across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: domain-watch
+paths:
+  /api/domain-watch/start:
+    get:
+      operationId: DomainWatchController_start
+      parameters:
+      - name: domain
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - domain-watch
+      summary: Domain watch controller start
+      x-summary-source: derived
+  /api/domain-watch:
+    post:
+      operationId: DomainWatchController_request
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchRequestDto'
+      responses:
+        '201':
+          description: ''
+      summary: Request a per-domain confirmation email. Does not activate monitoring
+      tags:
+      - domain-watch
+  /api/domain-watch/confirm:
+    get:
+      operationId: DomainWatchController_confirmView
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      summary: Read-only consent page. Opening a link never subscribes the mailbox
+      tags:
+      - domain-watch
+    post:
+      operationId: DomainWatchController_confirm
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchTokenDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      summary: Record explicit consent and activate only the domain in this one-time intent
+      tags:
+      - domain-watch
+  /api/domain-watch/manage:
+    get:
+      operationId: DomainWatchController_manage
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - domain-watch
+      summary: Domain watch controller manage
+      x-summary-source: derived
+  /api/domain-watch/access:
+    post:
+      operationId: DomainWatchController_access
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchEmailDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+      - domain-watch
+      summary: Domain watch controller access
+      x-summary-source: derived
+  /api/domain-watch/stop:
+    post:
+      operationId: DomainWatchController_stop
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchStopDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - domain-watch
+      summary: Domain watch controller stop
+      x-summary-source: derived
+  /api/domain-watch/unsubscribe:
+    get:
+      operationId: DomainWatchController_unsubscribeView
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - domain-watch
+      summary: Domain watch controller unsubscribe view
+      x-summary-source: derived
+    post:
+      operationId: DomainWatchController_unsubscribe
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      summary: Unsubscribe one domain, including RFC 8058 one-click POST
+      tags:
+      - domain-watch
+components:
+  schemas:
+    WatchTokenDto:
+      type: object
+      properties: {}
+    WatchRequestDto:
+      type: object
+      properties: {}
+    WatchStopDto:
+      type: object
+      properties: {}
+    WatchEmailDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

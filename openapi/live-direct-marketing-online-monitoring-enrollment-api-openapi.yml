@@ -1,0 +1,43 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Monitoring Enrollment API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged monitoring-enrollment across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: monitoring-enrollment
+paths:
+  /api/monitoring-enrollment:
+    post:
+      operationId: MonitoringEnrollmentController_enroll
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitoringEnrollmentDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+      - monitoring-enrollment
+      summary: Monitoring enrollment controller enroll
+      x-summary-source: derived
+components:
+  schemas:
+    MonitoringEnrollmentDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

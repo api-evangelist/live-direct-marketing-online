@@ -1,0 +1,514 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Inbound Rules API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Inbound Rules across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Inbound Rules
+paths:
+  /api/inbound-rules:
+    get:
+      operationId: InboundRulesController_findAll
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List all inbound rules
+      tags:
+      - Inbound Rules
+    post:
+      operationId: InboundRulesController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInboundRuleDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new inbound rule
+      tags:
+      - Inbound Rules
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/inbound-rules/events:
+    get:
+      operationId: InboundRulesController_listAutomationEvents
+      parameters:
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateFrom
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: dateTo
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: eventType
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: source
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List recent inbound-rule automation events
+      tags:
+      - Inbound Rules
+      x-required-scope:
+      - rules:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/inbound-rules/{id}:
+    get:
+      operationId: InboundRulesController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get an inbound rule by id
+      tags:
+      - Inbound Rules
+    patch:
+      operationId: InboundRulesController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInboundRuleDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update an inbound rule
+      tags:
+      - Inbound Rules
+    delete:
+      operationId: InboundRulesController_delete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete an inbound rule
+      tags:
+      - Inbound Rules
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/inbound-rules/reorder:
+    patch:
+      operationId: InboundRulesController_reorder
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderInboundRulesDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reorder inbound rules (sortOrder)
+      tags:
+      - Inbound Rules
+      x-required-scope:
+      - rules:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/inbound-rules/{id}/toggle:
+    patch:
+      operationId: InboundRulesController_toggle
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Toggle the active flag of an inbound rule
+      tags:
+      - Inbound Rules
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/inbound-rules/test:
+    post:
+      operationId: InboundRulesController_testRules
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Dry-run synthetic inbound message against active rules
+      tags:
+      - Inbound Rules
+      x-required-scope:
+      - rules:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/inbound-rules/reapply:
+    post:
+      operationId: InboundRulesController_reapply
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReapplyInboundRulesDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Re-apply keyword routing to leads in the intake stage
+      tags:
+      - Inbound Rules
+      x-required-scope:
+      - rules:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    ReorderItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        sortOrder:
+          type: number
+      required:
+      - id
+      - sortOrder
+    ReapplyInboundRulesDto:
+      type: object
+      properties:
+        pipelineId:
+          type: string
+        fromStageId:
+          type: string
+      required:
+      - pipelineId
+      - fromStageId
+    UpdateInboundRuleDto:
+      type: object
+      properties:
+        name:
+          type: string
+        isActive:
+          type: boolean
+        accountId:
+          type:
+          - string
+          - 'null'
+        toEmail:
+          type:
+          - string
+          - 'null'
+        fromEmail:
+          type:
+          - string
+          - 'null'
+        fromDomain:
+          type:
+          - string
+          - 'null'
+        keywords:
+          type: array
+          items:
+            type: string
+        keywordMode:
+          type: string
+        subjectPattern:
+          type:
+          - string
+          - 'null'
+        searchScope:
+          type: array
+          items:
+            type: string
+        matchType:
+          type: string
+        aiCriteria:
+          type:
+          - string
+          - 'null'
+        aiModel:
+          type:
+          - string
+          - 'null'
+        pipelineId:
+          type: string
+        stageId:
+          type:
+          - string
+          - 'null'
+        leadTitle:
+          type:
+          - string
+          - 'null'
+        leadSource:
+          type:
+          - string
+          - 'null'
+        leadPriority:
+          type: object
+        linkContact:
+          type: boolean
+        linkDialog:
+          type: boolean
+        createWithoutContact:
+          type: boolean
+        sortOrder:
+          type: number
+    ReorderInboundRulesDto:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReorderItemDto'
+    CreateInboundRuleDto:
+      type: object
+      properties:
+        name:
+          type: string
+        accountId:
+          type: string
+        toEmail:
+          type: string
+        fromEmail:
+          type: string
+        fromDomain:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        keywordMode:
+          type: string
+        subjectPattern:
+          type: string
+        searchScope:
+          type: array
+          items:
+            type: string
+        matchType:
+          type: string
+        aiCriteria:
+          type: string
+        aiModel:
+          type: string
+        pipelineId:
+          type: string
+        stageId:
+          type: string
+        leadTitle:
+          type: string
+        leadSource:
+          type: string
+        leadPriority:
+          type: object
+        linkContact:
+          type: boolean
+        linkDialog:
+          type: boolean
+        createWithoutContact:
+          type: boolean
+        sortOrder:
+          type: number
+      required:
+      - name
+      - pipelineId
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

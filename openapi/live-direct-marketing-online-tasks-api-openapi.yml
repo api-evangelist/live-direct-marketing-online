@@ -1,0 +1,1763 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Tasks API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Tasks across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Tasks
+paths:
+  /api/tasks:
+    get:
+      operationId: TasksController_findAll
+      parameters:
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: methodId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List tasks with pagination and status/method filters
+      tags:
+      - Tasks
+    post:
+      operationId: TasksController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a task.
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}:
+    get:
+      operationId: TasksController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single task by ID
+      tags:
+      - Tasks
+    patch:
+      operationId: TasksController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update task description, configuration, or schedule
+      tags:
+      - Tasks
+    delete:
+      operationId: TasksController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/branches:
+    get:
+      operationId: TasksController_listBranches
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List sub-sequence branches of a task
+      tags:
+      - Tasks
+    post:
+      operationId: TasksController_createBranch
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBranchDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a sub-sequence branch off a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/branches/{branchId}/enroll:
+    post:
+      operationId: TasksController_enrollInBranch
+      parameters:
+      - name: branchId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrollInBranchDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Enroll contacts into a task branch
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/items:
+    get:
+      operationId: TasksController_getItems
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List items processed by a task with pagination
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/items/{itemId}:
+    get:
+      operationId: TasksController_getItem
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: itemId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single task item by ID
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/stats:
+    get:
+      operationId: TasksController_getStats
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregate stats for a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/errors:
+    get:
+      operationId: TasksController_getErrors
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List errors encountered during a task run
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/start:
+    post:
+      operationId: TasksController_start
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartTaskDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Start (or resume) a task.
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/pause:
+    post:
+      operationId: TasksController_pause
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Pause a running task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/stop:
+    post:
+      operationId: TasksController_stop
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Stop a task (mark as DONE)
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/restart:
+    post:
+      operationId: TasksController_restart
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Resume a task: resets ERROR items to PENDING and sets status=ACTIVE.'
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/analytics:
+    get:
+      operationId: TasksController_getAnalytics
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get analytics for a task (open/click/reply rates)
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/monitor:
+    get:
+      operationId: TasksController_getMonitor
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get real-time monitor data for a running task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/report.csv:
+    get:
+      operationId: TasksController_getReportCsv
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Download a CSV report of all task items
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/circuit-breaker:
+    get:
+      operationId: TasksController_getCircuitBreaker
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the circuit-breaker state for a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/circuit-breaker/reset:
+    post:
+      operationId: TasksController_resetCircuitBreaker
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reset a tripped circuit breaker for a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/steps:
+    get:
+      operationId: TasksController_getPipelineSteps
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List pipeline steps configured on a task
+      tags:
+      - Tasks
+    post:
+      operationId: TasksController_addPipelineStep
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPipelineStepDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Add a pipeline step to a task.
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/steps/reorder:
+    put:
+      operationId: TasksController_reorderPipelineSteps
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderStepsDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reorder pipeline steps in a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/steps/{stepId}:
+    patch:
+      operationId: TasksController_updatePipelineStep
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: stepId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePipelineStepDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a single pipeline step
+      tags:
+      - Tasks
+    delete:
+      operationId: TasksController_removePipelineStep
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: stepId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a pipeline step from a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/scoring-results:
+    get:
+      operationId: TasksController_getScoringResults
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: contradictory
+        required: false
+        in: query
+        description: narrows the result set to records flagged with a contradiction, the same selection as contradictoryOnly on retry
+        schema:
+          type: string
+      - name: reasonCode
+        required: false
+        in: query
+        description: Canonical reason or unclassified; shared with CSV and scoped retry
+        schema:
+          type: string
+      - name: unique
+        required: false
+        in: query
+        description: 'true: latest result per input entity, same population as scoring-stats'
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List scoring results for a task with pagination.
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/scoring-stats:
+    get:
+      operationId: TasksController_getScoringStats
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get aggregate scoring statistics for a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/scoring-results/{resultId}:
+    delete:
+      operationId: TasksController_deleteScoringResult
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: resultId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a single scoring result
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/scoring-results/retry:
+    post:
+      operationId: TasksController_retryScoringResults
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RetryScoringResultsDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: '#1099: retry SELECTION of scoring results — by statuses…'
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/scoring-results/{resultId}/events:
+    get:
+      operationId: TasksController_getScoringStepEvents
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: resultId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: '#975: paginated step journal for a single scoring card…'
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/scoring-results.csv:
+    get:
+      operationId: TasksController_getScoringResultsCsv
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: reasonCode
+        required: false
+        in: query
+        description: Canonical reason or unclassified, same filter as scoring-results
+        schema:
+          type: string
+      - name: unique
+        required: false
+        in: query
+        description: 'true: latest result per input entity'
+        schema:
+          type: string
+      - name: contradictory
+        required: false
+        in: query
+        description: 'true: only results flagged with a contradiction'
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Download a CSV of scoring results
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/error-settings:
+    get:
+      operationId: TasksController_getErrorSettings
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the error-handling settings for a task
+      tags:
+      - Tasks
+    patch:
+      operationId: TasksController_updateErrorSettings
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateErrorSettingsDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update error-handling settings for a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/memory:
+    get:
+      operationId: TasksController_getMemory
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get AI memory instructions for a task
+      tags:
+      - Tasks
+    patch:
+      operationId: TasksController_updateMemory
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskMemoryDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update AI memory instructions for a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/ai-settings:
+    get:
+      operationId: TasksController_getAiSettings
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the AI provider/model settings for a task
+      tags:
+      - Tasks
+    patch:
+      operationId: TasksController_updateAiSettings
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAiSettingsDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update the AI provider/model settings for a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/cron:
+    get:
+      operationId: TasksController_getCronSettings
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the cron scheduling settings for a task
+      tags:
+      - Tasks
+    patch:
+      operationId: TasksController_updateCronSettings
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCronSettingsDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update the cron scheduling settings for a task
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/tasks/{id}/cron/trigger:
+    post:
+      operationId: TasksController_triggerCron
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Manually trigger a task cron run
+      tags:
+      - Tasks
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    UpdateErrorSettingsDto:
+      type: object
+      properties:
+        reasonClasses:
+          type: array
+          minItems: 1
+          description: 'Scoring failure classes counted by the configured pause thresholds. Default: platform. Network/material remain visible even when not selected.'
+          items:
+            type: string
+            enum:
+            - platform
+            - network
+            - material
+        consecutiveErrorLimit:
+          type: number
+          minimum: 1
+          description: N consecutive errors → auto-pause
+        errorRatePercent:
+          type: number
+          description: Error rate within the window, %
+        errorRateWindowMin:
+          type: number
+          minimum: 1
+          description: Observation window, minutes
+        errorRateMinItems:
+          type: number
+          minimum: 1
+          description: Minimum items before checking the rate
+    EnrollInBranchDto:
+      type: object
+      properties:
+        contactIds:
+          type: array
+          items:
+            type: string
+      required:
+      - contactIds
+    ReorderStepsDto:
+      type: object
+      properties:
+        stepIds:
+          description: Step identifiers in the desired execution order
+          type: array
+          items:
+            type: string
+      required:
+      - stepIds
+    UpdateCronSettingsDto:
+      type: object
+      properties:
+        cronEnabled:
+          type: boolean
+        cronInterval:
+          type: number
+          minimum: 1
+          description: Cron interval, minutes
+        batchSize:
+          type: number
+          minimum: 1
+          description: Batch size; the service clamps it to the allowed range
+        rateLimit:
+          type: number
+          minimum: 1
+        scoringMode:
+          type: string
+    UpdateTaskMemoryDto:
+      type: object
+      properties:
+        memory:
+          type: string
+      required:
+      - memory
+    UpdatePipelineStepDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: ScoringStepType value
+        enabled:
+          type: boolean
+        name:
+          type: string
+        config:
+          type: object
+          description: Step configuration; shape depends on type
+        onSuccess:
+          type: string
+          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
+        onSuccessTarget:
+          type: string
+        onFail:
+          type: string
+          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
+        onFailTarget:
+          type: string
+        onError:
+          type: string
+          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
+        onErrorTarget:
+          type: string
+    CreateBranchDto:
+      type: object
+      properties:
+        methodId:
+          type: number
+          description: Sub-branch method (11 email validation, 14 ICP review, 15 DIG, 22 scoring)
+        methodName:
+          type: string
+        description:
+          type: string
+        branchTrigger:
+          type: object
+          description: 'Branch entry condition: { event, condition? }'
+        mailingConfig:
+          type: object
+        contactListId:
+          type: string
+        creativeId:
+          type: string
+        accountListId:
+          type: string
+      required:
+      - methodId
+      - methodName
+      - branchTrigger
+    RetryScoringResultsDto:
+      type: object
+      properties:
+        reasonCodes:
+          type: array
+          minItems: 1
+          description: AND filter shared by preview and retry. Without statuses, selects technical failures only; UNAVAILABLE still requires includeUnavailable. An empty array is rejected.
+          items:
+            type: string
+            enum:
+            - dns_fail
+            - tls_fail
+            - conn_refused
+            - timeout
+            - http_4xx
+            - http_5xx
+            - redirect_loop
+            - empty_content
+            - no_material
+            - ai_no_response
+            - ai_parse_fail
+            - batch_parse_fail
+            - verdict_negative
+            - verdict_contradictory
+            - internal_error
+            - stub_page
+            - unclassified
+        statuses:
+          type: array
+          description: ScoringResult statuses to retry. Defaults to ERROR only (the old behavior). UNAVAILABLE (dead domain) is excluded from this list by the service even if specified here — see includeUnavailable. STUB_MATERIAL (#1146) — the material was a JS stub/error page/parking page; a retry makes sense if the site material is expected to have changed.
+          items:
+            type: string
+            enum:
+            - ERROR
+            - UNAVAILABLE
+            - NO_WWW
+            - SCORED_BELOW_THRESHOLD
+            - SKIPPED
+            - STUB_MATERIAL
+        includeUnavailable:
+          type: boolean
+          description: 'Explicit confirmation: include UNAVAILABLE (dead domains) in the retry, despite the crawl usually being useless and paid. Without this flag the service silently drops UNAVAILABLE from statuses.'
+        processedAfter:
+          type: string
+          description: Only results with processedAt >= this ISO time
+        processedBefore:
+          type: string
+          description: Only results with processedAt <= this ISO time
+        resultIds:
+          description: 'Targeted retry: ids of specific ScoringResult rows (not status/window). Combined with companyIds via OR; records not belonging to this task are silently ignored.'
+          type: array
+          items:
+            type: string
+        companyIds:
+          description: 'Targeted retry: companyId of the cards (alternative to resultIds, combined with it via OR).'
+          type: array
+          items:
+            type: string
+        includeActive:
+          type: boolean
+          description: 'Explicit confirmation: include ACTIVE records (an already-accepted verdict) in the targeted retry over resultIds/companyIds, despite this erasing the card''s honest verdict. Without the flag the service silently skips ACTIVE entries from the list. Applies ONLY together with resultIds/companyIds — does not affect statuses (ACTIVE remains unreachable there by any means, see @IsIn above).'
+        preview:
+          type: boolean
+          description: 'Read-only preview: return how many rows (and, if cheap, which ids) this same call would select, without running the retry or changing ScoringResult/TaskItem. The journal (active_reset_by_retry) is not written when preview=true.'
+        contradictoryOnly:
+          type: boolean
+          description: Narrow the selection to results where the contradiction flag fired at any step (data.contradictoryFields — a non-empty array). Combined with the other selection conditions (statuses/processedAfter/processedBefore/resultIds/companyIds, includeActive/includeUnavailable) as an additional narrowing (AND), not a replacement for them.
+    CreateTaskDto:
+      type: object
+      properties:
+        methodId:
+          type: number
+          description: Method id — e.g. 22=scoring (lead gen), 11=email validation, 14=ICP review, 15=DIG, 12=mailing (legacy, use /campaigns instead)
+        methodName:
+          type: string
+          description: Human-readable label mirroring methodId, e.g. "scoring"
+        description:
+          type: string
+        config:
+          type: object
+          description: Method-specific configuration payload (shape depends on methodId)
+        mailingConfig:
+          type: object
+          description: Mailing configuration patch (methodId=12, legacy)
+        contactListId:
+          type: string
+          description: Contact list to source items from at POST /tasks/:id/start
+        contactListIdFinish:
+          type: string
+          description: Contact list to move finished items into
+        accountListId:
+          type: string
+        creativeId:
+          type: string
+        creativeIds:
+          type: array
+          items:
+            type: string
+        companyListId:
+          type: string
+          description: 'CompanyList id — for methodId=22 (scoring): items are populated from this list at POST /tasks/:id/start; must reference an existing list'
+        resumeAt:
+          type: string
+          description: ISO date string — task waits (does not run) until this moment
+        streamCount:
+          type: number
+          description: Parallel stream count, clamped to the tenant maxStreams setting
+      required:
+      - methodId
+      - methodName
+    UpdateAiSettingsDto:
+      type: object
+      properties:
+        provider:
+          type:
+          - object
+          - 'null'
+          description: 'Provider: hydraai | aitunnel | claude | ldmai'
+        models:
+          type: object
+          description: 'Model per call kind, e.g. { scoring: "..." }'
+          additionalProperties:
+            type: string
+    AddPipelineStepDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: 'Pipeline step type: SITE_AVAILABILITY, AI_CONTENT, KEYWORDS, EMAIL_EXTRACT, PHONE_EXTRACT, SOCIAL_LINKS, TECH_DETECT, GEO_FILTER, NALOG_LOOKUP, AI_CARD_FIELD, etc.'
+        enabled:
+          type: boolean
+          description: Step is active (defaults to true)
+        name:
+          type: string
+          description: Human-readable step name (defaults to type)
+        config:
+          type: object
+          description: Step configuration (shape depends on type)
+        onSuccess:
+          type: string
+          description: 'Routing on success: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
+        onSuccessTarget:
+          type: string
+          description: Target for onSuccess=MOVE_TO_LIST (list id)
+        onFail:
+          type: string
+          description: 'Routing on failure: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
+        onFailTarget:
+          type: string
+          description: Target for onFail=MOVE_TO_LIST (list id)
+        onError:
+          type: string
+          description: 'Routing on error: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
+        onErrorTarget:
+          type: string
+          description: Target for onError=MOVE_TO_LIST (list id)
+      required:
+      - type
+    StartTaskDto:
+      type: object
+      properties:
+        limit:
+          type: number
+          minimum: 1
+          description: 'Trial run: process no more than N items and pause the task. The limit is ONE-TIME — the next start without the parameter runs the rest to completion.'
+          maximum: 1000
+          example: 100
+    UpdateTaskDto:
+      type: object
+      properties:
+        description:
+          type: string
+        config:
+          type: object
+          description: Task configuration; shape depends on methodId
+        mailingConfig:
+          type: object
+        contactListId:
+          type: string
+        contactListIdFinish:
+          type: string
+        accountListId:
+          type: string
+        creativeId:
+          type: string
+        creativeIds:
+          type: array
+          items:
+            type: string
+        companyListId:
+          type: string
+        resumeAt:
+          type: string
+          description: ISO time of resumption
+        streamCount:
+          type: number
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

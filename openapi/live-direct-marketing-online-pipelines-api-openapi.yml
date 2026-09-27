@@ -1,0 +1,690 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Pipelines API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Pipelines across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Pipelines
+paths:
+  /api/pipelines:
+    get:
+      operationId: PipelinesController_findAll
+      parameters:
+      - name: includeHidden
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List all pipelines
+      tags:
+      - Pipelines
+    post:
+      operationId: PipelinesController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePipelineDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new pipeline
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/automation-logs:
+    get:
+      operationId: PipelinesController_getAllAutomationLogs
+      parameters:
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: leadId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get global automation logs across pipelines
+      tags:
+      - Pipelines
+      x-required-scope:
+      - pipelines:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/{id}:
+    get:
+      operationId: PipelinesController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single pipeline by ID
+      tags:
+      - Pipelines
+    patch:
+      operationId: PipelinesController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePipelineDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update an existing pipeline
+      tags:
+      - Pipelines
+    delete:
+      operationId: PipelinesController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a pipeline
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/{id}/stages:
+    post:
+      operationId: PipelinesController_createStage
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStageDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new stage in a pipeline
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/{pipelineId}/stages/reorder:
+    patch:
+      operationId: PipelinesController_reorderStages
+      parameters:
+      - name: pipelineId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReorderStagesDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reorder pipeline stages
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/{pipelineId}/stages/{stageId}:
+    patch:
+      operationId: PipelinesController_updateStage
+      parameters:
+      - name: pipelineId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: stageId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateStageDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a pipeline stage
+      tags:
+      - Pipelines
+    delete:
+      operationId: PipelinesController_removeStage
+      parameters:
+      - name: pipelineId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: stageId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a pipeline stage
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/stages/{stageId}/automations:
+    get:
+      operationId: PipelinesController_findAutomations
+      parameters:
+      - name: stageId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List automations attached to a stage
+      tags:
+      - Pipelines
+    post:
+      operationId: PipelinesController_createAutomation
+      parameters:
+      - name: stageId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAutomationDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create an automation on a stage
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/automations/{automationId}:
+    patch:
+      operationId: PipelinesController_updateAutomation
+      parameters:
+      - name: automationId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAutomationDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a stage automation
+      tags:
+      - Pipelines
+    delete:
+      operationId: PipelinesController_removeAutomation
+      parameters:
+      - name: automationId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a stage automation
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/automations/{automationId}/logs:
+    get:
+      operationId: PipelinesController_getAutomationLogs
+      parameters:
+      - name: automationId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get execution logs for an automation
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/{id}/stats:
+    get:
+      operationId: PipelinesController_getStats
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get stats and conversion metrics for a pipeline
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/pipelines/{id}/migrate-legacy-stages:
+    post:
+      operationId: PipelinesController_migrateLegacyStages
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Migrate legacy denormalized stage JSON into PipelineStage rows
+      tags:
+      - Pipelines
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    CreatePipelineDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        currency:
+          type: string
+        isDefault:
+          type: boolean
+        isHidden:
+          type: boolean
+      required:
+      - name
+    CreateAutomationDto:
+      type: object
+      properties:
+        trigger:
+          type: object
+        action:
+          type: object
+        config:
+          type: object
+        name:
+          type: string
+          maxLength: 200
+        isActive:
+          type: boolean
+      required:
+      - trigger
+      - action
+      - config
+    UpdateStageDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: object
+        color:
+          type: string
+        probability:
+          type: number
+          minimum: 0
+          maximum: 100
+        rottingDays:
+          type: number
+        sortOrder:
+          type: number
+        isHidden:
+          type: boolean
+    UpdateAutomationDto:
+      type: object
+      properties:
+        trigger:
+          type: object
+        action:
+          type: object
+        config:
+          type: object
+        name:
+          type: string
+          maxLength: 200
+        isActive:
+          type: boolean
+        sortOrder:
+          type: number
+    UpdatePipelineDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        currency:
+          type: string
+        isDefault:
+          type: boolean
+        isActive:
+          type: boolean
+        isHidden:
+          type: boolean
+    CreateStageDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        type:
+          type: object
+        color:
+          type: string
+        probability:
+          type: number
+          minimum: 0
+          maximum: 100
+        rottingDays:
+          type: number
+        sortOrder:
+          type: number
+      required:
+      - name
+    ReorderStagesDto:
+      type: object
+      properties:
+        stageIds:
+          type: array
+          items:
+            type: string
+      required:
+      - stageIds
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

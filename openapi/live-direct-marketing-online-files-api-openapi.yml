@@ -1,0 +1,788 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Files API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Files across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Files
+paths:
+  /api/files/images/import:
+    post:
+      operationId: FilesController_importImages
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageImportDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Import images from a source attachment into tenant storage
+      tags:
+      - Files
+      x-required-scope:
+      - files:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/upload:
+    post:
+      operationId: FilesController_uploadImage
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Upload an image for creatives (max 5 MB)
+      tags:
+      - Files
+      x-required-scope:
+      - files:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/images:
+    get:
+      operationId: FilesController_listImages
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List uploaded creative images for the tenant
+      tags:
+      - Files
+      x-required-scope:
+      - files:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/images/{filename}:
+    delete:
+      operationId: FilesController_deleteImage
+      parameters:
+      - name: filename
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a tenant-scoped creative image
+      tags:
+      - Files
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/assets:
+    post:
+      operationId: FilesController_uploadAsset
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Upload a tenant asset (signature, PDF photo, max 30 MB)
+      tags:
+      - Files
+      x-required-scope:
+      - files:write
+    get:
+      operationId: FilesController_listAssets
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List tenant assets
+      tags:
+      - Files
+      x-required-scope:
+      - files:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/assets/quota:
+    get:
+      operationId: FilesController_getAssetsQuota
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get tenant asset storage usage and quota
+      tags:
+      - Files
+      x-required-scope:
+      - files:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/assets/{filename}:
+    delete:
+      operationId: FilesController_deleteAsset
+      parameters:
+      - name: filename
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a tenant asset
+      tags:
+      - Files
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files:
+    get:
+      operationId: FilesController_findAll
+      parameters:
+      - name: contactId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: companyId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: leadId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List file attachments for a contact, company or lead
+      tags:
+      - Files
+    post:
+      operationId: FilesController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachEntityFileDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Upload a file attachment for a contact, company or lead (max 30 MB)
+      tags:
+      - Files
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/{id}/download:
+    get:
+      operationId: FilesController_download
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Download a file attachment (authorized, streams real bytes)
+      tags:
+      - Files
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/{id}:
+    delete:
+      operationId: FilesController_remove
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a file attachment record
+      tags:
+      - Files
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/library/quota:
+    get:
+      operationId: FilesController_getLibraryQuota
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Library storage usage and quota (500 MB, purpose=LIBRARY, separate from the 30…
+      tags:
+      - Files
+      x-required-scope:
+      - files:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/library:
+    get:
+      operationId: FilesController_listLibrary
+      parameters:
+      - name: briefId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: leadId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: contactId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: companyId
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: purpose
+        required: true
+        in: query
+        schema: {}
+      - name: kind
+        required: true
+        in: query
+        schema: {}
+      - name: search
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List the unified files-and-links library, optionally filtered by…
+      tags:
+      - Files
+      x-required-scope:
+      - files:read
+    post:
+      operationId: FilesController_uploadLibraryItem
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Omit + kind=LINK to add a link instead of a file
+                kind:
+                  type: string
+                  enum:
+                  - FILE
+                  - LINK
+                  description: Defaults to FILE when a file is supplied
+                url:
+                  type: string
+                  description: Required when kind=LINK — http(s) only
+                title:
+                  type: string
+                description:
+                  type: string
+                briefId:
+                  type: string
+                leadId:
+                  type: string
+                contactId:
+                  type: string
+                companyId:
+                  type: string
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Add a library item: EITHER a file (multipart form field "file", max 100 MiB…'
+      tags:
+      - Files
+      x-required-scope:
+      - files:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/library/{id}/download:
+    get:
+      operationId: FilesController_downloadLibraryItem
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Download a library file with authorization (never public — Content-Disposition…
+      tags:
+      - Files
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/library/{id}/content:
+    get:
+      operationId: FilesController_readLibraryContent
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: resource
+        required: false
+        in: query
+        schema:
+          enum:
+          - text
+          - sections
+          - tableRows
+          - hyperlinks
+          - images
+          - embeddedObjects
+          - parts
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 3
+      - name: imageRef
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Read a library document as bounded source-backed text/structure/image pages…
+      tags:
+      - Files
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/files/library/{id}:
+    patch:
+      operationId: FilesController_updateLibraryItem
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLibraryItemDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Rename / reattach / detach a library item (title, description…
+      tags:
+      - Files
+    delete:
+      operationId: FilesController_removeLibraryItem
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Delete a library item — removes the DB row AND the bytes on disk (link: DB row…'
+      tags:
+      - Files
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    ImageImportSourceDto:
+      type: object
+      properties:
+        attachmentRef:
+          type: string
+        libraryFileId:
+          type: string
+    ImageImportNormalizeDto:
+      type: object
+      properties:
+        maxEdgePx:
+          type: number
+          minimum: 1
+        format:
+          type: object
+        quality:
+          type: number
+          minimum: 1
+    ImageImportTargetDto:
+      type: object
+      properties:
+        store:
+          type: object
+          default: ASSETS
+    AttachEntityFileDto:
+      type: object
+      properties:
+        contactId:
+          type: string
+        companyId:
+          type: string
+        leadId:
+          type: string
+        createdBy:
+          type: string
+    ImageImportDto:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/ImageImportSourceDto'
+        imageRefs:
+          type: array
+          items:
+            type: string
+        all:
+          type: boolean
+        target:
+          $ref: '#/components/schemas/ImageImportTargetDto'
+        normalize:
+          $ref: '#/components/schemas/ImageImportNormalizeDto'
+        minEdgePx:
+          type: number
+          minimum: 1
+      required:
+      - source
+    UpdateLibraryItemDto:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        briefId:
+          type:
+          - string
+          - 'null'
+        leadId:
+          type:
+          - string
+          - 'null'
+        contactId:
+          type:
+          - string
+          - 'null'
+        companyId:
+          type:
+          - string
+          - 'null'
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

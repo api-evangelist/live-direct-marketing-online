@@ -1,0 +1,65 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Deploy API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged deploy across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Deploy
+paths:
+  /api/admin/deploy:
+    post:
+      operationId: DeployController_enqueue
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Deploy
+      summary: Deploy controller enqueue
+      x-summary-source: derived
+    get:
+      operationId: DeployController_list
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Deploy
+      summary: Deploy controller list
+      x-summary-source: derived
+  /api/admin/deploy/{jobId}:
+    get:
+      operationId: DeployController_status
+      parameters:
+      - name: jobId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - adminKey: []
+      tags:
+      - Deploy
+      summary: Deploy controller status
+      x-summary-source: derived
+components:
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

@@ -1,0 +1,520 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Development Pipeline API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Development Pipeline across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Development Pipeline
+paths:
+  /api/development-pipeline/board:
+    get:
+      operationId: DevelopmentPipelineController_board
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Board across 4 delivery stages (queue/agents/merge/deploy)
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/attention:
+    get:
+      operationId: DevelopmentPipelineController_attentionSnapshot
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: '"Needs an owner" block + delivery strip (issue #1004): red tasks/deploys…'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/prod-counter:
+    get:
+      operationId: DevelopmentPipelineController_prodCounter
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: '"IN PROD" showcase (issue #1010): issues that shipped via a successful main…'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/ci-runs-per-merge:
+    get:
+      operationId: DevelopmentPipelineController_ciRunsPerMerge
+      parameters:
+      - name: minutes
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: '"CI runs per merge" KPI over a window (issue #999, atom A9), read-only: the…'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/journal:
+    get:
+      operationId: DevelopmentPipelineController_journalSnapshot
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Tester journal !505 as source of truth (issue #500): block 3 rules, roles…'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/journal/findings/{findingId}/create-issue:
+    post:
+      operationId: DevelopmentPipelineController_createIssueFromFinding
+      parameters:
+      - name: findingId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIssueFromFindingDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Create an issue from a journal finding that has no issue number (issue #500…'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/journal/findings:
+    post:
+      operationId: DevelopmentPipelineController_appendJournalFinding
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppendJournalFindingDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Append one finding line to Block 2 of journal !505 (issue #1152) — an atomic…'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/issues/{iid}/pause:
+    patch:
+      operationId: DevelopmentPipelineController_setPaused
+      parameters:
+      - name: iid
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPausedDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Pause an issue — do not pick it up for work while the `paused` label is set
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/issues/priority-triage:
+    post:
+      operationId: DevelopmentPipelineController_priorityTriage
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriorityTriageDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'One-off idempotent triage: set priority on every open issue without a P label'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/issues/{iid}/priority:
+    patch:
+      operationId: DevelopmentPipelineController_setPriority
+      parameters:
+      - name: iid
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPriorityDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Issue priority — P1-critical / P2-integrity / P3-ux
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/issues/{iid}/model:
+    patch:
+      operationId: DevelopmentPipelineController_setModel
+      parameters:
+      - name: iid
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetModelDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Executor model — sonnet (default) / opus / fable / codex-sol / codex-terra
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/issues/{iid}/take-next:
+    patch:
+      operationId: DevelopmentPipelineController_takeNext
+      parameters:
+      - name: iid
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectScopedDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: '"Take next" — unpause and move the issue to the front of the queue (P1)'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/issues/{iid}/close:
+    patch:
+      operationId: DevelopmentPipelineController_closeIssue
+      parameters:
+      - name: iid
+        required: true
+        in: path
+        schema:
+          type: number
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectScopedDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Close an issue on behalf of the owner (issue #439) — label `closed::by-owner` +…'
+      tags:
+      - Development Pipeline
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    SetModelDto:
+      type: object
+      properties:
+        model:
+          type: object
+        projectId:
+          type: string
+          pattern: /^\d+$/
+      required:
+      - model
+    SetPausedDto:
+      type: object
+      properties:
+        paused:
+          type: boolean
+        projectId:
+          type: string
+          pattern: /^\d+$/
+      required:
+      - paused
+    PriorityTriageDto:
+      type: object
+      properties:
+        dryRun:
+          type: boolean
+          description: Preview the plan only, no write to GitLab
+        projectId:
+          type: string
+          description: GitLab project ID (defaults to primary)
+    AppendJournalFindingDto:
+      type: object
+      properties:
+        line:
+          type: string
+          minLength: 1
+          maxLength: 500
+      required:
+      - line
+    ProjectScopedDto:
+      type: object
+      properties:
+        projectId:
+          type: string
+          pattern: /^\d+$/
+    SetPriorityDto:
+      type: object
+      properties:
+        priority:
+          type: object
+        projectId:
+          type: string
+          pattern: /^\d+$/
+      required:
+      - priority
+    CreateIssueFromFindingDto:
+      type: object
+      properties:
+        projectId:
+          type: string
+          pattern: /^\d+$/
+      required:
+      - projectId
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,0 +1,115 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Content Analyzer API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Content Analyzer across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Content Analyzer
+paths:
+  /api/content-analyzer/check:
+    post:
+      operationId: ContentAnalyzerController_check
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckContentDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Analyze email subject/body for spam triggers and return score 0..100.
+      tags:
+      - Content Analyzer
+      x-required-scope:
+      - mailing:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    CheckContentDto:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Subject
+        bodyText:
+          type: string
+          description: Body text
+        bodyHtml:
+          type: string
+          description: Body html
+        customRules:
+          description: Custom rules
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomRuleDto'
+    CustomRuleDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Rule id
+        phrase:
+          type: string
+          description: Phrase to search
+        severity:
+          type: string
+          description: Severity
+        scope:
+          type: string
+          description: Scope
+        message:
+          type: string
+          description: Message
+        weight:
+          type: number
+          description: Weight
+      required:
+      - id
+      - phrase
+      - severity
+      - scope
+      - weight
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

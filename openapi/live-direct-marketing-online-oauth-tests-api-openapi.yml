@@ -1,0 +1,86 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online OAUTH Tests API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged oauth-tests across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: oauth-tests
+paths:
+  /api/v1/oauth/tests:
+    get:
+      description: Returns the OAuth caller’s finished deliverability tests, newest first.
+      operationId: V1OAuthTestsController_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: List completed OAuth-scoped tests
+      tags:
+      - oauth-tests
+    post:
+      description: Recipient is always the OAuth caller’s own email (no override). Returns send_to[] seed addresses to attach to the outgoing message.
+      operationId: V1OAuthTestsController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOAuthTestDto'
+      responses:
+        '202':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Create an OAuth-scoped deliverability test
+      tags:
+      - oauth-tests
+  /api/v1/oauth/tests/{token}:
+    get:
+      description: Snapshot of a single test owned by the OAuth caller (404 if not owned).
+      operationId: V1OAuthTestsController_get
+      parameters:
+      - name: token
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: Get one OAuth-scoped test
+      tags:
+      - oauth-tests
+components:
+  schemas:
+    CreateOAuthTestDto:
+      type: object
+      properties:
+        providers:
+          maxItems: 20
+          type: array
+          items:
+            type: string
+            maxLength: 32
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

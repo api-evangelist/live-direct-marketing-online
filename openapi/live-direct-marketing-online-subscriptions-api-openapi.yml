@@ -1,0 +1,106 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Subscriptions API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged subscriptions across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Subscriptions
+paths:
+  /api/subscriptions:
+    post:
+      operationId: SubscriptionsController_subscribe
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscribeDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - Subscriptions
+      summary: Subscriptions controller subscribe
+      x-summary-source: derived
+  /api/subscriptions/verify:
+    get:
+      operationId: SubscriptionsController_verify
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - Subscriptions
+      summary: Subscriptions controller verify
+      x-summary-source: derived
+  /api/subscriptions/unsubscribe:
+    get:
+      operationId: SubscriptionsController_unsubscribeGet
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - Subscriptions
+      summary: Subscriptions controller unsubscribe get
+      x-summary-source: derived
+    post:
+      operationId: SubscriptionsController_unsubscribePost
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - Subscriptions
+      summary: Subscriptions controller unsubscribe post
+      x-summary-source: derived
+components:
+  schemas:
+    SubscribeDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

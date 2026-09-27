@@ -1,0 +1,1321 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Briefs API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Briefs across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Briefs
+paths:
+  /api/briefs/schemas:
+    get:
+      operationId: BriefsController_getSchemas
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get available brief JSON schemas
+      tags:
+      - Briefs
+      x-required-scope:
+      - briefs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/intake:
+    get:
+      operationId: BriefsController_intake
+      parameters:
+      - name: briefId
+        required: false
+        in: query
+        description: Existing Brief id. Pass this (or briefUrl) to get scope=brief_direct and the same intakeEmail as Brief UI/expert. Omit only when no Brief exists.
+        schema:
+          type: string
+      - name: briefUrl
+        required: false
+        in: query
+        description: Existing Brief UI URL shaped as /crm/briefs/{briefId}. Pass this (or briefId) for scope=brief_direct; never use workspace intake for an existing Brief.
+        schema:
+          type: string
+      - name: locale
+        required: false
+        in: query
+        schema:
+          enum:
+          - ru
+          - en
+          type: string
+      - name: accept-language
+        required: true
+        in: header
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Existing Brief intake address by briefId/briefUrl; omit both only before a…
+      tags:
+      - Briefs
+      x-required-scope:
+      - briefs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/intake/items:
+    get:
+      operationId: BriefsController_listIntakeItems
+      parameters:
+      - name: paged
+        required: false
+        in: query
+        description: Return {items,hasMore,nextCursor,limit}; legacy false keeps the historical array response.
+        schema:
+          default: false
+          type: boolean
+      - name: status
+        required: false
+        in: query
+        schema:
+          enum:
+          - NEW
+          - IN_REVIEW
+          - LINKED_TO_BRIEF
+          - IGNORED
+          - REJECTED
+          type: string
+      - name: briefId
+        required: false
+        in: query
+        description: Exact Brief id.
+        schema:
+          maxLength: 128
+          type: string
+      - name: sender
+        required: false
+        in: query
+        description: Exact canonical sender email (case-insensitive).
+        schema:
+          maxLength: 320
+          format: email
+          type: string
+      - name: threadId
+        required: false
+        in: query
+        description: Stable threadId returned by this endpoint.
+        schema:
+          maxLength: 128
+          type: string
+      - name: receivedFrom
+        required: false
+        in: query
+        description: Inclusive server-receipt lower bound (ISO-8601).
+        schema:
+          format: date-time
+          type: string
+      - name: receivedTo
+        required: false
+        in: query
+        description: Inclusive server-receipt upper bound (ISO-8601).
+        schema:
+          format: date-time
+          type: string
+      - name: search
+        required: false
+        in: query
+        description: Fuzzy sender/subject search.
+        schema:
+          maxLength: 500
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        description: Opaque nextCursor returned by the previous page.
+        schema:
+          maxLength: 128
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          minimum: 1
+          maximum: 200
+          default: 50
+          type: integer
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List system intake messages for MCP/UI (#750)
+      tags:
+      - Briefs
+      x-required-scope:
+      - briefs:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/intake/items/{itemId}:
+    get:
+      operationId: BriefsController_getIntakeItem
+      parameters:
+      - name: itemId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Read one lossless system intake item with provenance, attachments and work log…
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/intake/items/{itemId}/status:
+    patch:
+      operationId: BriefsController_transitionIntakeItem
+      parameters:
+      - name: itemId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransitionBriefIntakeItemDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Transition an intake item to IN_REVIEW, IGNORED or REJECTED with an audited…
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/intake/items/{itemId}/link:
+    post:
+      operationId: BriefsController_linkIntakeItem
+      parameters:
+      - name: itemId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkBriefIntakeItemDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Link an intake item/files to a Brief idempotently (#750)
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/intake/items/{itemId}/log:
+    post:
+      operationId: BriefsController_logIntakeWork
+      parameters:
+      - name: itemId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogBriefIntakeWorkDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Append an agent work-log event with intake provenance (#750)
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs:
+    get:
+      operationId: BriefsController_findAll
+      parameters:
+      - name: page
+        required: false
+        in: query
+        schema:
+          type: integer
+          example: 1
+          minimum: 1
+      - name: pageSize
+        required: false
+        in: query
+        schema:
+          type: integer
+          example: 50
+          minimum: 1
+          maximum: 200
+      - name: search
+        required: false
+        in: query
+        schema:
+          example: outreach
+          type: string
+      - name: isActive
+        required: false
+        in: query
+        schema:
+          example: true
+          type: boolean
+      - name: includeDeleted
+        required: false
+        in: query
+        schema:
+          example: false
+          type: boolean
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List briefs with pagination, search and active/deleted filters
+      tags:
+      - Briefs
+    post:
+      operationId: BriefsController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBriefDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new brief
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/attachments/content:
+    get:
+      operationId: BriefsController_attachmentContent
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: attachmentRef
+        required: true
+        in: query
+        schema:
+          example: dialog-attachment:uuid
+          type: string
+      - name: resource
+        required: false
+        in: query
+        schema:
+          enum:
+          - text
+          - sections
+          - tableRows
+          - hyperlinks
+          - images
+          - embeddedObjects
+          - parts
+          type: string
+      - name: cursor
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 3
+      - name: imageRef
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Read one Brief attachment as bounded source-backed text/structure/image pages…
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}:
+    get:
+      operationId: BriefsController_findOne
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a single brief by id
+      tags:
+      - Briefs
+    patch:
+      operationId: BriefsController_updateMeta
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBriefMetaDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update brief metadata (name, description, status)
+      tags:
+      - Briefs
+    delete:
+      operationId: BriefsController_softDelete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: reason
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Soft-delete a brief with optional reason
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/content:
+    patch:
+      operationId: BriefsController_updateContent
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBriefContentDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update brief content body (JSON-merge patch).
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/variables:
+    patch:
+      operationId: BriefsController_updateVariables
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBriefVariablesDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update brief template variables
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/locks:
+    patch:
+      operationId: BriefsController_updateLocks
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update brief section locks
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/restore:
+    post:
+      operationId: BriefsController_restore
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Restore a soft-deleted brief
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/copy:
+    post:
+      operationId: BriefsController_copy
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Duplicate an existing brief
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/audit:
+    get:
+      operationId: BriefsController_audit
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List audit entries for a brief
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/mail:
+    get:
+      operationId: BriefsController_mail
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: integer
+          example: 50
+          minimum: 1
+          maximum: 200
+      - name: locale
+        required: false
+        in: query
+        schema:
+          example: ru
+          type: string
+      - name: accept-language
+        required: true
+        in: header
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Brief intake email address and mail feed (#744)
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/mail/attachments/{attachmentId}/download:
+    get:
+      operationId: BriefsController_downloadMailAttachment
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: attachmentId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Download a brief mail attachment (#780) — same tenant guard as the rest of the…
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/intake-alias:
+    patch:
+      operationId: BriefsController_updateIntakeAlias
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: locale
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: accept-language
+        required: true
+        in: header
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBriefIntakeAliasDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Change the stable human-readable system intake alias (#756)
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{id}/expert:
+    get:
+      operationId: BriefsController_expert
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: since
+        required: false
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: query
+        required: false
+        in: query
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        schema:
+          type: integer
+          default: 50
+          minimum: 1
+          maximum: 200
+      - name: locale
+        required: false
+        in: query
+        schema:
+          enum:
+          - ru
+          - en
+          type: string
+      - name: include
+        required: false
+        in: query
+        description: 'Comma-separated: liveSchema, sdrRecommendations, or all. Omit for a compact delta of both.'
+        schema:
+          type: string
+      - name: accept-language
+        required: true
+        in: header
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Operation-level SDR expert flow: intake provenance → live schema → gaps →…'
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{briefId}/memory:
+    get:
+      operationId: BriefMemoryController_list
+      parameters:
+      - name: briefId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: kind
+        required: false
+        in: query
+        schema:
+          enum:
+          - DECISION
+          - OBSERVATION
+          - QUESTION
+          - REJECTED
+          - NOISE
+          type: string
+      - name: path
+        required: false
+        in: query
+        description: Filter by a content path this entry references, e.g. offer.positioning
+        schema:
+          type: string
+      - name: status
+        required: false
+        in: query
+        schema:
+          enum:
+          - ACTIVE
+          - SUPERSEDED
+          - RESOLVED
+          type: string
+      - name: includeAllStatuses
+        required: false
+        in: query
+        description: Without this, only ACTIVE entries are returned regardless of `status`
+        schema:
+          type: boolean
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List brief memory entries (decisions, observations, questions, rejected…
+      tags:
+      - Briefs
+    post:
+      operationId: BriefMemoryController_create
+      parameters:
+      - name: briefId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Record a memory entry: a decision, an observation, an open question, a REJECTED…'
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{briefId}/memory/{entryId}/resolve:
+    post:
+      operationId: BriefMemoryController_resolve
+      parameters:
+      - name: briefId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: entryId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Mark a memory entry RESOLVED — leaves the default feed and stops being sent to…
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/briefs/{briefId}/memory/migrate-content-review:
+    post:
+      operationId: BriefMemoryController_migrateContentReview
+      parameters:
+      - name: briefId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: '#790: one-time migration of the temporary content.review block into memory…'
+      tags:
+      - Briefs
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    LogBriefIntakeWorkDto:
+      type: object
+      properties:
+        action:
+          type: string
+          enum:
+          - READ
+          - FACTS_EXTRACTED
+          - CHANGE_PROPOSED
+          - CHANGE_APPLIED
+          - IGNORED
+          - NOTE
+        reason:
+          type: string
+          maxLength: 500
+          example: Extracted only facts explicitly supported by the cited customer sources.
+        details:
+          type: object
+          additionalProperties: true
+        sourceRefs:
+          minItems: 1
+          description: 'Required for derived facts/proposals/applied changes; dialog:/dialog-attachment:/intake: refs only.'
+          type: array
+          items:
+            type: string
+        briefId:
+          type: string
+          example: brief-id
+        idempotencyKey:
+          type: string
+          maxLength: 128
+          example: intake-item-123-read-v1
+      required:
+      - action
+      - reason
+      - idempotencyKey
+    UpdateBriefContentDto:
+      type: object
+      properties:
+        patch:
+          type: object
+          description: Partial JSON-merge patch for `content`. Top-level keys whose path is locked (locks[key] === true) are rejected with 423. Merged result is validated against brief-content-v1.2.
+        reason:
+          type: string
+      required:
+      - patch
+    CreateBriefDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        content:
+          type: object
+          description: Initial content, validated against brief-content-v1.2 before save.
+        variables:
+          type: object
+        locks:
+          type: object
+          description: Map of section paths to boolean lock state.
+        targetCompanyListId:
+          type:
+          - string
+          - 'null'
+          description: Target company list ID. Can be a string or null.
+      required:
+      - name
+    UpdateBriefVariablesDto:
+      type: object
+      properties:
+        patch:
+          type: object
+          description: Partial JSON-merge patch for `variables`.
+        reason:
+          type: string
+      required:
+      - patch
+    UpdateBriefMetaDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        targetCompanyListId:
+          type:
+          - object
+          - 'null'
+          description: '#847: целевой список проекта. `null` — снять связь явно.
+
+            Без этого поля читатель (`resolveTargetList`) был бы механизмом без
+
+            вызывающего: связь стала бы исправимой, но не исправленной.'
+        reason:
+          type: string
+    UpdateBriefIntakeAliasDto:
+      type: object
+      properties:
+        alias:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: /^brief-[a-z0-9](?:[a-z0-9-]*[a-z0-9])$/
+      required:
+      - alias
+    LinkBriefIntakeItemDto:
+      type: object
+      properties:
+        briefId:
+          type: string
+          example: brief-id
+        contactId:
+          type:
+          - object
+          - 'null'
+          description: Existing customer Contact, or null to clear a wrong association.
+        companyId:
+          type:
+          - object
+          - 'null'
+          description: Existing customer Company, or null to clear a wrong association.
+        reason:
+          type: string
+          maxLength: 500
+          example: Human confirmed that these materials belong to this brief.
+        idempotencyKey:
+          type: string
+          maxLength: 128
+          example: link-intake-item-123-to-brief-id-v1
+      required:
+      - briefId
+      - reason
+      - idempotencyKey
+    TransitionBriefIntakeItemDto:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - IN_REVIEW
+          - IGNORED
+          - REJECTED
+          example: IN_REVIEW
+        reason:
+          type: string
+          maxLength: 500
+          example: Operator reviewed the sender and attachments.
+        idempotencyKey:
+          type: string
+          maxLength: 128
+          example: review-intake-item-123-v1
+      required:
+      - status
+      - reason
+      - idempotencyKey
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

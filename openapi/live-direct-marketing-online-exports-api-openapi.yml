@@ -1,0 +1,224 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Exports API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Exports across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Exports
+paths:
+  /api/exports/columns:
+    get:
+      operationId: ExportsController_getColumns
+      parameters:
+      - name: entity
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List exportable columns and groups for an entity
+      tags:
+      - Exports
+      x-required-scope:
+      - exports:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/exports:
+    post:
+      operationId: ExportsController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateExportDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create an export job
+      tags:
+      - Exports
+    get:
+      operationId: ExportsController_list
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List my export jobs
+      tags:
+      - Exports
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/exports/{id}:
+    get:
+      operationId: ExportsController_status
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the status of an export job
+      tags:
+      - Exports
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/exports/{id}/download:
+    get:
+      operationId: ExportsController_download
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Download a completed export file
+      tags:
+      - Exports
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    ExportParamsDto:
+      type: object
+      properties:
+        taskId:
+          type: string
+          description: 'mailing_csv: обязателен — воркер бросает `taskId is required` без него.'
+          pattern: UUID_SHAPE
+        listId:
+          type: string
+          description: 'contacts_csv / companies_csv: идентификатор списка — строка, не число.'
+          pattern: UUID_SHAPE
+        status:
+          type: string
+        entity:
+          type: object
+          description: 'entity_table: воркер сам проверяет этот набор — держим его в ОДНОМ месте.'
+        columns:
+          minItems: 1
+          type: array
+          items:
+            type: string
+        filters:
+          type: object
+    CreateExportDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Export type
+          enum:
+          - mailing_csv
+          - contacts_csv
+          - companies_csv
+          - entity_table
+          - combined
+          example: contacts_csv
+        params:
+          description: Export parameters, dependent on the type
+          allOf:
+          - $ref: '#/components/schemas/ExportParamsDto'
+      required:
+      - type
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

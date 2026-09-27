@@ -1,0 +1,557 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Authentication API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Authentication across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Authentication
+paths:
+  /api/auth/register:
+    post:
+      operationId: AuthController_register
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Register a new account (self-service).
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/verify-email:
+    get:
+      operationId: AuthController_verifyEmail
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: format
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Confirm email by the token from the signup email.
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/signup-questionnaire:
+    post:
+      operationId: AuthController_submitQuestionnaire
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupQuestionnaireDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Issue #322 — submit the signup questionnaire for accounts that did not qualify…'
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/otc:
+    post:
+      operationId: AuthController_exchangeOtc
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Exchange the one-time sign-in code from the email-verification redirect for a…
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/login:
+    post:
+      operationId: AuthController_login
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Authenticate a user and issue access + refresh tokens.
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/refresh:
+    post:
+      operationId: AuthController_refresh
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Exchange a refresh token for a new access + refresh pair
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/logout:
+    post:
+      operationId: AuthController_logout
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Revoke a refresh token and end the session
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/forgot-password:
+    post:
+      operationId: AuthController_forgotPassword
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Request a password reset email (rate-limited per email and per IP)
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/reset-password:
+    post:
+      operationId: AuthController_resetPassword
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Reset password using a reset token
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/profile:
+    get:
+      operationId: AuthController_getProfile
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the current authenticated user profile
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/me:
+    get:
+      operationId: AuthController_getMe
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get current user profile (alias of /auth/profile)
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/change-password:
+    post:
+      operationId: AuthController_changePassword
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Change the password of the authenticated user (current required)
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/auth/impersonate/{userId}:
+    post:
+      operationId: AuthController_impersonate
+      parameters:
+      - name: userId
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Impersonate another user (SUPER role only)
+      tags:
+      - Authentication
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    ResetPasswordDto:
+      type: object
+      properties:
+        token:
+          type: string
+        newPassword:
+          type: string
+          minLength: 8
+          maxLength: 128
+      required:
+      - token
+      - newPassword
+    RegisterDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+          maxLength: 128
+        firstName:
+          type: string
+          maxLength: 100
+        lastName:
+          type: string
+          maxLength: 100
+        channel:
+          type: object
+        org:
+          type: string
+          maxLength: 200
+        use_case:
+          type: string
+          maxLength: 500
+        website:
+          type: string
+          maxLength: 300
+        full_account:
+          type: boolean
+        termsAccepted:
+          type: boolean
+      required:
+      - email
+    RefreshDto:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      required:
+      - refreshToken
+    ForgotPasswordDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    SignupQuestionnaireDto:
+      type: object
+      properties:
+        token:
+          type: string
+          description: signup_token из ответа регистрации (живёт 7 дней)
+          minLength: 32
+          maxLength: 128
+        applicant_type:
+          type: object
+          description: 'Тип заявителя: юрлицо или частное лицо (анкета без сайта компании)'
+        company_name:
+          type: string
+          minLength: 2
+          maxLength: 200
+        company_website:
+          type: string
+          description: 'Домен проверяется автоматом: зарегистрирован, резолвится, отвечает по HTTP'
+          maxLength: 300
+        company_email:
+          type: string
+          description: Корпоративный ящик для связи и апрува
+          format: email
+        use_case:
+          type: string
+          minLength: 10
+          maxLength: 1000
+        contacts_source:
+          type: object
+          description: Откуда берётся база контактов — главный маркер спам-рассылки
+        outbound_volume_monthly:
+          type: number
+          minimum: 0
+          maximum: 10000000
+        operator_type:
+          type: object
+          description: 'Кто ведёт аккаунт: человек, агент или связка'
+        human_contact:
+          type: string
+          description: Контакт ответственного человека (имя/телефон/мессенджер)
+          maxLength: 300
+        country:
+          type: string
+          maxLength: 200
+        company_registration_id:
+          type: string
+          description: ИНН/рег.номер юрлица, если есть
+          maxLength: 64
+      required:
+      - token
+      - applicant_type
+      - company_name
+      - use_case
+      - contacts_source
+    LoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+      required:
+      - email
+      - password
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

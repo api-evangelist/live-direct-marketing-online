@@ -1,0 +1,501 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Import API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Import across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Import
+paths:
+  /api/import/templates:
+    get:
+      operationId: ImportController_getTemplates
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List available import templates
+      tags:
+      - Import
+      x-required-scope:
+      - import:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/templates/detect:
+    post:
+      operationId: ImportController_detectTemplate
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DetectTemplateDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Detect the best matching import template from CSV headers
+      tags:
+      - Import
+      x-required-scope:
+      - import:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/templates/apply:
+    post:
+      operationId: ImportController_applyTemplate
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplyTemplateDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Apply an import template to CSV headers
+      tags:
+      - Import
+      x-required-scope:
+      - import:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/tasks:
+    post:
+      operationId: ImportController_createTask
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportTaskConfigDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new import task
+      tags:
+      - Import
+      x-required-scope:
+      - import:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/from-url:
+    post:
+      operationId: ImportController_importFromUrl
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportFromUrlDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Import a list from a link (Google Sheets or a direct .csv/.xlsx URL) — the…
+      tags:
+      - Import
+      x-required-scope:
+      - import:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/tasks/{id}:
+    get:
+      operationId: ImportController_getTask
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get an import task by id
+      tags:
+      - Import
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/tasks/{id}/log:
+    get:
+      operationId: ImportController_getLog
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: number
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: number
+      - name: status
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the row-level log for an import task
+      tags:
+      - Import
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/tasks/{id}/log/csv:
+    get:
+      operationId: ImportController_getLogCsv
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Download the import task log as CSV
+      tags:
+      - Import
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/tasks/{id}/cancel:
+    post:
+      operationId: ImportController_cancelTask
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Cancel an in-progress import task
+      tags:
+      - Import
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/import/tasks/{id}/rollback:
+    post:
+      operationId: ImportController_rollbackTask
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Rollback the changes made by an import task
+      tags:
+      - Import
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    ApplyTemplateDto:
+      type: object
+      properties:
+        templateId:
+          type: string
+          description: Id of the template to apply
+        headers:
+          description: CSV/sheet column headers to map via the template
+          type: array
+          items:
+            type: string
+      required:
+      - templateId
+      - headers
+    ImportFromUrlDto:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Google Sheets URL or a direct .csv/.xlsx URL
+        listId:
+          type: string
+          description: Tenant file library id — save the fetched file there too
+      required:
+      - url
+    DetectTemplateDto:
+      type: object
+      properties:
+        headers:
+          description: CSV/sheet column headers to match against known templates
+          type: array
+          items:
+            type: string
+      required:
+      - headers
+    ImportTaskConfigDto:
+      type: object
+      properties:
+        sourceType:
+          type: string
+          enum:
+          - csv
+          - google-sheets
+        sourceUrl:
+          type: string
+        entity:
+          type: string
+          enum:
+          - companies
+          - contacts
+        combinedMode:
+          type: boolean
+          description: Combined companies + contacts import mode
+        sourceFileId:
+          type: string
+          description: Library file id — alternative to inline headers/rows (#805 B3)
+        headers:
+          description: CSV/sheet column headers. Pass [] when using sourceFileId.
+          type: array
+          items:
+            type: string
+        rows:
+          description: CSV/sheet rows, each an array of cell values. Pass [] when using sourceFileId.
+          type: array
+          items:
+            type: string
+        templateId:
+          type: string
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field). Contact fields are prefixed with "c:" (e.g. "c:firstName", "c:email", "c:phone"). Company fields have no prefix (e.g. "name", "domain", "industry"). Custom fields use "customField:<key>". An unknown value (e.g. bare "email" instead of "c:email", or "cf:key" — a prefix from a DIFFERENT import path) is rejected with 400 BEFORE the task is queued (#1064).
+        transforms:
+          type: object
+          description: Per-column value transforms
+        listId:
+          type: string
+          description: Company-list id for company-only or combined-mode imports
+        contactListId:
+          type: string
+          description: Contact-list id for combined-mode imports (company list goes in listId)
+        newListName:
+          type: string
+        createLeads:
+          type: boolean
+          description: Also create a lead per imported row
+        pipelineId:
+          type: string
+        newPipelineName:
+          type: string
+        stageId:
+          type: string
+        leadTitleTemplate:
+          type: string
+        leadPriority:
+          type: string
+        leadSource:
+          type: string
+        duplicateHandling:
+          type: string
+          enum:
+          - skip
+          - update
+          - mark_duplicate
+          - create
+        deduplicateBy:
+          type: string
+          enum:
+          - domain
+          - name
+          - email
+          - both
+          - socials
+        tagIds:
+          type: array
+          items:
+            type: string
+        userId:
+          type: string
+      required:
+      - sourceType
+      - entity
+      - combinedMode
+      - headers
+      - rows
+      - templateId
+      - mapping
+      - transforms
+      - createLeads
+      - duplicateHandling
+      - deduplicateBy
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

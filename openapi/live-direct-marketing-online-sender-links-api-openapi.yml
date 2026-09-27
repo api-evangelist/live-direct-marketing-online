@@ -1,0 +1,146 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Sender Links API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged sender-links across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: sender-links
+paths:
+  /api/sender-links/unsubscribe:
+    get:
+      operationId: SenderLinksController_unsubscribeGet
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      summary: Unsubscribe from sender-link email reports (List-Unsubscribe target)
+      tags:
+      - sender-links
+    post:
+      operationId: SenderLinksController_unsubscribePost
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - sender-links
+      summary: Sender links controller unsubscribe post
+      x-summary-source: derived
+  /api/sender-links/{linkId}:
+    get:
+      operationId: SenderLinksController_get
+      parameters:
+      - name: linkId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      summary: 'Public sender-link page: seed addresses, latest run, history'
+      tags:
+      - sender-links
+    delete:
+      operationId: SenderLinksController_revoke
+      parameters:
+      - name: linkId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      summary: Revoke a sender link (page stops resolving, auto-runs stop)
+      tags:
+      - sender-links
+  /api/sender-links/{linkId}/reports:
+    patch:
+      operationId: SenderLinksController_setReports
+      parameters:
+      - name: linkId
+        required: true
+        in: path
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetReportsDto'
+      responses:
+        '200':
+          description: ''
+      summary: Enable/disable email reports for a sender link
+      tags:
+      - sender-links
+  /api/sender-links/{linkId}/reactivate:
+    post:
+      operationId: SenderLinksController_reactivate
+      parameters:
+      - name: linkId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '201':
+          description: ''
+      summary: Reactivate a dormant sender link (scanner picks it up again)
+      tags:
+      - sender-links
+  /api/v1/sender-links/{linkId}:
+    get:
+      operationId: getSenderLink
+      parameters:
+      - name: linkId
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - apiKey: []
+      summary: 'Get a permanent sender page: seed addresses, latest runs, reports state'
+      tags:
+      - sender-links
+components:
+  schemas:
+    SetReportsDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

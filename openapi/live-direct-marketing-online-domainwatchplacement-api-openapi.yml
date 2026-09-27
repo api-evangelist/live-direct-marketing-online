@@ -1,0 +1,68 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Domain Watch Placement API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged DomainWatchPlacement across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: DomainWatchPlacement
+paths:
+  /api/domain-watch/placement:
+    get:
+      operationId: DomainWatchPlacementController_get
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: id
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: test
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - DomainWatchPlacement
+      summary: Domain watch placement controller get
+      x-summary-source: derived
+    post:
+      operationId: DomainWatchPlacementController_start
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlacementDto'
+      responses:
+        '201':
+          description: ''
+      tags:
+      - DomainWatchPlacement
+      summary: Domain watch placement controller start
+      x-summary-source: derived
+components:
+  schemas:
+    PlacementDto:
+      type: object
+      properties: {}
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

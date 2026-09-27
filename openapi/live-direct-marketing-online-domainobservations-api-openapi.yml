@@ -1,0 +1,134 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Domain Observations API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged DomainObservations across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: DomainObservations
+paths:
+  /api/domain-observations/lookup:
+    get:
+      operationId: DomainObservationsController_lookup
+      parameters:
+      - name: domain
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - DomainObservations
+      summary: Domain observations controller lookup
+      x-summary-source: derived
+  /api/domain-observations:
+    post:
+      operationId: DomainObservationsController_request
+      parameters: []
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - DomainObservations
+      summary: Domain observations controller request
+      x-summary-source: derived
+  /api/domain-observations/page/{domain}:
+    get:
+      operationId: DomainObservationsController_page
+      parameters:
+      - name: domain
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: from
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: to
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - DomainObservations
+      summary: Domain observations controller page
+      x-summary-source: derived
+  /api/domain-observations/fallback:
+    get:
+      operationId: DomainObservationsController_fallback
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+      tags:
+      - DomainObservations
+      summary: Domain observations controller fallback
+      x-summary-source: derived
+  /api/domain-observations/data/{domain}:
+    get:
+      operationId: DomainObservationsController_data
+      parameters:
+      - name: domain
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - DomainObservations
+      summary: Domain observations controller data
+      x-summary-source: derived
+  /api/domain-observations/catalog:
+    get:
+      operationId: DomainObservationsController_catalog
+      parameters:
+      - name: cursor
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+      - DomainObservations
+      summary: Domain observations controller catalog
+      x-summary-source: derived
+components:
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json

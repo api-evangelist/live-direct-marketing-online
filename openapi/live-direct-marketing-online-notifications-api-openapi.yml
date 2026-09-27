@@ -1,0 +1,411 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Notifications API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Notifications across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Notifications
+paths:
+  /api/notifications/push/public-key:
+    get:
+      operationId: NotificationsController_pushPublicKey
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the tenant VAPID public key for Web Push
+      tags:
+      - Notifications
+      x-required-scope:
+      - notifications:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications/push/subscribe:
+    post:
+      operationId: NotificationsController_pushSubscribe
+      parameters:
+      - name: user-agent
+        required: true
+        in: header
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushSubscribeDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Register a browser Web Push subscription
+      tags:
+      - Notifications
+      x-required-scope:
+      - notifications:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications/push/unsubscribe:
+    post:
+      operationId: NotificationsController_pushUnsubscribe
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushUnsubscribeDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Remove a browser Web Push subscription
+      tags:
+      - Notifications
+      x-required-scope:
+      - notifications:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications:
+    get:
+      operationId: NotificationsController_findAll
+      parameters:
+      - name: dismissed
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: type
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        required: true
+        in: query
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List notifications for the current user
+      tags:
+      - Notifications
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications/unread-count:
+    get:
+      operationId: NotificationsController_unreadCount
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get the unread notifications badge count
+      tags:
+      - Notifications
+      x-required-scope:
+      - notifications:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications/read-all:
+    post:
+      operationId: NotificationsController_readAll
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Mark all unread notifications as read
+      tags:
+      - Notifications
+      x-required-scope:
+      - notifications:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications/{id}/read:
+    post:
+      operationId: NotificationsController_markRead
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Mark a notification as read
+      tags:
+      - Notifications
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications/{id}/dismiss:
+    post:
+      operationId: NotificationsController_dismiss
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Dismiss a notification (hide from widget)
+      tags:
+      - Notifications
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications/dismiss-all:
+    post:
+      operationId: NotificationsController_dismissAll
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Dismiss all notifications for the current user
+      tags:
+      - Notifications
+      x-required-scope:
+      - notifications:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/notifications/self-note:
+    post:
+      operationId: NotificationsController_createSelfNote
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSelfNoteDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create an agent self-note notification
+      tags:
+      - Notifications
+      x-required-scope:
+      - notifications:write
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    PushKeysDto:
+      type: object
+      properties:
+        p256dh:
+          type: string
+          maxLength: 300
+        auth:
+          type: string
+          maxLength: 100
+      required:
+      - p256dh
+      - auth
+    PushSubscribeDto:
+      type: object
+      properties:
+        endpoint:
+          type: string
+          maxLength: 2048
+        keys:
+          $ref: '#/components/schemas/PushKeysDto'
+        expirationTime:
+          type:
+          - number
+          - 'null'
+      required:
+      - endpoint
+      - keys
+    PushUnsubscribeDto:
+      type: object
+      properties:
+        endpoint:
+          type: string
+          maxLength: 2048
+      required:
+      - endpoint
+    CreateSelfNoteDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Note title
+        message:
+          type: string
+          description: Note text
+      required:
+      - title
+      - message
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

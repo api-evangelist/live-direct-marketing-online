@@ -1,0 +1,335 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Mail Routing Rules API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Mail Routing Rules across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Mail Routing Rules
+paths:
+  /api/mail-routing-rules:
+    get:
+      operationId: MailRoutingController_findAll
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: List all mail routing rules
+      tags:
+      - Mail Routing Rules
+    post:
+      operationId: MailRoutingController_create
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMailRoutingRuleDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Create a new mail routing rule
+      tags:
+      - Mail Routing Rules
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/mail-routing-rules/{id}:
+    get:
+      operationId: MailRoutingController_findById
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Get a mail routing rule by id
+      tags:
+      - Mail Routing Rules
+    patch:
+      operationId: MailRoutingController_update
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMailRoutingRuleDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Update a mail routing rule
+      tags:
+      - Mail Routing Rules
+    delete:
+      operationId: MailRoutingController_delete
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Delete a mail routing rule
+      tags:
+      - Mail Routing Rules
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/mail-routing-rules/{id}/toggle:
+    patch:
+      operationId: MailRoutingController_toggle
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Toggle the active flag of a mail routing rule
+      tags:
+      - Mail Routing Rules
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/mail-routing-rules/test:
+    post:
+      operationId: MailRoutingController_testRules
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: Dry-run a synthetic email against active routing rules
+      tags:
+      - Mail Routing Rules
+      x-required-scope:
+      - rules:read
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    UpdateMailRoutingRuleDto:
+      type: object
+      properties:
+        name:
+          type: string
+        isActive:
+          type: boolean
+        accountId:
+          type:
+          - string
+          - 'null'
+        toEmail:
+          type:
+          - string
+          - 'null'
+        fromEmail:
+          type:
+          - string
+          - 'null'
+        fromDomain:
+          type:
+          - string
+          - 'null'
+        subjectPattern:
+          type:
+          - string
+          - 'null'
+        keywords:
+          type: array
+          items:
+            type: string
+        keywordMode:
+          type: string
+        searchScope:
+          type: array
+          items:
+            type: string
+        matchType:
+          type: string
+        aiCriteria:
+          type:
+          - string
+          - 'null'
+        aiModel:
+          type:
+          - string
+          - 'null'
+        action:
+          type: string
+        targetFolder:
+          type: string
+        forwardTo:
+          type:
+          - string
+          - 'null'
+        markRead:
+          type: boolean
+        stopProcessing:
+          type: boolean
+        sortOrder:
+          type: number
+    CreateMailRoutingRuleDto:
+      type: object
+      properties:
+        name:
+          type: string
+        accountId:
+          type: string
+        toEmail:
+          type: string
+        fromEmail:
+          type: string
+        fromDomain:
+          type: string
+        subjectPattern:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        keywordMode:
+          type: string
+        searchScope:
+          type: array
+          items:
+            type: string
+        matchType:
+          type: string
+        aiCriteria:
+          type: string
+        aiModel:
+          type: string
+        action:
+          type: string
+        targetFolder:
+          type: string
+        forwardTo:
+          type: string
+        markRead:
+          type: boolean
+        stopProcessing:
+          type: boolean
+        sortOrder:
+          type: number
+      required:
+      - name
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

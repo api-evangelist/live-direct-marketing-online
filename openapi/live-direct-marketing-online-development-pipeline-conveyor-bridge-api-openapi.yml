@@ -1,0 +1,239 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Development Pipeline…
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged Development Pipeline — Conveyor Bridge across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.live-direct-marketing.online
+  description: Production
+- url: https://api.dev.live-direct-marketing.online
+  description: Development
+- url: http://127.0.0.1:3000
+  description: Local
+tags:
+- name: Development Pipeline — Conveyor Bridge
+paths:
+  /api/development-pipeline/conveyor/issues:
+    post:
+      operationId: ConveyorBridgeController_createIssue
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConveyorIssueDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Create a new conveyor task (issue #1001) via the bridge; on an empty/unclear…'
+      tags:
+      - Development Pipeline — Conveyor Bridge
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/conveyor/issues/{num}/priority:
+    patch:
+      operationId: ConveyorBridgeController_setPriority
+      parameters:
+      - name: num
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetConveyorPriorityDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Set conveyor task priority P1/P2/P3 in one click (issue #1001)'
+      tags:
+      - Development Pipeline — Conveyor Bridge
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/conveyor/issues/{num}/pause:
+    patch:
+      operationId: ConveyorBridgeController_setPaused
+      parameters:
+      - name: num
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetConveyorPausedDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'Pause/unpause a conveyor task from the console in one click (issue #1001, owner…'
+      tags:
+      - Development Pipeline — Conveyor Bridge
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/conveyor/issues/{num}/action:
+    post:
+      operationId: ConveyorBridgeController_issueAction
+      parameters:
+      - name: num
+        required: true
+        in: path
+        schema:
+          type: string
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConveyorIssueActionDto'
+      responses:
+        '201':
+          description: ''
+      security:
+      - jwt: []
+      summary: 'retry/cancel a conveyor task from blocked/failed (issue #1001)'
+      tags:
+      - Development Pipeline — Conveyor Bridge
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+  /api/development-pipeline/conveyor/template:
+    get:
+      operationId: ConveyorBridgeController_getTemplate
+      parameters:
+      - name: X-Tenant-Id
+        in: header
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Tenant UUID — required for all tenant-scoped endpoints
+      responses:
+        '200':
+          description: ''
+      security:
+      - jwt: []
+      summary: Live TEMPLATE.md + docs/pipeline/*.md from the bridge for the "Rules" tab — no…
+      tags:
+      - Development Pipeline — Conveyor Bridge
+    servers:
+    - url: https://api.live-direct-marketing.online
+      description: Production
+    - url: https://api.dev.live-direct-marketing.online
+      description: Development
+    - url: http://127.0.0.1:3000
+      description: Local
+components:
+  schemas:
+    SetConveyorPriorityDto:
+      type: object
+      properties:
+        priority:
+          type: string
+      required:
+      - priority
+    ConveyorIssueActionDto:
+      type: object
+      properties:
+        action:
+          type: object
+      required:
+      - action
+    SetConveyorPausedDto:
+      type: object
+      properties:
+        paused:
+          type: boolean
+      required:
+      - paused
+    CreateConveyorIssueDto:
+      type: object
+      properties:
+        description:
+          type: string
+          minLength: 1
+        priority:
+          type: string
+        slug:
+          type: string
+      required:
+      - description
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: JWT access token from /auth/login (Bearer <token>)
+    tenant-api-key:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Tenant API key (Bearer ldm_*) for MCP/A2A clients. Issued via CRM Settings → API Keys.
+    rpa-service:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      description: Dedicated RPA service key. No tenant API-key or query-key authentication.
+x-refined-from:
+- live-direct-marketing-online-ldm-v3-openapi.json
+- live-direct-marketing-online-ldm-v3-openapi.json

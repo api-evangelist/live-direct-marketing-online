@@ -1,0 +1,223 @@
+openapi: 3.2.0
+info:
+  title: Live Direct Marketing Online Auth API
+  version: 1.0.0
+  contact: {}
+  description: 'Operations tagged auth across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+tags:
+- name: Auth
+paths:
+  /api/auth/register:
+    post:
+      operationId: AuthController_register
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDto'
+      responses:
+        '202':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Auth
+      summary: Auth controller register
+      x-summary-source: derived
+  /api/auth/verify:
+    get:
+      operationId: AuthController_verify
+      parameters:
+      - name: token
+        required: true
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Auth
+      summary: Auth controller verify
+      x-summary-source: derived
+  /api/auth/resend-verification:
+    post:
+      operationId: AuthController_resend
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResendDto'
+      responses:
+        '202':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Auth
+      summary: Auth controller resend
+      x-summary-source: derived
+  /api/auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDto'
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Auth
+      summary: Auth controller login
+      x-summary-source: derived
+  /api/auth/logout:
+    post:
+      operationId: AuthController_logout
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Auth
+      summary: Auth controller logout
+      x-summary-source: derived
+  /api/auth/me:
+    get:
+      operationId: AuthController_me
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      security:
+      - cookie: []
+      tags:
+      - Auth
+      summary: Auth controller me
+      x-summary-source: derived
+  /api/auth/email-access:
+    post:
+      operationId: EmailAccessController_request
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailAccessDto'
+      responses:
+        '202':
+          description: ''
+      tags:
+      - Auth
+      summary: Email access controller request
+      x-summary-source: derived
+  /api/auth/email-access/consume:
+    post:
+      operationId: EmailAccessController_consume
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConsumeAccessDto'
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Auth
+      summary: Email access controller consume
+      x-summary-source: derived
+components:
+  schemas:
+    ConsumeAccessDto:
+      type: object
+      properties: {}
+    EmailAccessDto:
+      type: object
+      properties: {}
+    RegisterDto:
+      type: object
+      properties:
+        emailLocale:
+          type: string
+          enum:
+          - ru
+          - en
+        email:
+          type: string
+          maxLength: 254
+          format: email
+        password:
+          type: string
+          minLength: 8
+          maxLength: 200
+        acceptedTosVersion:
+          type: string
+          description: 'Versions of the Terms of Service and Privacy Policy the user accepted
+
+            at the moment of signup. Required for new registrations going forward
+
+            (frontend ships a checkbox + version constants). Optional in this DTO
+
+            for one release cycle so the live web frontend keeps working until the
+
+            web-MR adds the checkbox; after that we''ll tighten to required.
+
+
+            Stored verbatim in `consent_log` row. See W1a.'
+          maxLength: 40
+        acceptedPrivacyVersion:
+          type: string
+          maxLength: 40
+      required:
+      - email
+      - password
+    ResendDto:
+      type: object
+      properties:
+        email:
+          type: string
+          maxLength: 254
+          format: email
+      required:
+      - email
+    LoginDto:
+      type: object
+      properties:
+        email:
+          type: string
+          maxLength: 254
+          format: email
+        password:
+          type: string
+          maxLength: 200
+      required:
+      - email
+      - password
+  securitySchemes:
+    apiKey:
+      scheme: bearer
+      bearerFormat: icp_live_*
+      type: http
+    adminKey:
+      type: apiKey
+      in: header
+      name: X-Admin-Key
+x-refined-from:
+- live-direct-marketing-online-inbox-check-openapi.json
+- live-direct-marketing-online-inbox-check-openapi.json
