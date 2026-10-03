@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Provider Config API
+  title: LDM v3 Provider Config API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Provider Config across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -38,13 +38,6 @@ paths:
       summary: List all email provider configurations
       tags:
       - Provider Config
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/provider-configs/resolve:
     get:
       operationId: ProviderConfigController_resolve
@@ -71,13 +64,6 @@ paths:
       - Provider Config
       x-required-scope:
       - settings:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/provider-configs/{provider}:
     get:
       operationId: ProviderConfigController_getOne
@@ -148,13 +134,6 @@ paths:
       summary: Delete a provider configuration
       tags:
       - Provider Config
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/provider-configs/{provider}/toggle:
     patch:
       operationId: ProviderConfigController_toggle
@@ -179,13 +158,6 @@ paths:
       summary: Enable or disable a provider configuration
       tags:
       - Provider Config
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/provider-configs/{provider}/domains:
     post:
       operationId: ProviderConfigController_addDomain
@@ -210,13 +182,6 @@ paths:
       summary: Add a domain mapping to a provider configuration
       tags:
       - Provider Config
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/provider-configs/{provider}/domains/{pattern}:
     delete:
       operationId: ProviderConfigController_removeDomain
@@ -246,13 +211,6 @@ paths:
       summary: Remove a domain mapping from a provider configuration
       tags:
       - Provider Config
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -270,6 +228,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

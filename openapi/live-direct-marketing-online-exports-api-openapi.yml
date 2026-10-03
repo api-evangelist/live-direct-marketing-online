@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Exports API
+  title: LDM v3 Exports API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Exports across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -40,13 +40,6 @@ paths:
       - Exports
       x-required-scope:
       - exports:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/exports:
     post:
       operationId: ExportsController_create
@@ -90,13 +83,6 @@ paths:
       summary: List my export jobs
       tags:
       - Exports
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/exports/{id}:
     get:
       operationId: ExportsController_status
@@ -121,13 +107,6 @@ paths:
       summary: Get the status of an export job
       tags:
       - Exports
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/exports/{id}/download:
     get:
       operationId: ExportsController_download
@@ -152,13 +131,6 @@ paths:
       summary: Download a completed export file
       tags:
       - Exports
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     ExportParamsDto:
@@ -219,6 +191,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Prompt Templates API
+  title: LDM v3 Prompt Templates API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Prompt Templates across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -71,13 +71,6 @@ paths:
       summary: Create a new prompt template
       tags:
       - Prompt Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/prompt-templates/{id}:
     get:
       operationId: PromptTemplatesController_get
@@ -148,13 +141,6 @@ paths:
       summary: Delete a prompt template
       tags:
       - Prompt Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/prompt-templates/{idOrName}/render:
     post:
       operationId: PromptTemplatesController_render
@@ -179,13 +165,6 @@ paths:
       summary: Render a prompt template (by id or name) with caller variables
       tags:
       - Prompt Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -203,6 +182,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

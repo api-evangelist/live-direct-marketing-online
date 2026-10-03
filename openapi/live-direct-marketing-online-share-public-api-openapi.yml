@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Share Public API
+  title: LDM v3 Share Public API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Share Public across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -38,13 +38,6 @@ paths:
       summary: Render OG meta-tag HTML for bot crawlers by short code
       tags:
       - Share Public
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/s/{code}:
     get:
       operationId: SharePublicController_getByShortCode
@@ -69,13 +62,6 @@ paths:
       summary: Get publicly-shared entity by short code (no auth)
       tags:
       - Share Public
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/share-public/{token}:
     get:
       operationId: SharePublicController_getShared
@@ -100,13 +86,6 @@ paths:
       summary: Get publicly-shared entity by legacy full token (no auth)
       tags:
       - Share Public
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -124,6 +103,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

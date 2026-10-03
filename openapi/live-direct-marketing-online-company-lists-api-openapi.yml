@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Company Lists API
+  title: LDM v3 Company Lists API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Company Lists across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -57,13 +57,6 @@ paths:
       summary: Create a new company list
       tags:
       - Company Lists
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/company-lists/contacts-counts:
     get:
       operationId: CompanyListsController_contactsCounts
@@ -90,13 +83,6 @@ paths:
       - Company Lists
       x-required-scope:
       - crm:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/company-lists/{id}:
     patch:
       operationId: CompanyListsController_update
@@ -150,13 +136,6 @@ paths:
       summary: Delete a company list
       tags:
       - Company Lists
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/company-lists/reorder:
     post:
       operationId: CompanyListsController_reorder
@@ -184,13 +163,6 @@ paths:
       - Company Lists
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/company-lists/{id}/companies:
     post:
       operationId: CompanyListsController_addCompanies
@@ -244,13 +216,6 @@ paths:
       summary: Remove companies from a list
       tags:
       - Company Lists
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/company-lists/{id}/merge:
     post:
       operationId: CompanyListsController_merge
@@ -281,13 +246,6 @@ paths:
       summary: 'Merge this list into another list: move or copy all member companies…'
       tags:
       - Company Lists
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/company-lists/{id}/duplicate:
     post:
       operationId: CompanyListsController_duplicate
@@ -312,15 +270,42 @@ paths:
       summary: Duplicate a company list
       tags:
       - Company Lists
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
+    CompanyListsReorderDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyListsReorderItemDto'
+      required:
+      - items
+    CompanyListsMergeDto:
+      type: object
+      properties:
+        targetId:
+          type: string
+          description: Id of the list to merge member companies into
+        mode:
+          type: string
+          description: 'move: relocate companies to targetId; copy: keep them in both lists'
+          enum:
+          - move
+          - copy
+      required:
+      - targetId
+      - mode
+    CompanyListsReorderItemDto:
+      type: object
+      properties:
+        id:
+          type: string
+        sortOrder:
+          type: number
+      required:
+      - id
+      - sortOrder
     CompanyListsCreateDto:
       type: object
       properties:
@@ -351,49 +336,6 @@ components:
           - 'null'
       required:
       - name
-    CompanyListsMergeDto:
-      type: object
-      properties:
-        targetId:
-          type: string
-          description: Id of the list to merge member companies into
-        mode:
-          type: string
-          description: 'move: relocate companies to targetId; copy: keep them in both lists'
-          enum:
-          - move
-          - copy
-      required:
-      - targetId
-      - mode
-    CompanyListsAddCompaniesDto:
-      type: object
-      properties:
-        companyIds:
-          type: array
-          items:
-            type: string
-      required:
-      - companyIds
-    CompanyListsReorderItemDto:
-      type: object
-      properties:
-        id:
-          type: string
-        sortOrder:
-          type: number
-      required:
-      - id
-      - sortOrder
-    CompanyListsReorderDto:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompanyListsReorderItemDto'
-      required:
-      - items
     CompanyListsUpdateDto:
       type: object
       properties:
@@ -422,6 +364,15 @@ components:
           type:
           - object
           - 'null'
+    CompanyListsAddCompaniesDto:
+      type: object
+      properties:
+        companyIds:
+          type: array
+          items:
+            type: string
+      required:
+      - companyIds
   securitySchemes:
     jwt:
       scheme: bearer
@@ -438,6 +389,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

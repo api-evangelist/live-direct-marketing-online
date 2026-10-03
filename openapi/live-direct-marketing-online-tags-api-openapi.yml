@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Tags API
+  title: LDM v3 Tags API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Tags across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -57,13 +57,6 @@ paths:
       summary: Create a new tag
       tags:
       - Tags
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tags/{id}:
     patch:
       operationId: TagsController_update
@@ -117,13 +110,6 @@ paths:
       summary: Delete a tag
       tags:
       - Tags
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tags/companies/{companyId}:
     post:
       operationId: TagsController_attachToCompany
@@ -154,13 +140,6 @@ paths:
       summary: Attach a tag to a company
       tags:
       - Tags
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tags/companies/{companyId}/{tagId}:
     delete:
       operationId: TagsController_detachFromCompany
@@ -190,13 +169,6 @@ paths:
       summary: Detach a tag from a company
       tags:
       - Tags
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tags/contacts/{contactId}:
     post:
       operationId: TagsController_attachToContact
@@ -227,13 +199,6 @@ paths:
       summary: Attach a tag to a contact
       tags:
       - Tags
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tags/contacts/{contactId}/{tagId}:
     delete:
       operationId: TagsController_detachFromContact
@@ -263,13 +228,6 @@ paths:
       summary: Detach a tag from a contact
       tags:
       - Tags
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tags/leads/{leadId}:
     post:
       operationId: TagsController_attachToLead
@@ -300,13 +258,6 @@ paths:
       summary: Attach a tag to a lead
       tags:
       - Tags
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tags/leads/{leadId}/{tagId}:
     delete:
       operationId: TagsController_detachFromLead
@@ -336,13 +287,6 @@ paths:
       summary: Detach a tag from a lead
       tags:
       - Tags
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     AttachTagDto:
@@ -352,14 +296,6 @@ components:
           type: string
       required:
       - tagId
-    UpdateTagDto:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 50
-        color:
-          type: string
     CreateTagDto:
       type: object
       properties:
@@ -370,6 +306,14 @@ components:
           type: string
       required:
       - name
+    UpdateTagDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        color:
+          type: string
   securitySchemes:
     jwt:
       scheme: bearer
@@ -386,6 +330,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

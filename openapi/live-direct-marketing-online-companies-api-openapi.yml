@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Companies API
+  title: LDM v3 Companies API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Companies across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -41,13 +41,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies:
     get:
       operationId: CompaniesController_findAll
@@ -174,13 +167,6 @@ paths:
       summary: Create a new company.
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/duplicates:
     get:
       operationId: CompaniesController_findDuplicates
@@ -216,13 +202,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/{id}:
     get:
       operationId: CompaniesController_findById
@@ -299,13 +278,6 @@ paths:
       summary: Soft-delete a company
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/{id}/timeline:
     get:
       operationId: CompaniesController_getTimeline
@@ -344,13 +316,6 @@ paths:
       summary: Get a paginated timeline of events for a company
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/bulk:
     post:
       operationId: CompaniesController_bulk
@@ -378,13 +343,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/bulk/{jobId}:
     get:
       operationId: CompaniesController_getBulkStatus
@@ -432,13 +390,6 @@ paths:
       summary: Cancel an in-progress bulk company job
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/export/columns:
     get:
       operationId: CompaniesController_getExportColumns
@@ -460,13 +411,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/export:
     post:
       operationId: CompaniesController_exportCompanies
@@ -494,13 +438,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/merge:
     post:
       operationId: CompaniesController_mergeCompanies
@@ -528,13 +465,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/import/google-sheets:
     post:
       operationId: CompaniesController_importFromGoogleSheets
@@ -562,13 +492,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/import/preview:
     post:
       operationId: CompaniesController_importPreview
@@ -596,13 +519,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/import/start:
     post:
       operationId: CompaniesController_importStart
@@ -630,13 +546,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/import/combined:
     post:
       operationId: CompaniesController_importCombined
@@ -664,13 +573,6 @@ paths:
       - Companies
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/{id}/restore:
     post:
       operationId: CompaniesController_restore
@@ -695,13 +597,6 @@ paths:
       summary: Restore a soft-deleted company
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/{id}/purge:
     delete:
       operationId: CompaniesController_purge
@@ -726,13 +621,6 @@ paths:
       summary: PERMANENTLY delete a trashed company (requires isDeleted). Irreversible
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/import/rollback/{batchId}:
     delete:
       operationId: CompaniesController_rollbackImport
@@ -757,13 +645,6 @@ paths:
       summary: Roll back a company import batch by ID
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/{id}/freeze:
     patch:
       operationId: CompaniesController_freeze
@@ -788,13 +669,6 @@ paths:
       summary: Freeze a company (set status FROZEN). Blocks campaign sending (#369)
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/{id}/unfreeze:
     patch:
       operationId: CompaniesController_unfreeze
@@ -819,129 +693,16 @@ paths:
       summary: Unfreeze a company (set status ACTIVE).
       tags:
       - Companies
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    CreateCompanyDto:
+    ImportFromGoogleSheetsDto:
       type: object
       properties:
-        name:
+        url:
           type: string
-          maxLength: 255
-        domain:
-          type: string
-        industry:
-          type: string
-        size:
-          type: object
-        country:
-          type: string
-        city:
-          type: string
-        address:
-          type: string
-        phone:
-          type: string
-        website:
-          type: string
-        description:
-          type: string
-        source:
-          type: string
-        taxId:
-          type: string
-          maxLength: 20
-        status:
-          type: object
-        importBatchId:
-          type: string
+          description: Google Sheets URL to fetch rows from
       required:
-      - name
-    CompaniesImportCombinedDto:
-      type: object
-      properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping. Company fields (name, domain, inn, industry, size, country, city, address, state, phone, website, source), custom cf:<key>, contact c:firstName/c:lastName/c:email/c:phone/c:position/c:personalEmail/c:linkedin
-        options:
-          type: object
-          description: dedupeBy, genericContactName, listId — see POST /companies/import/combined summary
-      required:
-      - rows
-      - mapping
-    UpdateCompanyDto:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 255
-        domain:
-          type: string
-        industry:
-          type: string
-        size:
-          type: object
-        country:
-          type: string
-        city:
-          type: string
-        address:
-          type: string
-        phone:
-          type: string
-        website:
-          type: string
-        description:
-          type: string
-        source:
-          type: string
-        taxId:
-          type: string
-          maxLength: 20
-        status:
-          type: object
-        importBatchId:
-          type: string
-        state:
-          type: string
-        linkedin:
-          type: string
-        foundedYear:
-          type: string
-          pattern: /^\d{4}$/
-        catalogInn:
-          type: string
-          maxLength: 12
-        logo:
-          type: string
-    CompaniesImportStartDto:
-      type: object
-      properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-        options:
-          type: object
-          description: 'dedupeBy: "auto"|"inn"|"domain" (default auto); duplicateHandling: "skip"|"update"|"enrich"|"create" (default skip). "enrich" (#1057) fills only EMPTY fields of the matched duplicate from the file, never overwrites non-empty ones; customFields merge by the same rule (canon mergeCustomFields). listId (#1057): every row that matched a card — created, updated, OR a found duplicate (skip/enrich) — is added to this list; must be an existing list id in this tenant.'
-      required:
-      - rows
-      - mapping
+      - url
     MergeCompaniesDto:
       type: object
       properties:
@@ -988,28 +749,51 @@ components:
           description: Field value for a setField-style action (shape depends on fieldName)
       required:
       - action
-    CompaniesImportPreviewDto:
+    UpdateCompanyDto:
       type: object
       properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-      required:
-      - rows
-      - mapping
-    ImportFromGoogleSheetsDto:
-      type: object
-      properties:
-        url:
+        name:
           type: string
-          description: Google Sheets URL to fetch rows from
-      required:
-      - url
+          maxLength: 255
+        domain:
+          type: string
+        industry:
+          type: string
+        size:
+          type: object
+        country:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        website:
+          type: string
+        description:
+          type: string
+        source:
+          type: string
+        taxId:
+          type: string
+          maxLength: 20
+        status:
+          type: object
+        importBatchId:
+          type: string
+        state:
+          type: string
+        linkedin:
+          type: string
+        foundedYear:
+          type: string
+          pattern: /^\d{4}$/
+        catalogInn:
+          type: string
+          maxLength: 12
+        logo:
+          type: string
     ExportCompaniesDto:
       type: object
       properties:
@@ -1041,6 +825,89 @@ components:
           description: Restrict export to companies in this list id
       required:
       - scope
+    CompaniesImportPreviewDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+      required:
+      - rows
+      - mapping
+    CompaniesImportCombinedDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping. Company fields (name, domain, inn, industry, size, country, city, address, state, phone, website, source), custom cf:<key>, contact c:firstName/c:lastName/c:email/c:phone/c:position/c:personalEmail/c:linkedin
+        options:
+          type: object
+          description: dedupeBy, genericContactName, listId — see POST /companies/import/combined summary
+      required:
+      - rows
+      - mapping
+    CompaniesImportStartDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+        options:
+          type: object
+          description: 'dedupeBy: "auto"|"inn"|"domain" (default auto); duplicateHandling: "skip"|"update"|"enrich"|"create" (default skip). "enrich" (#1057) fills only EMPTY fields of the matched duplicate from the file, never overwrites non-empty ones; customFields merge by the same rule (canon mergeCustomFields). listId (#1057): every row that matched a card — created, updated, OR a found duplicate (skip/enrich) — is added to this list; must be an existing list id in this tenant.'
+      required:
+      - rows
+      - mapping
+    CreateCompanyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        domain:
+          type: string
+        industry:
+          type: string
+        size:
+          type: object
+        country:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        website:
+          type: string
+        description:
+          type: string
+        source:
+          type: string
+        taxId:
+          type: string
+          maxLength: 20
+        status:
+          type: object
+        importBatchId:
+          type: string
+      required:
+      - name
   securitySchemes:
     jwt:
       scheme: bearer
@@ -1057,6 +924,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

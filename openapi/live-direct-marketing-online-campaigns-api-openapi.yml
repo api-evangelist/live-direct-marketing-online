@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Campaigns API
+  title: LDM v3 Campaigns API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Campaigns across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -50,13 +50,6 @@ paths:
       - Campaigns
       summary: Campaigns controller create test task
       x-summary-source: derived
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/test-task/{taskId}:
     get:
       operationId: CampaignsController_getTestTask
@@ -87,13 +80,6 @@ paths:
       - Campaigns
       summary: Campaigns controller get test task
       x-summary-source: derived
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/conveyor-health:
     get:
       operationId: CampaignsController_conveyorHealth
@@ -115,13 +101,6 @@ paths:
       - Campaigns
       x-required-scope:
       - campaigns:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns:
     get:
       operationId: CampaignsController_list
@@ -180,13 +159,6 @@ paths:
       summary: Create a campaign.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/backfill-historic-unsubscribes:
     post:
       operationId: CampaignsController_backfillHistoricUnsubscribes
@@ -213,13 +185,6 @@ paths:
       - Campaigns
       x-required-scope:
       - campaigns:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/overview:
     get:
       operationId: CampaignsController_overview
@@ -246,13 +211,6 @@ paths:
       - Campaigns
       x-required-scope:
       - campaigns:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}:
     get:
       operationId: CampaignsController_get
@@ -329,13 +287,6 @@ paths:
       summary: Delete a campaign (cascades recipients; ACTIVE must be paused first)
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/geo-risk:
     get:
       operationId: CampaignsController_geoRisk
@@ -360,13 +311,6 @@ paths:
       summary: Geo channel-policy risk breakdown of recipients (read-only WARN report)
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/metrics:
     get:
       operationId: CampaignsController_metrics
@@ -391,13 +335,6 @@ paths:
       summary: Campaign metrics.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/send-series:
     get:
       operationId: CampaignsController_sendSeries
@@ -442,13 +379,6 @@ paths:
       summary: Sending speed time series.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/send-readiness:
     get:
       operationId: CampaignsController_sendReadiness
@@ -473,13 +403,6 @@ paths:
       summary: 'Dry-run all send gates for a campaign: status, breaker, campaign-owned send…'
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/operational-status:
     get:
       operationId: CampaignsController_operationalStatus
@@ -518,13 +441,6 @@ paths:
       summary: Single source of truth for "what is happening with this campaign right now".
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/task-history:
     get:
       operationId: CampaignsController_taskHistory
@@ -563,13 +479,6 @@ paths:
       summary: Paginated durable delivery-task history for a campaign
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/hard-report:
     get:
       operationId: CampaignsController_hardReport
@@ -594,13 +503,6 @@ paths:
       summary: Deterministic read-only quality snapshot for a campaign (#1245, first slice…
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/activity:
     get:
       operationId: CampaignsController_activity
@@ -660,13 +562,6 @@ paths:
       summary: 'Unified chronological event feed for a campaign: the full recipient lifecycle…'
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/recipients:
     get:
       operationId: CampaignsController_listRecipients
@@ -771,13 +666,6 @@ paths:
       summary: List campaign recipients.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/recipients/move-stage:
     post:
       operationId: CampaignsController_moveRecipientsStage
@@ -808,13 +696,6 @@ paths:
       summary: Move campaign recipients to a canvas stage (no send)
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/recipients/rerender:
     post:
       operationId: CampaignsController_rerenderRecipients
@@ -845,13 +726,6 @@ paths:
       summary: Reset unsent recipients back to SCREENED for a fresh re-render; force:true also…
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/recipients/repair-unsubscribe:
     post:
       operationId: CampaignsController_repairUnsubscribe
@@ -882,13 +756,6 @@ paths:
       summary: Backfill missing unsubscribe block and reconcile bodyHash for already-rendered…
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/retry-ai-failures:
     post:
       description: 'Returns CREATIVE_FAILED rows with an AI cause back into the pipeline (stage SCREENED). Response: {reset, reason, effectiveProvider, model, failureReasons, lastRecovery}. reason is the outcome code: retried (reset>0, failureReasons = which causes were fixed), nothing_to_retry (no AI failures and nothing was recovered), already_recovered (no failures because a previous call already returned them — most often a side effect of resume; when and how many — in lastRecovery), same_provider (rows have already been tried on the current provider). reset=0 by itself does NOT mean an error — check reason. If the AI provider is not configured — 409 ai_provider_unavailable.'
@@ -914,13 +781,6 @@ paths:
       summary: Retry unsent AI failures with the current tenant provider/model — reset=0 is an…
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/reconcile-from-dialogs:
     post:
       operationId: CampaignsController_reconcileFromDialogs
@@ -955,13 +815,6 @@ paths:
       summary: 'One-time: reconcile campaign recipients from existing dialogs (migration)'
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/pour:
     post:
       operationId: CampaignsController_pour
@@ -992,13 +845,6 @@ paths:
       summary: Pour recipients into a campaign.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/push:
     post:
       operationId: CampaignsController_push
@@ -1029,13 +875,6 @@ paths:
       summary: Push contacts directly into campaign (API-push, e.g. from form webhook)
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/pour-from-leads:
     post:
       operationId: CampaignsController_pourFromLeads
@@ -1066,13 +905,6 @@ paths:
       summary: Pour recipients into a campaign from CRM leads by filter…
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/screen:
     post:
       operationId: CampaignsController_screen
@@ -1097,13 +929,6 @@ paths:
       summary: 'Screening of NEW recipients (suppression + stop-list): NEW→SCREENED|SKIPPED.'
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/recipients/content:
     post:
       operationId: CampaignsController_submitRenderedContent
@@ -1134,13 +959,6 @@ paths:
       summary: Submit self-rendered (BYOC) email content for SCREENED recipients…
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/recipients/{rid}/manual:
     patch:
       operationId: CampaignsController_manualUpdateRecipient
@@ -1170,13 +988,6 @@ paths:
       summary: 'Manual edit of a job by an operator: subject/body/scheduledAt/stage.'
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/recipients/{recipientId}/attachment-link:
     get:
       operationId: CampaignsController_recipientAttachmentLink
@@ -1206,13 +1017,6 @@ paths:
       summary: Refresh a signed link to a recipient personal PDF without regeneration.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/preparations:
     post:
       operationId: CampaignsController_enqueuePreparation
@@ -1243,13 +1047,6 @@ paths:
       summary: Start or join a durable bounded preparation operation (no sending).
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/preparations/{generationId}:
     get:
       operationId: CampaignsController_preparationStatus
@@ -1279,13 +1076,6 @@ paths:
       summary: Read a tenant-bound preparation operation.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/prepare:
     post:
       operationId: CampaignsController_prepare
@@ -1315,13 +1105,6 @@ paths:
       summary: Prepare and audit a bounded window of provider-eligible recipients.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/dispatch:
     post:
       operationId: CampaignsController_dispatch
@@ -1351,13 +1134,6 @@ paths:
       summary: Assign sender account + schedule to READY recipients (no send yet).
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/send:
     post:
       operationId: CampaignsController_send
@@ -1382,13 +1158,6 @@ paths:
       summary: Hand dispatched READY recipients to the mail_outbox queue (limit=1 for first…
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/sync-events:
     post:
       operationId: CampaignsController_syncEvents
@@ -1413,13 +1182,6 @@ paths:
       summary: Sync open/click/bounce events from Dialog records back to recipients.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/restore-infra-failed:
     post:
       description: 'Resets the circuit breaker (PAUSED → ACTIVE) AND, as a side effect, recovers unsent AI failures the same way retry-ai-failures with force does. The recovery result is in the aiRecovery field {reset, reason, effectiveProvider, model, failureReasons}: reset — how many rows returned to the pipeline, failureReasons — the reasons they failed for. So retry-ai-failures called right after resume normally returns reset=0 with reason=already_recovered — that is not an error.'
@@ -1451,13 +1213,6 @@ paths:
       summary: Resume a PAUSED campaign (reset circuit breaker) — also retries AI failures
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/resume:
     post:
       operationId: CampaignsController_resume
@@ -1483,13 +1238,6 @@ paths:
       - Campaigns
       summary: Campaigns controller resume
       x-summary-source: derived
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/pause:
     post:
       description: 'Stops sending (ACTIVE → PAUSED) with the same attribution as /resume: a PAUSED event in the campaign feed with actor{who,reason}. Unlike /resume this is NOT a timer — auto-resume will not happen, work can only be resumed by another /resume or PATCH {status:"ACTIVE"}. An optional body.reason goes into the feed event. From a status other than ACTIVE — 409 invalid_status_transition. PATCH /campaigns/:id {status:"PAUSED"} keeps working as before (compatibility) — this endpoint does not replace it, it closes an asymmetry: the start/stop pair had no named endpoint for stopping, unlike resume.'
@@ -1521,13 +1269,6 @@ paths:
       summary: Pause an ACTIVE campaign (symmetric to /resume)
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/campaigns/{id}/recipients/{rid}:
     get:
       operationId: CampaignsController_getRecipient
@@ -1557,107 +1298,19 @@ paths:
       summary: Get a recipient with its event log.
       tags:
       - Campaigns
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    CampaignPreparationRequestDto:
+    RepairUnsubscribeDto:
       type: object
       properties:
-        limit:
-          type: number
-          minimum: 1
-          maximum: 50
-          description: Requested preparation batch, bounded by remaining preparation and relay capacity.
-          default: 50
-    PushContactsDto:
-      type: object
-      properties:
-        rows:
+        recipientIds:
           type: array
           items:
-            $ref: '#/components/schemas/PushRowDto'
-      required:
-      - rows
-    MoveRecipientsStageFilterDto:
-      type: object
-      properties:
-        stage:
-          type: string
-        search:
-          type: string
-        canvasStage:
-          type: string
-        finalStatus:
-          type: string
-        emailValid:
-          type: string
-        auditLevel:
-          type: string
-        inboxPlacement:
-          type: string
-        sentFrom:
-          type: string
-        sentTo:
-          type: string
-    PauseCampaignDto:
-      type: object
-      properties:
-        reason:
-          type: string
-          description: Идёт в событие PAUSED в ленте кампании (#514)
-    CampaignSendWindowDto:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-          description: true = bounded calendar window; false = explicit 24/7
-        workDays:
-          description: 'ISO weekdays: 1 Monday … 7 Sunday'
+            type: string
+        stages:
           type: array
           items:
-            type: number
-            maximum: 7
-            minimum: 1
-        startTime:
-          type: string
-          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
-          description: Local start time, HH:MM
-        endTime:
-          type: string
-          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
-          description: Local end time, HH:MM (exclusive)
-        timezone:
-          type: string
-          description: IANA timezone, for example Europe/Moscow
-    PourFromLeadsDto:
-      type: object
-      properties:
-        pipelineId:
-          type: string
-        stageId:
-          type: string
-        interestStatus:
-          type: string
-        limit:
-          type: number
-    PourCampaignDto:
-      type: object
-      properties:
-        listId:
-          type: string
-          description: Contact-list id; required unless allContacts:true (#565)
-        allContacts:
-          type: boolean
-          description: Pour to all contacts
-        companyListId:
-          type: string
-          description: '#1221: Company-list id — pour live contacts of ALL companies in this COMPANY list (not a contact list). Mutually exclusive with listId/allContacts.'
+            type: string
     CampaignPreparationConfigDto:
       type: object
       properties:
@@ -1673,20 +1326,6 @@ components:
           minimum: 1
           maximum: 50
           default: 50
-    MoveRecipientsStageDto:
-      type: object
-      properties:
-        toStage:
-          type: string
-          description: 'Целевая стадия канваса: STEP:n | WAIT:n | COMPLETED | STOPPED | __none__'
-        recipientIds:
-          type: array
-          items:
-            type: string
-        filter:
-          $ref: '#/components/schemas/MoveRecipientsStageFilterDto'
-      required:
-      - toStage
     CreateTestTaskDto:
       type: object
       properties:
@@ -1698,95 +1337,6 @@ components:
           type: string
           maxLength: 128
           description: Existing CampaignRecipient id from this DRAFT campaign
-    RestoreInfraFailedDto:
-      type: object
-      properties:
-        dryRun:
-          type: boolean
-          description: По умолчанию true — только показать, кого вернёт (#765)
-    CreateCampaignDto:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Campaign name
-        description:
-          type: string
-          description: Campaign description
-        sourceType:
-          type: string
-          description: Source type
-          enum:
-          - API
-          - LIST
-          - CRM_TRIGGER
-        sourceConfig:
-          type: object
-          description: Source configuration
-        creativeIds:
-          description: Creative ids
-          type: array
-          items:
-            type: string
-        creativeRouting:
-          type: object
-          description: Creative routing
-        briefId:
-          type: string
-          description: Brief id
-        authorConfig:
-          type: object
-          description: Author config
-        auditorConfig:
-          type: object
-          description: Auditor config
-        senderConfig:
-          description: Sender config. senderAssignment defaults to send for new campaigns; dispatch must be selected explicitly.
-          allOf:
-          - $ref: '#/components/schemas/CampaignSenderConfigDto'
-        sendWindow:
-          description: Campaign-owned send window. Omitted fields use the safe initial default; explicit enabled:false means 24/7.
-          allOf:
-          - $ref: '#/components/schemas/CampaignSendWindowDto'
-        canvas:
-          type: object
-          description: Canvas config
-        renderMode:
-          type: string
-          description: Render mode
-          enum:
-          - PLATFORM
-          - BYOC
-      required:
-      - name
-    PushAttachmentDto:
-      type: object
-      properties:
-        filename:
-          type: string
-        contentBase64:
-          type: string
-        contentType:
-          type: string
-    PushRowDto:
-      type: object
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        contactId:
-          type: string
-        companyId:
-          type: string
-        leadId:
-          type: string
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/PushAttachmentDto'
     SubmitRenderedContentDto:
       type: object
       properties:
@@ -1797,34 +1347,6 @@ components:
             $ref: '#/components/schemas/SubmitRenderedContentItemDto'
       required:
       - items
-    RerenderRecipientsDto:
-      type: object
-      properties:
-        recipientIds:
-          type: array
-          items:
-            type: string
-        stages:
-          type: array
-          items:
-            type: string
-        force:
-          type: boolean
-          description: '#531: явный грант нового окна платных аудит-попыток'
-    SubmitRenderedContentItemDto:
-      type: object
-      properties:
-        recipientId:
-          type: string
-        subject:
-          type: string
-        bodyHtml:
-          type: string
-        bodyText:
-          type: string
-      required:
-      - recipientId
-      - subject
     UpdateCampaignDto:
       type: object
       properties:
@@ -1884,17 +1406,12 @@ components:
         acknowledgeUngroundedAudience:
           type: boolean
           description: Explicit acknowledgement for a high ungrounded-audience ratio.
-    RepairUnsubscribeDto:
+    RestoreInfraFailedDto:
       type: object
       properties:
-        recipientIds:
-          type: array
-          items:
-            type: string
-        stages:
-          type: array
-          items:
-            type: string
+        dryRun:
+          type: boolean
+          description: По умолчанию true — только показать, кого вернёт (#765)
     CampaignSenderConfigDto:
       type: object
       properties:
@@ -1916,6 +1433,27 @@ components:
           $ref: '#/components/schemas/CampaignPreparationConfigDto'
         pacing:
           $ref: '#/components/schemas/CampaignPacingConfigDto'
+    MoveRecipientsStageFilterDto:
+      type: object
+      properties:
+        stage:
+          type: string
+        search:
+          type: string
+        canvasStage:
+          type: string
+        finalStatus:
+          type: string
+        emailValid:
+          type: string
+        auditLevel:
+          type: string
+        inboxPlacement:
+          type: string
+        sentFrom:
+          type: string
+        sentTo:
+          type: string
     CampaignPacingConfigDto:
       type: object
       properties:
@@ -1930,6 +1468,202 @@ components:
           - advisory
           default: advisory
           description: best_send_time is a recommendation; the send point may ignore it to meet the daily target.
+    CampaignPreparationRequestDto:
+      type: object
+      properties:
+        limit:
+          type: number
+          minimum: 1
+          maximum: 50
+          description: Requested preparation batch, bounded by remaining preparation and relay capacity.
+          default: 50
+    PourFromLeadsDto:
+      type: object
+      properties:
+        pipelineId:
+          type: string
+        stageId:
+          type: string
+        interestStatus:
+          type: string
+        limit:
+          type: number
+    SubmitRenderedContentItemDto:
+      type: object
+      properties:
+        recipientId:
+          type: string
+        subject:
+          type: string
+        bodyHtml:
+          type: string
+        bodyText:
+          type: string
+      required:
+      - recipientId
+      - subject
+    PauseCampaignDto:
+      type: object
+      properties:
+        reason:
+          type: string
+          description: Идёт в событие PAUSED в ленте кампании (#514)
+    PushAttachmentDto:
+      type: object
+      properties:
+        filename:
+          type: string
+        contentBase64:
+          type: string
+        contentType:
+          type: string
+    CreateCampaignDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Campaign name
+        description:
+          type: string
+          description: Campaign description
+        sourceType:
+          type: string
+          description: Source type
+          enum:
+          - API
+          - LIST
+          - CRM_TRIGGER
+        sourceConfig:
+          type: object
+          description: Source configuration
+        creativeIds:
+          description: Creative ids
+          type: array
+          items:
+            type: string
+        creativeRouting:
+          type: object
+          description: Creative routing
+        briefId:
+          type: string
+          description: Brief id
+        authorConfig:
+          type: object
+          description: Author config
+        auditorConfig:
+          type: object
+          description: Auditor config
+        senderConfig:
+          description: Sender config. senderAssignment defaults to send for new campaigns; dispatch must be selected explicitly.
+          allOf:
+          - $ref: '#/components/schemas/CampaignSenderConfigDto'
+        sendWindow:
+          description: Campaign-owned send window. Omitted fields use the safe initial default; explicit enabled:false means 24/7.
+          allOf:
+          - $ref: '#/components/schemas/CampaignSendWindowDto'
+        canvas:
+          type: object
+          description: Canvas config
+        renderMode:
+          type: string
+          description: Render mode
+          enum:
+          - PLATFORM
+          - BYOC
+      required:
+      - name
+    CampaignSendWindowDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: true = bounded calendar window; false = explicit 24/7
+        workDays:
+          description: 'ISO weekdays: 1 Monday … 7 Sunday'
+          type: array
+          items:
+            type: number
+            maximum: 7
+            minimum: 1
+        startTime:
+          type: string
+          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
+          description: Local start time, HH:MM
+        endTime:
+          type: string
+          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
+          description: Local end time, HH:MM (exclusive)
+        timezone:
+          type: string
+          description: IANA timezone, for example Europe/Moscow
+    MoveRecipientsStageDto:
+      type: object
+      properties:
+        toStage:
+          type: string
+          description: 'Целевая стадия канваса: STEP:n | WAIT:n | COMPLETED | STOPPED | __none__'
+        recipientIds:
+          type: array
+          items:
+            type: string
+        filter:
+          $ref: '#/components/schemas/MoveRecipientsStageFilterDto'
+      required:
+      - toStage
+    PushContactsDto:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/PushRowDto'
+      required:
+      - rows
+    RerenderRecipientsDto:
+      type: object
+      properties:
+        recipientIds:
+          type: array
+          items:
+            type: string
+        stages:
+          type: array
+          items:
+            type: string
+        force:
+          type: boolean
+          description: '#531: явный грант нового окна платных аудит-попыток'
+    PushRowDto:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        contactId:
+          type: string
+        companyId:
+          type: string
+        leadId:
+          type: string
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PushAttachmentDto'
+    PourCampaignDto:
+      type: object
+      properties:
+        listId:
+          type: string
+          description: Contact-list id; required unless allContacts:true (#565)
+        allContacts:
+          type: boolean
+          description: Pour to all contacts
+        companyListId:
+          type: string
+          description: '#1221: Company-list id — pour live contacts of ALL companies in this COMPANY list (not a contact list). Mutually exclusive with listId/allContacts.'
   securitySchemes:
     jwt:
       scheme: bearer
@@ -1946,6 +1680,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

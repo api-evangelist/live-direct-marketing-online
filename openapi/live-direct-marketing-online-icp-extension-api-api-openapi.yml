@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online ICP Extension / API
+  title: LDM v3 ICP Extension / API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged ICP Extension / API across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -38,13 +38,6 @@ paths:
       summary: Authorize the Chrome extension by project key
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/icpreview/next:
     get:
       operationId: IcpExtApiController_getNextItem
@@ -69,13 +62,6 @@ paths:
       summary: Get the next ICP review item for the extension
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/icpreview/ai:
     post:
       operationId: IcpExtApiController_analyzeAi
@@ -95,13 +81,6 @@ paths:
       summary: Analyze an ICP review item with AI
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/icpreview/enrich:
     post:
       operationId: IcpExtApiController_enrich
@@ -121,13 +100,6 @@ paths:
       summary: Auto-enrich the company card from the visited site (#281 item 7)
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/icpreview/complete:
     post:
       operationId: IcpExtApiController_complete
@@ -147,13 +119,6 @@ paths:
       summary: Mark an ICP review item as completed
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/formassist/config:
     get:
       operationId: IcpExtApiController_getFormAssistConfig
@@ -178,13 +143,6 @@ paths:
       summary: Get form assist configuration for the extension
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/company/lookup:
     get:
       operationId: IcpExtApiController_lookupCompany
@@ -224,13 +182,6 @@ paths:
       summary: Lookup CRM company by site host (widget company card)
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/formassist/profile:
     get:
       operationId: IcpExtApiController_getFormAssistProfile
@@ -255,13 +206,6 @@ paths:
       summary: Resolved profile values for manual form fill (context menu)
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/formassist/ai:
     post:
       operationId: IcpExtApiController_formAssistAi
@@ -281,13 +225,6 @@ paths:
       summary: Run AI form-fill suggestion for the extension
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/formassist/complete:
     post:
       operationId: IcpExtApiController_formAssistComplete
@@ -307,13 +244,6 @@ paths:
       summary: Report form-assist completion from the extension
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/sendemail/stats:
     get:
       operationId: IcpExtApiController_getSendEmailStats
@@ -338,13 +268,6 @@ paths:
       summary: Get send-email stats for the extension
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/sendemail/capture:
     post:
       operationId: IcpExtApiController_captureEmail
@@ -364,13 +287,6 @@ paths:
       summary: Capture an email address from the extension
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/messenger/generate:
     post:
       operationId: IcpExtApiController_generateMessage
@@ -395,13 +311,6 @@ paths:
       summary: Generate a messenger message (channel = vk|telegram|whatsapp|linkedin)
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/messenger/complete:
     post:
       operationId: IcpExtApiController_messengerComplete
@@ -426,13 +335,6 @@ paths:
       summary: Report messenger send completion (creates/links a Contact by url)
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/presentation:
     post:
       operationId: IcpExtApiController_presentation
@@ -452,13 +354,6 @@ paths:
       summary: Generate a presentation PDF (mode = attach → base64 | link → OG url)
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/presentation/pdf/{filename}:
     get:
       operationId: IcpExtApiController_presentationPdf
@@ -483,13 +378,6 @@ paths:
       summary: Serve a presentation PDF by filename (no key, public link)
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/presentation/{token}:
     get:
       operationId: IcpExtApiController_presentationOg
@@ -514,13 +402,6 @@ paths:
       summary: Public OG preview page for a presentation link (no key)
       tags:
       - ICP Extension / API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -538,6 +419,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

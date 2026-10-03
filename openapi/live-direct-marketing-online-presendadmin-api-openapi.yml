@@ -1,9 +1,10 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Presend Admin API
+  title: inbox-check Presend Admin API
+  description: Email deliverability test API for AI agents and automation. Same surface is exposed via REST (here), MCP (streamable-http at /mcp), and A2A (skill manifest at /.well-known/agent.json).
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged PresendAdmin across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+servers: []
 tags:
 - name: PresendAdmin
 paths:
@@ -33,6 +34,3 @@ components:
       type: apiKey
       in: header
       name: X-Admin-Key
-x-refined-from:
-- live-direct-marketing-online-inbox-check-openapi.json
-- live-direct-marketing-online-inbox-check-openapi.json

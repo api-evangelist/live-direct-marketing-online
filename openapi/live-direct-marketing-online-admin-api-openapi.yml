@@ -3,7 +3,7 @@ info:
   title: Live Direct Marketing Online Admin API
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged admin across 4 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged admin across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -3643,41 +3643,15 @@ paths:
       description: Local
 components:
   schemas:
-    ImportOauthComboDto:
+    PatchSeedDto:
       type: object
       properties: {}
-    ImportFromLdmDto:
+    AddSeedDto:
       type: object
       properties: {}
-    BulkSeedsDto:
+    ArchiveSeedDto:
       type: object
       properties: {}
-    UpdateApiKeyDto:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 120
-        tier:
-          type: string
-          enum:
-          - basic
-          - pro
-          - enterprise
-        dailyLimit:
-          type: number
-          minimum: 1
-        monthlyLimit:
-          type: number
-          minimum: 1
-        allowedProviders:
-          type: array
-          items:
-            type: string
-        features:
-          type: object
-        active:
-          type: boolean
     CreateApiKeyDto:
       type: object
       properties:
@@ -3711,19 +3685,45 @@ components:
             type: string
       required:
       - name
-    PatchSeedDto:
-      type: object
-      properties: {}
-    ArchiveSeedDto:
-      type: object
-      properties: {}
     UpdateDeliverabilityConfigDto:
       type: object
       properties: {}
-    AddSeedDto:
+    ImportFromLdmDto:
       type: object
       properties: {}
+    UpdateApiKeyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 120
+        tier:
+          type: string
+          enum:
+          - basic
+          - pro
+          - enterprise
+        dailyLimit:
+          type: number
+          minimum: 1
+        monthlyLimit:
+          type: number
+          minimum: 1
+        allowedProviders:
+          type: array
+          items:
+            type: string
+        features:
+          type: object
+        active:
+          type: boolean
     AddDeliveryBlockDto:
+      type: object
+      properties: {}
+    ImportOauthComboDto:
+      type: object
+      properties: {}
+    BulkSeedsDto:
       type: object
       properties: {}
     AccountTransferPlanDto:
@@ -3749,18 +3749,6 @@ components:
       - sourceEmails
       - targetEmail
       - resources
-    AgentGuideOverridesDto:
-      type: object
-      properties:
-        domains:
-          type: object
-          description: Domain overrides
-        operations:
-          type: object
-          description: Operation overrides
-        controllerDomain:
-          type: object
-          description: Controller-domain override
     AccountTransferDeactivateSourcesDto:
       type: object
       properties:
@@ -3779,6 +3767,9 @@ components:
       required:
       - sourceEmails
       - targetEmail
+    ConnectInboxCheckTenantDto:
+      type: object
+      properties: {}
     AccountTransferApplyDto:
       type: object
       properties:
@@ -3814,9 +3805,18 @@ components:
       - resources
       - planHash
       - operationId
-    ConnectInboxCheckTenantDto:
+    AgentGuideOverridesDto:
       type: object
-      properties: {}
+      properties:
+        domains:
+          type: object
+          description: Domain overrides
+        operations:
+          type: object
+          description: Operation overrides
+        controllerDomain:
+          type: object
+          description: Controller-domain override
   securitySchemes:
     apiKey:
       scheme: bearer
@@ -3842,7 +3842,5 @@ components:
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
 x-refined-from:
-- live-direct-marketing-online-inbox-check-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json
 - live-direct-marketing-online-inbox-check-openapi.json
 - live-direct-marketing-online-ldm-v3-openapi.json

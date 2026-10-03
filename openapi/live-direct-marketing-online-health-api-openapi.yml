@@ -3,7 +3,7 @@ info:
   title: Live Direct Marketing Online Health API
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged health across 4 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged health across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -77,7 +77,5 @@ components:
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
 x-refined-from:
-- live-direct-marketing-online-inbox-check-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json
 - live-direct-marketing-online-inbox-check-openapi.json
 - live-direct-marketing-online-ldm-v3-openapi.json

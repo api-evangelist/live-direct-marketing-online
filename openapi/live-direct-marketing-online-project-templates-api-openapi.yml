@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Project Templates API
+  title: LDM v3 Project Templates API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Project Templates across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -90,13 +90,6 @@ paths:
       summary: Delete a project run
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates/runs/{runId}/steps/{stepId}:
     patch:
       operationId: ProjectTemplatesController_updateRunStep
@@ -132,13 +125,6 @@ paths:
       summary: Update a run step (fact, status, issues/questions/ideas)
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates:
     get:
       operationId: ProjectTemplatesController_findAll
@@ -187,13 +173,6 @@ paths:
       summary: Create a project template
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates/{id}:
     get:
       operationId: ProjectTemplatesController_findOne
@@ -270,13 +249,6 @@ paths:
       summary: Delete a template (409 if it has runs — archive instead)
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates/{id}/steps:
     post:
       operationId: ProjectTemplatesController_addStep
@@ -307,13 +279,6 @@ paths:
       summary: Add a step to a template
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates/{id}/steps/{stepId}:
     patch:
       operationId: ProjectTemplatesController_updateStep
@@ -377,13 +342,6 @@ paths:
       summary: Delete a template step
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates/{id}/steps/reorder:
     post:
       operationId: ProjectTemplatesController_reorder
@@ -414,13 +372,6 @@ paths:
       summary: Reorder template steps (full ordered id list)
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates/{id}/brief-questions:
     get:
       operationId: ProjectTemplatesController_briefQuestions
@@ -445,13 +396,6 @@ paths:
       summary: All brief questions of a template as one list
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates/{id}/summary:
     get:
       operationId: ProjectTemplatesController_summary
@@ -481,13 +425,6 @@ paths:
       summary: 'Plan vs avg fact per step over DONE runs (scope: all|test|real)'
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/project-templates/{id}/runs:
     post:
       operationId: ProjectTemplatesController_createRun
@@ -518,37 +455,30 @@ paths:
       summary: Create a run from a template (steps are snapshotted)
       tags:
       - Project Templates
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
+    ReorderDto:
+      type: object
+      properties: {}
+    UpdateTemplateDto:
+      type: object
+      properties: {}
+    UpdateStepDto:
+      type: object
+      properties: {}
+    StepDto:
+      type: object
+      properties: {}
     UpdateRunStepDto:
       type: object
       properties: {}
     UpdateRunDto:
       type: object
       properties: {}
-    StepDto:
-      type: object
-      properties: {}
     CreateRunDto:
       type: object
       properties: {}
     CreateTemplateDto:
-      type: object
-      properties: {}
-    UpdateTemplateDto:
-      type: object
-      properties: {}
-    ReorderDto:
-      type: object
-      properties: {}
-    UpdateStepDto:
       type: object
       properties: {}
   securitySchemes:
@@ -567,6 +497,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

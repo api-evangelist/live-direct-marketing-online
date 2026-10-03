@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Agent Card API
+  title: LDM v3 Agent Card API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Agent Card across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -31,13 +31,6 @@ paths:
       summary: 'Expert guide: capability map + recommended flows for MCP/A2A agents'
       tags:
       - Agent Card
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/v1/agent-guide/context:
     get:
       operationId: AgentGuideController_context
@@ -59,13 +52,6 @@ paths:
       - Agent Card
       x-required-scope:
       - agent:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/v1/agent-guide/resume:
     get:
       operationId: AgentGuideController_resume
@@ -87,13 +73,6 @@ paths:
       - Agent Card
       x-required-scope:
       - agent:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/v1/agent-guide/campaign-sender-capability:
     get:
       operationId: AgentGuideController_campaignSenderCapability
@@ -115,13 +94,6 @@ paths:
       - Agent Card
       x-required-scope:
       - agent:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/v1/health:
     get:
       operationId: AgentCardController_health
@@ -139,13 +111,6 @@ paths:
       summary: Public API health check
       tags:
       - Agent Card
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/v1/.well-known/agent-card.json:
     get:
       operationId: AgentCardController_card
@@ -169,13 +134,6 @@ paths:
       summary: Get the LDM-proprietary agent card.
       tags:
       - Agent Card
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/v1/.well-known/agent.json:
     get:
       operationId: AgentCardController_cardA2A
@@ -199,13 +157,6 @@ paths:
       summary: Get the A2A 0.2.5-compliant agent card.
       tags:
       - Agent Card
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/v1/.well-known/oauth-protected-resource:
     get:
       operationId: AgentCardController_oauthProtectedResource
@@ -223,13 +174,6 @@ paths:
       summary: RFC 9728 OAuth 2.0 Protected Resource Metadata (#476).
       tags:
       - Agent Card
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -247,6 +191,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

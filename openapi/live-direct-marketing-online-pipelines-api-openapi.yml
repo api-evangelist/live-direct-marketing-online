@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Pipelines API
+  title: LDM v3 Pipelines API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Pipelines across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -62,13 +62,6 @@ paths:
       summary: Create a new pipeline
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/automation-logs:
     get:
       operationId: PipelinesController_getAllAutomationLogs
@@ -100,13 +93,6 @@ paths:
       - Pipelines
       x-required-scope:
       - pipelines:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/{id}:
     get:
       operationId: PipelinesController_findById
@@ -183,13 +169,6 @@ paths:
       summary: Delete a pipeline
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/{id}/stages:
     post:
       operationId: PipelinesController_createStage
@@ -220,13 +199,6 @@ paths:
       summary: Create a new stage in a pipeline
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/{pipelineId}/stages/reorder:
     patch:
       operationId: PipelinesController_reorderStages
@@ -257,13 +229,6 @@ paths:
       summary: Reorder pipeline stages
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/{pipelineId}/stages/{stageId}:
     patch:
       operationId: PipelinesController_updateStage
@@ -327,13 +292,6 @@ paths:
       summary: Delete a pipeline stage
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/stages/{stageId}/automations:
     get:
       operationId: PipelinesController_findAutomations
@@ -387,13 +345,6 @@ paths:
       summary: Create an automation on a stage
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/automations/{automationId}:
     patch:
       operationId: PipelinesController_updateAutomation
@@ -447,13 +398,6 @@ paths:
       summary: Delete a stage automation
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/automations/{automationId}/logs:
     get:
       operationId: PipelinesController_getAutomationLogs
@@ -483,13 +427,6 @@ paths:
       summary: Get execution logs for an automation
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/{id}/stats:
     get:
       operationId: PipelinesController_getStats
@@ -514,13 +451,6 @@ paths:
       summary: Get stats and conversion metrics for a pipeline
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/pipelines/{id}/migrate-legacy-stages:
     post:
       operationId: PipelinesController_migrateLegacyStages
@@ -545,49 +475,8 @@ paths:
       summary: Migrate legacy denormalized stage JSON into PipelineStage rows
       tags:
       - Pipelines
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    CreatePipelineDto:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 100
-        description:
-          type: string
-        currency:
-          type: string
-        isDefault:
-          type: boolean
-        isHidden:
-          type: boolean
-      required:
-      - name
-    CreateAutomationDto:
-      type: object
-      properties:
-        trigger:
-          type: object
-        action:
-          type: object
-        config:
-          type: object
-        name:
-          type: string
-          maxLength: 200
-        isActive:
-          type: boolean
-      required:
-      - trigger
-      - action
-      - config
     UpdateStageDto:
       type: object
       properties:
@@ -608,38 +497,15 @@ components:
           type: number
         isHidden:
           type: boolean
-    UpdateAutomationDto:
+    ReorderStagesDto:
       type: object
       properties:
-        trigger:
-          type: object
-        action:
-          type: object
-        config:
-          type: object
-        name:
-          type: string
-          maxLength: 200
-        isActive:
-          type: boolean
-        sortOrder:
-          type: number
-    UpdatePipelineDto:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 100
-        description:
-          type: string
-        currency:
-          type: string
-        isDefault:
-          type: boolean
-        isActive:
-          type: boolean
-        isHidden:
-          type: boolean
+        stageIds:
+          type: array
+          items:
+            type: string
+      required:
+      - stageIds
     CreateStageDto:
       type: object
       properties:
@@ -660,15 +526,72 @@ components:
           type: number
       required:
       - name
-    ReorderStagesDto:
+    UpdateAutomationDto:
       type: object
       properties:
-        stageIds:
-          type: array
-          items:
-            type: string
+        trigger:
+          type: object
+        action:
+          type: object
+        config:
+          type: object
+        name:
+          type: string
+          maxLength: 200
+        isActive:
+          type: boolean
+        sortOrder:
+          type: number
+    CreateAutomationDto:
+      type: object
+      properties:
+        trigger:
+          type: object
+        action:
+          type: object
+        config:
+          type: object
+        name:
+          type: string
+          maxLength: 200
+        isActive:
+          type: boolean
       required:
-      - stageIds
+      - trigger
+      - action
+      - config
+    UpdatePipelineDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        currency:
+          type: string
+        isDefault:
+          type: boolean
+        isActive:
+          type: boolean
+        isHidden:
+          type: boolean
+    CreatePipelineDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        currency:
+          type: string
+        isDefault:
+          type: boolean
+        isHidden:
+          type: boolean
+      required:
+      - name
   securitySchemes:
     jwt:
       scheme: bearer
@@ -685,6 +608,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

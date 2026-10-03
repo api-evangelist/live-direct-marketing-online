@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Email Accounts API
+  title: LDM v3 Email Accounts API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Email Accounts across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -40,13 +40,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/test-unsaved:
     post:
       operationId: EmailAccountsController_testUnsaved
@@ -68,13 +61,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts:
     get:
       operationId: EmailAccountsController_findAll
@@ -167,13 +153,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/stats:
     get:
       operationId: EmailAccountsController_getStats
@@ -195,13 +174,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/check-duplicate:
     get:
       operationId: EmailAccountsController_checkDuplicate
@@ -228,13 +200,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/relay-health-summary:
     get:
       operationId: EmailAccountsController_relayHealthSummary
@@ -256,13 +221,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/relay-health/attention:
     get:
       operationId: EmailAccountsController_relayAttention
@@ -284,13 +242,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/relay-health/probe:
     post:
       operationId: EmailAccountsController_relayProbe
@@ -312,13 +263,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/stats:
     get:
       operationId: EmailAccountsController_getAccountStats
@@ -343,13 +287,6 @@ paths:
       summary: Get per-account email statistics
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}:
     get:
       operationId: EmailAccountsController_findById
@@ -420,13 +357,6 @@ paths:
       summary: Delete an email account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/import-oauth:
     post:
       operationId: EmailAccountsController_importOauth
@@ -454,13 +384,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/import-oauth/bulk:
     post:
       operationId: EmailAccountsController_importOauthBulk
@@ -488,13 +411,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/fetch-imap:
     post:
       operationId: EmailAccountsController_fetchImap
@@ -519,13 +435,6 @@ paths:
       summary: Trigger an IMAP fetch for an account (queue or fast-lane)
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/test:
     post:
       operationId: EmailAccountsController_testConnection
@@ -550,13 +459,6 @@ paths:
       summary: Test SMTP and/or IMAP connectivity for an account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/test-receive:
     post:
       operationId: EmailAccountsController_testReceive
@@ -581,13 +483,6 @@ paths:
       summary: Universal Receive Test (#4).
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/test-send:
     post:
       operationId: EmailAccountsController_testSend
@@ -612,13 +507,6 @@ paths:
       summary: Universal Send Test (#5).
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/dns-check:
     get:
       operationId: EmailAccountsController_checkDns
@@ -643,13 +531,6 @@ paths:
       summary: Run DNS health check for the account domain
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/reset-counters:
     post:
       operationId: EmailAccountsController_resetCounters
@@ -674,13 +555,6 @@ paths:
       summary: Reset daily send counters for an account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/warmup/start:
     post:
       operationId: EmailAccountsController_warmupStart
@@ -705,13 +579,6 @@ paths:
       summary: Start mailbox warm-up for an account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/warmup/stop:
     post:
       operationId: EmailAccountsController_warmupStop
@@ -736,13 +603,6 @@ paths:
       summary: Stop mailbox warm-up for an account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/warmup:
     get:
       operationId: EmailAccountsController_warmupStats
@@ -790,13 +650,6 @@ paths:
       summary: Configure mailbox warm-up parameters
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/suspend:
     post:
       operationId: EmailAccountsController_suspend
@@ -821,13 +674,6 @@ paths:
       summary: Suspend an email account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/unsuspend:
     post:
       operationId: EmailAccountsController_unsuspend
@@ -852,13 +698,6 @@ paths:
       summary: Unsuspend an email account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/work-status:
     patch:
       operationId: EmailAccountsController_updateWorkStatus
@@ -883,13 +722,6 @@ paths:
       summary: Update the work status (IDLE / IN_PROGRESS) of an account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/gas/setup:
     post:
       operationId: EmailAccountsController_gasSetup
@@ -914,13 +746,6 @@ paths:
       summary: Generate GAS setup instructions for the account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/gas/verify:
     post:
       operationId: EmailAccountsController_gasVerify
@@ -945,13 +770,6 @@ paths:
       summary: Verify a deployed GAS web app URL for the account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/gas/ping:
     post:
       operationId: EmailAccountsController_gasPing
@@ -976,13 +794,6 @@ paths:
       summary: Ping the GAS web app to verify connectivity
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/gas/test-send:
     post:
       operationId: EmailAccountsController_gasTestSend
@@ -1007,13 +818,6 @@ paths:
       summary: Send a test email via GAS
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/gas/test-fetch:
     post:
       operationId: EmailAccountsController_gasTestFetch
@@ -1038,13 +842,6 @@ paths:
       summary: Run a test fetch via GAS
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/gas/disable:
     patch:
       operationId: EmailAccountsController_gasDisable
@@ -1069,13 +866,6 @@ paths:
       summary: Disable GAS integration for an account
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-accounts/{id}/gas/labels:
     get:
       operationId: EmailAccountsController_gasLabels
@@ -1100,13 +890,6 @@ paths:
       summary: List Gmail labels available via GAS
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-account-lists:
     get:
       operationId: EmailAccountsController_findAllLists
@@ -1148,13 +931,6 @@ paths:
       - Email Accounts
       x-required-scope:
       - accounts:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-account-lists/{id}:
     patch:
       operationId: EmailAccountsController_updateList
@@ -1202,13 +978,6 @@ paths:
       summary: Delete an email account list
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/email-account-lists/{id}/relay-health:
     get:
       operationId: EmailAccountsController_relayHealth
@@ -1233,26 +1002,8 @@ paths:
       summary: Relay pool health (#40) for an email-account-list / relay-pool id (not an…
       tags:
       - Email Accounts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    ImportOauthBulkDto:
-      type: object
-      properties:
-        combos:
-          type: array
-          items:
-            type: string
-        listId:
-          type: string
-      required:
-      - combos
     ImportOauthDto:
       type: object
       properties:
@@ -1268,6 +1019,17 @@ components:
           type: string
         listId:
           type: string
+    ImportOauthBulkDto:
+      type: object
+      properties:
+        combos:
+          type: array
+          items:
+            type: string
+        listId:
+          type: string
+      required:
+      - combos
     CreateEmailAccountDto:
       type: object
       properties:
@@ -1366,6 +1128,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

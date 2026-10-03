@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Contacts API
+  title: LDM v3 Contacts API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Contacts across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -41,13 +41,6 @@ paths:
       - Contacts
       x-required-scope:
       - crm:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/duplicates:
     get:
       operationId: ContactsController_findAllDuplicates
@@ -79,13 +72,6 @@ paths:
       - Contacts
       x-required-scope:
       - crm:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts:
     get:
       operationId: ContactsController_findAll
@@ -263,13 +249,6 @@ paths:
       summary: Create a new contact.
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/{id}:
     get:
       operationId: ContactsController_findById
@@ -346,13 +325,6 @@ paths:
       summary: Soft-delete a contact
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/{id}/timeline:
     get:
       operationId: ContactsController_getTimeline
@@ -391,13 +363,6 @@ paths:
       summary: Get a paginated timeline of events for a contact
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/bulk:
     post:
       operationId: ContactsController_bulk
@@ -425,13 +390,6 @@ paths:
       - Contacts
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/bulk/{jobId}:
     get:
       operationId: ContactsController_getBulkStatus
@@ -479,13 +437,6 @@ paths:
       summary: Cancel an in-progress bulk contact job
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/export:
     post:
       operationId: ContactsController_exportContacts
@@ -513,13 +464,6 @@ paths:
       - Contacts
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/import/preview:
     post:
       operationId: ContactsController_importPreview
@@ -547,13 +491,6 @@ paths:
       - Contacts
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/import/start:
     post:
       operationId: ContactsController_importStart
@@ -581,13 +518,6 @@ paths:
       - Contacts
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/{id}/restore:
     post:
       operationId: ContactsController_restore
@@ -612,13 +542,6 @@ paths:
       summary: Restore a soft-deleted contact
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/{id}/purge:
     delete:
       operationId: ContactsController_purge
@@ -643,13 +566,6 @@ paths:
       summary: PERMANENTLY delete a trashed contact (requires isDeleted). Irreversible
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/merge:
     post:
       operationId: ContactsController_mergeContacts
@@ -677,13 +593,6 @@ paths:
       - Contacts
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/{id}/dig:
     post:
       operationId: ContactsController_triggerDig
@@ -708,13 +617,6 @@ paths:
       summary: Manually trigger DIG email enrichment for a contact
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/{id}/duplicates:
     get:
       operationId: ContactsController_checkDuplicates
@@ -739,13 +641,6 @@ paths:
       summary: Check for duplicates of a specific contact
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/{id}/channels:
     post:
       operationId: ContactsController_addChannel
@@ -776,13 +671,6 @@ paths:
       summary: Add a communication channel to a contact
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/{contactId}/channels/{channelId}:
     patch:
       operationId: ContactsController_updateChannel
@@ -846,13 +734,6 @@ paths:
       summary: Delete a contact channel
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/import/rollback/{batchId}:
     delete:
       operationId: ContactsController_rollbackImport
@@ -877,13 +758,6 @@ paths:
       summary: Roll back a contact import batch by ID
       tags:
       - Contacts
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/contacts/duplicates/by-email:
     get:
       operationId: ContactsController_findDuplicates
@@ -905,122 +779,38 @@ paths:
       - Contacts
       x-required-scope:
       - crm:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    MergeContactsDto:
+    UpdateChannelDto:
       type: object
       properties:
-        keepId:
-          type: string
-          description: Id of the contact record to keep
-        mergeIds:
-          description: Ids of the contacts to merge into keepId and delete
-          type: array
-          items:
-            type: string
-      required:
-      - keepId
-      - mergeIds
-    UpdateContactDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-          maxLength: 100
-        lastName:
-          type: string
-          maxLength: 100
-        middleName:
-          type: string
-          maxLength: 100
-        gender:
-          type: string
-          enum:
-          - male
-          - female
-          - unknown
-        position:
-          type: string
-        department:
-          type: string
-        companyId:
-          type: string
-        source:
-          type: string
-        contactType:
-          type: string
-          enum:
-          - PERSONAL
-          - COMPANY
-    ContactsImportPreviewDto:
-      type: object
-      properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-      required:
-      - rows
-      - mapping
-    ContactsImportStartDto:
-      type: object
-      properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-        options:
-          type: object
-          description: 'duplicateHandling: "skip"|"update"|"create" (default skip); listId; tagIds'
-      required:
-      - rows
-      - mapping
-    AddChannelDto:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - EMAIL
-          - PHONE
-          - LINKEDIN
-          - TELEGRAM
-          - VK
-          - WHATSAPP
-          - WEBSITE
-          - SKYPE
-          - OTHER
-          example: EMAIL
-          description: Channel type — UPPERCASE enum. Use field name "type", NOT "kind".
         value:
           type: string
-          example: anna@acme.com
-          description: Channel value — email address, phone number, URL, etc.
         label:
           type: string
-          example: work
         isPrimary:
           type: boolean
-          example: false
-          description: Set as primary channel of this type for the contact.
-      required:
-      - type
-      - value
+        status:
+          type: string
+          enum:
+          - ACTIVE
+          - BOUNCED
+          - OPTED_OUT
+          - INVALID
+          - STOP_ALL
+          - CHECKING
+        emailValidStatus:
+          type: string
+          enum:
+          - UNKNOWN
+          - VALID
+          - INVALID
+          - CATCH_ALL
+          - DISPOSABLE
+          - ROLE
+          - SPAM_TRAP
+          - HARD_BOUNCE
+          - UNSUBSCRIBED
     ExportContactsDto:
       type: object
       properties:
@@ -1051,42 +841,34 @@ components:
           description: Include tenant custom field columns
       required:
       - scope
-    CreateContactDto:
+    MergeContactsDto:
       type: object
       properties:
-        firstName:
+        keepId:
           type: string
-          maxLength: 100
-        lastName:
-          type: string
-          maxLength: 100
-        middleName:
-          type: string
-          maxLength: 100
-        gender:
-          type: string
-          enum:
-          - male
-          - female
-          - unknown
-        position:
-          type: string
-        department:
-          type: string
-        companyId:
-          type: string
-        source:
-          type: string
-        contactType:
-          type: string
-          enum:
-          - PERSONAL
-          - COMPANY
-        importBatchId:
-          type: string
-          description: '[LEGACY] import_task_id for import rollback'
+          description: Id of the contact record to keep
+        mergeIds:
+          description: Ids of the contacts to merge into keepId and delete
+          type: array
+          items:
+            type: string
       required:
-      - firstName
+      - keepId
+      - mergeIds
+    ContactsImportPreviewDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+      required:
+      - rows
+      - mapping
     ContactsBulkDto:
       type: object
       properties:
@@ -1161,36 +943,121 @@ components:
           description: 'DIG selectAll filter: email validation status'
       required:
       - action
-    UpdateChannelDto:
+    UpdateContactDto:
       type: object
       properties:
+        firstName:
+          type: string
+          maxLength: 100
+        lastName:
+          type: string
+          maxLength: 100
+        middleName:
+          type: string
+          maxLength: 100
+        gender:
+          type: string
+          enum:
+          - male
+          - female
+          - unknown
+        position:
+          type: string
+        department:
+          type: string
+        companyId:
+          type: string
+        source:
+          type: string
+        contactType:
+          type: string
+          enum:
+          - PERSONAL
+          - COMPANY
+    AddChannelDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - EMAIL
+          - PHONE
+          - LINKEDIN
+          - TELEGRAM
+          - VK
+          - WHATSAPP
+          - WEBSITE
+          - SKYPE
+          - OTHER
+          example: EMAIL
+          description: Channel type — UPPERCASE enum. Use field name "type", NOT "kind".
         value:
           type: string
+          example: anna@acme.com
+          description: Channel value — email address, phone number, URL, etc.
         label:
           type: string
+          example: work
         isPrimary:
           type: boolean
-        status:
+          example: false
+          description: Set as primary channel of this type for the contact.
+      required:
+      - type
+      - value
+    ContactsImportStartDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+        options:
+          type: object
+          description: 'duplicateHandling: "skip"|"update"|"create" (default skip); listId; tagIds'
+      required:
+      - rows
+      - mapping
+    CreateContactDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 100
+        lastName:
+          type: string
+          maxLength: 100
+        middleName:
+          type: string
+          maxLength: 100
+        gender:
           type: string
           enum:
-          - ACTIVE
-          - BOUNCED
-          - OPTED_OUT
-          - INVALID
-          - STOP_ALL
-          - CHECKING
-        emailValidStatus:
+          - male
+          - female
+          - unknown
+        position:
+          type: string
+        department:
+          type: string
+        companyId:
+          type: string
+        source:
+          type: string
+        contactType:
           type: string
           enum:
-          - UNKNOWN
-          - VALID
-          - INVALID
-          - CATCH_ALL
-          - DISPOSABLE
-          - ROLE
-          - SPAM_TRAP
-          - HARD_BOUNCE
-          - UNSUBSCRIBED
+          - PERSONAL
+          - COMPANY
+        importBatchId:
+          type: string
+          description: '[LEGACY] import_task_id for import rollback'
+      required:
+      - firstName
   securitySchemes:
     jwt:
       scheme: bearer
@@ -1207,6 +1074,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

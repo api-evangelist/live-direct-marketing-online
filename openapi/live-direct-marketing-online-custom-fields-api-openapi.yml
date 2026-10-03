@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Custom Fields API
+  title: LDM v3 Custom Fields API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Custom Fields across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -62,13 +62,6 @@ paths:
       summary: Create a custom field definition
       tags:
       - Custom Fields
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/custom-fields/inventory:
     get:
       operationId: CustomFieldsController_inventory
@@ -90,13 +83,6 @@ paths:
       - Custom Fields
       x-required-scope:
       - customfields:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/custom-fields/{id}:
     patch:
       operationId: CustomFieldsController_update
@@ -150,13 +136,6 @@ paths:
       summary: Delete a custom field definition
       tags:
       - Custom Fields
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/custom-fields/reorder:
     post:
       operationId: CustomFieldsController_reorder
@@ -184,13 +163,6 @@ paths:
       - Custom Fields
       x-required-scope:
       - customfields:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/custom-fields/values/{entity}/{entityId}:
     get:
       operationId: CustomFieldsController_getValues
@@ -254,13 +226,6 @@ paths:
       summary: Set a custom field value for an entity instance
       tags:
       - Custom Fields
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/custom-fields/params/{entity}/{entityId}:
     post:
       operationId: CustomFieldsController_bulkSetParams
@@ -318,18 +283,42 @@ paths:
       summary: Legacy get of params as flat key-value object
       tags:
       - Custom Fields
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    ReorderDto:
+    CreateDefinitionDto:
       type: object
-      properties: {}
+      properties:
+        entity:
+          type: string
+        name:
+          type: string
+        fieldKey:
+          type: string
+        type:
+          type: string
+        isRequired:
+          type: boolean
+        settings:
+          type: object
+        label:
+          type: string
+        labelEn:
+          type: string
+        group:
+          type: string
+        isVisibleInTable:
+          type: boolean
+        isFilterable:
+          type: boolean
+        isSortable:
+          type: boolean
+        numberFormat:
+          type: object
+      required:
+      - entity
+      - name
+      - fieldKey
+      - type
     UpdateDefinitionDto:
       type: object
       properties:
@@ -367,40 +356,9 @@ components:
       required:
       - fieldId
       - value
-    CreateDefinitionDto:
+    ReorderDto:
       type: object
-      properties:
-        entity:
-          type: string
-        name:
-          type: string
-        fieldKey:
-          type: string
-        type:
-          type: string
-        isRequired:
-          type: boolean
-        settings:
-          type: object
-        label:
-          type: string
-        labelEn:
-          type: string
-        group:
-          type: string
-        isVisibleInTable:
-          type: boolean
-        isFilterable:
-          type: boolean
-        isSortable:
-          type: boolean
-        numberFormat:
-          type: object
-      required:
-      - entity
-      - name
-      - fieldKey
-      - type
+      properties: {}
   securitySchemes:
     jwt:
       scheme: bearer
@@ -417,6 +375,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Browser Queue API
+  title: LDM v3 Browser Queue API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Browser Queue across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -33,13 +33,6 @@ paths:
       summary: Get browser queue stats and fair-share view
       tags:
       - Browser Queue
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/browser-queue/jobs:
     get:
       operationId: BrowserQueueController_getJobs
@@ -76,13 +69,6 @@ paths:
       - Browser Queue
       x-required-scope:
       - admin:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/browser-queue/{id}/cancel:
     post:
       operationId: BrowserQueueController_cancelJob
@@ -107,13 +93,6 @@ paths:
       summary: Cancel a browser queue job by id
       tags:
       - Browser Queue
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/browser-queue/{id}/retry:
     post:
       operationId: BrowserQueueController_retryJob
@@ -138,13 +117,6 @@ paths:
       summary: Retry a failed browser queue job
       tags:
       - Browser Queue
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/browser-queue/pause:
     post:
       operationId: BrowserQueueController_pause
@@ -166,13 +138,6 @@ paths:
       - Browser Queue
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/browser-queue/resume:
     post:
       operationId: BrowserQueueController_resume
@@ -194,13 +159,6 @@ paths:
       - Browser Queue
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -218,6 +176,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

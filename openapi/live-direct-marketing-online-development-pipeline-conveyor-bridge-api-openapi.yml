@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Development Pipeline…
+  title: LDM v3 Development Pipeline — Conveyor Bridge API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Development Pipeline — Conveyor Bridge across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -39,13 +39,6 @@ paths:
       summary: 'Create a new conveyor task (issue #1001) via the bridge; on an empty/unclear…'
       tags:
       - Development Pipeline — Conveyor Bridge
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/conveyor/issues/{num}/priority:
     patch:
       operationId: ConveyorBridgeController_setPriority
@@ -76,13 +69,6 @@ paths:
       summary: 'Set conveyor task priority P1/P2/P3 in one click (issue #1001)'
       tags:
       - Development Pipeline — Conveyor Bridge
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/conveyor/issues/{num}/pause:
     patch:
       operationId: ConveyorBridgeController_setPaused
@@ -113,13 +99,6 @@ paths:
       summary: 'Pause/unpause a conveyor task from the console in one click (issue #1001, owner…'
       tags:
       - Development Pipeline — Conveyor Bridge
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/conveyor/issues/{num}/action:
     post:
       operationId: ConveyorBridgeController_issueAction
@@ -150,13 +129,6 @@ paths:
       summary: 'retry/cancel a conveyor task from blocked/failed (issue #1001)'
       tags:
       - Development Pipeline — Conveyor Bridge
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/conveyor/template:
     get:
       operationId: ConveyorBridgeController_getTemplate
@@ -176,22 +148,8 @@ paths:
       summary: Live TEMPLATE.md + docs/pipeline/*.md from the bridge for the "Rules" tab — no…
       tags:
       - Development Pipeline — Conveyor Bridge
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    SetConveyorPriorityDto:
-      type: object
-      properties:
-        priority:
-          type: string
-      required:
-      - priority
     ConveyorIssueActionDto:
       type: object
       properties:
@@ -218,6 +176,13 @@ components:
           type: string
       required:
       - description
+    SetConveyorPriorityDto:
+      type: object
+      properties:
+        priority:
+          type: string
+      required:
+      - priority
   securitySchemes:
     jwt:
       scheme: bearer
@@ -234,6 +199,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

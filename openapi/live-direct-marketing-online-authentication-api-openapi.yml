@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Authentication API
+  title: LDM v3 Authentication API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Authentication across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -39,13 +39,6 @@ paths:
       summary: Register a new account (self-service).
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/verify-email:
     get:
       operationId: AuthController_verifyEmail
@@ -75,13 +68,6 @@ paths:
       summary: Confirm email by the token from the signup email.
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/signup-questionnaire:
     post:
       operationId: AuthController_submitQuestionnaire
@@ -107,13 +93,6 @@ paths:
       summary: 'Issue #322 — submit the signup questionnaire for accounts that did not qualify…'
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/otc:
     post:
       operationId: AuthController_exchangeOtc
@@ -133,13 +112,6 @@ paths:
       summary: Exchange the one-time sign-in code from the email-verification redirect for a…
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/login:
     post:
       operationId: AuthController_login
@@ -165,13 +137,6 @@ paths:
       summary: Authenticate a user and issue access + refresh tokens.
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/refresh:
     post:
       operationId: AuthController_refresh
@@ -197,13 +162,6 @@ paths:
       summary: Exchange a refresh token for a new access + refresh pair
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/logout:
     post:
       operationId: AuthController_logout
@@ -229,13 +187,6 @@ paths:
       summary: Revoke a refresh token and end the session
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/forgot-password:
     post:
       operationId: AuthController_forgotPassword
@@ -261,13 +212,6 @@ paths:
       summary: Request a password reset email (rate-limited per email and per IP)
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/reset-password:
     post:
       operationId: AuthController_resetPassword
@@ -293,13 +237,6 @@ paths:
       summary: Reset password using a reset token
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/profile:
     get:
       operationId: AuthController_getProfile
@@ -319,13 +256,6 @@ paths:
       summary: Get the current authenticated user profile
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/me:
     get:
       operationId: AuthController_getMe
@@ -345,13 +275,6 @@ paths:
       summary: Get current user profile (alias of /auth/profile)
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/change-password:
     post:
       operationId: AuthController_changePassword
@@ -371,13 +294,6 @@ paths:
       summary: Change the password of the authenticated user (current required)
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/auth/impersonate/{userId}:
     post:
       operationId: AuthController_impersonate
@@ -402,75 +318,8 @@ paths:
       summary: Impersonate another user (SUPER role only)
       tags:
       - Authentication
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    ResetPasswordDto:
-      type: object
-      properties:
-        token:
-          type: string
-        newPassword:
-          type: string
-          minLength: 8
-          maxLength: 128
-      required:
-      - token
-      - newPassword
-    RegisterDto:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-          minLength: 8
-          maxLength: 128
-        firstName:
-          type: string
-          maxLength: 100
-        lastName:
-          type: string
-          maxLength: 100
-        channel:
-          type: object
-        org:
-          type: string
-          maxLength: 200
-        use_case:
-          type: string
-          maxLength: 500
-        website:
-          type: string
-          maxLength: 300
-        full_account:
-          type: boolean
-        termsAccepted:
-          type: boolean
-      required:
-      - email
-    RefreshDto:
-      type: object
-      properties:
-        refreshToken:
-          type: string
-      required:
-      - refreshToken
-    ForgotPasswordDto:
-      type: object
-      properties:
-        email:
-          type: string
-          format: email
-      required:
-      - email
     SignupQuestionnaireDto:
       type: object
       properties:
@@ -525,6 +374,59 @@ components:
       - company_name
       - use_case
       - contacts_source
+    ResetPasswordDto:
+      type: object
+      properties:
+        token:
+          type: string
+        newPassword:
+          type: string
+          minLength: 8
+          maxLength: 128
+      required:
+      - token
+      - newPassword
+    RegisterDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+          maxLength: 128
+        firstName:
+          type: string
+          maxLength: 100
+        lastName:
+          type: string
+          maxLength: 100
+        channel:
+          type: object
+        org:
+          type: string
+          maxLength: 200
+        use_case:
+          type: string
+          maxLength: 500
+        website:
+          type: string
+          maxLength: 300
+        full_account:
+          type: boolean
+        termsAccepted:
+          type: boolean
+      required:
+      - email
+    ForgotPasswordDto:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
     LoginDto:
       type: object
       properties:
@@ -536,6 +438,13 @@ components:
       required:
       - email
       - password
+    RefreshDto:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+      required:
+      - refreshToken
   securitySchemes:
     jwt:
       scheme: bearer
@@ -552,6 +461,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

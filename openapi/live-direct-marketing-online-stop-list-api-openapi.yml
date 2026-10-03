@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Stop List API
+  title: LDM v3 Stop List API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Stop List across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -71,13 +71,6 @@ paths:
       summary: Add a stop list entry (user scope)
       tags:
       - Stop List
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/stop-lists/stats:
     get:
       operationId: StopListController_stats
@@ -99,13 +92,6 @@ paths:
       - Stop List
       x-required-scope:
       - stoplist:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/stop-lists/bulk:
     post:
       operationId: StopListController_addBulk
@@ -127,13 +113,6 @@ paths:
       - Stop List
       x-required-scope:
       - stoplist:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/stop-lists/{id}:
     delete:
       operationId: StopListController_remove
@@ -158,13 +137,6 @@ paths:
       summary: Remove a stop list entry (user scope)
       tags:
       - Stop List
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/stop-lists/check:
     post:
       operationId: StopListController_check
@@ -192,13 +164,6 @@ paths:
       - Stop List
       x-required-scope:
       - stoplist:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/stop-lists/global:
     get:
       operationId: StopListController_globalList
@@ -260,13 +225,6 @@ paths:
       - Stop List
       x-required-scope:
       - stoplist:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/stop-lists/global/stats:
     get:
       operationId: StopListController_globalStats
@@ -288,13 +246,6 @@ paths:
       - Stop List
       x-required-scope:
       - stoplist:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/stop-lists/global/bulk:
     post:
       operationId: StopListController_globalAddBulk
@@ -316,13 +267,6 @@ paths:
       - Stop List
       x-required-scope:
       - stoplist:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/stop-lists/global/{id}:
     delete:
       operationId: StopListController_globalRemove
@@ -347,13 +291,6 @@ paths:
       summary: Remove a global stop list entry (SUPER only)
       tags:
       - Stop List
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     CheckEmailsDto:
@@ -382,6 +319,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

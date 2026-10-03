@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Saved Views API
+  title: LDM v3 Saved Views API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Saved Views across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -62,13 +62,6 @@ paths:
       summary: Create a saved view
       tags:
       - Saved Views
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/saved-views/{id}:
     patch:
       operationId: SavedViewsController_update
@@ -122,15 +115,17 @@ paths:
       summary: Delete a saved view (only the owner may delete it)
       tags:
       - Saved Views
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
+    UpdateViewDto:
+      type: object
+      properties:
+        name:
+          type: string
+        config:
+          type: object
+        isDefault:
+          type: boolean
     CreateViewDto:
       type: object
       properties:
@@ -144,15 +139,6 @@ components:
       - entity
       - name
       - config
-    UpdateViewDto:
-      type: object
-      properties:
-        name:
-          type: string
-        config:
-          type: object
-        isDefault:
-          type: boolean
   securitySchemes:
     jwt:
       scheme: bearer
@@ -169,6 +155,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

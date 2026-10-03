@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online RPA service protocol API
+  title: LDM v3 RPA service protocol API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged RPA service protocol across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -63,13 +63,6 @@ paths:
       summary: Read scoped queue and campaign metadata without claiming, preparing or…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/heartbeat:
     post:
       operationId: RpaOutboxController_heartbeat
@@ -95,13 +88,6 @@ paths:
       summary: Service heartbeat; include the complete task lease identity to extend a live…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/claim:
     post:
       description: 'Full tasks include context: durable businessTask UUID and dialog/history links, frozen-render creative/brief references and explicitly mutable source bindings. Links target current CRM resources and require an owner session. Unavailable metadata is explicit. context is not an envelope, send permission, or report input; signed taskId remains the protocol identity.'
@@ -128,13 +114,6 @@ paths:
       summary: 'Poll preparation: task:null while validating; placement-gated tasks begin…'
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/start:
     post:
       description: Includes compact businessTask owner-navigation references, not a second envelope. Read full context from current/refresh; never replace signed taskId with businessTask.id.
@@ -161,13 +140,6 @@ paths:
       summary: Revalidate canonical send gates for the claimed operationId; send only when…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/current:
     post:
       description: Includes the same context contract as claim. Frozen identities are tied to render.fingerprint/renderLeaseId; current names/URLs are not the frozen content. Metadata does not grant CRM access or permission to send.
@@ -194,13 +166,6 @@ paths:
       summary: Read the same task and lease after a CONTROL report or server placement poll…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/renew:
     post:
       operationId: RpaOutboxController_renew
@@ -226,13 +191,6 @@ paths:
       summary: Extend this worker’s live CLAIMED/STARTED/CONTROL_REPORTED/REAL_READY lease by…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/refresh:
     post:
       description: Refreshes context/current-resource availability without substituting live campaign creatives or briefs for the matching frozen render. Does not extend the lease.
@@ -259,13 +217,6 @@ paths:
       summary: Refresh HTTPS attachment links and scoped relay context without changing…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/report:
     post:
       description: Acknowledgements include compact businessTask references only, never context in the receipt hash. A historical duplicate links its own archived execution/dialog or reports that link unavailable; it does not describe a new child. accepted is receipt acceptance, not proof of final accounting or recipient inbox delivery.
@@ -292,13 +243,6 @@ paths:
       summary: Report one immutable CONTROL or REAL operation.
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/profile-release:
     post:
       operationId: RpaOutboxController_releaseProfile
@@ -324,13 +268,6 @@ paths:
       summary: Optional terminal-task browser-close acknowledgement.
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/return:
     post:
       operationId: RpaOutboxController_returnTask
@@ -356,13 +293,6 @@ paths:
       summary: Return an execution known not to have sent.
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/reconciliation:
     post:
       operationId: RpaOutboxController_reconciliation
@@ -388,13 +318,6 @@ paths:
       summary: Read this worker’s unresolved tasks, up to 20 per authorized target.
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/reconcile:
     post:
       operationId: RpaOutboxController_reconcile
@@ -420,13 +343,6 @@ paths:
       summary: Resolve an uncertain execution using positive sent evidence or retained…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/error:
     post:
       operationId: RpaOutboxController_error
@@ -452,13 +368,6 @@ paths:
       summary: Report a deduplicated execution error; obey the returned action, never replay…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/placement:
     post:
       operationId: RpaOutboxController_placement
@@ -484,13 +393,6 @@ paths:
       summary: Attach late seed-copy placement evidence; never evidence of recipient inbox…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/attachments/{token}/{filename}:
     get:
       operationId: RpaOutboxAttachmentController_download[0]
@@ -508,13 +410,6 @@ paths:
       summary: Download a lease-bound signed attachment with its original filename; legacy…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/rpa/v1/attachments/{token}:
     get:
       operationId: RpaOutboxAttachmentController_download[1]
@@ -532,16 +427,9 @@ paths:
       summary: Download a lease-bound signed attachment with its original filename; legacy…
       tags:
       - RPA service protocol
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    RpaExecutionErrorDto:
+    RpaLeaseDto:
       type: object
       properties:
         workerId:
@@ -577,42 +465,12 @@ components:
         contentFingerprint:
           type: string
           maxLength: 128
-        eventId:
-          type: string
-          format: uuid
-        stage:
-          type: string
-          enum:
-          - PROFILE
-          - OPEN_SITE
-          - LOGIN
-          - PREPARE
-          - SEND
-          - CONFIRM
-        errorCode:
-          type: string
-          enum:
-          - PROFILE_START_FAILED
-          - WEBSITE_UNAVAILABLE
-          - DNS_ERROR
-          - TIMEOUT
-          - AUTH_FAILED
-          - TWO_FACTOR_REQUIRED
-          - CAPTCHA_REQUIRED
-          - ACCOUNT_BANNED
-          - DELIVERY_UNCERTAIN
-        sendAttempted:
-          type: boolean
       required:
       - workerId
       - taskId
       - leaseId
       - fencingToken
-      - eventId
-      - stage
-      - errorCode
-      - sendAttempted
-    RpaPlacementDto:
+    RpaProfileReleaseDto:
       type: object
       properties:
         workerId:
@@ -622,7 +480,7 @@ components:
         capabilityVersion:
           type: string
           maxLength: 64
-          description: Required on placement-gated tasks
+          description: Required for placement-gated tasks; legacy workers fail closed when omitted
         taskId:
           type: string
           minLength: 1
@@ -648,46 +506,17 @@ components:
         contentFingerprint:
           type: string
           maxLength: 128
-        placement:
-          type: string
+        sessionClosed:
+          type: number
           enum:
-          - INBOX
-          - SPAM
-          - PROMOTIONS
-          - NOT_RECEIVED
-          - ERROR
-        scope:
-          type: string
-          enum:
-          - seed_copy
-        provenance:
-          type: string
-          enum:
-          - external_rpa
-        correlation:
-          type: string
-          minLength: 1
-          maxLength: 256
-        evidenceId:
-          type: string
-          minLength: 1
-          maxLength: 256
-        measuredAt:
-          type: string
-        sentAt:
-          type: string
+          - true
+          description: Positive executor acknowledgement that this task browser session is closed. Mail reports alone do not release the profile before expiresAt.
       required:
       - workerId
       - taskId
       - leaseId
       - fencingToken
-      - placement
-      - scope
-      - provenance
-      - correlation
-      - evidenceId
-      - measuredAt
-      - sentAt
+      - sessionClosed
     RpaReportRequestDto:
       type: object
       properties:
@@ -766,7 +595,7 @@ components:
       - taskId
       - leaseId
       - outcome
-    RpaReconcileDto:
+    RpaExecutionErrorDto:
       type: object
       properties:
         workerId:
@@ -776,7 +605,7 @@ components:
         capabilityVersion:
           type: string
           maxLength: 64
-          description: Required on placement-gated tasks and echoed in the durable receipt
+          description: Required for placement-gated tasks; legacy workers fail closed when omitted
         taskId:
           type: string
           minLength: 1
@@ -793,80 +622,50 @@ components:
           enum:
           - CONTROL
           - REAL
-          description: Required for placement-gated tasks; binds this receipt to one immutable phase.
         operationId:
           type: string
           maxLength: 128
-          description: Immutable operation identity returned in the full claim.
         taskVersion:
           type: string
           maxLength: 128
         contentFingerprint:
           type: string
           maxLength: 128
-        outcome:
-          type: string
-          enum:
-          - SENT
-          - DEFINITE_FAILURE
-          - UNKNOWN
-        relayAccountId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        method:
-          type: string
-          enum:
-          - RPA
-        envelopeHash:
-          type: string
-          minLength: 64
-          maxLength: 64
-        occurredAt:
-          type: string
-        providerMessageId:
-          type: string
-          maxLength: 998
-        headersApplied:
-          type: boolean
-        provider:
-          type: string
-          maxLength: 256
-        sender:
-          type: string
-          maxLength: 320
-          description: Sender mailbox from claim.envelope.from; display name is not part of sender identity.
-        senderName:
-          type: string
-          maxLength: 320
-          description: Optional display name. Does not authorize delivery or change receipt identity.
         eventId:
           type: string
           format: uuid
-        evidenceKind:
+        stage:
           type: string
           enum:
-          - PROVIDER_SENT
-          - EXECUTOR_NOT_SENT
-        evidenceId:
+          - PROFILE
+          - OPEN_SITE
+          - LOGIN
+          - PREPARE
+          - SEND
+          - CONFIRM
+        errorCode:
           type: string
-          minLength: 1
-          maxLength: 256
-          description: Reference to retained executor/provider evidence. An empty Sent-folder search is not NOT_SENT evidence.
+          enum:
+          - PROFILE_START_FAILED
+          - WEBSITE_UNAVAILABLE
+          - DNS_ERROR
+          - TIMEOUT
+          - AUTH_FAILED
+          - TWO_FACTOR_REQUIRED
+          - CAPTCHA_REQUIRED
+          - ACCOUNT_BANNED
+          - DELIVERY_UNCERTAIN
+        sendAttempted:
+          type: boolean
       required:
       - workerId
       - taskId
       - leaseId
       - fencingToken
-      - outcome
-      - relayAccountId
-      - method
-      - envelopeHash
-      - occurredAt
-      - headersApplied
       - eventId
-      - evidenceKind
-      - evidenceId
+      - stage
+      - errorCode
+      - sendAttempted
     RpaHeartbeatDto:
       type: object
       properties:
@@ -994,6 +793,196 @@ components:
       - envelopeHash
       - occurredAt
       - headersApplied
+    RpaPlacementDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required on placement-gated tasks
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+        operationId:
+          type: string
+          maxLength: 128
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+        placement:
+          type: string
+          enum:
+          - INBOX
+          - SPAM
+          - PROMOTIONS
+          - NOT_RECEIVED
+          - ERROR
+        scope:
+          type: string
+          enum:
+          - seed_copy
+        provenance:
+          type: string
+          enum:
+          - external_rpa
+        correlation:
+          type: string
+          minLength: 1
+          maxLength: 256
+        evidenceId:
+          type: string
+          minLength: 1
+          maxLength: 256
+        measuredAt:
+          type: string
+        sentAt:
+          type: string
+      required:
+      - workerId
+      - taskId
+      - leaseId
+      - fencingToken
+      - placement
+      - scope
+      - provenance
+      - correlation
+      - evidenceId
+      - measuredAt
+      - sentAt
+    RpaWorkerDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required for placement-gated tasks; legacy workers fail closed when omitted
+      required:
+      - workerId
+    RpaReconcileDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required on placement-gated tasks and echoed in the durable receipt
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+          description: Required for placement-gated tasks; binds this receipt to one immutable phase.
+        operationId:
+          type: string
+          maxLength: 128
+          description: Immutable operation identity returned in the full claim.
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+        outcome:
+          type: string
+          enum:
+          - SENT
+          - DEFINITE_FAILURE
+          - UNKNOWN
+        relayAccountId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        method:
+          type: string
+          enum:
+          - RPA
+        envelopeHash:
+          type: string
+          minLength: 64
+          maxLength: 64
+        occurredAt:
+          type: string
+        providerMessageId:
+          type: string
+          maxLength: 998
+        headersApplied:
+          type: boolean
+        provider:
+          type: string
+          maxLength: 256
+        sender:
+          type: string
+          maxLength: 320
+          description: Sender mailbox from claim.envelope.from; display name is not part of sender identity.
+        senderName:
+          type: string
+          maxLength: 320
+          description: Optional display name. Does not authorize delivery or change receipt identity.
+        eventId:
+          type: string
+          format: uuid
+        evidenceKind:
+          type: string
+          enum:
+          - PROVIDER_SENT
+          - EXECUTOR_NOT_SENT
+        evidenceId:
+          type: string
+          minLength: 1
+          maxLength: 256
+          description: Reference to retained executor/provider evidence. An empty Sent-folder search is not NOT_SENT evidence.
+      required:
+      - workerId
+      - taskId
+      - leaseId
+      - fencingToken
+      - outcome
+      - relayAccountId
+      - method
+      - envelopeHash
+      - occurredAt
+      - headersApplied
+      - eventId
+      - evidenceKind
+      - evidenceId
     RpaReconciliationListDto:
       type: object
       properties:
@@ -1008,107 +997,6 @@ components:
         after:
           type: string
           description: Read the next page after this delivery ID, independently in each authorized target
-      required:
-      - workerId
-    RpaLeaseDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required for placement-gated tasks; legacy workers fail closed when omitted
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-        operationId:
-          type: string
-          maxLength: 128
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-      required:
-      - workerId
-      - taskId
-      - leaseId
-      - fencingToken
-    RpaProfileReleaseDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required for placement-gated tasks; legacy workers fail closed when omitted
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-        operationId:
-          type: string
-          maxLength: 128
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-        sessionClosed:
-          type: number
-          enum:
-          - true
-          description: Positive executor acknowledgement that this task browser session is closed. Mail reports alone do not release the profile before expiresAt.
-      required:
-      - workerId
-      - taskId
-      - leaseId
-      - fencingToken
-      - sessionClosed
-    RpaWorkerDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required for placement-gated tasks; legacy workers fail closed when omitted
       required:
       - workerId
   securitySchemes:
@@ -1127,6 +1015,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

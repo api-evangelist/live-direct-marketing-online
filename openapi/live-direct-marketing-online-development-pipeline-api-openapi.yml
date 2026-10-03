@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Development Pipeline API
+  title: LDM v3 Development Pipeline API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Development Pipeline across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -33,13 +33,6 @@ paths:
       summary: Board across 4 delivery stages (queue/agents/merge/deploy)
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/attention:
     get:
       operationId: DevelopmentPipelineController_attentionSnapshot
@@ -59,13 +52,6 @@ paths:
       summary: '"Needs an owner" block + delivery strip (issue #1004): red tasks/deploys…'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/prod-counter:
     get:
       operationId: DevelopmentPipelineController_prodCounter
@@ -85,13 +71,6 @@ paths:
       summary: '"IN PROD" showcase (issue #1010): issues that shipped via a successful main…'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/ci-runs-per-merge:
     get:
       operationId: DevelopmentPipelineController_ciRunsPerMerge
@@ -116,13 +95,6 @@ paths:
       summary: '"CI runs per merge" KPI over a window (issue #999, atom A9), read-only: the…'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/journal:
     get:
       operationId: DevelopmentPipelineController_journalSnapshot
@@ -142,13 +114,6 @@ paths:
       summary: 'Tester journal !505 as source of truth (issue #500): block 3 rules, roles…'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/journal/findings/{findingId}/create-issue:
     post:
       operationId: DevelopmentPipelineController_createIssueFromFinding
@@ -179,13 +144,6 @@ paths:
       summary: 'Create an issue from a journal finding that has no issue number (issue #500…'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/journal/findings:
     post:
       operationId: DevelopmentPipelineController_appendJournalFinding
@@ -211,13 +169,6 @@ paths:
       summary: 'Append one finding line to Block 2 of journal !505 (issue #1152) — an atomic…'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/issues/{iid}/pause:
     patch:
       operationId: DevelopmentPipelineController_setPaused
@@ -248,13 +199,6 @@ paths:
       summary: Pause an issue — do not pick it up for work while the `paused` label is set
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/issues/priority-triage:
     post:
       operationId: DevelopmentPipelineController_priorityTriage
@@ -280,13 +224,6 @@ paths:
       summary: 'One-off idempotent triage: set priority on every open issue without a P label'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/issues/{iid}/priority:
     patch:
       operationId: DevelopmentPipelineController_setPriority
@@ -317,13 +254,6 @@ paths:
       summary: Issue priority — P1-critical / P2-integrity / P3-ux
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/issues/{iid}/model:
     patch:
       operationId: DevelopmentPipelineController_setModel
@@ -354,13 +284,6 @@ paths:
       summary: Executor model — sonnet (default) / opus / fable / codex-sol / codex-terra
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/issues/{iid}/take-next:
     patch:
       operationId: DevelopmentPipelineController_takeNext
@@ -391,13 +314,6 @@ paths:
       summary: '"Take next" — unpause and move the issue to the front of the queue (P1)'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/development-pipeline/issues/{iid}/close:
     patch:
       operationId: DevelopmentPipelineController_closeIssue
@@ -428,25 +344,17 @@ paths:
       summary: 'Close an issue on behalf of the owner (issue #439) — label `closed::by-owner` +…'
       tags:
       - Development Pipeline
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    SetModelDto:
+    PriorityTriageDto:
       type: object
       properties:
-        model:
-          type: object
+        dryRun:
+          type: boolean
+          description: Preview the plan only, no write to GitLab
         projectId:
           type: string
-          pattern: /^\d+$/
-      required:
-      - model
+          description: GitLab project ID (defaults to primary)
     SetPausedDto:
       type: object
       properties:
@@ -457,15 +365,30 @@ components:
           pattern: /^\d+$/
       required:
       - paused
-    PriorityTriageDto:
+    CreateIssueFromFindingDto:
       type: object
       properties:
-        dryRun:
-          type: boolean
-          description: Preview the plan only, no write to GitLab
         projectId:
           type: string
-          description: GitLab project ID (defaults to primary)
+          pattern: /^\d+$/
+      required:
+      - projectId
+    SetModelDto:
+      type: object
+      properties:
+        model:
+          type: object
+        projectId:
+          type: string
+          pattern: /^\d+$/
+      required:
+      - model
+    ProjectScopedDto:
+      type: object
+      properties:
+        projectId:
+          type: string
+          pattern: /^\d+$/
     AppendJournalFindingDto:
       type: object
       properties:
@@ -475,12 +398,6 @@ components:
           maxLength: 500
       required:
       - line
-    ProjectScopedDto:
-      type: object
-      properties:
-        projectId:
-          type: string
-          pattern: /^\d+$/
     SetPriorityDto:
       type: object
       properties:
@@ -491,14 +408,6 @@ components:
           pattern: /^\d+$/
       required:
       - priority
-    CreateIssueFromFindingDto:
-      type: object
-      properties:
-        projectId:
-          type: string
-          pattern: /^\d+$/
-      required:
-      - projectId
   securitySchemes:
     jwt:
       scheme: bearer
@@ -515,6 +424,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

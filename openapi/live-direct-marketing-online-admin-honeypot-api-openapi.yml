@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Admin / Honeypot API
+  title: LDM v3 Admin / Honeypot API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Admin / Honeypot across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -51,13 +51,6 @@ paths:
       summary: Honeypot fake admin login POST (logs attacker credentials attempt)
       tags:
       - Admin / Honeypot
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/honeypot/env:
     get:
       operationId: HoneypotController_fakeEnv
@@ -77,13 +70,6 @@ paths:
       summary: Honeypot fake .env file (logs secrets-scanner access)
       tags:
       - Admin / Honeypot
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/honeypot/wp-admin:
     get:
       operationId: HoneypotController_fakeWpAdmin
@@ -103,13 +89,6 @@ paths:
       summary: Honeypot fake WordPress admin (logs WP-scanner access)
       tags:
       - Admin / Honeypot
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/honeypot/phpmyadmin:
     get:
       operationId: HoneypotController_fakePhpMyAdmin
@@ -129,13 +108,6 @@ paths:
       summary: Honeypot fake phpMyAdmin (logs DB-scanner access)
       tags:
       - Admin / Honeypot
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/honeypot/actuator:
     get:
       operationId: HoneypotController_fakeActuator
@@ -155,13 +127,6 @@ paths:
       summary: Honeypot fake Spring Boot actuator (logs probe access)
       tags:
       - Admin / Honeypot
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -179,6 +144,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

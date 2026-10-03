@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Companies / Custom Fields API
+  title: LDM v3 Companies / Custom Fields API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Companies / Custom Fields across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -62,13 +62,6 @@ paths:
       summary: Create a custom field definition
       tags:
       - Companies / Custom Fields
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/custom-fields/reorder:
     put:
       operationId: CompanyCustomFieldController_reorder
@@ -90,13 +83,6 @@ paths:
       - Companies / Custom Fields
       x-required-scope:
       - crm:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/custom-fields/{companyId}/values:
     get:
       operationId: CompanyCustomFieldController_getValues
@@ -150,13 +136,6 @@ paths:
       summary: Set custom field values for a company
       tags:
       - Companies / Custom Fields
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/companies/custom-fields/{id}:
     put:
       operationId: CompanyCustomFieldController_updateDefinition
@@ -215,15 +194,17 @@ paths:
       summary: Delete a custom field definition (requires confirm=true)
       tags:
       - Companies / Custom Fields
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
+    SetValuesDto:
+      type: object
+      properties:
+        values:
+          type: object
+        source:
+          type: string
+      required:
+      - values
     UpdateCustomFieldDto:
       type: object
       properties:
@@ -249,15 +230,6 @@ components:
           type: string
         sortOrder:
           type: number
-    SetValuesDto:
-      type: object
-      properties:
-        values:
-          type: object
-        source:
-          type: string
-      required:
-      - values
     CreateCustomFieldDto:
       type: object
       properties:
@@ -311,6 +283,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

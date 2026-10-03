@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Tracking / Domain API
+  title: LDM v3 Tracking / Domain API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Tracking / Domain across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -71,13 +71,6 @@ paths:
       summary: Create a tracking domain (starts as PENDING).
       tags:
       - Tracking / Domain
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking-domains/stats:
     get:
       operationId: TrackingDomainController_getStats
@@ -99,13 +92,6 @@ paths:
       - Tracking / Domain
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking-domains/{id}:
     get:
       operationId: TrackingDomainController_findOne
@@ -176,13 +162,6 @@ paths:
       summary: Delete a tracking domain
       tags:
       - Tracking / Domain
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking-domains/{id}/health-check:
     post:
       operationId: TrackingDomainController_healthCheck
@@ -207,13 +186,6 @@ paths:
       summary: Run a health check for a tracking domain (verifies the DNS CNAME → cnameTarget…
       tags:
       - Tracking / Domain
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking-domains/{id}/set-default:
     post:
       operationId: TrackingDomainController_setDefault
@@ -238,13 +210,6 @@ paths:
       summary: Set a tracking domain as the default (used for the open pixel; without a…
       tags:
       - Tracking / Domain
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking-domains/monitoring:
     get:
       operationId: TrackingDomainController_getMonitoring
@@ -266,13 +231,6 @@ paths:
       - Tracking / Domain
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking-domains/{id}/report-spam:
     post:
       operationId: TrackingDomainController_reportSpam
@@ -297,13 +255,6 @@ paths:
       summary: Report spam for a tracking domain (auto-pause at threshold)
       tags:
       - Tracking / Domain
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -321,6 +272,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

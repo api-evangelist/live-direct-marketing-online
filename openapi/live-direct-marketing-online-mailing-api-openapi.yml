@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Mailing API
+  title: LDM v3 Mailing API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Mailing across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -35,13 +35,6 @@ paths:
       - Mailing
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/bounce-overview:
     get:
       operationId: MailingController_getBounceOverview
@@ -63,13 +56,6 @@ paths:
       - Mailing
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/warmup-overview:
     get:
       operationId: MailingController_getWarmupOverview
@@ -91,13 +77,6 @@ paths:
       - Mailing
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/pending-approvals:
     get:
       operationId: MailingController_getPendingApprovals
@@ -119,13 +98,6 @@ paths:
       - Mailing
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/approve:
     post:
       operationId: MailingController_approveCampaign
@@ -150,13 +122,6 @@ paths:
       summary: Approve a pending mailing campaign (admin)
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/reject:
     post:
       operationId: MailingController_rejectCampaign
@@ -181,13 +146,6 @@ paths:
       summary: Reject a pending mailing campaign (admin)
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/creative-preview/{creativeId}:
     get:
       operationId: MailingController_getCreativePreview
@@ -217,13 +175,6 @@ paths:
       summary: Preview a creative for approval (cross-tenant for SUPER)
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/config:
     get:
       operationId: MailingController_getConfig
@@ -271,13 +222,6 @@ paths:
       summary: Update the mailing configuration for a campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/start:
     post:
       operationId: MailingController_startCampaign
@@ -302,13 +246,6 @@ paths:
       summary: Start a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/start-sending:
     post:
       operationId: MailingController_startSending
@@ -333,13 +270,6 @@ paths:
       summary: 'Issue #180: start sending an APPROVED campaign (status=APPROVED).'
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/batch-stats:
     post:
       operationId: MailingController_getBatchStats
@@ -361,13 +291,6 @@ paths:
       - Mailing
       x-required-scope:
       - mailing:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/start-list-stats:
     get:
       operationId: MailingController_getStartListStats
@@ -392,13 +315,6 @@ paths:
       summary: Get start-list statistics for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/stats:
     get:
       operationId: MailingController_getStats
@@ -423,13 +339,6 @@ paths:
       summary: Get aggregate stats for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/timeline:
     get:
       operationId: MailingController_getTimeline
@@ -454,13 +363,6 @@ paths:
       summary: Get the activity timeline for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/speed:
     get:
       operationId: MailingController_getSpeed
@@ -485,13 +387,6 @@ paths:
       summary: Get sending speed metrics for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/streams:
     get:
       operationId: MailingController_getStreams
@@ -516,13 +411,6 @@ paths:
       summary: List sending streams for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/streams/{streamId}/logs:
     get:
       operationId: MailingController_getStreamLogs
@@ -552,13 +440,6 @@ paths:
       summary: Get logs for a specific mailing stream
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/streams/{streamId}/detail:
     get:
       operationId: MailingController_getStreamDetail
@@ -588,13 +469,6 @@ paths:
       summary: Get detailed information for a specific mailing stream
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/streams/{streamId}/logs-filtered:
     get:
       operationId: MailingController_getStreamLogsFiltered
@@ -644,13 +518,6 @@ paths:
       summary: Get filtered and paginated logs for a mailing stream
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/logs:
     delete:
       operationId: MailingController_deleteTaskLogs
@@ -675,13 +542,6 @@ paths:
       summary: Delete all logs for a mailing campaign (SUPER only)
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/items:
     get:
       operationId: MailingController_getItems
@@ -726,13 +586,6 @@ paths:
       summary: List mailing items (recipients) for a campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/items/{itemId}:
     get:
       operationId: MailingController_getItem
@@ -790,13 +643,6 @@ paths:
       summary: Update fields of a single mailing item
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/items/{itemId}/status:
     patch:
       operationId: MailingController_updateItemStatus
@@ -826,13 +672,6 @@ paths:
       summary: Update the status of a single mailing item
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/reset-errors:
     post:
       operationId: MailingController_resetErrors
@@ -857,13 +696,6 @@ paths:
       summary: Reset all failed mailing items in a campaign back to pending
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/reset-status/{status}:
     post:
       operationId: MailingController_resetByStatus
@@ -893,13 +725,6 @@ paths:
       summary: Reset all items with a given status back to pending (admin recovery only)
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/stats/today:
     get:
       operationId: MailingController_getStatsToday
@@ -924,13 +749,6 @@ paths:
       summary: Get today's stats for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/ab-test:
     get:
       operationId: MailingController_getAbTest
@@ -955,13 +773,6 @@ paths:
       summary: Get A/B test statistics for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/analytics:
     get:
       operationId: MailingController_getAnalytics
@@ -986,13 +797,6 @@ paths:
       summary: Get per-domain analytics for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/control-email-stats:
     get:
       operationId: MailingController_getControlEmailStats
@@ -1017,13 +821,6 @@ paths:
       summary: Get control-email tracking stats for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/control-email-autopause/evaluate:
     post:
       operationId: MailingController_evaluateControlEmailAutoPause
@@ -1048,13 +845,6 @@ paths:
       summary: Manually evaluate control-email auto-pause rules for a campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/export.csv:
     get:
       operationId: MailingController_exportCsv
@@ -1079,13 +869,6 @@ paths:
       summary: Export a mailing campaign as CSV
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/report.pdf:
     get:
       operationId: MailingController_exportReportPdf
@@ -1110,13 +893,6 @@ paths:
       summary: Export a client-ready PDF report for a mailing campaign
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/block-guard/dashboard:
     get:
       operationId: MailingController_blockGuardDashboard
@@ -1143,13 +919,6 @@ paths:
       - Mailing
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/block-guard/template/{templateId}:
     get:
       operationId: MailingController_blockGuardTemplate
@@ -1174,13 +943,6 @@ paths:
       summary: Get block-event history for a template
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/block-guard/template/{templateId}/unblock:
     post:
       operationId: MailingController_blockGuardUnblock
@@ -1205,13 +967,6 @@ paths:
       summary: Manually unblock a previously barked template
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/block-guard/account/{accountId}/reset-limits:
     post:
       operationId: MailingController_blockGuardResetAccount
@@ -1236,13 +991,6 @@ paths:
       summary: 'Reset limit counters for one account: clear auto-pause + zero working counters…'
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/{taskId}/reset-limits:
     post:
       operationId: MailingController_resetLimits
@@ -1267,13 +1015,6 @@ paths:
       summary: 'Reset limit counters for a whole mailing: un-pause blocked accounts, KEEP…'
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/block-guard/account/{accountId}:
     get:
       operationId: MailingController_blockGuardAccount
@@ -1298,13 +1039,6 @@ paths:
       summary: Get block-event history for an email account
       tags:
       - Mailing
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mailing/block-guard/providers:
     get:
       operationId: MailingController_blockGuardProviders
@@ -1326,13 +1060,6 @@ paths:
       - Mailing
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -1350,6 +1077,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

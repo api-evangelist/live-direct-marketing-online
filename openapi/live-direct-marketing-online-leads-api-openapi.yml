@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Leads API
+  title: LDM v3 Leads API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Leads across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -114,13 +114,6 @@ paths:
       summary: Create a new lead
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/stats:
     get:
       operationId: LeadsController_getStats
@@ -148,13 +141,6 @@ paths:
       - Leads
       x-required-scope:
       - leads:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/kanban/{pipelineId}:
     get:
       operationId: LeadsController_kanban
@@ -191,13 +177,6 @@ paths:
       summary: Get the kanban board for a pipeline
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/kanban/{pipelineId}/stage/{stageId}:
     get:
       operationId: LeadsController_kanbanStageMore
@@ -246,13 +225,6 @@ paths:
       summary: Load more leads for a single kanban stage
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/stages/{pipelineId}:
     get:
       operationId: LeadsController_stages
@@ -277,13 +249,6 @@ paths:
       summary: List stages of a pipeline (for lead filters)
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/duplicates:
     get:
       operationId: LeadsController_findDuplicates
@@ -322,13 +287,6 @@ paths:
       - Leads
       x-required-scope:
       - leads:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/{id}:
     get:
       operationId: LeadsController_findById
@@ -405,13 +363,6 @@ paths:
       summary: Soft-delete a lead
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/{id}/duplicates:
     get:
       operationId: LeadsController_checkDuplicates
@@ -436,13 +387,6 @@ paths:
       summary: Check for duplicates of a specific lead
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/{id}/dossier:
     get:
       operationId: LeadsController_dossier
@@ -467,13 +411,6 @@ paths:
       summary: Get the full dossier (company + contact + activity) for a lead
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/{id}/interest:
     get:
       operationId: LeadsController_getInterest
@@ -527,13 +464,6 @@ paths:
       summary: Manually set the interest status of a lead
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/interest/breakdown:
     get:
       operationId: LeadsController_interestBreakdown
@@ -561,13 +491,6 @@ paths:
       - Leads
       x-required-scope:
       - leads:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/{id}/deal:
     get:
       operationId: LeadsController_getDeal
@@ -621,13 +544,6 @@ paths:
       summary: Update deal fields (amount/currency/probability/close date)
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/deal/forecast:
     get:
       operationId: LeadsController_forecast
@@ -669,13 +585,6 @@ paths:
       - Leads
       x-required-scope:
       - leads:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/{id}/move:
     post:
       operationId: LeadsController_move
@@ -706,13 +615,6 @@ paths:
       summary: Move a lead to a different stage (and optionally pipeline)
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/bulk:
     post:
       operationId: LeadsController_bulk
@@ -740,13 +642,6 @@ paths:
       - Leads
       x-required-scope:
       - leads:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/bulk/{jobId}:
     get:
       operationId: LeadsController_getBulkStatus
@@ -794,13 +689,6 @@ paths:
       summary: Cancel an in-progress bulk lead job
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/{id}/restore:
     post:
       operationId: LeadsController_restore
@@ -825,13 +713,6 @@ paths:
       summary: Restore a soft-deleted lead
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/{id}/purge:
     delete:
       operationId: LeadsController_purge
@@ -856,13 +737,6 @@ paths:
       summary: PERMANENTLY delete a trashed lead (requires isDeleted). Irreversible
       tags:
       - Leads
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/export:
     post:
       operationId: LeadsController_exportLeads
@@ -890,13 +764,6 @@ paths:
       - Leads
       x-required-scope:
       - leads:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/import/preview:
     post:
       operationId: LeadsController_importPreview
@@ -924,13 +791,6 @@ paths:
       - Leads
       x-required-scope:
       - leads:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/leads/import/start:
     post:
       operationId: LeadsController_importStart
@@ -958,15 +818,22 @@ paths:
       - Leads
       x-required-scope:
       - leads:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
+    LeadsImportPreviewDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+      required:
+      - rows
+      - mapping
     UpdateLeadDto:
       type: object
       properties:
@@ -994,55 +861,17 @@ components:
           type: string
         expectedCloseDate:
           type: string
-    LeadsImportPreviewDto:
+    MoveLeadDto:
       type: object
       properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-      required:
-      - rows
-      - mapping
-    LeadsBulkDto:
-      type: object
-      properties:
-        action:
-          type: string
-          description: Bulk action name (e.g. delete, addTags, removeTags, setField, moveStage)
-        ids:
-          description: Lead ids to act on
-          type: array
-          items:
-            type: string
-        leadIds:
-          description: Alias for ids
-          type: array
-          items:
-            type: string
-        tagIds:
-          description: Tag ids for addTags/removeTags actions
-          type: array
-          items:
-            type: string
-        fieldName:
-          type: string
-          description: Field name for a setField-style action
-        fieldValue:
-          type: object
-          description: Field value for a setField-style action (shape depends on fieldName)
         stageId:
           type: string
-          description: Target stage id for a moveStage-style action
-        priority:
-          type: object
-          description: Priority value for a setPriority-style action
+        pipelineId:
+          type: string
+        lostReason:
+          type: string
       required:
-      - action
+      - stageId
     UpdateDealDto:
       type: object
       properties:
@@ -1055,32 +884,17 @@ components:
         expectedCloseDate:
           type: string
           description: ISO date string
-    ExportLeadsDto:
+    SetInterestDto:
       type: object
       properties:
-        scope:
+        status:
           type: string
-          description: Which leads to export
-          enum:
-          - all
-          - filtered
-          - selected
-        leadIds:
-          description: Lead ids to export when scope is "selected"
-          type: array
-          items:
-            type: string
-        pipelineId:
+          description: Interest status value (validated against the allowed set in LeadsService)
+        note:
           type: string
-          description: Restrict export to leads in this pipeline
-        stageId:
-          type: string
-          description: Restrict export to leads in this stage
-        format:
-          type: string
-          description: Export file format (e.g. csv, xlsx)
+          description: Free-text note, max 500 chars (enforced in LeadsService)
       required:
-      - scope
+      - status
     CreateLeadDto:
       type: object
       properties:
@@ -1128,28 +942,67 @@ components:
       required:
       - rows
       - mapping
-    MoveLeadDto:
+    LeadsBulkDto:
       type: object
       properties:
+        action:
+          type: string
+          description: Bulk action name (e.g. delete, addTags, removeTags, setField, moveStage)
+        ids:
+          description: Lead ids to act on
+          type: array
+          items:
+            type: string
+        leadIds:
+          description: Alias for ids
+          type: array
+          items:
+            type: string
+        tagIds:
+          description: Tag ids for addTags/removeTags actions
+          type: array
+          items:
+            type: string
+        fieldName:
+          type: string
+          description: Field name for a setField-style action
+        fieldValue:
+          type: object
+          description: Field value for a setField-style action (shape depends on fieldName)
         stageId:
           type: string
-        pipelineId:
-          type: string
-        lostReason:
-          type: string
+          description: Target stage id for a moveStage-style action
+        priority:
+          type: object
+          description: Priority value for a setPriority-style action
       required:
-      - stageId
-    SetInterestDto:
+      - action
+    ExportLeadsDto:
       type: object
       properties:
-        status:
+        scope:
           type: string
-          description: Interest status value (validated against the allowed set in LeadsService)
-        note:
+          description: Which leads to export
+          enum:
+          - all
+          - filtered
+          - selected
+        leadIds:
+          description: Lead ids to export when scope is "selected"
+          type: array
+          items:
+            type: string
+        pipelineId:
           type: string
-          description: Free-text note, max 500 chars (enforced in LeadsService)
+          description: Restrict export to leads in this pipeline
+        stageId:
+          type: string
+          description: Restrict export to leads in this stage
+        format:
+          type: string
+          description: Export file format (e.g. csv, xlsx)
       required:
-      - status
+      - scope
   securitySchemes:
     jwt:
       scheme: bearer
@@ -1166,6 +1019,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online ICP Extension API
+  title: LDM v3 ICP Extension API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged ICP Extension across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -72,13 +72,6 @@ paths:
       summary: Create a new ICP task
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/companies/scrape/preview:
     get:
       operationId: IcpExtensionController_scrapePreview
@@ -110,13 +103,6 @@ paths:
       - ICP Extension
       x-required-scope:
       - icp:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/companies/scrape/{taskId}:
     get:
       operationId: IcpExtensionController_getScrapeStatus
@@ -146,13 +132,6 @@ paths:
       summary: '#835 status and progress of a site-crawl task.'
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/companies/scrape/{taskId}/cancel:
     post:
       operationId: IcpExtensionController_cancelScrape
@@ -177,13 +156,6 @@ paths:
       summary: '#835 cancel a site-crawl task'
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/{id}:
     get:
       operationId: IcpExtensionController_findById
@@ -260,13 +232,6 @@ paths:
       summary: Delete an ICP task
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/{id}/scoring-prompt:
     get:
       operationId: IcpExtensionController_scoringPromptPreview
@@ -291,13 +256,6 @@ paths:
       summary: Preview the ACTUAL scoring prompt for this task (brief-driven / custom /…
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/companies/scrape:
     post:
       operationId: IcpExtensionController_scrapeCompanies
@@ -325,13 +283,6 @@ paths:
       - ICP Extension
       x-required-scope:
       - icp:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/companies/scrape/{taskId}/pause:
     post:
       operationId: IcpExtensionController_pauseScrape
@@ -356,13 +307,6 @@ paths:
       summary: '#952 pause a crawl task (alias of .../pause on the canonical site-enrichment)'
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/companies/scrape/{taskId}/resume:
     post:
       operationId: IcpExtensionController_resumeScrape
@@ -387,13 +331,6 @@ paths:
       summary: '#952 resume a paused crawl task (alias of .../resume on the canonical…'
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/companies/scrape/{taskId}/items:
     get:
       operationId: IcpExtensionController_scrapeItems
@@ -438,13 +375,6 @@ paths:
       summary: '#952 crawl task items with a filter by outcome/reason code (alias of .../items…'
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/{id}/regenerate-key:
     post:
       operationId: IcpExtensionController_regenerateKey
@@ -469,13 +399,6 @@ paths:
       summary: Regenerate the project key for an ICP task
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/{id}/statistics:
     get:
       operationId: IcpExtensionController_getStatistics
@@ -500,13 +423,6 @@ paths:
       summary: Get statistics for an ICP task
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/{id}/items:
     get:
       operationId: IcpExtensionController_getItems
@@ -581,13 +497,6 @@ paths:
       summary: List items belonging to an ICP task
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/icp-tasks/{id}/download-extension:
     get:
       operationId: IcpExtensionController_downloadExtension
@@ -617,13 +526,6 @@ paths:
       summary: Download a pre-built Chrome extension zip for an ICP task
       tags:
       - ICP Extension
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     UpdateIcpTaskDto:
@@ -640,6 +542,19 @@ components:
         config:
           type: object
           description: Free-form configuration payload
+    CreateIcpTaskDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: ICP task title
+        description:
+          type: string
+        config:
+          type: object
+          description: Free-form configuration payload
+      required:
+      - title
     ScrapeCompaniesDto:
       type: object
       properties:
@@ -680,19 +595,6 @@ components:
         scoringTaskId:
           type: string
           maxLength: 100
-    CreateIcpTaskDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: ICP task title
-        description:
-          type: string
-        config:
-          type: object
-          description: Free-form configuration payload
-      required:
-      - title
   securitySchemes:
     jwt:
       scheme: bearer
@@ -709,6 +611,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

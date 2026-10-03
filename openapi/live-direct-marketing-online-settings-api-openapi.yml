@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Settings API
+  title: LDM v3 Settings API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Settings across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -33,13 +33,6 @@ paths:
       summary: Get the full workspace settings document
       tags:
       - Settings
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/ai-providers:
     patch:
       operationId: SettingsController_updateAiProviders
@@ -67,13 +60,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/ldm-ai/request:
     post:
       operationId: SettingsController_requestLdmAi
@@ -101,13 +87,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/notifications:
     patch:
       operationId: SettingsController_updateNotifications
@@ -135,13 +114,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/workspace:
     patch:
       operationId: SettingsController_updateWorkspace
@@ -169,13 +141,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/profile:
     get:
       operationId: SettingsController_getProfile
@@ -223,13 +188,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/ui-preferences:
     get:
       operationId: SettingsController_getUiPreferences
@@ -271,13 +229,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/profile/avatar:
     post:
       operationId: SettingsController_uploadAvatar
@@ -331,13 +282,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/security/change-password:
     post:
       operationId: SettingsController_changePassword
@@ -365,13 +309,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/security/sessions:
     get:
       operationId: SettingsController_getSessions
@@ -413,13 +350,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/security/sessions/{sessionId}:
     delete:
       operationId: SettingsController_revokeSession
@@ -444,13 +374,6 @@ paths:
       summary: Revoke a single user session
       tags:
       - Settings
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/bo-nalog:
     get:
       operationId: SettingsController_getBoNalogIntegration
@@ -492,13 +415,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/dadata:
     get:
       operationId: SettingsController_getDadataIntegration
@@ -540,13 +456,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/dadata/reset-counter:
     post:
       operationId: SettingsController_resetDadataCounter
@@ -568,13 +477,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/inbox-check:
     get:
       operationId: SettingsController_getInboxCheckIntegration
@@ -616,13 +518,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/inbox-check/test:
     post:
       operationId: SettingsController_testInboxCheckConnection
@@ -644,13 +539,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/smartlead:
     get:
       operationId: SettingsController_getSmartleadIntegration
@@ -692,13 +580,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/smartlead/test:
     post:
       operationId: SettingsController_testSmartleadConnection
@@ -720,13 +601,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/smartlead/placement-matrix:
     get:
       operationId: SettingsController_getSmartleadPlacementMatrix
@@ -748,13 +622,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/integrations/smartlead/placement-history:
     get:
       operationId: SettingsController_getSmartleadPlacementHistory
@@ -786,13 +653,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/transports:
     get:
       operationId: SettingsController_getTransports
@@ -834,13 +694,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/mailing-auto-approve:
     get:
       operationId: SettingsController_listMailingAutoApprove
@@ -867,13 +720,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/users/{userId}/mailing-auto-approve:
     patch:
       operationId: SettingsController_setMailingAutoApprove
@@ -898,13 +744,6 @@ paths:
       summary: Enable/disable mailing auto-approve for a user (SUPER only)
       tags:
       - Settings
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/mailing-auto-approve-tenant:
     get:
       operationId: SettingsController_getTenantMailingAutoApprove
@@ -951,13 +790,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/auditor-rules:
     get:
       operationId: SettingsController_getAuditorRules
@@ -999,13 +831,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/send-window:
     get:
       operationId: SettingsController_getSendWindow
@@ -1046,13 +871,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/relay-health:
     get:
       operationId: SettingsController_getRelayHealth
@@ -1094,13 +912,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/min-send-interval:
     get:
       operationId: SettingsController_getMinSendInterval
@@ -1142,13 +953,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/platform-tracking-allowed:
     get:
       operationId: SettingsController_getPlatformTrackingAllowed
@@ -1190,13 +994,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/notify-rules:
     get:
       operationId: SettingsController_getNotifyRules
@@ -1238,13 +1035,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/crm-event-rules:
     get:
       operationId: SettingsController_getCrmEventRules
@@ -1286,13 +1076,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/memory-notes:
     get:
       operationId: SettingsController_getMemoryNotes
@@ -1334,13 +1117,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/trash:
     get:
       operationId: SettingsController_getTrash
@@ -1362,13 +1138,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/trash/empty:
     post:
       operationId: SettingsController_emptyTrash
@@ -1390,13 +1159,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/delete-data:
     delete:
       operationId: SettingsController_deleteAllData
@@ -1418,13 +1180,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/account/deactivation-preview:
     get:
       operationId: SettingsController_getAccountDeactivationPreview
@@ -1446,13 +1201,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/settings/account/deactivate:
     post:
       operationId: SettingsController_deactivateAccount
@@ -1474,13 +1222,6 @@ paths:
       - Settings
       x-required-scope:
       - settings:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     UpdateNotificationsDto:
@@ -1505,12 +1246,10 @@ components:
       required:
       - currentPassword
       - newPassword
-    UpdateProfileDto:
+    RequestLdmAiDto:
       type: object
       properties:
-        firstName:
-          type: string
-        lastName:
+        note:
           type: string
     UpdateWorkspaceDto:
       type: object
@@ -1544,10 +1283,12 @@ components:
           type: string
         fallbackProvider:
           type: string
-    RequestLdmAiDto:
+    UpdateProfileDto:
       type: object
       properties:
-        note:
+        firstName:
+          type: string
+        lastName:
           type: string
   securitySchemes:
     jwt:
@@ -1565,6 +1306,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

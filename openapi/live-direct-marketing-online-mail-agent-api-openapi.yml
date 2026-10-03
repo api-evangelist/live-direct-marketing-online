@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Mail Agent API
+  title: LDM v3 Mail Agent API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Mail Agent across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -35,13 +35,6 @@ paths:
       - Mail Agent
       x-required-scope:
       - agent:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mail-agent/settings:
     get:
       operationId: MailAgentController_getSettings
@@ -83,13 +76,6 @@ paths:
       - Mail Agent
       x-required-scope:
       - agent:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mail-agent/token/regenerate:
     post:
       operationId: MailAgentController_regenerateToken
@@ -111,13 +97,6 @@ paths:
       - Mail Agent
       x-required-scope:
       - agent:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mail-agent/stats/reset:
     post:
       operationId: MailAgentController_resetStats
@@ -139,13 +118,6 @@ paths:
       - Mail Agent
       x-required-scope:
       - agent:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mail-agent/disconnect:
     post:
       operationId: MailAgentController_disconnect
@@ -167,13 +139,6 @@ paths:
       - Mail Agent
       x-required-scope:
       - agent:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mail-agent/download/windows:
     get:
       operationId: MailAgentController_downloadWindows
@@ -195,13 +160,6 @@ paths:
       - Mail Agent
       x-required-scope:
       - agent:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/mail-agent/qr:
     get:
       operationId: MailAgentController_getQr
@@ -223,13 +181,6 @@ paths:
       - Mail Agent
       x-required-scope:
       - agent:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -247,6 +198,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

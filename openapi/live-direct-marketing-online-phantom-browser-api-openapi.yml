@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Phantom Browser API
+  title: LDM v3 Phantom Browser API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Phantom Browser across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -55,13 +55,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/sync:
     post:
       operationId: PhantomBrowserController_syncProfiles
@@ -83,13 +76,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}:
     get:
       operationId: PhantomBrowserController_getProfile
@@ -160,13 +146,6 @@ paths:
       summary: Delete a Phantom browser profile
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/client/status:
     get:
       operationId: PhantomBrowserController_getClientStatus
@@ -188,13 +167,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/client/token/regenerate:
     post:
       operationId: PhantomBrowserController_regenerateToken
@@ -216,13 +188,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/launch:
     post:
       operationId: PhantomBrowserController_launchProfile
@@ -247,13 +212,6 @@ paths:
       summary: Launch a profile on the user's Phantom desktop client
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/stop:
     post:
       operationId: PhantomBrowserController_stopProfile
@@ -278,13 +236,6 @@ paths:
       summary: Stop a running profile on the Phantom desktop client
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/navigate:
     post:
       operationId: PhantomBrowserController_navigate
@@ -309,13 +260,6 @@ paths:
       summary: Navigate the Phantom browser profile to a URL
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/screenshot:
     post:
       operationId: PhantomBrowserController_screenshot
@@ -340,13 +284,6 @@ paths:
       summary: Take a screenshot in the Phantom browser profile (base64 JPEG)
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/screenshot.jpg:
     get:
       operationId: PhantomBrowserController_screenshotImage
@@ -371,13 +308,6 @@ paths:
       summary: Get the latest Phantom browser screenshot as a JPEG image
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/html:
     get:
       operationId: PhantomBrowserController_getHtml
@@ -402,13 +332,6 @@ paths:
       summary: Get the current Phantom browser page's HTML
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/page-info:
     get:
       operationId: PhantomBrowserController_getPageInfo
@@ -433,13 +356,6 @@ paths:
       summary: Get the current Phantom browser page URL and title
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/execute:
     post:
       operationId: PhantomBrowserController_executeJs
@@ -464,13 +380,6 @@ paths:
       summary: Execute JavaScript in the Phantom browser page context
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/click:
     post:
       operationId: PhantomBrowserController_click
@@ -495,13 +404,6 @@ paths:
       summary: Click an element in the Phantom browser by CSS selector
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/type:
     post:
       operationId: PhantomBrowserController_typeText
@@ -526,13 +428,6 @@ paths:
       summary: Type text into a focused element or selector in the Phantom browser
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/cookies:
     get:
       operationId: PhantomBrowserController_getCookies
@@ -580,13 +475,6 @@ paths:
       summary: Set cookies on the current Phantom browser page — lets the worker browse a site…
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/scroll:
     post:
       operationId: PhantomBrowserController_scroll
@@ -611,13 +499,6 @@ paths:
       summary: Scroll the current Phantom browser page
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/wait:
     post:
       operationId: PhantomBrowserController_waitFor
@@ -642,13 +523,6 @@ paths:
       summary: Wait for a selector to appear in the Phantom browser page
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/solve-captcha:
     post:
       operationId: PhantomBrowserController_solveCaptcha
@@ -673,13 +547,6 @@ paths:
       summary: Solve a captcha on the current Phantom browser page (via RuCaptcha)
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/proxy:
     put:
       operationId: PhantomBrowserController_setProxy
@@ -727,13 +594,6 @@ paths:
       summary: Remove the proxy configuration from a Phantom browser profile
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/profiles/{id}/proxy/test:
     post:
       operationId: PhantomBrowserController_testProxy
@@ -758,13 +618,6 @@ paths:
       summary: Test a Phantom browser profile proxy (launch and report IP)
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/launches:
     get:
       operationId: PhantomBrowserController_listLaunches
@@ -796,13 +649,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/scenarios:
     get:
       operationId: PhantomBrowserController_listScenarios
@@ -844,13 +690,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/scenarios/{id}:
     get:
       operationId: PhantomBrowserController_getScenario
@@ -921,13 +760,6 @@ paths:
       summary: Delete a Phantom browser scenario
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/schedules:
     get:
       operationId: PhantomBrowserController_listSchedules
@@ -969,13 +801,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/schedules/{id}:
     put:
       operationId: PhantomBrowserController_updateSchedule
@@ -1023,13 +848,6 @@ paths:
       summary: Delete a Phantom browser schedule
       tags:
       - Phantom Browser
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/admin/stats:
     get:
       operationId: PhantomBrowserController_getAdminStats
@@ -1051,13 +869,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/download/config:
     get:
       operationId: PhantomBrowserController_downloadConfig
@@ -1079,13 +890,6 @@ paths:
       - Phantom Browser
       x-required-scope:
       - admin:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -1103,6 +907,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

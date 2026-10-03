@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Tracking API
+  title: LDM v3 Tracking API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Tracking across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -38,13 +38,6 @@ paths:
       summary: Serve a 1x1 tracking pixel GIF and log an OPEN event.
       tags:
       - Tracking
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/t/c/{trackingId}/{slug}:
     get:
       operationId: TrackingController_clickRedirect
@@ -74,13 +67,6 @@ paths:
       summary: Redirect a tracked click (/t/c/:trackingId/:slug) to target and log a CLICK.
       tags:
       - Tracking
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/r/{slug}:
     get:
       operationId: TrackingController_legacyRedirect
@@ -105,13 +91,6 @@ paths:
       summary: Short redirect by slug (/r/:slug) — click path for directly-created links…
       tags:
       - Tracking
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/links:
     post:
       operationId: TrackingController_createLink
@@ -133,13 +112,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/links/{slug}:
     get:
       operationId: TrackingController_getLinkInfo
@@ -210,13 +182,6 @@ paths:
       summary: Delete a tracking link by slug
       tags:
       - Tracking
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/simulate-click:
     post:
       operationId: TrackingController_simulateClick
@@ -238,13 +203,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/events:
     get:
       operationId: TrackingController_getEvents
@@ -306,13 +264,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/stats:
     get:
       operationId: TrackingController_getStats
@@ -339,13 +290,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/pixel-settings:
     get:
       operationId: TrackingController_getPixelSettings
@@ -387,13 +331,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/analytics/stats:
     get:
       operationId: TrackingController_getAnalyticsStats
@@ -435,13 +372,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/analytics/timeline:
     get:
       operationId: TrackingController_getTimeline
@@ -473,13 +403,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/analytics/top-links:
     get:
       operationId: TrackingController_getTopLinks
@@ -511,13 +434,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/analytics/email-clients:
     get:
       operationId: TrackingController_getEmailClients
@@ -539,13 +455,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tracking/analytics/devices:
     get:
       operationId: TrackingController_getDevices
@@ -567,13 +476,6 @@ paths:
       - Tracking
       x-required-scope:
       - mailing:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -591,6 +493,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

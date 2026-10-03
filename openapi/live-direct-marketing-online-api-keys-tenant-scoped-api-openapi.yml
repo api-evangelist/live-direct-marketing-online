@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online API Keys (tenant-scoped) API
+  title: LDM v3 API Keys (tenant-scoped) API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged API Keys (tenant-scoped) across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -51,13 +51,6 @@ paths:
       summary: Create a new tenant API key.
       tags:
       - API Keys (tenant-scoped)
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/api-keys/whoami:
     get:
       operationId: ApiKeysController_whoami
@@ -77,13 +70,6 @@ paths:
       summary: Check that the current Bearer credentials (API key or JWT) are valid, and learn…
       tags:
       - API Keys (tenant-scoped)
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/api-keys/{id}/reveal:
     get:
       operationId: ApiKeysController_reveal
@@ -108,13 +94,6 @@ paths:
       summary: Reveal the raw value of an existing API key.
       tags:
       - API Keys (tenant-scoped)
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/api-keys/scopes/structured:
     get:
       operationId: ApiKeysController_structuredScopes
@@ -136,13 +115,6 @@ paths:
       - API Keys (tenant-scoped)
       x-required-scope:
       - keys:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/api-keys/{id}:
     patch:
       operationId: ApiKeysController_update
@@ -190,13 +162,6 @@ paths:
       summary: Permanently delete a tenant API key
       tags:
       - API Keys (tenant-scoped)
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/api-keys/{id}/revoke:
     delete:
       operationId: ApiKeysController_revoke
@@ -221,13 +186,6 @@ paths:
       summary: Revoke (deactivate) a tenant API key without deleting it
       tags:
       - API Keys (tenant-scoped)
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -245,6 +203,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

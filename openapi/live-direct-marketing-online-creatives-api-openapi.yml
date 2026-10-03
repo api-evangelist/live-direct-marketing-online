@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Creatives API
+  title: LDM v3 Creatives API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Creatives across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -77,13 +77,6 @@ paths:
       summary: Create a new creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/ai-generate:
     post:
       operationId: CreativesController_aiGenerate
@@ -111,13 +104,6 @@ paths:
       - Creatives
       x-required-scope:
       - creatives:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/autopilot-v2:
     post:
       operationId: CreativesController_createAutopilotV2
@@ -139,13 +125,6 @@ paths:
       - Creatives
       x-required-scope:
       - creatives:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/pdf-status:
     get:
       operationId: CreativesController_pdfStatus
@@ -167,13 +146,6 @@ paths:
       - Creatives
       x-required-scope:
       - creatives:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/pdf/{filename}:
     get:
       operationId: CreativesController_servePdf
@@ -198,13 +170,6 @@ paths:
       summary: Download a generated PDF by filename
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/variables/available:
     get:
       operationId: CreativesController_getAvailableVariables
@@ -258,13 +223,6 @@ paths:
       - Creatives
       x-required-scope:
       - creatives:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}:
     get:
       operationId: CreativesController_findById
@@ -341,13 +299,6 @@ paths:
       summary: Delete a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/brief-intake:
     get:
       operationId: CreativesController_briefIntake
@@ -385,13 +336,6 @@ paths:
       summary: Canonical brief intake email and localized help for customer materials linked…
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/stats:
     get:
       operationId: CreativesController_getStats
@@ -416,13 +360,6 @@ paths:
       summary: Get stats for a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/preview:
     post:
       operationId: CreativesController_preview
@@ -453,13 +390,6 @@ paths:
       summary: Render a preview of a creative for a sample contact
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/inbox-placement-test:
     post:
       operationId: CreativesController_startInboxPlacementTest
@@ -490,13 +420,6 @@ paths:
       summary: Start an inbox placement test for a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/inbox-placement-test/{token}:
     get:
       operationId: CreativesController_getInboxPlacementTest
@@ -527,13 +450,6 @@ paths:
       summary: Get the result of an inbox placement test
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/variables:
     get:
       operationId: CreativesController_getVariables
@@ -558,13 +474,6 @@ paths:
       summary: Get template variables used in a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/spintax:
     get:
       operationId: CreativesController_analyzeSpintax
@@ -589,13 +498,6 @@ paths:
       summary: Analyze spintax patterns in a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/copy:
     post:
       operationId: CreativesController_duplicate
@@ -620,13 +522,6 @@ paths:
       summary: Duplicate a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/versions:
     get:
       operationId: CreativesController_getVersions
@@ -674,13 +569,6 @@ paths:
       summary: Create a new version of a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/versions/{versionId}/restore:
     post:
       operationId: CreativesController_restoreVersion
@@ -710,13 +598,6 @@ paths:
       summary: Restore a creative to a prior version
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/test-sends:
     get:
       operationId: CreativesController_getTestSends
@@ -741,13 +622,6 @@ paths:
       summary: List test sends of a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/test-send:
     post:
       operationId: CreativesController_createTestSend
@@ -778,13 +652,6 @@ paths:
       summary: Send a test copy of this creative.
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/moderation/pending:
     get:
       operationId: CreativesController_listPendingChannelCreatives
@@ -806,13 +673,6 @@ paths:
       - Creatives
       x-required-scope:
       - creatives:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/moderate:
     post:
       operationId: CreativesController_moderateChannelCreative
@@ -837,13 +697,6 @@ paths:
       summary: Approve/reject a channel creative (SUPER)
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/generate-prompt:
     post:
       operationId: CreativesController_autopilotGeneratePrompt
@@ -868,13 +721,6 @@ paths:
       summary: Generate an Autopilot meta-prompt for a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/v2/generate-prompt:
     post:
       operationId: CreativesController_autopilotGeneratePromptV2
@@ -899,13 +745,6 @@ paths:
       summary: Generate an Autopilot v2 meta-prompt
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/rules/bank/generate:
     post:
       operationId: CreativesController_bankV2Generate
@@ -930,13 +769,6 @@ paths:
       summary: Enqueue a bank-generation job for a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/rules/bank/jobs/{jobId}:
     get:
       operationId: CreativesController_bankGenGet
@@ -966,13 +798,6 @@ paths:
       summary: Get the status of a bank-generation job
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/rules/bank/jobs:
     get:
       operationId: CreativesController_bankGenList
@@ -1002,13 +827,6 @@ paths:
       summary: List bank-generation jobs for a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/rules/bank/jobs/{jobId}/cancel:
     post:
       operationId: CreativesController_bankGenCancel
@@ -1038,13 +856,6 @@ paths:
       summary: Cancel a bank-generation job
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/rules/bank/{tid}:
     patch:
       operationId: CreativesController_bankV2Edit
@@ -1074,13 +885,6 @@ paths:
       summary: Update a single bank template (rules v2)
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/rules/bank/{tid}/action:
     post:
       operationId: CreativesController_bankV2Action
@@ -1110,13 +914,6 @@ paths:
       summary: Run an action on a bank template (approve/reject/etc.)
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/preview-meta-prompt:
     post:
       operationId: CreativesController_autopilotPreviewMetaPrompt
@@ -1141,13 +938,6 @@ paths:
       summary: Preview the meta-prompt for a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/segment/{segmentId}/meta-prompt:
     patch:
       operationId: CreativesController_autopilotSegmentMetaPrompt
@@ -1177,13 +967,6 @@ paths:
       summary: Update the meta-prompt of a segment
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/test-batch:
     post:
       operationId: CreativesController_autopilotTestBatch
@@ -1208,13 +991,6 @@ paths:
       summary: Run a test batch through Autopilot
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/generate:
     post:
       operationId: CreativesController_bankGenerate
@@ -1239,13 +1015,6 @@ paths:
       summary: Trigger Autopilot bank generation
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/pipeline/{jobId}:
     get:
       operationId: CreativesController_bankPipelineStatus
@@ -1270,13 +1039,6 @@ paths:
       summary: Get the status of an Autopilot bank pipeline job
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank:
     get:
       operationId: CreativesController_bankGet
@@ -1306,13 +1068,6 @@ paths:
       summary: List Autopilot bank templates
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/templates/{templateId}:
     patch:
       operationId: CreativesController_bankTemplateAction
@@ -1403,13 +1158,6 @@ paths:
       summary: Get a single Autopilot bank template
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/approve-all:
     post:
       operationId: CreativesController_bankApproveAll
@@ -1434,13 +1182,6 @@ paths:
       summary: Approve all pending Autopilot bank templates
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/templates:
     delete:
       operationId: CreativesController_bankDeleteAll
@@ -1488,13 +1229,6 @@ paths:
       summary: Create a new Autopilot bank template
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/regenerate:
     post:
       operationId: CreativesController_bankRegenerate
@@ -1519,13 +1253,6 @@ paths:
       summary: Regenerate Autopilot bank templates
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/config:
     patch:
       operationId: CreativesController_bankUpdateConfig
@@ -1550,13 +1277,6 @@ paths:
       summary: Update Autopilot bank configuration
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/preview:
     post:
       operationId: CreativesController_bankPreview
@@ -1581,13 +1301,6 @@ paths:
       summary: Preview Autopilot bank output
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/preview-with-qc:
     post:
       operationId: CreativesController_bankPreviewWithQc
@@ -1612,13 +1325,6 @@ paths:
       summary: Preview Autopilot bank output with QC checks
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/usage:
     get:
       operationId: CreativesController_bankUsage
@@ -1643,13 +1349,6 @@ paths:
       summary: Get Autopilot bank usage stats
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/generate-for-contact:
     post:
       operationId: CreativesController_generateForContact
@@ -1674,13 +1373,6 @@ paths:
       summary: Generate a creative for a specific contact
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/dashboard:
     get:
       operationId: CreativesController_autopilotDashboard
@@ -1710,13 +1402,6 @@ paths:
       summary: Get the Autopilot dashboard for a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/dashboard/backfill-t2:
     post:
       operationId: CreativesController_backfillTier2
@@ -1741,13 +1426,6 @@ paths:
       summary: Backfill Tier-2 QC results on the Autopilot dashboard
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/auditor:
     get:
       operationId: CreativesController_auditorGet
@@ -1795,13 +1473,6 @@ paths:
       summary: Update the Autopilot auditor configuration (proxies `enabled` to canon; see…
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/auditor/start:
     post:
       operationId: CreativesController_auditorStart
@@ -1826,13 +1497,6 @@ paths:
       summary: Start the Autopilot auditor
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/auditor/pause:
     post:
       operationId: CreativesController_auditorPause
@@ -1857,13 +1521,6 @@ paths:
       summary: Pause the Autopilot auditor
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/auditor/stop:
     post:
       operationId: CreativesController_auditorStop
@@ -1888,13 +1545,6 @@ paths:
       summary: Stop the Autopilot auditor
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/auditor/run:
     post:
       operationId: CreativesController_auditorRun
@@ -1919,13 +1569,6 @@ paths:
       summary: Run the Autopilot auditor once
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/auditor/logs:
     get:
       operationId: CreativesController_auditorLogs
@@ -1973,13 +1616,6 @@ paths:
       summary: Clear logs for the Autopilot auditor
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/checklist:
     get:
       operationId: CreativesController_checklistGet
@@ -2004,13 +1640,6 @@ paths:
       summary: Get the Autopilot launch checklist
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/checklist/sandbox:
     post:
       operationId: CreativesController_checklistSandbox
@@ -2035,13 +1664,6 @@ paths:
       summary: Run the sandbox step of the Autopilot checklist
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/checklist/qc:
     post:
       operationId: CreativesController_checklistQC
@@ -2066,13 +1688,6 @@ paths:
       summary: Run the QC step of the Autopilot checklist
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/checklist/test-send:
     post:
       operationId: CreativesController_checklistTestSend
@@ -2097,13 +1712,6 @@ paths:
       summary: Run the test-send step of the Autopilot checklist
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/checklist/cost-estimate:
     post:
       operationId: CreativesController_checklistCostEstimate
@@ -2128,13 +1736,6 @@ paths:
       summary: Estimate cost for the Autopilot launch
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/checklist/lock:
     post:
       operationId: CreativesController_checklistLock
@@ -2159,13 +1760,6 @@ paths:
       summary: Lock the Autopilot checklist before launch
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/checklist/unlock:
     post:
       operationId: CreativesController_checklistUnlock
@@ -2190,13 +1784,6 @@ paths:
       summary: Unlock the Autopilot checklist
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/qc/config:
     get:
       operationId: CreativesController_qcConfig
@@ -2221,13 +1808,6 @@ paths:
       summary: Get the Autopilot QC configuration
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/qc/rules:
     patch:
       operationId: CreativesController_qcUpdateRules
@@ -2252,13 +1832,6 @@ paths:
       summary: Update Autopilot QC Tier-1 rules
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/qc/tier2:
     patch:
       operationId: CreativesController_qcUpdateTier2
@@ -2283,13 +1856,6 @@ paths:
       summary: Update Autopilot QC Tier-2 configuration (proxies…
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/qc/test:
     post:
       operationId: CreativesController_qcTest
@@ -2314,13 +1880,6 @@ paths:
       summary: Run a QC test on sample content
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/run-observable:
     post:
       operationId: CreativesController_sandboxRunObservable
@@ -2345,13 +1904,6 @@ paths:
       summary: Start an observable Autopilot sandbox run
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/observable-status:
     get:
       operationId: CreativesController_sandboxObservableStatus
@@ -2376,13 +1928,6 @@ paths:
       summary: Get the status of an observable sandbox run
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/cancel-observable:
     post:
       operationId: CreativesController_sandboxCancelObservable
@@ -2407,13 +1952,6 @@ paths:
       summary: Cancel an observable sandbox run
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/observable:
     delete:
       operationId: CreativesController_sandboxClearObservable
@@ -2438,13 +1976,6 @@ paths:
       summary: Delete the observable sandbox state
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/run:
     post:
       operationId: CreativesController_sandboxRun
@@ -2469,13 +2000,6 @@ paths:
       summary: Run the Autopilot sandbox pipeline
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/available-vars:
     get:
       operationId: CreativesController_sandboxAvailableVars
@@ -2532,13 +2056,6 @@ paths:
       summary: List variables available to the sandbox
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/variable-values:
     get:
       operationId: CreativesController_variableValues
@@ -2593,13 +2110,6 @@ paths:
       summary: Get computed variable values for a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/segment-count:
     post:
       operationId: CreativesController_segmentCount
@@ -2624,13 +2134,6 @@ paths:
       summary: Count contacts matching a sandbox segment
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/all-field-definitions:
     get:
       operationId: CreativesController_allFieldDefinitions
@@ -2655,13 +2158,6 @@ paths:
       summary: Get all field definitions available to Autopilot
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/match-contacts:
     post:
       operationId: CreativesController_sandboxMatchContacts
@@ -2686,13 +2182,6 @@ paths:
       summary: Match contacts against a sandbox segment definition
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/test-selection:
     post:
       operationId: CreativesController_sandboxTestSelection
@@ -2740,13 +2229,6 @@ paths:
       summary: Get the cached test selection result
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/history:
     get:
       operationId: CreativesController_sandboxHistory
@@ -2794,13 +2276,6 @@ paths:
       summary: Clear the sandbox run history
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/history/{idx}:
     delete:
       operationId: CreativesController_sandboxHistoryDeleteOne
@@ -2830,13 +2305,6 @@ paths:
       summary: Delete one entry from the sandbox history
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/status:
     get:
       operationId: CreativesController_sandboxStatus
@@ -2861,13 +2329,6 @@ paths:
       summary: Get the current sandbox status
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/cancel:
     post:
       operationId: CreativesController_sandboxCancel
@@ -2892,13 +2353,6 @@ paths:
       summary: Cancel a running sandbox run
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/sandbox/apply:
     post:
       operationId: CreativesController_sandboxApply
@@ -2923,13 +2377,6 @@ paths:
       summary: Apply the sandbox result to the creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/variable-rules:
     patch:
       operationId: CreativesController_saveVariableRules
@@ -2983,13 +2430,6 @@ paths:
       summary: Get the Autopilot variable rules
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/variable-rules/preview:
     post:
       operationId: CreativesController_previewVariableRules
@@ -3014,13 +2454,6 @@ paths:
       summary: Preview the effect of variable rules
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/pipeline/run:
     post:
       operationId: CreativesController_runPipeline
@@ -3045,13 +2478,6 @@ paths:
       summary: Run the full Autopilot generation pipeline
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/pdf-generations/{generationId}:
     get:
       operationId: CreativesController_getPdfGenerationStatus
@@ -3081,13 +2507,6 @@ paths:
       summary: Get the status of an asynchronous PDF generation
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/generate-pdf:
     post:
       operationId: CreativesController_generatePdf
@@ -3118,13 +2537,6 @@ paths:
       summary: Generate a PDF from a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/v2/meta-prompt-base:
     get:
       operationId: CreativesController_getMetaPromptBaseV2
@@ -3149,13 +2561,6 @@ paths:
       summary: Get the base meta-prompt for Autopilot v2
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/meta-prompt:
     get:
       operationId: CreativesController_getMetaPrompt
@@ -3241,13 +2646,6 @@ paths:
       summary: Delete the meta-prompt of a creative
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/templates/{templateId}/stats:
     get:
       operationId: CreativesController_bankGetTemplateStats
@@ -3282,13 +2680,6 @@ paths:
       summary: Get stats for a single Autopilot bank template
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/templates/generate-one:
     post:
       operationId: CreativesController_bankGenerateOneTemplate
@@ -3313,13 +2704,6 @@ paths:
       summary: Generate a single Autopilot bank template
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/{id}/autopilot/bank/templates/{templateId}/content:
     put:
       operationId: CreativesController_bankUpdateTemplateContent
@@ -3349,13 +2733,6 @@ paths:
       summary: Replace the content of a bank template
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/creatives/pdf-link/{token}:
     get:
       operationId: CreativePdfLinkController_servePdfByToken
@@ -3378,15 +2755,75 @@ paths:
       summary: Download a generated PDF via a signed, tenant-bound, time-limited link (#1015…
       tags:
       - Creatives
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
+    GeneratePdfMetadataDto:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        subject:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        filename:
+          type: string
+        creator:
+          type: string
+        producer:
+          type: string
+        creationDate:
+          type: string
+        modificationDate:
+          type: string
+    VariableRuleEntryDto:
+      type: object
+      properties:
+        variable:
+          type: string
+        enabled:
+          type: boolean
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariableNormalizationRuleDto'
+      required:
+      - variable
+      - enabled
+      - rules
+    TestSendDto:
+      type: object
+      properties:
+        toEmail:
+          type: string
+          description: Recipient for sender="account". Omit for sender="platform" to use the tenant owner address.
+        companyId:
+          type: string
+          description: Company used to resolve template variables
+        contactId:
+          type: string
+          description: Contact used to resolve template variables
+        leadId:
+          type: string
+          description: Lead used to resolve template variables
+        accountId:
+          type: string
+          description: Connected email account used when sender="account"
+        sender:
+          type: string
+          enum:
+          - account
+          - platform
+          default: account
+        sampleData:
+          type: object
+          description: Explicit variable values overriding company/contact/lead data
+          additionalProperties:
+            type: string
     AiGenerateCreativeDto:
       type: object
       properties:
@@ -3420,39 +2857,143 @@ components:
           description: Existing creative to regenerate in place
       required:
       - prompt
-    GeneratePdfDto:
+    StartInboxPlacementTestDto:
       type: object
       properties:
-        async:
-          type: boolean
-          description: Return a durable generation handle immediately and poll the PDF generation status endpoint.
-          default: false
-        sampleData:
-          type: object
-          additionalProperties:
+        accountId:
+          type: string
+          description: 'Email account the seed letters are sent from. Required: seed reservation is paid, and the platform deliberately does not pick an account for you (#791).'
+        providers:
+          description: Seed providers to cover, e.g. ["gmail","outlook","yandex"]. Omit for the default set.
+          type: array
+          items:
             type: string
-          description: Explicit variable values overriding resolved company/contact/lead data.
         companyId:
           type: string
+          description: Company used to resolve merge variables while rendering the seed letter
         contactId:
           type: string
+          description: Contact used to resolve merge variables while rendering the seed letter
         leadId:
           type: string
-        format:
+          description: Lead used to resolve merge variables while rendering the seed letter
+      required:
+      - accountId
+    UpdateCreativeDto:
+      type: object
+      properties:
+        autopilotConfig:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+          description: Autopilot configuration. aiVariables entries may carry requiredInputs and fallback.
+        name:
           type: string
-          enum:
-          - A4
-          - Letter
-          default: A4
-        landscape:
+        description:
+          type:
+          - string
+          - 'null'
+        isActive:
           type: boolean
-          default: false
-        pageNumbers:
+        subject:
+          type:
+          - string
+          - 'null'
+        bodyHtml:
+          type:
+          - string
+          - 'null'
+        bodyText:
+          type:
+          - string
+          - 'null'
+        messageText:
+          type:
+          - string
+          - 'null'
+        formConfig:
+          type:
+          - object
+          - 'null'
+        attachmentUrl:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+        attachmentName:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        attachmentCreativeId:
+          type:
+          - string
+          - 'null'
+        variables:
+          type:
+          - object
+          - 'null'
+        previewContactId:
+          type:
+          - string
+          - 'null'
+        previewCompanyId:
+          type:
+          - string
+          - 'null'
+        senderMethod:
+          type: object
+        subjectMethod:
+          type: object
+        bodyMethod:
+          type: object
+        aiPromptSubject:
+          type:
+          - object
+          - 'null'
+        aiPromptBody:
+          type:
+          - object
+          - 'null'
+        aiModel:
+          type:
+          - string
+          - 'null'
+        aiTemperature:
+          type: number
+        briefId:
+          type:
+          - string
+          - 'null'
+        includeDossier:
           type: boolean
-          description: Show page numbers in footer.
-          default: false
-        metadata:
-          $ref: '#/components/schemas/GeneratePdfMetadataDto'
+        formCompanyName:
+          type:
+          - string
+          - 'null'
+        formContactName:
+          type:
+          - string
+          - 'null'
+        formEmail:
+          type:
+          - string
+          - 'null'
+        formPhone:
+          type:
+          - string
+          - 'null'
+        formTitle:
+          type:
+          - string
+          - 'null'
+        pixelTracking:
+          type: boolean
+        linkTracking:
+          type: boolean
+        unsubscribeLink:
+          type: boolean
     VariableNormalizationRuleDto:
       type: object
       properties:
@@ -3628,29 +3169,39 @@ components:
       required:
       - type
       - name
-    GeneratePdfMetadataDto:
+    GeneratePdfDto:
       type: object
       properties:
-        title:
-          type: string
-        author:
-          type: string
-        subject:
-          type: string
-        keywords:
-          type: array
-          items:
+        async:
+          type: boolean
+          description: Return a durable generation handle immediately and poll the PDF generation status endpoint.
+          default: false
+        sampleData:
+          type: object
+          additionalProperties:
             type: string
-        filename:
+          description: Explicit variable values overriding resolved company/contact/lead data.
+        companyId:
           type: string
-        creator:
+        contactId:
           type: string
-        producer:
+        leadId:
           type: string
-        creationDate:
+        format:
           type: string
-        modificationDate:
-          type: string
+          enum:
+          - A4
+          - Letter
+          default: A4
+        landscape:
+          type: boolean
+          default: false
+        pageNumbers:
+          type: boolean
+          description: Show page numbers in footer.
+          default: false
+        metadata:
+          $ref: '#/components/schemas/GeneratePdfMetadataDto'
     SaveVariableRulesDto:
       type: object
       properties:
@@ -3660,187 +3211,6 @@ components:
             $ref: '#/components/schemas/VariableRuleEntryDto'
       required:
       - variableRules
-    UpdateCreativeDto:
-      type: object
-      properties:
-        autopilotConfig:
-          type:
-          - object
-          - 'null'
-          additionalProperties: true
-          description: Autopilot configuration. aiVariables entries may carry requiredInputs and fallback.
-        name:
-          type: string
-        description:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        subject:
-          type:
-          - string
-          - 'null'
-        bodyHtml:
-          type:
-          - string
-          - 'null'
-        bodyText:
-          type:
-          - string
-          - 'null'
-        messageText:
-          type:
-          - string
-          - 'null'
-        formConfig:
-          type:
-          - object
-          - 'null'
-        attachmentUrl:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-        attachmentName:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-        attachmentCreativeId:
-          type:
-          - string
-          - 'null'
-        variables:
-          type:
-          - object
-          - 'null'
-        previewContactId:
-          type:
-          - string
-          - 'null'
-        previewCompanyId:
-          type:
-          - string
-          - 'null'
-        senderMethod:
-          type: object
-        subjectMethod:
-          type: object
-        bodyMethod:
-          type: object
-        aiPromptSubject:
-          type:
-          - object
-          - 'null'
-        aiPromptBody:
-          type:
-          - object
-          - 'null'
-        aiModel:
-          type:
-          - string
-          - 'null'
-        aiTemperature:
-          type: number
-        briefId:
-          type:
-          - string
-          - 'null'
-        includeDossier:
-          type: boolean
-        formCompanyName:
-          type:
-          - string
-          - 'null'
-        formContactName:
-          type:
-          - string
-          - 'null'
-        formEmail:
-          type:
-          - string
-          - 'null'
-        formPhone:
-          type:
-          - string
-          - 'null'
-        formTitle:
-          type:
-          - string
-          - 'null'
-        pixelTracking:
-          type: boolean
-        linkTracking:
-          type: boolean
-        unsubscribeLink:
-          type: boolean
-    TestSendDto:
-      type: object
-      properties:
-        toEmail:
-          type: string
-          description: Recipient for sender="account". Omit for sender="platform" to use the tenant owner address.
-        companyId:
-          type: string
-          description: Company used to resolve template variables
-        contactId:
-          type: string
-          description: Contact used to resolve template variables
-        leadId:
-          type: string
-          description: Lead used to resolve template variables
-        accountId:
-          type: string
-          description: Connected email account used when sender="account"
-        sender:
-          type: string
-          enum:
-          - account
-          - platform
-          default: account
-        sampleData:
-          type: object
-          description: Explicit variable values overriding company/contact/lead data
-          additionalProperties:
-            type: string
-    VariableRuleEntryDto:
-      type: object
-      properties:
-        variable:
-          type: string
-        enabled:
-          type: boolean
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariableNormalizationRuleDto'
-      required:
-      - variable
-      - enabled
-      - rules
-    StartInboxPlacementTestDto:
-      type: object
-      properties:
-        accountId:
-          type: string
-          description: 'Email account the seed letters are sent from. Required: seed reservation is paid, and the platform deliberately does not pick an account for you (#791).'
-        providers:
-          description: Seed providers to cover, e.g. ["gmail","outlook","yandex"]. Omit for the default set.
-          type: array
-          items:
-            type: string
-        companyId:
-          type: string
-          description: Company used to resolve merge variables while rendering the seed letter
-        contactId:
-          type: string
-          description: Contact used to resolve merge variables while rendering the seed letter
-        leadId:
-          type: string
-          description: Lead used to resolve merge variables while rendering the seed letter
-      required:
-      - accountId
     PreviewCreativeDto:
       type: object
       properties:
@@ -3872,6 +3242,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

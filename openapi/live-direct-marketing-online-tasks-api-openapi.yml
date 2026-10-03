@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Tasks API
+  title: LDM v3 Tasks API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Tasks across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -77,13 +77,6 @@ paths:
       summary: Create a task.
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}:
     get:
       operationId: TasksController_findById
@@ -160,13 +153,6 @@ paths:
       summary: Delete a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/branches:
     get:
       operationId: TasksController_listBranches
@@ -220,13 +206,6 @@ paths:
       summary: Create a sub-sequence branch off a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/branches/{branchId}/enroll:
     post:
       operationId: TasksController_enrollInBranch
@@ -257,13 +236,6 @@ paths:
       summary: Enroll contacts into a task branch
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/items:
     get:
       operationId: TasksController_getItems
@@ -303,13 +275,6 @@ paths:
       summary: List items processed by a task with pagination
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/items/{itemId}:
     get:
       operationId: TasksController_getItem
@@ -339,13 +304,6 @@ paths:
       summary: Get a single task item by ID
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/stats:
     get:
       operationId: TasksController_getStats
@@ -370,13 +328,6 @@ paths:
       summary: Get aggregate stats for a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/errors:
     get:
       operationId: TasksController_getErrors
@@ -401,13 +352,6 @@ paths:
       summary: List errors encountered during a task run
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/start:
     post:
       operationId: TasksController_start
@@ -438,13 +382,6 @@ paths:
       summary: Start (or resume) a task.
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/pause:
     post:
       operationId: TasksController_pause
@@ -469,13 +406,6 @@ paths:
       summary: Pause a running task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/stop:
     post:
       operationId: TasksController_stop
@@ -500,13 +430,6 @@ paths:
       summary: Stop a task (mark as DONE)
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/restart:
     post:
       operationId: TasksController_restart
@@ -531,13 +454,6 @@ paths:
       summary: 'Resume a task: resets ERROR items to PENDING and sets status=ACTIVE.'
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/analytics:
     get:
       operationId: TasksController_getAnalytics
@@ -562,13 +478,6 @@ paths:
       summary: Get analytics for a task (open/click/reply rates)
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/monitor:
     get:
       operationId: TasksController_getMonitor
@@ -593,13 +502,6 @@ paths:
       summary: Get real-time monitor data for a running task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/report.csv:
     get:
       operationId: TasksController_getReportCsv
@@ -624,13 +526,6 @@ paths:
       summary: Download a CSV report of all task items
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/circuit-breaker:
     get:
       operationId: TasksController_getCircuitBreaker
@@ -655,13 +550,6 @@ paths:
       summary: Get the circuit-breaker state for a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/circuit-breaker/reset:
     post:
       operationId: TasksController_resetCircuitBreaker
@@ -686,13 +574,6 @@ paths:
       summary: Reset a tripped circuit breaker for a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/steps:
     get:
       operationId: TasksController_getPipelineSteps
@@ -746,13 +627,6 @@ paths:
       summary: Add a pipeline step to a task.
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/steps/reorder:
     put:
       operationId: TasksController_reorderPipelineSteps
@@ -783,13 +657,6 @@ paths:
       summary: Reorder pipeline steps in a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/steps/{stepId}:
     patch:
       operationId: TasksController_updatePipelineStep
@@ -853,13 +720,6 @@ paths:
       summary: Delete a pipeline step from a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/scoring-results:
     get:
       operationId: TasksController_getScoringResults
@@ -922,13 +782,6 @@ paths:
       summary: List scoring results for a task with pagination.
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/scoring-stats:
     get:
       operationId: TasksController_getScoringStats
@@ -953,13 +806,6 @@ paths:
       summary: Get aggregate scoring statistics for a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/scoring-results/{resultId}:
     delete:
       operationId: TasksController_deleteScoringResult
@@ -989,13 +835,6 @@ paths:
       summary: Delete a single scoring result
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/scoring-results/retry:
     post:
       operationId: TasksController_retryScoringResults
@@ -1026,13 +865,6 @@ paths:
       summary: '#1099: retry SELECTION of scoring results — by statuses…'
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/scoring-results/{resultId}/events:
     get:
       operationId: TasksController_getScoringStepEvents
@@ -1072,13 +904,6 @@ paths:
       summary: '#975: paginated step journal for a single scoring card…'
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/scoring-results.csv:
     get:
       operationId: TasksController_getScoringResultsCsv
@@ -1141,13 +966,6 @@ paths:
       summary: Download a CSV of scoring results
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/error-settings:
     get:
       operationId: TasksController_getErrorSettings
@@ -1201,13 +1019,6 @@ paths:
       summary: Update error-handling settings for a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/memory:
     get:
       operationId: TasksController_getMemory
@@ -1261,13 +1072,6 @@ paths:
       summary: Update AI memory instructions for a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/ai-settings:
     get:
       operationId: TasksController_getAiSettings
@@ -1321,13 +1125,6 @@ paths:
       summary: Update the AI provider/model settings for a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/cron:
     get:
       operationId: TasksController_getCronSettings
@@ -1381,13 +1178,6 @@ paths:
       summary: Update the cron scheduling settings for a task
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/tasks/{id}/cron/trigger:
     post:
       operationId: TasksController_triggerCron
@@ -1412,52 +1202,87 @@ paths:
       summary: Manually trigger a task cron run
       tags:
       - Tasks
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    UpdateErrorSettingsDto:
+    CreateTaskDto:
       type: object
       properties:
-        reasonClasses:
-          type: array
-          minItems: 1
-          description: 'Scoring failure classes counted by the configured pause thresholds. Default: platform. Network/material remain visible even when not selected.'
-          items:
-            type: string
-            enum:
-            - platform
-            - network
-            - material
-        consecutiveErrorLimit:
+        methodId:
           type: number
-          minimum: 1
-          description: N consecutive errors → auto-pause
-        errorRatePercent:
-          type: number
-          description: Error rate within the window, %
-        errorRateWindowMin:
-          type: number
-          minimum: 1
-          description: Observation window, minutes
-        errorRateMinItems:
-          type: number
-          minimum: 1
-          description: Minimum items before checking the rate
-    EnrollInBranchDto:
-      type: object
-      properties:
-        contactIds:
+          description: Method id — e.g. 22=scoring (lead gen), 11=email validation, 14=ICP review, 15=DIG, 12=mailing (legacy, use /campaigns instead)
+        methodName:
+          type: string
+          description: Human-readable label mirroring methodId, e.g. "scoring"
+        description:
+          type: string
+        config:
+          type: object
+          description: Method-specific configuration payload (shape depends on methodId)
+        mailingConfig:
+          type: object
+          description: Mailing configuration patch (methodId=12, legacy)
+        contactListId:
+          type: string
+          description: Contact list to source items from at POST /tasks/:id/start
+        contactListIdFinish:
+          type: string
+          description: Contact list to move finished items into
+        accountListId:
+          type: string
+        creativeId:
+          type: string
+        creativeIds:
           type: array
           items:
             type: string
+        companyListId:
+          type: string
+          description: 'CompanyList id — for methodId=22 (scoring): items are populated from this list at POST /tasks/:id/start; must reference an existing list'
+        resumeAt:
+          type: string
+          description: ISO date string — task waits (does not run) until this moment
+        streamCount:
+          type: number
+          description: Parallel stream count, clamped to the tenant maxStreams setting
       required:
-      - contactIds
+      - methodId
+      - methodName
+    UpdateTaskMemoryDto:
+      type: object
+      properties:
+        memory:
+          type: string
+      required:
+      - memory
+    UpdateTaskDto:
+      type: object
+      properties:
+        description:
+          type: string
+        config:
+          type: object
+          description: Task configuration; shape depends on methodId
+        mailingConfig:
+          type: object
+        contactListId:
+          type: string
+        contactListIdFinish:
+          type: string
+        accountListId:
+          type: string
+        creativeId:
+          type: string
+        creativeIds:
+          type: array
+          items:
+            type: string
+        companyListId:
+          type: string
+        resumeAt:
+          type: string
+          description: ISO time of resumption
+        streamCount:
+          type: number
     ReorderStepsDto:
       type: object
       properties:
@@ -1468,31 +1293,41 @@ components:
             type: string
       required:
       - stepIds
-    UpdateCronSettingsDto:
+    AddPipelineStepDto:
       type: object
       properties:
-        cronEnabled:
+        type:
+          type: string
+          description: 'Pipeline step type: SITE_AVAILABILITY, AI_CONTENT, KEYWORDS, EMAIL_EXTRACT, PHONE_EXTRACT, SOCIAL_LINKS, TECH_DETECT, GEO_FILTER, NALOG_LOOKUP, AI_CARD_FIELD, etc.'
+        enabled:
           type: boolean
-        cronInterval:
-          type: number
-          minimum: 1
-          description: Cron interval, minutes
-        batchSize:
-          type: number
-          minimum: 1
-          description: Batch size; the service clamps it to the allowed range
-        rateLimit:
-          type: number
-          minimum: 1
-        scoringMode:
+          description: Step is active (defaults to true)
+        name:
           type: string
-    UpdateTaskMemoryDto:
-      type: object
-      properties:
-        memory:
+          description: Human-readable step name (defaults to type)
+        config:
+          type: object
+          description: Step configuration (shape depends on type)
+        onSuccess:
           type: string
+          description: 'Routing on success: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
+        onSuccessTarget:
+          type: string
+          description: Target for onSuccess=MOVE_TO_LIST (list id)
+        onFail:
+          type: string
+          description: 'Routing on failure: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
+        onFailTarget:
+          type: string
+          description: Target for onFail=MOVE_TO_LIST (list id)
+        onError:
+          type: string
+          description: 'Routing on error: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
+        onErrorTarget:
+          type: string
+          description: Target for onError=MOVE_TO_LIST (list id)
       required:
-      - memory
+      - type
     UpdatePipelineStepDto:
       type: object
       properties:
@@ -1521,31 +1356,33 @@ components:
           description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
         onErrorTarget:
           type: string
-    CreateBranchDto:
+    StartTaskDto:
       type: object
       properties:
-        methodId:
+        limit:
           type: number
-          description: Sub-branch method (11 email validation, 14 ICP review, 15 DIG, 22 scoring)
-        methodName:
+          minimum: 1
+          description: 'Trial run: process no more than N items and pause the task. The limit is ONE-TIME — the next start without the parameter runs the rest to completion.'
+          maximum: 1000
+          example: 100
+    UpdateCronSettingsDto:
+      type: object
+      properties:
+        cronEnabled:
+          type: boolean
+        cronInterval:
+          type: number
+          minimum: 1
+          description: Cron interval, minutes
+        batchSize:
+          type: number
+          minimum: 1
+          description: Batch size; the service clamps it to the allowed range
+        rateLimit:
+          type: number
+          minimum: 1
+        scoringMode:
           type: string
-        description:
-          type: string
-        branchTrigger:
-          type: object
-          description: 'Branch entry condition: { event, condition? }'
-        mailingConfig:
-          type: object
-        contactListId:
-          type: string
-        creativeId:
-          type: string
-        accountListId:
-          type: string
-      required:
-      - methodId
-      - methodName
-      - branchTrigger
     RetryScoringResultsDto:
       type: object
       properties:
@@ -1613,49 +1450,15 @@ components:
         contradictoryOnly:
           type: boolean
           description: Narrow the selection to results where the contradiction flag fired at any step (data.contradictoryFields — a non-empty array). Combined with the other selection conditions (statuses/processedAfter/processedBefore/resultIds/companyIds, includeActive/includeUnavailable) as an additional narrowing (AND), not a replacement for them.
-    CreateTaskDto:
+    EnrollInBranchDto:
       type: object
       properties:
-        methodId:
-          type: number
-          description: Method id — e.g. 22=scoring (lead gen), 11=email validation, 14=ICP review, 15=DIG, 12=mailing (legacy, use /campaigns instead)
-        methodName:
-          type: string
-          description: Human-readable label mirroring methodId, e.g. "scoring"
-        description:
-          type: string
-        config:
-          type: object
-          description: Method-specific configuration payload (shape depends on methodId)
-        mailingConfig:
-          type: object
-          description: Mailing configuration patch (methodId=12, legacy)
-        contactListId:
-          type: string
-          description: Contact list to source items from at POST /tasks/:id/start
-        contactListIdFinish:
-          type: string
-          description: Contact list to move finished items into
-        accountListId:
-          type: string
-        creativeId:
-          type: string
-        creativeIds:
+        contactIds:
           type: array
           items:
             type: string
-        companyListId:
-          type: string
-          description: 'CompanyList id — for methodId=22 (scoring): items are populated from this list at POST /tasks/:id/start; must reference an existing list'
-        resumeAt:
-          type: string
-          description: ISO date string — task waits (does not run) until this moment
-        streamCount:
-          type: number
-          description: Parallel stream count, clamped to the tenant maxStreams setting
       required:
-      - methodId
-      - methodName
+      - contactIds
     UpdateAiSettingsDto:
       type: object
       properties:
@@ -1669,79 +1472,59 @@ components:
           description: 'Model per call kind, e.g. { scoring: "..." }'
           additionalProperties:
             type: string
-    AddPipelineStepDto:
+    CreateBranchDto:
       type: object
       properties:
-        type:
-          type: string
-          description: 'Pipeline step type: SITE_AVAILABILITY, AI_CONTENT, KEYWORDS, EMAIL_EXTRACT, PHONE_EXTRACT, SOCIAL_LINKS, TECH_DETECT, GEO_FILTER, NALOG_LOOKUP, AI_CARD_FIELD, etc.'
-        enabled:
-          type: boolean
-          description: Step is active (defaults to true)
-        name:
-          type: string
-          description: Human-readable step name (defaults to type)
-        config:
-          type: object
-          description: Step configuration (shape depends on type)
-        onSuccess:
-          type: string
-          description: 'Routing on success: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
-        onSuccessTarget:
-          type: string
-          description: Target for onSuccess=MOVE_TO_LIST (list id)
-        onFail:
-          type: string
-          description: 'Routing on failure: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
-        onFailTarget:
-          type: string
-          description: Target for onFail=MOVE_TO_LIST (list id)
-        onError:
-          type: string
-          description: 'Routing on error: CONTINUE|STOP|MOVE_TO_LIST|DELETE'
-        onErrorTarget:
-          type: string
-          description: Target for onError=MOVE_TO_LIST (list id)
-      required:
-      - type
-    StartTaskDto:
-      type: object
-      properties:
-        limit:
+        methodId:
           type: number
-          minimum: 1
-          description: 'Trial run: process no more than N items and pause the task. The limit is ONE-TIME — the next start without the parameter runs the rest to completion.'
-          maximum: 1000
-          example: 100
-    UpdateTaskDto:
-      type: object
-      properties:
+          description: Sub-branch method (11 email validation, 14 ICP review, 15 DIG, 22 scoring)
+        methodName:
+          type: string
         description:
           type: string
-        config:
+        branchTrigger:
           type: object
-          description: Task configuration; shape depends on methodId
+          description: 'Branch entry condition: { event, condition? }'
         mailingConfig:
           type: object
         contactListId:
           type: string
-        contactListIdFinish:
+        creativeId:
           type: string
         accountListId:
           type: string
-        creativeId:
-          type: string
-        creativeIds:
+      required:
+      - methodId
+      - methodName
+      - branchTrigger
+    UpdateErrorSettingsDto:
+      type: object
+      properties:
+        reasonClasses:
           type: array
+          minItems: 1
+          description: 'Scoring failure classes counted by the configured pause thresholds. Default: platform. Network/material remain visible even when not selected.'
           items:
             type: string
-        companyListId:
-          type: string
-        resumeAt:
-          type: string
-          description: ISO time of resumption
-        streamCount:
+            enum:
+            - platform
+            - network
+            - material
+        consecutiveErrorLimit:
           type: number
+          minimum: 1
+          description: N consecutive errors → auto-pause
+        errorRatePercent:
+          type: number
+          description: Error rate within the window, %
+        errorRateWindowMin:
+          type: number
+          minimum: 1
+          description: Observation window, minutes
+        errorRateMinItems:
+          type: number
+          minimum: 1
+          description: Minimum items before checking the rate
   securitySchemes:
     jwt:
       scheme: bearer
@@ -1758,6 +1541,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

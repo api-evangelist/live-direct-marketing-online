@@ -1,9 +1,10 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Monitoring API
+  title: inbox-check Monitoring API
+  description: Email deliverability test API for AI agents and automation. Same surface is exposed via REST (here), MCP (streamable-http at /mcp), and A2A (skill manifest at /.well-known/agent.json).
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged monitoring across 2 of this provider''s published API definitions: live-direct-marketing-online-inbox-check-openapi.json, live-direct-marketing-online-inbox-check-openapi.json. Each path carries the servers of the definition it was published in.'
+servers: []
 tags:
 - name: Monitoring
 paths:
@@ -390,26 +391,6 @@ components:
           type: number
           minimum: 15
           maximum: 10080
-    AddDomainDto:
-      type: object
-      properties:
-        domain:
-          type: string
-          minLength: 3
-          maxLength: 253
-        enabledChecks:
-          type: array
-          uniqueItems: true
-          items:
-            type: string
-            enum:
-            - spf
-            - dmarc
-            - mx
-            - blocklist
-            - tls
-      required:
-      - domain
     UpdateSettingsDto:
       type: object
       properties:
@@ -440,6 +421,26 @@ components:
           type: string
         telegramEnabled:
           type: boolean
+    AddDomainDto:
+      type: object
+      properties:
+        domain:
+          type: string
+          minLength: 3
+          maxLength: 253
+        enabledChecks:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+            - spf
+            - dmarc
+            - mx
+            - blocklist
+            - tls
+      required:
+      - domain
   securitySchemes:
     apiKey:
       scheme: bearer
@@ -449,6 +450,3 @@ components:
       type: apiKey
       in: header
       name: X-Admin-Key
-x-refined-from:
-- live-direct-marketing-online-inbox-check-openapi.json
-- live-direct-marketing-online-inbox-check-openapi.json

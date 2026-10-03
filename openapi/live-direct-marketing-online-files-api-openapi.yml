@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Files API
+  title: LDM v3 Files API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Files across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -41,13 +41,6 @@ paths:
       - Files
       x-required-scope:
       - files:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/upload:
     post:
       operationId: FilesController_uploadImage
@@ -81,13 +74,6 @@ paths:
       - Files
       x-required-scope:
       - files:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/images:
     get:
       operationId: FilesController_listImages
@@ -109,13 +95,6 @@ paths:
       - Files
       x-required-scope:
       - files:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/images/{filename}:
     delete:
       operationId: FilesController_deleteImage
@@ -140,13 +119,6 @@ paths:
       summary: Delete a tenant-scoped creative image
       tags:
       - Files
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/assets:
     post:
       operationId: FilesController_uploadAsset
@@ -200,13 +172,6 @@ paths:
       - Files
       x-required-scope:
       - files:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/assets/quota:
     get:
       operationId: FilesController_getAssetsQuota
@@ -228,13 +193,6 @@ paths:
       - Files
       x-required-scope:
       - files:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/assets/{filename}:
     delete:
       operationId: FilesController_deleteAsset
@@ -259,13 +217,6 @@ paths:
       summary: Delete a tenant asset
       tags:
       - Files
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files:
     get:
       operationId: FilesController_findAll
@@ -324,13 +275,6 @@ paths:
       summary: Upload a file attachment for a contact, company or lead (max 30 MB)
       tags:
       - Files
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/{id}/download:
     get:
       operationId: FilesController_download
@@ -355,13 +299,6 @@ paths:
       summary: Download a file attachment (authorized, streams real bytes)
       tags:
       - Files
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/{id}:
     delete:
       operationId: FilesController_remove
@@ -386,13 +323,6 @@ paths:
       summary: Delete a file attachment record
       tags:
       - Files
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/library/quota:
     get:
       operationId: FilesController_getLibraryQuota
@@ -414,13 +344,6 @@ paths:
       - Files
       x-required-scope:
       - files:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/library:
     get:
       operationId: FilesController_listLibrary
@@ -527,13 +450,6 @@ paths:
       - Files
       x-required-scope:
       - files:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/library/{id}/download:
     get:
       operationId: FilesController_downloadLibraryItem
@@ -558,13 +474,6 @@ paths:
       summary: Download a library file with authorization (never public — Content-Disposition…
       tags:
       - Files
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/library/{id}/content:
     get:
       operationId: FilesController_readLibraryContent
@@ -620,13 +529,6 @@ paths:
       summary: Read a library document as bounded source-backed text/structure/image pages…
       tags:
       - Files
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/files/library/{id}:
     patch:
       operationId: FilesController_updateLibraryItem
@@ -680,13 +582,6 @@ paths:
       summary: 'Delete a library item — removes the DB row AND the bytes on disk (link: DB row…'
       tags:
       - Files
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     ImageImportSourceDto:
@@ -696,6 +591,12 @@ components:
           type: string
         libraryFileId:
           type: string
+    ImageImportTargetDto:
+      type: object
+      properties:
+        store:
+          type: object
+          default: ASSETS
     ImageImportNormalizeDto:
       type: object
       properties:
@@ -707,23 +608,6 @@ components:
         quality:
           type: number
           minimum: 1
-    ImageImportTargetDto:
-      type: object
-      properties:
-        store:
-          type: object
-          default: ASSETS
-    AttachEntityFileDto:
-      type: object
-      properties:
-        contactId:
-          type: string
-        companyId:
-          type: string
-        leadId:
-          type: string
-        createdBy:
-          type: string
     ImageImportDto:
       type: object
       properties:
@@ -767,6 +651,17 @@ components:
           type:
           - string
           - 'null'
+    AttachEntityFileDto:
+      type: object
+      properties:
+        contactId:
+          type: string
+        companyId:
+          type: string
+        leadId:
+          type: string
+        createdBy:
+          type: string
   securitySchemes:
     jwt:
       scheme: bearer
@@ -783,6 +678,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

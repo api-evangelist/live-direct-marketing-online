@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Import API
+  title: LDM v3 Import API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Import across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -35,13 +35,6 @@ paths:
       - Import
       x-required-scope:
       - import:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/templates/detect:
     post:
       operationId: ImportController_detectTemplate
@@ -69,13 +62,6 @@ paths:
       - Import
       x-required-scope:
       - import:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/templates/apply:
     post:
       operationId: ImportController_applyTemplate
@@ -103,13 +89,6 @@ paths:
       - Import
       x-required-scope:
       - import:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/tasks:
     post:
       operationId: ImportController_createTask
@@ -137,13 +116,6 @@ paths:
       - Import
       x-required-scope:
       - import:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/from-url:
     post:
       operationId: ImportController_importFromUrl
@@ -171,13 +143,6 @@ paths:
       - Import
       x-required-scope:
       - import:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/tasks/{id}:
     get:
       operationId: ImportController_getTask
@@ -202,13 +167,6 @@ paths:
       summary: Get an import task by id
       tags:
       - Import
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/tasks/{id}/log:
     get:
       operationId: ImportController_getLog
@@ -248,13 +206,6 @@ paths:
       summary: Get the row-level log for an import task
       tags:
       - Import
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/tasks/{id}/log/csv:
     get:
       operationId: ImportController_getLogCsv
@@ -279,13 +230,6 @@ paths:
       summary: Download the import task log as CSV
       tags:
       - Import
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/tasks/{id}/cancel:
     post:
       operationId: ImportController_cancelTask
@@ -310,13 +254,6 @@ paths:
       summary: Cancel an in-progress import task
       tags:
       - Import
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/import/tasks/{id}/rollback:
     post:
       operationId: ImportController_rollbackTask
@@ -341,50 +278,8 @@ paths:
       summary: Rollback the changes made by an import task
       tags:
       - Import
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    ApplyTemplateDto:
-      type: object
-      properties:
-        templateId:
-          type: string
-          description: Id of the template to apply
-        headers:
-          description: CSV/sheet column headers to map via the template
-          type: array
-          items:
-            type: string
-      required:
-      - templateId
-      - headers
-    ImportFromUrlDto:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Google Sheets URL or a direct .csv/.xlsx URL
-        listId:
-          type: string
-          description: Tenant file library id — save the fetched file there too
-      required:
-      - url
-    DetectTemplateDto:
-      type: object
-      properties:
-        headers:
-          description: CSV/sheet column headers to match against known templates
-          type: array
-          items:
-            type: string
-      required:
-      - headers
     ImportTaskConfigDto:
       type: object
       properties:
@@ -480,6 +375,41 @@ components:
       - createLeads
       - duplicateHandling
       - deduplicateBy
+    ApplyTemplateDto:
+      type: object
+      properties:
+        templateId:
+          type: string
+          description: Id of the template to apply
+        headers:
+          description: CSV/sheet column headers to map via the template
+          type: array
+          items:
+            type: string
+      required:
+      - templateId
+      - headers
+    ImportFromUrlDto:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Google Sheets URL or a direct .csv/.xlsx URL
+        listId:
+          type: string
+          description: Tenant file library id — save the fetched file there too
+      required:
+      - url
+    DetectTemplateDto:
+      type: object
+      properties:
+        headers:
+          description: CSV/sheet column headers to match against known templates
+          type: array
+          items:
+            type: string
+      required:
+      - headers
   securitySchemes:
     jwt:
       scheme: bearer
@@ -496,6 +426,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

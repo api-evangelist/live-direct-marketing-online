@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Phantom Browser / Download API
+  title: LDM v3 Phantom Browser / Download API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Phantom Browser / Download across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -38,13 +38,6 @@ paths:
       summary: Sync Phantom desktop client profiles using its token
       tags:
       - Phantom Browser / Download
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/update/check:
     get:
       operationId: PhantomBrowserDownloadController_updateCheck
@@ -74,13 +67,6 @@ paths:
       summary: Check for available Phantom client updates
       tags:
       - Phantom Browser / Download
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/update/bundle:
     get:
       operationId: PhantomBrowserDownloadController_updateBundle
@@ -100,13 +86,6 @@ paths:
       summary: Download the Phantom client update bundle (gzipped source files)
       tags:
       - Phantom Browser / Download
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/download/{platform}:
     get:
       operationId: PhantomBrowserDownloadController_download
@@ -131,13 +110,6 @@ paths:
       summary: Download the Phantom client binary for a given platform
       tags:
       - Phantom Browser / Download
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/phantom-browser/logs:
     post:
       operationId: PhantomBrowserDownloadController_receiveLogs
@@ -157,13 +129,6 @@ paths:
       summary: Receive logs from the Phantom desktop client
       tags:
       - Phantom Browser / Download
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -181,6 +146,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

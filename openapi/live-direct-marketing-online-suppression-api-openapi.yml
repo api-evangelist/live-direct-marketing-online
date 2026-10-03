@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Suppression API
+  title: LDM v3 Suppression API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Suppression across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -71,13 +71,6 @@ paths:
       summary: Add an email to the suppression list
       tags:
       - Suppression
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/suppression/bulk:
     post:
       operationId: SuppressionController_addBulk
@@ -99,13 +92,6 @@ paths:
       - Suppression
       x-required-scope:
       - suppression:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/suppression/check:
     post:
       operationId: SuppressionController_check
@@ -133,13 +119,6 @@ paths:
       - Suppression
       x-required-scope:
       - suppression:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/suppression/{email}:
     delete:
       operationId: SuppressionController_remove
@@ -164,13 +143,6 @@ paths:
       summary: Remove an email from the suppression list
       tags:
       - Suppression
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/suppression/domains:
     get:
       operationId: SuppressionController_listDomains
@@ -227,13 +199,6 @@ paths:
       - Suppression
       x-required-scope:
       - suppression:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/suppression/domains/{domain}:
     delete:
       operationId: SuppressionController_removeDomain
@@ -258,13 +223,6 @@ paths:
       summary: Remove a domain from the suppression list
       tags:
       - Suppression
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     CheckEmailsDto:
@@ -293,6 +251,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

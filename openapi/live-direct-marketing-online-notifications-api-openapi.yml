@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Notifications API
+  title: LDM v3 Notifications API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Notifications across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -35,13 +35,6 @@ paths:
       - Notifications
       x-required-scope:
       - notifications:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications/push/subscribe:
     post:
       operationId: NotificationsController_pushSubscribe
@@ -74,13 +67,6 @@ paths:
       - Notifications
       x-required-scope:
       - notifications:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications/push/unsubscribe:
     post:
       operationId: NotificationsController_pushUnsubscribe
@@ -108,13 +94,6 @@ paths:
       - Notifications
       x-required-scope:
       - notifications:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications:
     get:
       operationId: NotificationsController_findAll
@@ -154,13 +133,6 @@ paths:
       summary: List notifications for the current user
       tags:
       - Notifications
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications/unread-count:
     get:
       operationId: NotificationsController_unreadCount
@@ -182,13 +154,6 @@ paths:
       - Notifications
       x-required-scope:
       - notifications:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications/read-all:
     post:
       operationId: NotificationsController_readAll
@@ -210,13 +175,6 @@ paths:
       - Notifications
       x-required-scope:
       - notifications:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications/{id}/read:
     post:
       operationId: NotificationsController_markRead
@@ -241,13 +199,6 @@ paths:
       summary: Mark a notification as read
       tags:
       - Notifications
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications/{id}/dismiss:
     post:
       operationId: NotificationsController_dismiss
@@ -272,13 +223,6 @@ paths:
       summary: Dismiss a notification (hide from widget)
       tags:
       - Notifications
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications/dismiss-all:
     post:
       operationId: NotificationsController_dismissAll
@@ -300,13 +244,6 @@ paths:
       - Notifications
       x-required-scope:
       - notifications:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/notifications/self-note:
     post:
       operationId: NotificationsController_createSelfNote
@@ -334,13 +271,6 @@ paths:
       - Notifications
       x-required-scope:
       - notifications:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     PushKeysDto:
@@ -355,6 +285,18 @@ components:
       required:
       - p256dh
       - auth
+    CreateSelfNoteDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Note title
+        message:
+          type: string
+          description: Note text
+      required:
+      - title
+      - message
     PushSubscribeDto:
       type: object
       properties:
@@ -378,18 +320,6 @@ components:
           maxLength: 2048
       required:
       - endpoint
-    CreateSelfNoteDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Note title
-        message:
-          type: string
-          description: Note text
-      required:
-      - title
-      - message
   securitySchemes:
     jwt:
       scheme: bearer
@@ -406,6 +336,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

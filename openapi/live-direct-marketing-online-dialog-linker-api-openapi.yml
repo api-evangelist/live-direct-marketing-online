@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Dialog Linker API
+  title: LDM v3 Dialog Linker API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Dialog Linker across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -38,13 +38,6 @@ paths:
       summary: Manually re-run linker for a specific dialog
       tags:
       - Dialog Linker
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialog-linker/backfill:
     post:
       operationId: DialogLinkerController_backfill
@@ -66,13 +59,6 @@ paths:
       - Dialog Linker
       x-required-scope:
       - linker:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialog-linker/stats:
     get:
       operationId: DialogLinkerController_getStats
@@ -94,13 +80,6 @@ paths:
       - Dialog Linker
       x-required-scope:
       - linker:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialog-linker/failure-summary:
     get:
       operationId: DialogLinkerController_getFailureSummary
@@ -127,13 +106,6 @@ paths:
       - Dialog Linker
       x-required-scope:
       - linker:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialog-linker/logs/{dialogId}:
     get:
       operationId: DialogLinkerController_getLogs
@@ -168,13 +140,6 @@ paths:
       summary: Get linker logs for a specific dialog
       tags:
       - Dialog Linker
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialog-linker/logs:
     get:
       operationId: DialogLinkerController_getAllLogs
@@ -206,13 +171,6 @@ paths:
       - Dialog Linker
       x-required-scope:
       - linker:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -230,6 +188,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

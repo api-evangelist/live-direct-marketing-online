@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Site Enrichment API
+  title: LDM v3 Site Enrichment API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Site Enrichment across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -41,13 +41,6 @@ paths:
       - Site Enrichment
       x-required-scope:
       - site-enrichment:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks:
     post:
       operationId: SiteEnrichmentController_create
@@ -120,13 +113,6 @@ paths:
       - Site Enrichment
       x-required-scope:
       - site-enrichment:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/preview:
     get:
       operationId: SiteEnrichmentController_preview
@@ -158,13 +144,6 @@ paths:
       - Site Enrichment
       x-required-scope:
       - site-enrichment:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}:
     get:
       operationId: SiteEnrichmentController_findOne
@@ -189,13 +168,6 @@ paths:
       summary: Status/counters of a site-crawl task
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/events:
     get:
       operationId: SiteEnrichmentController_listEvents
@@ -254,13 +226,6 @@ paths:
       summary: '#1144 atom B: an agent note into the task journal (kind=agent_note, author…'
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/reason-summary:
     get:
       operationId: SiteEnrichmentController_reasonSummary
@@ -285,13 +250,6 @@ paths:
       summary: '#949 summary of failure reasons (for a clickable filter above the journal)'
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/stats:
     get:
       operationId: SiteEnrichmentController_stats
@@ -316,13 +274,6 @@ paths:
       summary: '#957/#969 unified task statistics read from durable rows: funnel (cards AND…'
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/items:
     get:
       operationId: SiteEnrichmentController_listItems
@@ -367,13 +318,6 @@ paths:
       summary: '#952/#969 crawl task items: paginated, with a filter by outcome…'
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/raw:
     get:
       operationId: SiteEnrichmentController_rawFetch
@@ -403,13 +347,6 @@ paths:
       summary: '#965 diagnostic snapshot of the RAW visited page text(s) for ONE company…'
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/cancel:
     post:
       operationId: SiteEnrichmentController_cancel
@@ -434,13 +371,6 @@ paths:
       summary: Cancel a site-crawl task (durable — status in the DB, visible to any process)
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/pause:
     post:
       operationId: SiteEnrichmentController_pause
@@ -465,13 +395,6 @@ paths:
       summary: '#952 pause a crawl task (durable, non-terminal — resumed via .../resume)'
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/resume:
     post:
       operationId: SiteEnrichmentController_resume
@@ -496,13 +419,6 @@ paths:
       summary: '#952 resume a paused crawl task'
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/tasks/{id}/retry:
     post:
       operationId: SiteEnrichmentController_retry
@@ -527,13 +443,6 @@ paths:
       summary: Retry still-not-OK companies of a terminal task (FAILED/PARTIAL/CANCELLED)
       tags:
       - Site Enrichment
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/backlog/stale-http-status:
     get:
       operationId: SiteEnrichmentController_staleOkBacklog
@@ -560,13 +469,6 @@ paths:
       - Site Enrichment
       x-required-scope:
       - site-enrichment:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/backlog/stale-http-status/requeue:
     post:
       operationId: SiteEnrichmentController_requeueStaleOkBacklog
@@ -593,13 +495,6 @@ paths:
       - Site Enrichment
       x-required-scope:
       - site-enrichment:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/backlog/down-wait-timeout:
     get:
       operationId: SiteEnrichmentController_downBacklog
@@ -626,13 +521,6 @@ paths:
       - Site Enrichment
       x-required-scope:
       - site-enrichment:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/site-enrichment/backlog/down-wait-timeout/requeue:
     post:
       operationId: SiteEnrichmentController_requeueDownBacklog
@@ -659,23 +547,8 @@ paths:
       - Site Enrichment
       x-required-scope:
       - site-enrichment:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
-    CreateAgentNoteDto:
-      type: object
-      properties:
-        text:
-          type: string
-          maxLength: 4000
-      required:
-      - text
     CreateSiteEnrichmentTaskDto:
       type: object
       properties:
@@ -716,6 +589,14 @@ components:
         scoringTaskId:
           type: string
           maxLength: 100
+    CreateAgentNoteDto:
+      type: object
+      properties:
+        text:
+          type: string
+          maxLength: 4000
+      required:
+      - text
     DetectFormsDto:
       type: object
       properties:
@@ -742,6 +623,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Users API
+  title: LDM v3 Users API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Users across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -35,13 +35,6 @@ paths:
       - Users
       x-required-scope:
       - users:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users:
     get:
       operationId: UsersController_findAll
@@ -95,13 +88,6 @@ paths:
       summary: Create a user (SUPER only)
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/system/stats:
     get:
       operationId: UsersController_systemStats
@@ -123,13 +109,6 @@ paths:
       - Users
       x-required-scope:
       - users:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/system/kill-process/{pid}:
     post:
       operationId: UsersController_killProcess
@@ -154,13 +133,6 @@ paths:
       summary: Kill a system process by pid (SUPER only)
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/system/cleanup-orphans:
     post:
       operationId: UsersController_cleanupOrphans
@@ -182,13 +154,6 @@ paths:
       - Users
       x-required-scope:
       - users:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/{id}:
     get:
       operationId: UsersController_findById
@@ -236,13 +201,6 @@ paths:
       summary: 'Delete a user with tenant cleanup: sole-member tenants + their DBs are dropped…'
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/{id}/role:
     patch:
       operationId: UsersController_updateRole
@@ -273,13 +231,6 @@ paths:
       summary: Update a user role (SUPER/MANAGER)
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/{id}/status:
     patch:
       operationId: UsersController_updateStatus
@@ -310,13 +261,6 @@ paths:
       summary: Update a user status (SUPER/MANAGER)
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/{id}/password:
     patch:
       operationId: UsersController_updatePassword
@@ -347,13 +291,6 @@ paths:
       summary: Update a user password (SUPER only)
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/{id}/profile:
     patch:
       operationId: UsersController_updateProfile
@@ -384,13 +321,6 @@ paths:
       summary: Update a user profile (SUPER only)
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/{id}/comments:
     get:
       operationId: UsersController_listComments
@@ -444,13 +374,6 @@ paths:
       summary: Add an admin comment on a user (SUPER/MANAGER)
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/users/{id}/comments/{commentId}:
     delete:
       operationId: UsersController_deleteComment
@@ -480,15 +403,26 @@ paths:
       summary: Delete an admin comment on a user (SUPER only)
       tags:
       - Users
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
+    AddCommentDto:
+      type: object
+      properties: {}
+    UpdatePasswordDto:
+      type: object
+      properties:
+        password:
+          type: string
+          minLength: 8
+      required:
+      - password
+    UpdateRoleDto:
+      type: object
+      properties:
+        role:
+          type: object
+      required:
+      - role
     UpdateStatusDto:
       type: object
       properties:
@@ -496,16 +430,6 @@ components:
           type: object
       required:
       - status
-    AddCommentDto:
-      type: object
-      properties: {}
-    UpdateProfileDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
     CreateUserDto:
       type: object
       properties:
@@ -524,21 +448,13 @@ components:
       required:
       - email
       - password
-    UpdatePasswordDto:
+    UpdateProfileDto:
       type: object
       properties:
-        password:
+        firstName:
           type: string
-          minLength: 8
-      required:
-      - password
-    UpdateRoleDto:
-      type: object
-      properties:
-        role:
-          type: object
-      required:
-      - role
+        lastName:
+          type: string
   securitySchemes:
     jwt:
       scheme: bearer
@@ -555,6 +471,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

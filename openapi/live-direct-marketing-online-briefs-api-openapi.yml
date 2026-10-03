@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Briefs API
+  title: LDM v3 Briefs API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Briefs across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -35,13 +35,6 @@ paths:
       - Briefs
       x-required-scope:
       - briefs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/intake:
     get:
       operationId: BriefsController_intake
@@ -88,13 +81,6 @@ paths:
       - Briefs
       x-required-scope:
       - briefs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/intake/items:
     get:
       operationId: BriefsController_listIntakeItems
@@ -192,13 +178,6 @@ paths:
       - Briefs
       x-required-scope:
       - briefs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/intake/items/{itemId}:
     get:
       operationId: BriefsController_getIntakeItem
@@ -223,13 +202,6 @@ paths:
       summary: Read one lossless system intake item with provenance, attachments and work log…
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/intake/items/{itemId}/status:
     patch:
       operationId: BriefsController_transitionIntakeItem
@@ -260,13 +232,6 @@ paths:
       summary: Transition an intake item to IN_REVIEW, IGNORED or REJECTED with an audited…
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/intake/items/{itemId}/link:
     post:
       operationId: BriefsController_linkIntakeItem
@@ -297,13 +262,6 @@ paths:
       summary: Link an intake item/files to a Brief idempotently (#750)
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/intake/items/{itemId}/log:
     post:
       operationId: BriefsController_logIntakeWork
@@ -334,13 +292,6 @@ paths:
       summary: Append an agent work-log event with intake provenance (#750)
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs:
     get:
       operationId: BriefsController_findAll
@@ -417,13 +368,6 @@ paths:
       summary: Create a new brief
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/attachments/content:
     get:
       operationId: BriefsController_attachmentContent
@@ -485,13 +429,6 @@ paths:
       summary: Read one Brief attachment as bounded source-backed text/structure/image pages…
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}:
     get:
       operationId: BriefsController_findOne
@@ -573,13 +510,6 @@ paths:
       summary: Soft-delete a brief with optional reason
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/content:
     patch:
       operationId: BriefsController_updateContent
@@ -610,13 +540,6 @@ paths:
       summary: Update brief content body (JSON-merge patch).
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/variables:
     patch:
       operationId: BriefsController_updateVariables
@@ -647,13 +570,6 @@ paths:
       summary: Update brief template variables
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/locks:
     patch:
       operationId: BriefsController_updateLocks
@@ -678,13 +594,6 @@ paths:
       summary: Update brief section locks
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/restore:
     post:
       operationId: BriefsController_restore
@@ -709,13 +618,6 @@ paths:
       summary: Restore a soft-deleted brief
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/copy:
     post:
       operationId: BriefsController_copy
@@ -740,13 +642,6 @@ paths:
       summary: Duplicate an existing brief
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/audit:
     get:
       operationId: BriefsController_audit
@@ -776,13 +671,6 @@ paths:
       summary: List audit entries for a brief
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/mail:
     get:
       operationId: BriefsController_mail
@@ -826,13 +714,6 @@ paths:
       summary: Brief intake email address and mail feed (#744)
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/mail/attachments/{attachmentId}/download:
     get:
       operationId: BriefsController_downloadMailAttachment
@@ -862,13 +743,6 @@ paths:
       summary: Download a brief mail attachment (#780) — same tenant guard as the rest of the…
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/intake-alias:
     patch:
       operationId: BriefsController_updateIntakeAlias
@@ -909,13 +783,6 @@ paths:
       summary: Change the stable human-readable system intake alias (#756)
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{id}/expert:
     get:
       operationId: BriefsController_expert
@@ -978,13 +845,6 @@ paths:
       summary: 'Operation-level SDR expert flow: intake provenance → live schema → gaps →…'
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{briefId}/memory:
     get:
       operationId: BriefMemoryController_list
@@ -1064,13 +924,6 @@ paths:
       summary: 'Record a memory entry: a decision, an observation, an open question, a REJECTED…'
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{briefId}/memory/{entryId}/resolve:
     post:
       operationId: BriefMemoryController_resolve
@@ -1100,13 +953,6 @@ paths:
       summary: Mark a memory entry RESOLVED — leaves the default feed and stops being sent to…
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/briefs/{briefId}/memory/migrate-content-review:
     post:
       operationId: BriefMemoryController_migrateContentReview
@@ -1131,15 +977,122 @@ paths:
       summary: '#790: one-time migration of the temporary content.review block into memory…'
       tags:
       - Briefs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
+    UpdateBriefIntakeAliasDto:
+      type: object
+      properties:
+        alias:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: /^brief-[a-z0-9](?:[a-z0-9-]*[a-z0-9])$/
+      required:
+      - alias
+    UpdateBriefContentDto:
+      type: object
+      properties:
+        patch:
+          type: object
+          description: Partial JSON-merge patch for `content`. Top-level keys whose path is locked (locks[key] === true) are rejected with 423. Merged result is validated against brief-content-v1.2.
+        reason:
+          type: string
+      required:
+      - patch
+    CreateBriefDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        content:
+          type: object
+          description: Initial content, validated against brief-content-v1.2 before save.
+        variables:
+          type: object
+        locks:
+          type: object
+          description: Map of section paths to boolean lock state.
+        targetCompanyListId:
+          type:
+          - string
+          - 'null'
+          description: Target company list ID. Can be a string or null.
+      required:
+      - name
+    TransitionBriefIntakeItemDto:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - IN_REVIEW
+          - IGNORED
+          - REJECTED
+          example: IN_REVIEW
+        reason:
+          type: string
+          maxLength: 500
+          example: Operator reviewed the sender and attachments.
+        idempotencyKey:
+          type: string
+          maxLength: 128
+          example: review-intake-item-123-v1
+      required:
+      - status
+      - reason
+      - idempotencyKey
+    LinkBriefIntakeItemDto:
+      type: object
+      properties:
+        briefId:
+          type: string
+          example: brief-id
+        contactId:
+          type:
+          - object
+          - 'null'
+          description: Existing customer Contact, or null to clear a wrong association.
+        companyId:
+          type:
+          - object
+          - 'null'
+          description: Existing customer Company, or null to clear a wrong association.
+        reason:
+          type: string
+          maxLength: 500
+          example: Human confirmed that these materials belong to this brief.
+        idempotencyKey:
+          type: string
+          maxLength: 128
+          example: link-intake-item-123-to-brief-id-v1
+      required:
+      - briefId
+      - reason
+      - idempotencyKey
+    UpdateBriefMetaDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        targetCompanyListId:
+          type:
+          - object
+          - 'null'
+          description: '#847: целевой список проекта. `null` — снять связь явно.
+
+            Без этого поля читатель (`resolveTargetList`) был бы механизмом без
+
+            вызывающего: связь стала бы исправимой, но не исправленной.'
+        reason:
+          type: string
     LogBriefIntakeWorkDto:
       type: object
       properties:
@@ -1176,40 +1129,6 @@ components:
       - action
       - reason
       - idempotencyKey
-    UpdateBriefContentDto:
-      type: object
-      properties:
-        patch:
-          type: object
-          description: Partial JSON-merge patch for `content`. Top-level keys whose path is locked (locks[key] === true) are rejected with 423. Merged result is validated against brief-content-v1.2.
-        reason:
-          type: string
-      required:
-      - patch
-    CreateBriefDto:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        isActive:
-          type: boolean
-        content:
-          type: object
-          description: Initial content, validated against brief-content-v1.2 before save.
-        variables:
-          type: object
-        locks:
-          type: object
-          description: Map of section paths to boolean lock state.
-        targetCompanyListId:
-          type:
-          - string
-          - 'null'
-          description: Target company list ID. Can be a string or null.
-      required:
-      - name
     UpdateBriefVariablesDto:
       type: object
       properties:
@@ -1220,86 +1139,6 @@ components:
           type: string
       required:
       - patch
-    UpdateBriefMetaDto:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        isActive:
-          type: boolean
-        targetCompanyListId:
-          type:
-          - object
-          - 'null'
-          description: '#847: целевой список проекта. `null` — снять связь явно.
-
-            Без этого поля читатель (`resolveTargetList`) был бы механизмом без
-
-            вызывающего: связь стала бы исправимой, но не исправленной.'
-        reason:
-          type: string
-    UpdateBriefIntakeAliasDto:
-      type: object
-      properties:
-        alias:
-          type: string
-          minLength: 8
-          maxLength: 64
-          pattern: /^brief-[a-z0-9](?:[a-z0-9-]*[a-z0-9])$/
-      required:
-      - alias
-    LinkBriefIntakeItemDto:
-      type: object
-      properties:
-        briefId:
-          type: string
-          example: brief-id
-        contactId:
-          type:
-          - object
-          - 'null'
-          description: Existing customer Contact, or null to clear a wrong association.
-        companyId:
-          type:
-          - object
-          - 'null'
-          description: Existing customer Company, or null to clear a wrong association.
-        reason:
-          type: string
-          maxLength: 500
-          example: Human confirmed that these materials belong to this brief.
-        idempotencyKey:
-          type: string
-          maxLength: 128
-          example: link-intake-item-123-to-brief-id-v1
-      required:
-      - briefId
-      - reason
-      - idempotencyKey
-    TransitionBriefIntakeItemDto:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - IN_REVIEW
-          - IGNORED
-          - REJECTED
-          example: IN_REVIEW
-        reason:
-          type: string
-          maxLength: 500
-          example: Operator reviewed the sender and attachments.
-        idempotencyKey:
-          type: string
-          maxLength: 128
-          example: review-intake-item-123-v1
-      required:
-      - status
-      - reason
-      - idempotencyKey
   securitySchemes:
     jwt:
       scheme: bearer
@@ -1316,6 +1155,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

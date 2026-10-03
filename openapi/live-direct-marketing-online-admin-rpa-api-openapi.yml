@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Admin RPA API
+  title: LDM v3 Admin RPA API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Admin RPA across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -33,13 +33,6 @@ paths:
       summary: RPA service keys (redacted), tenant opt-ins, queue readiness and legacy drain…
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/keys:
     post:
       operationId: RpaAdminController_create
@@ -65,13 +58,6 @@ paths:
       summary: Create a dedicated RPA service key
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/keys/{id}/rotate:
     post:
       operationId: RpaAdminController_rotate
@@ -96,13 +82,6 @@ paths:
       summary: Rotate a dedicated RPA key, invalidating the previous secret
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/keys/{id}/reveal:
     get:
       operationId: RpaAdminController_reveal
@@ -127,13 +106,6 @@ paths:
       summary: Reveal an encrypted current RPA key for SUPER; legacy hash-only keys cannot be…
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/keys/{id}/global-access:
     put:
       operationId: RpaAdminController_globalAccess
@@ -164,13 +136,6 @@ paths:
       summary: Explicitly allow an RPA key to claim work for all active tenant users
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/keys/{id}/revoke:
     post:
       operationId: RpaAdminController_revoke
@@ -195,13 +160,6 @@ paths:
       summary: Revoke RPA service access immediately; started sends remain for reconciliation
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/keys/{id}/trace:
     post:
       operationId: RpaAdminController_trace
@@ -232,13 +190,6 @@ paths:
       summary: Enable detailed heartbeat/poll trace for one hour, or disable it
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/keys/{id}/grants:
     put:
       operationId: RpaAdminController_grant
@@ -269,13 +220,6 @@ paths:
       summary: Explicit tenant and user opt-in for a service key
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/logs:
     get:
       operationId: RpaAdminController_logs
@@ -320,13 +264,6 @@ paths:
       summary: Correlated RPA history; allowlisted metadata only, bounded keyset pagination
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/task-history:
     get:
       operationId: RpaAdminController_taskHistory
@@ -371,13 +308,6 @@ paths:
       summary: Alias for bounded cross-tenant RPA task history
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/admin/rpa/protocol:
     get:
       operationId: RpaAdminController_protocol
@@ -397,13 +327,6 @@ paths:
       summary: RPA protocol endpoints and retry/lease rules
       tags:
       - Admin RPA
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     RpaGrantDto:
@@ -423,6 +346,15 @@ components:
       - tenantId
       - userId
       - enabled
+    RpaCreateKeyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required:
+      - name
     RpaTraceDto:
       type: object
       properties:
@@ -437,15 +369,6 @@ components:
           type: boolean
       required:
       - enabled
-    RpaCreateKeyDto:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-      required:
-      - name
   securitySchemes:
     jwt:
       scheme: bearer
@@ -462,6 +385,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

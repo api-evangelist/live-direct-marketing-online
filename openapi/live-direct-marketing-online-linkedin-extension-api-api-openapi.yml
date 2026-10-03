@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online LinkedIn / Extension API
+  title: LDM v3 LinkedIn / Extension API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged LinkedIn / Extension API across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -31,13 +31,6 @@ paths:
       summary: Upload/update a session (cookies from an authorized browser)
       tags:
       - LinkedIn / Extension API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/linkedin/next:
     get:
       operationId: LinkedinExtApiController_next
@@ -65,13 +58,6 @@ paths:
       summary: Claim the next due action (atomically). Empty → 204
       tags:
       - LinkedIn / Extension API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/linkedin/report:
     post:
       operationId: LinkedinExtApiController_report
@@ -89,13 +75,6 @@ paths:
       summary: Report on an action execution
       tags:
       - LinkedIn / Extension API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/linkedin/events:
     post:
       operationId: LinkedinExtApiController_events
@@ -113,13 +92,6 @@ paths:
       summary: Widget events (accept/reply/warning/challenge)
       tags:
       - LinkedIn / Extension API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/linkedin/config:
     get:
       operationId: LinkedinExtApiController_config
@@ -142,13 +114,6 @@ paths:
       summary: 'Client config: toggles + guard-rails'
       tags:
       - LinkedIn / Extension API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/ext/linkedin/heartbeat:
     post:
       operationId: LinkedinExtApiController_heartbeat
@@ -166,13 +131,6 @@ paths:
       summary: Widget heartbeat (+optionally fresh cookies)
       tags:
       - LinkedIn / Extension API
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -190,6 +148,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

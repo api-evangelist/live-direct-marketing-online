@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Deliverability API
+  title: LDM v3 Deliverability API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Deliverability across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -35,13 +35,6 @@ paths:
       - Deliverability
       x-required-scope:
       - deliverability:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/probe/creative-through-relay:
     post:
       operationId: DeliverabilityController_startCreativeThroughRelay
@@ -63,13 +56,6 @@ paths:
       - Deliverability
       x-required-scope:
       - deliverability:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/matrix:
     get:
       operationId: DeliverabilityController_getMatrix
@@ -109,13 +95,6 @@ paths:
       - Deliverability
       x-required-scope:
       - deliverability:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/probe/creative-tune:
     post:
       operationId: DeliverabilityController_startCreativeTune
@@ -137,13 +116,6 @@ paths:
       - Deliverability
       x-required-scope:
       - deliverability:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/probe/full-pipeline:
     post:
       operationId: DeliverabilityController_startFullPipeline
@@ -165,13 +137,6 @@ paths:
       - Deliverability
       x-required-scope:
       - deliverability:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/tuned-variants/{id}/promote:
     post:
       operationId: DeliverabilityController_promoteTunedVariant
@@ -196,13 +161,6 @@ paths:
       summary: Promote a tuned variant to a new Creative row in the tenant
       tags:
       - Deliverability
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/probe/{jobId}:
     get:
       operationId: DeliverabilityController_getJobStatus
@@ -250,13 +208,6 @@ paths:
       summary: Cancel pending probes in a batch (in-flight workers no-op safely)
       tags:
       - Deliverability
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/probes:
     get:
       operationId: DeliverabilityController_listProbes
@@ -331,13 +282,6 @@ paths:
       - Deliverability
       x-required-scope:
       - deliverability:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/block-rules:
     post:
       operationId: DeliverabilityController_createManualBlockRule
@@ -410,13 +354,6 @@ paths:
       - Deliverability
       x-required-scope:
       - deliverability:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/block-rules/{id}:
     delete:
       operationId: DeliverabilityController_deleteBlockRule
@@ -447,13 +384,6 @@ paths:
       summary: Delete a block rule (manual unblock) — narrower scope required
       tags:
       - Deliverability
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/deliverability/tuned-variants:
     get:
       operationId: DeliverabilityController_listTunedVariants
@@ -480,13 +410,6 @@ paths:
       - Deliverability
       x-required-scope:
       - deliverability:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     CreateManualBlockRuleDto:
@@ -537,6 +460,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

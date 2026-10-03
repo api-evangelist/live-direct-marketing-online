@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online IMAP Orchestrator API
+  title: LDM v3 IMAP Orchestrator API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged IMAP Orchestrator across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -35,13 +35,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/jobs:
     get:
       operationId: ImapOrchestratorController_getJobs
@@ -78,13 +71,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/fetch/{accountId}:
     post:
       operationId: ImapOrchestratorController_fetchAccount
@@ -109,13 +95,6 @@ paths:
       summary: Manually trigger an IMAP fetch for a specific account
       tags:
       - IMAP Orchestrator
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/attention:
     get:
       operationId: ImapOrchestratorController_getAttention
@@ -137,13 +116,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/sync-health:
     get:
       operationId: ImapOrchestratorController_getSyncHealth
@@ -175,13 +147,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/sync-health/{id}/retry:
     post:
       operationId: ImapOrchestratorController_retryStagedMessage
@@ -206,13 +171,6 @@ paths:
       summary: Retry a failed durable inbound message, or force a re-fetch of an exhausted…
       tags:
       - IMAP Orchestrator
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/heal:
     post:
       operationId: ImapOrchestratorController_heal
@@ -234,13 +192,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/heal-all:
     post:
       operationId: ImapOrchestratorController_healAll
@@ -262,13 +213,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/fetch-all:
     post:
       operationId: ImapOrchestratorController_fetchAll
@@ -290,13 +234,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/tech-log:
     get:
       operationId: ImapOrchestratorController_getTechLog
@@ -323,13 +260,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/recent-dialogs:
     get:
       operationId: ImapOrchestratorController_getRecentDialogs
@@ -361,13 +291,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/jobs/{id}:
     delete:
       operationId: ImapOrchestratorController_cancelJob
@@ -392,13 +315,6 @@ paths:
       summary: Cancel an IMAP orchestrator job
       tags:
       - IMAP Orchestrator
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/marking-overrides:
     get:
       operationId: ImapOrchestratorController_getOverrides
@@ -440,13 +356,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/marking-overrides/{id}:
     post:
       operationId: ImapOrchestratorController_updateOverride
@@ -494,13 +403,6 @@ paths:
       summary: Delete a dialog marking override rule
       tags:
       - IMAP Orchestrator
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/marking-patterns:
     get:
       operationId: ImapOrchestratorController_getPatterns
@@ -542,13 +444,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/marking-patterns/{id}:
     post:
       operationId: ImapOrchestratorController_updatePattern
@@ -596,13 +491,6 @@ paths:
       summary: Delete a dialog marking regex pattern
       tags:
       - IMAP Orchestrator
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/health-accounts:
     get:
       operationId: ImapOrchestratorController_getHealthAccounts
@@ -624,13 +512,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/health-test:
     post:
       operationId: ImapOrchestratorController_healthTest
@@ -652,13 +533,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/admin/kill:
     post:
       operationId: ImapOrchestratorController_killImapCron
@@ -680,13 +554,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/admin/resume:
     post:
       operationId: ImapOrchestratorController_resumeImapCron
@@ -708,13 +575,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/admin/health:
     get:
       operationId: ImapOrchestratorController_getImapHealth
@@ -736,13 +596,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - admin:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/conveyor-health:
     get:
       operationId: ImapOrchestratorController_getConveyorHealth
@@ -764,13 +617,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - imap:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/conveyor-watchdog/run:
     post:
       operationId: ImapOrchestratorController_runConveyorWatchdog
@@ -792,13 +638,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - admin:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/imap-orchestrator/conveyor-watchdog/last:
     get:
       operationId: ImapOrchestratorController_getConveyorWatchdogLast
@@ -820,13 +659,6 @@ paths:
       - IMAP Orchestrator
       x-required-scope:
       - admin:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   securitySchemes:
     jwt:
@@ -844,6 +676,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json

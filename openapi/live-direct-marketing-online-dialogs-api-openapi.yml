@@ -1,9 +1,9 @@
 openapi: 3.2.0
 info:
-  title: Live Direct Marketing Online Dialogs API
+  title: LDM v3 Dialogs API
+  description: 'Multi-tenant B2B outreach automation platform. Auth: JWT Bearer (15-min) or tenant API key (ldm_*) managed in CRM Settings → API Keys. All tenant-scoped endpoints require the X-Tenant-Id header.'
   version: 1.0.0
   contact: {}
-  description: 'Operations tagged Dialogs across 2 of this provider''s published API definitions: live-direct-marketing-online-ldm-v3-openapi.json, live-direct-marketing-online-ldm-v3-openapi.json. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.live-direct-marketing.online
   description: Production
@@ -183,13 +183,6 @@ paths:
       summary: List dialogs with filters (channel, status, folder, etc.)
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/stats:
     get:
       operationId: DialogsController_getStats
@@ -211,13 +204,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/badges:
     post:
       operationId: DialogsController_getBadges
@@ -239,13 +225,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/accounts:
     get:
       operationId: DialogsController_getAccounts
@@ -273,13 +252,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/folders:
     get:
       operationId: DialogsController_getFolders
@@ -307,13 +279,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/thread/{threadId}:
     get:
       operationId: DialogsController_getThread
@@ -338,13 +303,6 @@ paths:
       summary: Get a full dialog thread by thread ID
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/bulk:
     post:
       operationId: DialogsController_bulk
@@ -366,13 +324,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/imap/move:
     post:
       operationId: DialogsController_imapMove
@@ -394,13 +345,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/imap/delete:
     post:
       operationId: DialogsController_imapDelete
@@ -422,13 +366,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/imap/folders:
     get:
       operationId: DialogsController_imapListFolders
@@ -496,13 +433,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/imap/folders/delete:
     post:
       operationId: DialogsController_imapDeleteFolder
@@ -524,13 +454,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/outbox:
     get:
       operationId: DialogsController_getOutbox
@@ -581,13 +504,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/outbox/{id}/history:
     get:
       operationId: DialogsController_getOutboxHistory
@@ -630,13 +546,6 @@ paths:
       summary: Read safe, paginated history for one durable outbox task
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/outbox/{id}:
     patch:
       operationId: DialogsController_rescheduleOutbox
@@ -684,13 +593,6 @@ paths:
       summary: Cancel a queued or failed outbox entry
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/outbox/stats:
     get:
       operationId: DialogsController_getOutboxStats
@@ -712,13 +614,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:read
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/outbox/{id}/retry:
     post:
       operationId: DialogsController_retryOutbox
@@ -743,13 +638,6 @@ paths:
       summary: Manually retry a failed outbox entry
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/outbox/{id}/refresh-control:
     post:
       operationId: DialogsController_refreshControlEmail
@@ -774,13 +662,6 @@ paths:
       summary: Poll inbox-check for the placement status of a control email
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/outbox/{id}/resend-control:
     post:
       operationId: DialogsController_resendControlEmail
@@ -805,13 +686,6 @@ paths:
       summary: Re-enqueue the control-copy send for an outbox entry
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}:
     get:
       operationId: DialogsController_findById
@@ -882,13 +756,6 @@ paths:
       summary: Delete a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/mark-read:
     post:
       operationId: DialogsController_markRead
@@ -913,13 +780,6 @@ paths:
       summary: Mark a dialog as read
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/star:
     post:
       operationId: DialogsController_toggleStar
@@ -944,13 +804,6 @@ paths:
       summary: Toggle the starred flag on a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/snooze:
     post:
       operationId: DialogsController_snooze
@@ -975,13 +828,6 @@ paths:
       summary: Snooze a dialog until a future timestamp
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/unsnooze:
     post:
       operationId: DialogsController_unsnooze
@@ -1006,13 +852,6 @@ paths:
       summary: Unsnooze a dialog immediately
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/reminder:
     post:
       operationId: DialogsController_setReminder
@@ -1037,13 +876,6 @@ paths:
       summary: Set a reminder on a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/reminder/clear:
     post:
       operationId: DialogsController_clearReminder
@@ -1068,13 +900,6 @@ paths:
       summary: Clear an existing reminder on a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/classify-reply:
     post:
       operationId: DialogsController_classifyReply
@@ -1099,13 +924,6 @@ paths:
       summary: Run AI reply classification on a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/mark-type:
     post:
       operationId: DialogsController_markType
@@ -1130,13 +948,6 @@ paths:
       summary: Manually mark the message type / marking of a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/action/unsubscribe:
     post:
       operationId: DialogsController_actionUnsubscribe
@@ -1161,13 +972,6 @@ paths:
       summary: Process an unsubscribe action triggered by a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/action/bounce:
     post:
       operationId: DialogsController_actionBounce
@@ -1192,13 +996,6 @@ paths:
       summary: Process a bounce action (hard or soft) on a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/action/spam:
     post:
       operationId: DialogsController_actionSpam
@@ -1223,13 +1020,6 @@ paths:
       summary: Mark a dialog as spam and apply side effects
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/action/stop-list:
     post:
       operationId: DialogsController_actionStopList
@@ -1254,13 +1044,6 @@ paths:
       summary: Add the dialog sender to the stop-list
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/generate-reply:
     post:
       operationId: DialogsController_generateReply
@@ -1285,13 +1068,6 @@ paths:
       summary: Generate an AI reply draft for a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/reply:
     post:
       operationId: DialogsController_reply
@@ -1340,13 +1116,6 @@ paths:
       summary: Reply to a dialog (optionally send via SMTP with attachments).
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/forward:
     post:
       operationId: DialogsController_forward
@@ -1401,13 +1170,6 @@ paths:
       summary: Forward an existing dialog to a new recipient.
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/compose:
     post:
       operationId: DialogsController_compose
@@ -1435,13 +1197,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/auto-link:
     post:
       operationId: DialogsController_autoLink
@@ -1466,13 +1221,6 @@ paths:
       summary: Auto-link a dialog to matching contact/company/lead
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/create-lead:
     post:
       operationId: DialogsController_createLead
@@ -1497,13 +1245,6 @@ paths:
       summary: Create a new lead from a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/extract-entities:
     post:
       operationId: DialogsController_extractEntities
@@ -1528,13 +1269,6 @@ paths:
       summary: Run AI entity extraction (company/contact) on a dialog
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/track/set-token:
     post:
       operationId: DialogsController_setTrackingToken
@@ -1559,13 +1293,6 @@ paths:
       summary: Set the tracking token on a dialog (internal use)
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/track/open:
     post:
       operationId: DialogsController_trackOpen
@@ -1587,13 +1314,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/track/click:
     post:
       operationId: DialogsController_trackClick
@@ -1615,13 +1335,6 @@ paths:
       - Dialogs
       x-required-scope:
       - dialogs:write
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/restore:
     post:
       operationId: DialogsController_restore
@@ -1646,13 +1359,6 @@ paths:
       summary: Restore a deleted dialog (status DELETED → NEW)
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/purge:
     delete:
       operationId: DialogsController_purge
@@ -1677,13 +1383,6 @@ paths:
       summary: PERMANENTLY delete a trashed dialog (requires status DELETED). Irreversible
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
   /api/dialogs/{id}/share:
     post:
       operationId: DialogsController_shareDialog
@@ -1708,13 +1407,6 @@ paths:
       summary: Generate a public share token for a dialog (30-day TTL)
       tags:
       - Dialogs
-    servers:
-    - url: https://api.live-direct-marketing.online
-      description: Production
-    - url: https://api.dev.live-direct-marketing.online
-      description: Development
-    - url: http://127.0.0.1:3000
-      description: Local
 components:
   schemas:
     ComposeAttachmentDto:
@@ -1789,6 +1481,3 @@ components:
       bearerFormat: JWT
       type: http
       description: Dedicated RPA service key. No tenant API-key or query-key authentication.
-x-refined-from:
-- live-direct-marketing-online-ldm-v3-openapi.json
-- live-direct-marketing-online-ldm-v3-openapi.json
