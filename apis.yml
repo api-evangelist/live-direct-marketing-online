@@ -177,6 +177,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Account
+  tags_raw:
   - account
   properties:
   - type: OpenAPI
@@ -225,6 +227,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Admin
+  tags_raw:
   - admin
   properties:
   - type: OpenAPI
@@ -322,6 +326,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - A2A
+  tags_raw:
   - Agent Card
   properties:
   - type: OpenAPI
@@ -346,6 +352,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Artificial Intelligence
+  tags_raw:
   - AI
   properties:
   - type: OpenAPI
@@ -467,6 +475,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -1001,6 +1011,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Creative
+  tags_raw:
   - Creatives
   properties:
   - type: OpenAPI
@@ -1170,6 +1182,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Deploy
+  tags_raw:
   - deploy
   properties:
   - type: OpenAPI
@@ -1570,6 +1584,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Export
+  tags_raw:
   - Exports
   properties:
   - type: OpenAPI
@@ -1594,6 +1610,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Feedback
+  tags_raw:
   - feedback
   properties:
   - type: OpenAPI
@@ -1618,6 +1636,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - File
+  tags_raw:
   - Files
   properties:
   - type: OpenAPI
@@ -1666,6 +1686,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Health
+  tags_raw:
   - health
   properties:
   - type: OpenAPI
@@ -1812,6 +1834,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
@@ -2080,6 +2104,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - MCP Transport
+  tags_raw:
   - mcp-transport
   properties:
   - type: OpenAPI
@@ -2104,6 +2130,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Monitoring
+  tags_raw:
   - monitoring
   properties:
   - type: OpenAPI
@@ -2177,6 +2205,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Name
+  tags_raw:
   - Names
   properties:
   - type: OpenAPI
@@ -2201,6 +2231,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -2225,6 +2257,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Authentication
+  tags_raw:
   - oauth
   properties:
   - type: OpenAPI
@@ -2570,6 +2604,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Providers
+  tags_raw:
   - providers
   properties:
   - type: OpenAPI
@@ -2642,6 +2678,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Reports
+  tags_raw:
   - reports
   properties:
   - type: OpenAPI
@@ -2864,6 +2902,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Screenshots
+  tags_raw:
   - screenshots
   properties:
   - type: OpenAPI
@@ -3129,6 +3169,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Subscription
+  tags_raw:
   - subscriptions
   properties:
   - type: OpenAPI
@@ -3299,6 +3341,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Task
+  tags_raw:
   - Tasks
   properties:
   - type: OpenAPI
@@ -3323,6 +3367,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Telegram
+  tags_raw:
   - telegram
   properties:
   - type: OpenAPI
@@ -3347,6 +3393,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Tests
+  tags_raw:
   - tests
   properties:
   - type: OpenAPI
@@ -3543,6 +3591,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -3616,6 +3666,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
@@ -3640,6 +3692,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Workers
+  tags_raw:
   - workers
   properties:
   - type: OpenAPI
@@ -3664,6 +3718,8 @@ apis:
   humanURL: https://live-direct-marketing.online/academy/mcp-flow
   baseURL: https://api.live-direct-marketing.online/mcp
   tags:
+  - LinkedIn
+  tags_raw:
   - Linked In
   properties:
   - type: OpenAPI
@@ -3688,6 +3744,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/live-direct-marketing-online-capability-edges.yml
+  name: Live Direct Marketing Business Capability Map
 - type: Overlay
   url: overlays/live-direct-marketing-online-ldm-v3-overlay.yaml
 - type: Overlay
