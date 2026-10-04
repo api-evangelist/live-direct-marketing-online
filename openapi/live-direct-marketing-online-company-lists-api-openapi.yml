@@ -272,15 +272,6 @@ paths:
       - Company Lists
 components:
   schemas:
-    CompanyListsReorderDto:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CompanyListsReorderItemDto'
-      required:
-      - items
     CompanyListsMergeDto:
       type: object
       properties:
@@ -296,6 +287,43 @@ components:
       required:
       - targetId
       - mode
+    CompanyListsAddCompaniesDto:
+      type: object
+      properties:
+        companyIds:
+          type: array
+          items:
+            type: string
+      required:
+      - companyIds
+    CompanyListsUpdateDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        icon:
+          type: string
+        type:
+          type: string
+        smartFilters:
+          type: object
+          description: 'SMART lists only: explicit versioned native company filters. STATIC lists leave this unset.'
+          example:
+            version: 1
+            filterRules:
+            - field: industry
+              operator: contains
+              value: SaaS
+        isPinned:
+          type: boolean
+        groupId:
+          type:
+          - object
+          - 'null'
     CompanyListsReorderItemDto:
       type: object
       properties:
@@ -306,6 +334,15 @@ components:
       required:
       - id
       - sortOrder
+    CompanyListsReorderDto:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyListsReorderItemDto'
+      required:
+      - items
     CompanyListsCreateDto:
       type: object
       properties:
@@ -336,43 +373,6 @@ components:
           - 'null'
       required:
       - name
-    CompanyListsUpdateDto:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        color:
-          type: string
-        icon:
-          type: string
-        type:
-          type: string
-        smartFilters:
-          type: object
-          description: 'SMART lists only: explicit versioned native company filters. STATIC lists leave this unset.'
-          example:
-            version: 1
-            filterRules:
-            - field: industry
-              operator: contains
-              value: SaaS
-        isPinned:
-          type: boolean
-        groupId:
-          type:
-          - object
-          - 'null'
-    CompanyListsAddCompaniesDto:
-      type: object
-      properties:
-        companyIds:
-          type: array
-          items:
-            type: string
-      required:
-      - companyIds
   securitySchemes:
     jwt:
       scheme: bearer

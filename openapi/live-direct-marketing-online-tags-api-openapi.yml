@@ -289,6 +289,14 @@ paths:
       - Tags
 components:
   schemas:
+    UpdateTagDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 50
+        color:
+          type: string
     AttachTagDto:
       type: object
       properties:
@@ -306,14 +314,6 @@ components:
           type: string
       required:
       - name
-    UpdateTagDto:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 50
-        color:
-          type: string
   securitySchemes:
     jwt:
       scheme: bearer

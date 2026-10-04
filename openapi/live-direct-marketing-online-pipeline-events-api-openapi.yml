@@ -246,21 +246,31 @@ paths:
       - Pipeline Events
 components:
   schemas:
-    PipelineLogEventDto:
+    PipelineFileEventDto:
       type: object
       properties:
-        stepId:
+        name:
           type: string
-        ts:
-          type: string
-        level:
-          type: string
-        message:
+        content:
           type: string
       required:
-      - stepId
-      - level
-      - message
+      - name
+      - content
+    PipelineEventDto:
+      type: object
+      properties:
+        type:
+          type: object
+        task:
+          $ref: '#/components/schemas/PipelineTaskEventDto'
+        step:
+          $ref: '#/components/schemas/PipelineStepEventDto'
+        log:
+          $ref: '#/components/schemas/PipelineLogEventDto'
+        file:
+          $ref: '#/components/schemas/PipelineFileEventDto'
+      required:
+      - type
     PipelineStepEventDto:
       type: object
       properties:
@@ -288,31 +298,6 @@ components:
       - kind
       - name
       - status
-    PipelineEventDto:
-      type: object
-      properties:
-        type:
-          type: object
-        task:
-          $ref: '#/components/schemas/PipelineTaskEventDto'
-        step:
-          $ref: '#/components/schemas/PipelineStepEventDto'
-        log:
-          $ref: '#/components/schemas/PipelineLogEventDto'
-        file:
-          $ref: '#/components/schemas/PipelineFileEventDto'
-      required:
-      - type
-    PipelineFileEventDto:
-      type: object
-      properties:
-        name:
-          type: string
-        content:
-          type: string
-      required:
-      - name
-      - content
     PipelineTaskEventDto:
       type: object
       properties:
@@ -339,6 +324,21 @@ components:
       - slug
       - title
       - status
+    PipelineLogEventDto:
+      type: object
+      properties:
+        stepId:
+          type: string
+        ts:
+          type: string
+        level:
+          type: string
+        message:
+          type: string
+      required:
+      - stepId
+      - level
+      - message
   securitySchemes:
     jwt:
       scheme: bearer

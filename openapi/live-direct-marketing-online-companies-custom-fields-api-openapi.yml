@@ -196,40 +196,6 @@ paths:
       - Companies / Custom Fields
 components:
   schemas:
-    SetValuesDto:
-      type: object
-      properties:
-        values:
-          type: object
-        source:
-          type: string
-      required:
-      - values
-    UpdateCustomFieldDto:
-      type: object
-      properties:
-        label:
-          type: string
-        labelEn:
-          type: string
-        options:
-          type: array
-          items:
-            type: object
-        isRequired:
-          type: boolean
-        isVisibleInTable:
-          type: boolean
-        isFilterable:
-          type: boolean
-        isSortable:
-          type: boolean
-        numberFormat:
-          type: object
-        group:
-          type: string
-        sortOrder:
-          type: number
     CreateCustomFieldDto:
       type: object
       properties:
@@ -267,6 +233,40 @@ components:
       - slug
       - label
       - fieldType
+    UpdateCustomFieldDto:
+      type: object
+      properties:
+        label:
+          type: string
+        labelEn:
+          type: string
+        options:
+          type: array
+          items:
+            type: object
+        isRequired:
+          type: boolean
+        isVisibleInTable:
+          type: boolean
+        isFilterable:
+          type: boolean
+        isSortable:
+          type: boolean
+        numberFormat:
+          type: object
+        group:
+          type: string
+        sortOrder:
+          type: number
+    SetValuesDto:
+      type: object
+      properties:
+        values:
+          type: object
+        source:
+          type: string
+      required:
+      - values
   securitySchemes:
     jwt:
       scheme: bearer

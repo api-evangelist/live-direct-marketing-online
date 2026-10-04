@@ -820,20 +820,6 @@ paths:
       - leads:write
 components:
   schemas:
-    LeadsImportPreviewDto:
-      type: object
-      properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-      required:
-      - rows
-      - mapping
     UpdateLeadDto:
       type: object
       properties:
@@ -872,6 +858,55 @@ components:
           type: string
       required:
       - stageId
+    LeadsImportPreviewDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+      required:
+      - rows
+      - mapping
+    LeadsBulkDto:
+      type: object
+      properties:
+        action:
+          type: string
+          description: Bulk action name (e.g. delete, addTags, removeTags, setField, moveStage)
+        ids:
+          description: Lead ids to act on
+          type: array
+          items:
+            type: string
+        leadIds:
+          description: Alias for ids
+          type: array
+          items:
+            type: string
+        tagIds:
+          description: Tag ids for addTags/removeTags actions
+          type: array
+          items:
+            type: string
+        fieldName:
+          type: string
+          description: Field name for a setField-style action
+        fieldValue:
+          type: object
+          description: Field value for a setField-style action (shape depends on fieldName)
+        stageId:
+          type: string
+          description: Target stage id for a moveStage-style action
+        priority:
+          type: object
+          description: Priority value for a setPriority-style action
+      required:
+      - action
     UpdateDealDto:
       type: object
       properties:
@@ -884,6 +919,48 @@ components:
         expectedCloseDate:
           type: string
           description: ISO date string
+    ExportLeadsDto:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Which leads to export
+          enum:
+          - all
+          - filtered
+          - selected
+        leadIds:
+          description: Lead ids to export when scope is "selected"
+          type: array
+          items:
+            type: string
+        pipelineId:
+          type: string
+          description: Restrict export to leads in this pipeline
+        stageId:
+          type: string
+          description: Restrict export to leads in this stage
+        format:
+          type: string
+          description: Export file format (e.g. csv, xlsx)
+      required:
+      - scope
+    LeadsImportStartDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+        options:
+          type: object
+      required:
+      - rows
+      - mapping
     SetInterestDto:
       type: object
       properties:
@@ -926,83 +1003,6 @@ components:
           type: string
       required:
       - title
-    LeadsImportStartDto:
-      type: object
-      properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-        options:
-          type: object
-      required:
-      - rows
-      - mapping
-    LeadsBulkDto:
-      type: object
-      properties:
-        action:
-          type: string
-          description: Bulk action name (e.g. delete, addTags, removeTags, setField, moveStage)
-        ids:
-          description: Lead ids to act on
-          type: array
-          items:
-            type: string
-        leadIds:
-          description: Alias for ids
-          type: array
-          items:
-            type: string
-        tagIds:
-          description: Tag ids for addTags/removeTags actions
-          type: array
-          items:
-            type: string
-        fieldName:
-          type: string
-          description: Field name for a setField-style action
-        fieldValue:
-          type: object
-          description: Field value for a setField-style action (shape depends on fieldName)
-        stageId:
-          type: string
-          description: Target stage id for a moveStage-style action
-        priority:
-          type: object
-          description: Priority value for a setPriority-style action
-      required:
-      - action
-    ExportLeadsDto:
-      type: object
-      properties:
-        scope:
-          type: string
-          description: Which leads to export
-          enum:
-          - all
-          - filtered
-          - selected
-        leadIds:
-          description: Lead ids to export when scope is "selected"
-          type: array
-          items:
-            type: string
-        pipelineId:
-          type: string
-          description: Restrict export to leads in this pipeline
-        stageId:
-          type: string
-          description: Restrict export to leads in this stage
-        format:
-          type: string
-          description: Export file format (e.g. csv, xlsx)
-      required:
-      - scope
   securitySchemes:
     jwt:
       scheme: bearer

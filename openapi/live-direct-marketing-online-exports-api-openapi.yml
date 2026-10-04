@@ -133,6 +133,25 @@ paths:
       - Exports
 components:
   schemas:
+    CreateExportDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Export type
+          enum:
+          - mailing_csv
+          - contacts_csv
+          - companies_csv
+          - entity_table
+          - combined
+          example: contacts_csv
+        params:
+          description: Export parameters, dependent on the type
+          allOf:
+          - $ref: '#/components/schemas/ExportParamsDto'
+      required:
+      - type
     ExportParamsDto:
       type: object
       properties:
@@ -156,25 +175,6 @@ components:
             type: string
         filters:
           type: object
-    CreateExportDto:
-      type: object
-      properties:
-        type:
-          type: string
-          description: Export type
-          enum:
-          - mailing_csv
-          - contacts_csv
-          - companies_csv
-          - entity_table
-          - combined
-          example: contacts_csv
-        params:
-          description: Export parameters, dependent on the type
-          allOf:
-          - $ref: '#/components/schemas/ExportParamsDto'
-      required:
-      - type
   securitySchemes:
     jwt:
       scheme: bearer

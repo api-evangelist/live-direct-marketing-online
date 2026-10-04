@@ -429,459 +429,6 @@ paths:
       - RPA service protocol
 components:
   schemas:
-    RpaLeaseDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required for placement-gated tasks; legacy workers fail closed when omitted
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-        operationId:
-          type: string
-          maxLength: 128
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-      required:
-      - workerId
-      - taskId
-      - leaseId
-      - fencingToken
-    RpaProfileReleaseDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required for placement-gated tasks; legacy workers fail closed when omitted
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-        operationId:
-          type: string
-          maxLength: 128
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-        sessionClosed:
-          type: number
-          enum:
-          - true
-          description: Positive executor acknowledgement that this task browser session is closed. Mail reports alone do not release the profile before expiresAt.
-      required:
-      - workerId
-      - taskId
-      - leaseId
-      - fencingToken
-      - sessionClosed
-    RpaReportRequestDto:
-      type: object
-      properties:
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        outcome:
-          type: string
-          enum:
-          - SENT
-          - DEFINITE_FAILURE
-          - UNKNOWN
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required on placement-gated tasks and echoed in the durable receipt
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-          description: Required for placement-gated tasks; binds this receipt to one immutable phase.
-        operationId:
-          type: string
-          maxLength: 128
-          description: Immutable operation identity returned in the full claim.
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-        relayAccountId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        method:
-          type: string
-          enum:
-          - RPA
-        envelopeHash:
-          type: string
-          minLength: 64
-          maxLength: 64
-        occurredAt:
-          type: string
-        providerMessageId:
-          type: string
-          maxLength: 998
-        headersApplied:
-          type: boolean
-        provider:
-          type: string
-          maxLength: 256
-        sender:
-          type: string
-          maxLength: 320
-          description: Sender mailbox from claim.envelope.from; display name is not part of sender identity.
-        senderName:
-          type: string
-          maxLength: 320
-          description: Optional display name. Does not authorize delivery or change receipt identity.
-      required:
-      - taskId
-      - leaseId
-      - outcome
-    RpaExecutionErrorDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required for placement-gated tasks; legacy workers fail closed when omitted
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-        operationId:
-          type: string
-          maxLength: 128
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-        eventId:
-          type: string
-          format: uuid
-        stage:
-          type: string
-          enum:
-          - PROFILE
-          - OPEN_SITE
-          - LOGIN
-          - PREPARE
-          - SEND
-          - CONFIRM
-        errorCode:
-          type: string
-          enum:
-          - PROFILE_START_FAILED
-          - WEBSITE_UNAVAILABLE
-          - DNS_ERROR
-          - TIMEOUT
-          - AUTH_FAILED
-          - TWO_FACTOR_REQUIRED
-          - CAPTCHA_REQUIRED
-          - ACCOUNT_BANNED
-          - DELIVERY_UNCERTAIN
-        sendAttempted:
-          type: boolean
-      required:
-      - workerId
-      - taskId
-      - leaseId
-      - fencingToken
-      - eventId
-      - stage
-      - errorCode
-      - sendAttempted
-    RpaHeartbeatDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required for placement-gated tasks; legacy workers fail closed when omitted
-        protocolVersion:
-          type: string
-          enum:
-          - '1'
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-          description: Supply all three lease fields to extend a live task; omit all for service telemetry only
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-        operationId:
-          type: string
-          maxLength: 128
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-      required:
-      - workerId
-      - protocolVersion
-    RpaReturnDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required on placement-gated tasks and echoed in the durable receipt
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-          description: Required for placement-gated tasks; binds this receipt to one immutable phase.
-        operationId:
-          type: string
-          maxLength: 128
-          description: Immutable operation identity returned in the full claim.
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-        outcome:
-          type: string
-          enum:
-          - DEFINITE_FAILURE
-        relayAccountId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        method:
-          type: string
-          enum:
-          - RPA
-        envelopeHash:
-          type: string
-          minLength: 64
-          maxLength: 64
-        occurredAt:
-          type: string
-        providerMessageId:
-          type: string
-          maxLength: 998
-        headersApplied:
-          type: boolean
-        provider:
-          type: string
-          maxLength: 256
-        sender:
-          type: string
-          maxLength: 320
-          description: Sender mailbox from claim.envelope.from; display name is not part of sender identity.
-        senderName:
-          type: string
-          maxLength: 320
-          description: Optional display name. Does not authorize delivery or change receipt identity.
-      required:
-      - workerId
-      - taskId
-      - leaseId
-      - fencingToken
-      - outcome
-      - relayAccountId
-      - method
-      - envelopeHash
-      - occurredAt
-      - headersApplied
-    RpaPlacementDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required on placement-gated tasks
-        taskId:
-          type: string
-          minLength: 1
-          maxLength: 4096
-        leaseId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        fencingToken:
-          type: number
-          minimum: 1
-        operation:
-          type: string
-          enum:
-          - CONTROL
-          - REAL
-        operationId:
-          type: string
-          maxLength: 128
-        taskVersion:
-          type: string
-          maxLength: 128
-        contentFingerprint:
-          type: string
-          maxLength: 128
-        placement:
-          type: string
-          enum:
-          - INBOX
-          - SPAM
-          - PROMOTIONS
-          - NOT_RECEIVED
-          - ERROR
-        scope:
-          type: string
-          enum:
-          - seed_copy
-        provenance:
-          type: string
-          enum:
-          - external_rpa
-        correlation:
-          type: string
-          minLength: 1
-          maxLength: 256
-        evidenceId:
-          type: string
-          minLength: 1
-          maxLength: 256
-        measuredAt:
-          type: string
-        sentAt:
-          type: string
-      required:
-      - workerId
-      - taskId
-      - leaseId
-      - fencingToken
-      - placement
-      - scope
-      - provenance
-      - correlation
-      - evidenceId
-      - measuredAt
-      - sentAt
-    RpaWorkerDto:
-      type: object
-      properties:
-        workerId:
-          type: string
-          minLength: 1
-          maxLength: 128
-        capabilityVersion:
-          type: string
-          maxLength: 64
-          description: Required for placement-gated tasks; legacy workers fail closed when omitted
-      required:
-      - workerId
     RpaReconcileDto:
       type: object
       properties:
@@ -983,6 +530,324 @@ components:
       - eventId
       - evidenceKind
       - evidenceId
+    RpaPlacementDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required on placement-gated tasks
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+        operationId:
+          type: string
+          maxLength: 128
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+        placement:
+          type: string
+          enum:
+          - INBOX
+          - SPAM
+          - PROMOTIONS
+          - NOT_RECEIVED
+          - ERROR
+        scope:
+          type: string
+          enum:
+          - seed_copy
+        provenance:
+          type: string
+          enum:
+          - external_rpa
+        correlation:
+          type: string
+          minLength: 1
+          maxLength: 256
+        evidenceId:
+          type: string
+          minLength: 1
+          maxLength: 256
+        measuredAt:
+          type: string
+        sentAt:
+          type: string
+      required:
+      - workerId
+      - taskId
+      - leaseId
+      - fencingToken
+      - placement
+      - scope
+      - provenance
+      - correlation
+      - evidenceId
+      - measuredAt
+      - sentAt
+    RpaProfileReleaseDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required for placement-gated tasks; legacy workers fail closed when omitted
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+        operationId:
+          type: string
+          maxLength: 128
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+        sessionClosed:
+          type: number
+          enum:
+          - true
+          description: Positive executor acknowledgement that this task browser session is closed. Mail reports alone do not release the profile before expiresAt.
+      required:
+      - workerId
+      - taskId
+      - leaseId
+      - fencingToken
+      - sessionClosed
+    RpaLeaseDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required for placement-gated tasks; legacy workers fail closed when omitted
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+        operationId:
+          type: string
+          maxLength: 128
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+      required:
+      - workerId
+      - taskId
+      - leaseId
+      - fencingToken
+    RpaReturnDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required on placement-gated tasks and echoed in the durable receipt
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+          description: Required for placement-gated tasks; binds this receipt to one immutable phase.
+        operationId:
+          type: string
+          maxLength: 128
+          description: Immutable operation identity returned in the full claim.
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+        outcome:
+          type: string
+          enum:
+          - DEFINITE_FAILURE
+        relayAccountId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        method:
+          type: string
+          enum:
+          - RPA
+        envelopeHash:
+          type: string
+          minLength: 64
+          maxLength: 64
+        occurredAt:
+          type: string
+        providerMessageId:
+          type: string
+          maxLength: 998
+        headersApplied:
+          type: boolean
+        provider:
+          type: string
+          maxLength: 256
+        sender:
+          type: string
+          maxLength: 320
+          description: Sender mailbox from claim.envelope.from; display name is not part of sender identity.
+        senderName:
+          type: string
+          maxLength: 320
+          description: Optional display name. Does not authorize delivery or change receipt identity.
+      required:
+      - workerId
+      - taskId
+      - leaseId
+      - fencingToken
+      - outcome
+      - relayAccountId
+      - method
+      - envelopeHash
+      - occurredAt
+      - headersApplied
+    RpaExecutionErrorDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required for placement-gated tasks; legacy workers fail closed when omitted
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+        operationId:
+          type: string
+          maxLength: 128
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+        eventId:
+          type: string
+          format: uuid
+        stage:
+          type: string
+          enum:
+          - PROFILE
+          - OPEN_SITE
+          - LOGIN
+          - PREPARE
+          - SEND
+          - CONFIRM
+        errorCode:
+          type: string
+          enum:
+          - PROFILE_START_FAILED
+          - WEBSITE_UNAVAILABLE
+          - DNS_ERROR
+          - TIMEOUT
+          - AUTH_FAILED
+          - TWO_FACTOR_REQUIRED
+          - CAPTCHA_REQUIRED
+          - ACCOUNT_BANNED
+          - DELIVERY_UNCERTAIN
+        sendAttempted:
+          type: boolean
+      required:
+      - workerId
+      - taskId
+      - leaseId
+      - fencingToken
+      - eventId
+      - stage
+      - errorCode
+      - sendAttempted
     RpaReconciliationListDto:
       type: object
       properties:
@@ -999,6 +864,141 @@ components:
           description: Read the next page after this delivery ID, independently in each authorized target
       required:
       - workerId
+    RpaHeartbeatDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required for placement-gated tasks; legacy workers fail closed when omitted
+        protocolVersion:
+          type: string
+          enum:
+          - '1'
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+          description: Supply all three lease fields to extend a live task; omit all for service telemetry only
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+        operationId:
+          type: string
+          maxLength: 128
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+      required:
+      - workerId
+      - protocolVersion
+    RpaWorkerDto:
+      type: object
+      properties:
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required for placement-gated tasks; legacy workers fail closed when omitted
+      required:
+      - workerId
+    RpaReportRequestDto:
+      type: object
+      properties:
+        taskId:
+          type: string
+          minLength: 1
+          maxLength: 4096
+        leaseId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        outcome:
+          type: string
+          enum:
+          - SENT
+          - DEFINITE_FAILURE
+          - UNKNOWN
+        workerId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        capabilityVersion:
+          type: string
+          maxLength: 64
+          description: Required on placement-gated tasks and echoed in the durable receipt
+        fencingToken:
+          type: number
+          minimum: 1
+        operation:
+          type: string
+          enum:
+          - CONTROL
+          - REAL
+          description: Required for placement-gated tasks; binds this receipt to one immutable phase.
+        operationId:
+          type: string
+          maxLength: 128
+          description: Immutable operation identity returned in the full claim.
+        taskVersion:
+          type: string
+          maxLength: 128
+        contentFingerprint:
+          type: string
+          maxLength: 128
+        relayAccountId:
+          type: string
+          minLength: 1
+          maxLength: 128
+        method:
+          type: string
+          enum:
+          - RPA
+        envelopeHash:
+          type: string
+          minLength: 64
+          maxLength: 64
+        occurredAt:
+          type: string
+        providerMessageId:
+          type: string
+          maxLength: 998
+        headersApplied:
+          type: boolean
+        provider:
+          type: string
+          maxLength: 256
+        sender:
+          type: string
+          maxLength: 320
+          description: Sender mailbox from claim.envelope.from; display name is not part of sender identity.
+        senderName:
+          type: string
+          maxLength: 320
+          description: Optional display name. Does not authorize delivery or change receipt identity.
+      required:
+      - taskId
+      - leaseId
+      - outcome
   securitySchemes:
     jwt:
       scheme: bearer

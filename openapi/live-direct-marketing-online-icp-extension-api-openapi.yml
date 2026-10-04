@@ -528,20 +528,6 @@ paths:
       - ICP Extension
 components:
   schemas:
-    UpdateIcpTaskDto:
-      type: object
-      properties:
-        title:
-          type: string
-          description: ICP task title
-        description:
-          type: string
-        status:
-          type: string
-          description: ICP task status
-        config:
-          type: object
-          description: Free-form configuration payload
     CreateIcpTaskDto:
       type: object
       properties:
@@ -595,6 +581,20 @@ components:
         scoringTaskId:
           type: string
           maxLength: 100
+    UpdateIcpTaskDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: ICP task title
+        description:
+          type: string
+        status:
+          type: string
+          description: ICP task status
+        config:
+          type: object
+          description: Free-form configuration payload
   securitySchemes:
     jwt:
       scheme: bearer

@@ -695,14 +695,6 @@ paths:
       - Companies
 components:
   schemas:
-    ImportFromGoogleSheetsDto:
-      type: object
-      properties:
-        url:
-          type: string
-          description: Google Sheets URL to fetch rows from
-      required:
-      - url
     MergeCompaniesDto:
       type: object
       properties:
@@ -717,6 +709,41 @@ components:
       required:
       - keepId
       - mergeIds
+    CreateCompanyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        domain:
+          type: string
+        industry:
+          type: string
+        size:
+          type: object
+        country:
+          type: string
+        city:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+        website:
+          type: string
+        description:
+          type: string
+        source:
+          type: string
+        taxId:
+          type: string
+          maxLength: 20
+        status:
+          type: object
+        importBatchId:
+          type: string
+      required:
+      - name
     CompaniesBulkDto:
       type: object
       properties:
@@ -794,37 +821,6 @@ components:
           maxLength: 12
         logo:
           type: string
-    ExportCompaniesDto:
-      type: object
-      properties:
-        scope:
-          type: string
-          description: Which companies to export
-          enum:
-          - all
-          - filtered
-          - selected
-        companyIds:
-          description: Company ids to export when scope is "selected"
-          type: array
-          items:
-            type: string
-        search:
-          type: string
-          description: Search term applied when scope is "filtered"
-        format:
-          type: string
-          description: Export file format (e.g. csv, xlsx)
-        columns:
-          description: Column keys to include (defaults to COMPANY_EXPORT_COLUMNS defaults)
-          type: array
-          items:
-            type: string
-        listId:
-          type: string
-          description: Restrict export to companies in this list id
-      required:
-      - scope
     CompaniesImportPreviewDto:
       type: object
       properties:
@@ -839,6 +835,14 @@ components:
       required:
       - rows
       - mapping
+    ImportFromGoogleSheetsDto:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Google Sheets URL to fetch rows from
+      required:
+      - url
     CompaniesImportCombinedDto:
       type: object
       properties:
@@ -873,41 +877,37 @@ components:
       required:
       - rows
       - mapping
-    CreateCompanyDto:
+    ExportCompaniesDto:
       type: object
       properties:
-        name:
+        scope:
           type: string
-          maxLength: 255
-        domain:
+          description: Which companies to export
+          enum:
+          - all
+          - filtered
+          - selected
+        companyIds:
+          description: Company ids to export when scope is "selected"
+          type: array
+          items:
+            type: string
+        search:
           type: string
-        industry:
+          description: Search term applied when scope is "filtered"
+        format:
           type: string
-        size:
-          type: object
-        country:
+          description: Export file format (e.g. csv, xlsx)
+        columns:
+          description: Column keys to include (defaults to COMPANY_EXPORT_COLUMNS defaults)
+          type: array
+          items:
+            type: string
+        listId:
           type: string
-        city:
-          type: string
-        address:
-          type: string
-        phone:
-          type: string
-        website:
-          type: string
-        description:
-          type: string
-        source:
-          type: string
-        taxId:
-          type: string
-          maxLength: 20
-        status:
-          type: object
-        importBatchId:
-          type: string
+          description: Restrict export to companies in this list id
       required:
-      - name
+      - scope
   securitySchemes:
     jwt:
       scheme: bearer

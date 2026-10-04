@@ -166,10 +166,10 @@ components:
     WatchEmailDto:
       type: object
       properties: {}
-    WatchRequestDto:
+    WatchTokenDto:
       type: object
       properties: {}
-    WatchTokenDto:
+    WatchRequestDto:
       type: object
       properties: {}
   securitySchemes:

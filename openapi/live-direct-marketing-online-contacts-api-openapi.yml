@@ -781,6 +781,37 @@ paths:
       - crm:read
 components:
   schemas:
+    UpdateContactDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 100
+        lastName:
+          type: string
+          maxLength: 100
+        middleName:
+          type: string
+          maxLength: 100
+        gender:
+          type: string
+          enum:
+          - male
+          - female
+          - unknown
+        position:
+          type: string
+        department:
+          type: string
+        companyId:
+          type: string
+        source:
+          type: string
+        contactType:
+          type: string
+          enum:
+          - PERSONAL
+          - COMPANY
     UpdateChannelDto:
       type: object
       properties:
@@ -811,36 +842,6 @@ components:
           - SPAM_TRAP
           - HARD_BOUNCE
           - UNSUBSCRIBED
-    ExportContactsDto:
-      type: object
-      properties:
-        scope:
-          type: string
-          description: Which contacts to export
-          enum:
-          - all
-          - filtered
-          - selected
-          - list
-        contactIds:
-          description: Contact ids to export when scope is "selected"
-          type: array
-          items:
-            type: string
-        listId:
-          type: string
-          description: Restrict export to contacts in this list
-        search:
-          type: string
-          description: Search term applied when scope is "filtered"
-        format:
-          type: string
-          description: Export file format (e.g. csv, xlsx)
-        includeCustomFields:
-          type: boolean
-          description: Include tenant custom field columns
-      required:
-      - scope
     MergeContactsDto:
       type: object
       properties:
@@ -855,20 +856,6 @@ components:
       required:
       - keepId
       - mergeIds
-    ContactsImportPreviewDto:
-      type: object
-      properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-      required:
-      - rows
-      - mapping
     ContactsBulkDto:
       type: object
       properties:
@@ -943,85 +930,6 @@ components:
           description: 'DIG selectAll filter: email validation status'
       required:
       - action
-    UpdateContactDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-          maxLength: 100
-        lastName:
-          type: string
-          maxLength: 100
-        middleName:
-          type: string
-          maxLength: 100
-        gender:
-          type: string
-          enum:
-          - male
-          - female
-          - unknown
-        position:
-          type: string
-        department:
-          type: string
-        companyId:
-          type: string
-        source:
-          type: string
-        contactType:
-          type: string
-          enum:
-          - PERSONAL
-          - COMPANY
-    AddChannelDto:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - EMAIL
-          - PHONE
-          - LINKEDIN
-          - TELEGRAM
-          - VK
-          - WHATSAPP
-          - WEBSITE
-          - SKYPE
-          - OTHER
-          example: EMAIL
-          description: Channel type — UPPERCASE enum. Use field name "type", NOT "kind".
-        value:
-          type: string
-          example: anna@acme.com
-          description: Channel value — email address, phone number, URL, etc.
-        label:
-          type: string
-          example: work
-        isPrimary:
-          type: boolean
-          example: false
-          description: Set as primary channel of this type for the contact.
-      required:
-      - type
-      - value
-    ContactsImportStartDto:
-      type: object
-      properties:
-        rows:
-          description: Raw rows parsed from the source file/sheet
-          type: array
-          items:
-            type: object
-        mapping:
-          type: object
-          description: Column -> field mapping (csvColumn -> target field)
-        options:
-          type: object
-          description: 'duplicateHandling: "skip"|"update"|"create" (default skip); listId; tagIds'
-      required:
-      - rows
-      - mapping
     CreateContactDto:
       type: object
       properties:
@@ -1058,6 +966,98 @@ components:
           description: '[LEGACY] import_task_id for import rollback'
       required:
       - firstName
+    ExportContactsDto:
+      type: object
+      properties:
+        scope:
+          type: string
+          description: Which contacts to export
+          enum:
+          - all
+          - filtered
+          - selected
+          - list
+        contactIds:
+          description: Contact ids to export when scope is "selected"
+          type: array
+          items:
+            type: string
+        listId:
+          type: string
+          description: Restrict export to contacts in this list
+        search:
+          type: string
+          description: Search term applied when scope is "filtered"
+        format:
+          type: string
+          description: Export file format (e.g. csv, xlsx)
+        includeCustomFields:
+          type: boolean
+          description: Include tenant custom field columns
+      required:
+      - scope
+    ContactsImportPreviewDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+      required:
+      - rows
+      - mapping
+    ContactsImportStartDto:
+      type: object
+      properties:
+        rows:
+          description: Raw rows parsed from the source file/sheet
+          type: array
+          items:
+            type: object
+        mapping:
+          type: object
+          description: Column -> field mapping (csvColumn -> target field)
+        options:
+          type: object
+          description: 'duplicateHandling: "skip"|"update"|"create" (default skip); listId; tagIds'
+      required:
+      - rows
+      - mapping
+    AddChannelDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - EMAIL
+          - PHONE
+          - LINKEDIN
+          - TELEGRAM
+          - VK
+          - WHATSAPP
+          - WEBSITE
+          - SKYPE
+          - OTHER
+          example: EMAIL
+          description: Channel type — UPPERCASE enum. Use field name "type", NOT "kind".
+        value:
+          type: string
+          example: anna@acme.com
+          description: Channel value — email address, phone number, URL, etc.
+        label:
+          type: string
+          example: work
+        isPrimary:
+          type: boolean
+          example: false
+          description: Set as primary channel of this type for the contact.
+      required:
+      - type
+      - value
   securitySchemes:
     jwt:
       scheme: bearer

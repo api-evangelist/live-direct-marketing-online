@@ -1300,53 +1300,49 @@ paths:
       - Campaigns
 components:
   schemas:
-    RepairUnsubscribeDto:
+    PushRowDto:
       type: object
       properties:
-        recipientIds:
-          type: array
-          items:
-            type: string
-        stages:
-          type: array
-          items:
-            type: string
-    CampaignPreparationConfigDto:
-      type: object
-      properties:
-        maxInFlight:
-          type: number
-          description: Maximum unique unsent touches across preparation, audit and delivery. Not a batch size.
-          minimum: 1
-          maximum: 50
-          default: 50
-        maxPendingPlacement:
-          type: number
-          description: Maximum sent touches awaiting placement feedback before new preparation pauses.
-          minimum: 1
-          maximum: 50
-          default: 50
-    CreateTestTaskDto:
-      type: object
-      properties:
-        requestKey:
+        email:
           type: string
-          maxLength: 200
-          description: Stable retry key; Idempotency-Key header takes precedence when present
-        intendedRecipientId:
+        firstName:
           type: string
-          maxLength: 128
-          description: Existing CampaignRecipient id from this DRAFT campaign
-    SubmitRenderedContentDto:
-      type: object
-      properties:
-        items:
-          description: batch <=100, bodyHtml <=256KB
+        lastName:
+          type: string
+        contactId:
+          type: string
+        companyId:
+          type: string
+        leadId:
+          type: string
+        attachments:
           type: array
           items:
-            $ref: '#/components/schemas/SubmitRenderedContentItemDto'
-      required:
-      - items
+            $ref: '#/components/schemas/PushAttachmentDto'
+    CampaignSendWindowDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: true = bounded calendar window; false = explicit 24/7
+        workDays:
+          description: 'ISO weekdays: 1 Monday … 7 Sunday'
+          type: array
+          items:
+            type: number
+            maximum: 7
+            minimum: 1
+        startTime:
+          type: string
+          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
+          description: Local start time, HH:MM
+        endTime:
+          type: string
+          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
+          description: Local end time, HH:MM (exclusive)
+        timezone:
+          type: string
+          description: IANA timezone, for example Europe/Moscow
     UpdateCampaignDto:
       type: object
       properties:
@@ -1406,12 +1402,151 @@ components:
         acknowledgeUngroundedAudience:
           type: boolean
           description: Explicit acknowledgement for a high ungrounded-audience ratio.
-    RestoreInfraFailedDto:
+    CampaignPreparationConfigDto:
       type: object
       properties:
-        dryRun:
+        maxInFlight:
+          type: number
+          description: Maximum unique unsent touches across preparation, audit and delivery. Not a batch size.
+          minimum: 1
+          maximum: 50
+          default: 50
+        maxPendingPlacement:
+          type: number
+          description: Maximum sent touches awaiting placement feedback before new preparation pauses.
+          minimum: 1
+          maximum: 50
+          default: 50
+    CreateTestTaskDto:
+      type: object
+      properties:
+        requestKey:
+          type: string
+          maxLength: 200
+          description: Stable retry key; Idempotency-Key header takes precedence when present
+        intendedRecipientId:
+          type: string
+          maxLength: 128
+          description: Existing CampaignRecipient id from this DRAFT campaign
+    PauseCampaignDto:
+      type: object
+      properties:
+        reason:
+          type: string
+          description: Идёт в событие PAUSED в ленте кампании (#514)
+    PourFromLeadsDto:
+      type: object
+      properties:
+        pipelineId:
+          type: string
+        stageId:
+          type: string
+        interestStatus:
+          type: string
+        limit:
+          type: number
+    CampaignPreparationRequestDto:
+      type: object
+      properties:
+        limit:
+          type: number
+          minimum: 1
+          maximum: 50
+          description: Requested preparation batch, bounded by remaining preparation and relay capacity.
+          default: 50
+    MoveRecipientsStageDto:
+      type: object
+      properties:
+        toStage:
+          type: string
+          description: 'Целевая стадия канваса: STEP:n | WAIT:n | COMPLETED | STOPPED | __none__'
+        recipientIds:
+          type: array
+          items:
+            type: string
+        filter:
+          $ref: '#/components/schemas/MoveRecipientsStageFilterDto'
+      required:
+      - toStage
+    CampaignPacingConfigDto:
+      type: object
+      properties:
+        dailyTarget:
+          type: number
+          minimum: 1
+          maximum: 1000000
+          description: Maximum unique REAL campaign recipients admitted in the campaign calendar day.
+        bestTimeMode:
+          type: string
+          enum:
+          - advisory
+          default: advisory
+          description: best_send_time is a recommendation; the send point may ignore it to meet the daily target.
+    PushAttachmentDto:
+      type: object
+      properties:
+        filename:
+          type: string
+        contentBase64:
+          type: string
+        contentType:
+          type: string
+    RerenderRecipientsDto:
+      type: object
+      properties:
+        recipientIds:
+          type: array
+          items:
+            type: string
+        stages:
+          type: array
+          items:
+            type: string
+        force:
           type: boolean
-          description: По умолчанию true — только показать, кого вернёт (#765)
+          description: '#531: явный грант нового окна платных аудит-попыток'
+    PourCampaignDto:
+      type: object
+      properties:
+        listId:
+          type: string
+          description: Contact-list id; required unless allContacts:true (#565)
+        allContacts:
+          type: boolean
+          description: Pour to all contacts
+        companyListId:
+          type: string
+          description: '#1221: Company-list id — pour live contacts of ALL companies in this COMPANY list (not a contact list). Mutually exclusive with listId/allContacts.'
+    RepairUnsubscribeDto:
+      type: object
+      properties:
+        recipientIds:
+          type: array
+          items:
+            type: string
+        stages:
+          type: array
+          items:
+            type: string
+    PushContactsDto:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/PushRowDto'
+      required:
+      - rows
+    SubmitRenderedContentDto:
+      type: object
+      properties:
+        items:
+          description: batch <=100, bodyHtml <=256KB
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmitRenderedContentItemDto'
+      required:
+      - items
     CampaignSenderConfigDto:
       type: object
       properties:
@@ -1433,90 +1568,6 @@ components:
           $ref: '#/components/schemas/CampaignPreparationConfigDto'
         pacing:
           $ref: '#/components/schemas/CampaignPacingConfigDto'
-    MoveRecipientsStageFilterDto:
-      type: object
-      properties:
-        stage:
-          type: string
-        search:
-          type: string
-        canvasStage:
-          type: string
-        finalStatus:
-          type: string
-        emailValid:
-          type: string
-        auditLevel:
-          type: string
-        inboxPlacement:
-          type: string
-        sentFrom:
-          type: string
-        sentTo:
-          type: string
-    CampaignPacingConfigDto:
-      type: object
-      properties:
-        dailyTarget:
-          type: number
-          minimum: 1
-          maximum: 1000000
-          description: Maximum unique REAL campaign recipients admitted in the campaign calendar day.
-        bestTimeMode:
-          type: string
-          enum:
-          - advisory
-          default: advisory
-          description: best_send_time is a recommendation; the send point may ignore it to meet the daily target.
-    CampaignPreparationRequestDto:
-      type: object
-      properties:
-        limit:
-          type: number
-          minimum: 1
-          maximum: 50
-          description: Requested preparation batch, bounded by remaining preparation and relay capacity.
-          default: 50
-    PourFromLeadsDto:
-      type: object
-      properties:
-        pipelineId:
-          type: string
-        stageId:
-          type: string
-        interestStatus:
-          type: string
-        limit:
-          type: number
-    SubmitRenderedContentItemDto:
-      type: object
-      properties:
-        recipientId:
-          type: string
-        subject:
-          type: string
-        bodyHtml:
-          type: string
-        bodyText:
-          type: string
-      required:
-      - recipientId
-      - subject
-    PauseCampaignDto:
-      type: object
-      properties:
-        reason:
-          type: string
-          description: Идёт в событие PAUSED в ленте кампании (#514)
-    PushAttachmentDto:
-      type: object
-      properties:
-        filename:
-          type: string
-        contentBase64:
-          type: string
-        contentType:
-          type: string
     CreateCampaignDto:
       type: object
       properties:
@@ -1572,98 +1623,47 @@ components:
           - BYOC
       required:
       - name
-    CampaignSendWindowDto:
+    RestoreInfraFailedDto:
       type: object
       properties:
-        enabled:
+        dryRun:
           type: boolean
-          description: true = bounded calendar window; false = explicit 24/7
-        workDays:
-          description: 'ISO weekdays: 1 Monday … 7 Sunday'
-          type: array
-          items:
-            type: number
-            maximum: 7
-            minimum: 1
-        startTime:
-          type: string
-          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
-          description: Local start time, HH:MM
-        endTime:
-          type: string
-          pattern: ^(?:[01]\d|2[0-3]):[0-5]\d
-          description: Local end time, HH:MM (exclusive)
-        timezone:
-          type: string
-          description: IANA timezone, for example Europe/Moscow
-    MoveRecipientsStageDto:
+          description: По умолчанию true — только показать, кого вернёт (#765)
+    SubmitRenderedContentItemDto:
       type: object
       properties:
-        toStage:
+        recipientId:
           type: string
-          description: 'Целевая стадия канваса: STEP:n | WAIT:n | COMPLETED | STOPPED | __none__'
-        recipientIds:
-          type: array
-          items:
-            type: string
-        filter:
-          $ref: '#/components/schemas/MoveRecipientsStageFilterDto'
+        subject:
+          type: string
+        bodyHtml:
+          type: string
+        bodyText:
+          type: string
       required:
-      - toStage
-    PushContactsDto:
+      - recipientId
+      - subject
+    MoveRecipientsStageFilterDto:
       type: object
       properties:
-        rows:
-          type: array
-          items:
-            $ref: '#/components/schemas/PushRowDto'
-      required:
-      - rows
-    RerenderRecipientsDto:
-      type: object
-      properties:
-        recipientIds:
-          type: array
-          items:
-            type: string
-        stages:
-          type: array
-          items:
-            type: string
-        force:
-          type: boolean
-          description: '#531: явный грант нового окна платных аудит-попыток'
-    PushRowDto:
-      type: object
-      properties:
-        email:
+        stage:
           type: string
-        firstName:
+        search:
           type: string
-        lastName:
+        canvasStage:
           type: string
-        contactId:
+        finalStatus:
           type: string
-        companyId:
+        emailValid:
           type: string
-        leadId:
+        auditLevel:
           type: string
-        attachments:
-          type: array
-          items:
-            $ref: '#/components/schemas/PushAttachmentDto'
-    PourCampaignDto:
-      type: object
-      properties:
-        listId:
+        inboxPlacement:
           type: string
-          description: Contact-list id; required unless allContacts:true (#565)
-        allContacts:
-          type: boolean
-          description: Pour to all contacts
-        companyListId:
+        sentFrom:
           type: string
-          description: '#1221: Company-list id — pour live contacts of ALL companies in this COMPANY list (not a contact list). Mutually exclusive with listId/allContacts.'
+        sentTo:
+          type: string
   securitySchemes:
     jwt:
       scheme: bearer

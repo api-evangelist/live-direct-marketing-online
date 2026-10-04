@@ -405,17 +405,6 @@ paths:
       - Users
 components:
   schemas:
-    AddCommentDto:
-      type: object
-      properties: {}
-    UpdatePasswordDto:
-      type: object
-      properties:
-        password:
-          type: string
-          minLength: 8
-      required:
-      - password
     UpdateRoleDto:
       type: object
       properties:
@@ -430,6 +419,24 @@ components:
           type: object
       required:
       - status
+    UpdateProfileDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+    AddCommentDto:
+      type: object
+      properties: {}
+    UpdatePasswordDto:
+      type: object
+      properties:
+        password:
+          type: string
+          minLength: 8
+      required:
+      - password
     CreateUserDto:
       type: object
       properties:
@@ -448,13 +455,6 @@ components:
       required:
       - email
       - password
-    UpdateProfileDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
   securitySchemes:
     jwt:
       scheme: bearer

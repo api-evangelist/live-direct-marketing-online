@@ -150,6 +150,13 @@ paths:
       - Development Pipeline — Conveyor Bridge
 components:
   schemas:
+    SetConveyorPriorityDto:
+      type: object
+      properties:
+        priority:
+          type: string
+      required:
+      - priority
     ConveyorIssueActionDto:
       type: object
       properties:
@@ -157,13 +164,6 @@ components:
           type: object
       required:
       - action
-    SetConveyorPausedDto:
-      type: object
-      properties:
-        paused:
-          type: boolean
-      required:
-      - paused
     CreateConveyorIssueDto:
       type: object
       properties:
@@ -176,13 +176,13 @@ components:
           type: string
       required:
       - description
-    SetConveyorPriorityDto:
+    SetConveyorPausedDto:
       type: object
       properties:
-        priority:
-          type: string
+        paused:
+          type: boolean
       required:
-      - priority
+      - paused
   securitySchemes:
     jwt:
       scheme: bearer

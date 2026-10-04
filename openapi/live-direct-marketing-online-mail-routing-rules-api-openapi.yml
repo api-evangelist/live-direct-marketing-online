@@ -180,6 +180,51 @@ paths:
       - rules:read
 components:
   schemas:
+    CreateMailRoutingRuleDto:
+      type: object
+      properties:
+        name:
+          type: string
+        accountId:
+          type: string
+        toEmail:
+          type: string
+        fromEmail:
+          type: string
+        fromDomain:
+          type: string
+        subjectPattern:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        keywordMode:
+          type: string
+        searchScope:
+          type: array
+          items:
+            type: string
+        matchType:
+          type: string
+        aiCriteria:
+          type: string
+        aiModel:
+          type: string
+        action:
+          type: string
+        targetFolder:
+          type: string
+        forwardTo:
+          type: string
+        markRead:
+          type: boolean
+        stopProcessing:
+          type: boolean
+        sortOrder:
+          type: number
+      required:
+      - name
     UpdateMailRoutingRuleDto:
       type: object
       properties:
@@ -241,51 +286,6 @@ components:
           type: boolean
         sortOrder:
           type: number
-    CreateMailRoutingRuleDto:
-      type: object
-      properties:
-        name:
-          type: string
-        accountId:
-          type: string
-        toEmail:
-          type: string
-        fromEmail:
-          type: string
-        fromDomain:
-          type: string
-        subjectPattern:
-          type: string
-        keywords:
-          type: array
-          items:
-            type: string
-        keywordMode:
-          type: string
-        searchScope:
-          type: array
-          items:
-            type: string
-        matchType:
-          type: string
-        aiCriteria:
-          type: string
-        aiModel:
-          type: string
-        action:
-          type: string
-        targetFolder:
-          type: string
-        forwardTo:
-          type: string
-        markRead:
-          type: boolean
-        stopProcessing:
-          type: boolean
-        sortOrder:
-          type: number
-      required:
-      - name
   securitySchemes:
     jwt:
       scheme: bearer

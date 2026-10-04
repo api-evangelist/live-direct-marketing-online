@@ -3718,8 +3718,6 @@ apis:
   humanURL: https://live-direct-marketing.online/academy/mcp-flow
   baseURL: https://api.live-direct-marketing.online/mcp
   tags:
-  - LinkedIn
-  tags_raw:
   - Linked In
   properties:
   - type: OpenAPI

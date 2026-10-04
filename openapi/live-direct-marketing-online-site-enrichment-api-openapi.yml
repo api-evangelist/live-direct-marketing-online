@@ -549,6 +549,14 @@ paths:
       - site-enrichment:write
 components:
   schemas:
+    CreateAgentNoteDto:
+      type: object
+      properties:
+        text:
+          type: string
+          maxLength: 4000
+      required:
+      - text
     CreateSiteEnrichmentTaskDto:
       type: object
       properties:
@@ -589,14 +597,6 @@ components:
         scoringTaskId:
           type: string
           maxLength: 100
-    CreateAgentNoteDto:
-      type: object
-      properties:
-        text:
-          type: string
-          maxLength: 4000
-      required:
-      - text
     DetectFormsDto:
       type: object
       properties:

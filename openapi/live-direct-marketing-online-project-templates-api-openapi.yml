@@ -460,25 +460,25 @@ components:
     ReorderDto:
       type: object
       properties: {}
+    StepDto:
+      type: object
+      properties: {}
+    CreateTemplateDto:
+      type: object
+      properties: {}
     UpdateTemplateDto:
       type: object
       properties: {}
     UpdateStepDto:
       type: object
       properties: {}
-    StepDto:
-      type: object
-      properties: {}
     UpdateRunStepDto:
-      type: object
-      properties: {}
-    UpdateRunDto:
       type: object
       properties: {}
     CreateRunDto:
       type: object
       properties: {}
-    CreateTemplateDto:
+    UpdateRunDto:
       type: object
       properties: {}
   securitySchemes:

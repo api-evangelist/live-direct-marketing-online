@@ -263,19 +263,6 @@ paths:
       - Creatives / On-Demand
 components:
   schemas:
-    GenerateRequestDto:
-      type: object
-      properties:
-        contactId:
-          type: string
-        source:
-          type: string
-        overrides:
-          $ref: '#/components/schemas/GenerateOverridesDto'
-        saveAsVersion:
-          type: boolean
-      required:
-      - contactId
     GenerateOverridesDto:
       type: object
       properties:
@@ -299,6 +286,19 @@ components:
       required:
       - tier1
       - tier2
+    GenerateRequestDto:
+      type: object
+      properties:
+        contactId:
+          type: string
+        source:
+          type: string
+        overrides:
+          $ref: '#/components/schemas/GenerateOverridesDto'
+        saveAsVersion:
+          type: boolean
+      required:
+      - contactId
   securitySchemes:
     jwt:
       scheme: bearer

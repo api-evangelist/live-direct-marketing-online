@@ -337,19 +337,15 @@ paths:
       - Tests
 components:
   schemas:
-    CreateV1AutoTestDto:
+    ScheduleDeferredRecheckDto:
       type: object
       properties:
-        recipient_email:
-          type: string
-          format: email
-        sender_email:
-          type: string
-          format: email
-        meta:
-          type: object
-      required:
-      - recipient_email
+        delay_hours:
+          type: number
+          description: Delay before the same-message recheck. Defaults to 24 hours.
+          default: 24
+          minimum: 1
+          maximum: 168
     CreateV1TestDto:
       type: object
       properties:
@@ -396,20 +392,24 @@ components:
           type: boolean
       required:
       - email
+    CreateV1AutoTestDto:
+      type: object
+      properties:
+        recipient_email:
+          type: string
+          format: email
+        sender_email:
+          type: string
+          format: email
+        meta:
+          type: object
+      required:
+      - recipient_email
     PresendOptionsDto:
       type: object
       properties:
         enableTier2:
           type: boolean
-    ScheduleDeferredRecheckDto:
-      type: object
-      properties:
-        delay_hours:
-          type: number
-          description: Delay before the same-message recheck. Defaults to 24 hours.
-          default: 24
-          minimum: 1
-          maximum: 168
   securitySchemes:
     apiKey:
       scheme: bearer

@@ -280,6 +280,30 @@ paths:
       - Import
 components:
   schemas:
+    ApplyTemplateDto:
+      type: object
+      properties:
+        templateId:
+          type: string
+          description: Id of the template to apply
+        headers:
+          description: CSV/sheet column headers to map via the template
+          type: array
+          items:
+            type: string
+      required:
+      - templateId
+      - headers
+    DetectTemplateDto:
+      type: object
+      properties:
+        headers:
+          description: CSV/sheet column headers to match against known templates
+          type: array
+          items:
+            type: string
+      required:
+      - headers
     ImportTaskConfigDto:
       type: object
       properties:
@@ -375,20 +399,6 @@ components:
       - createLeads
       - duplicateHandling
       - deduplicateBy
-    ApplyTemplateDto:
-      type: object
-      properties:
-        templateId:
-          type: string
-          description: Id of the template to apply
-        headers:
-          description: CSV/sheet column headers to map via the template
-          type: array
-          items:
-            type: string
-      required:
-      - templateId
-      - headers
     ImportFromUrlDto:
       type: object
       properties:
@@ -400,16 +410,6 @@ components:
           description: Tenant file library id — save the fetched file there too
       required:
       - url
-    DetectTemplateDto:
-      type: object
-      properties:
-        headers:
-          description: CSV/sheet column headers to match against known templates
-          type: array
-          items:
-            type: string
-      required:
-      - headers
   securitySchemes:
     jwt:
       scheme: bearer

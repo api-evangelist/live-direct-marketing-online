@@ -1246,11 +1246,6 @@ components:
       required:
       - currentPassword
       - newPassword
-    RequestLdmAiDto:
-      type: object
-      properties:
-        note:
-          type: string
     UpdateWorkspaceDto:
       type: object
       properties:
@@ -1259,6 +1254,18 @@ components:
         defaultCurrency:
           type: string
         defaultLanguage:
+          type: string
+    RequestLdmAiDto:
+      type: object
+      properties:
+        note:
+          type: string
+    UpdateProfileDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
           type: string
     UpdateAiProvidersDto:
       type: object
@@ -1282,13 +1289,6 @@ components:
         defaultAiModel:
           type: string
         fallbackProvider:
-          type: string
-    UpdateProfileDto:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
           type: string
   securitySchemes:
     jwt:

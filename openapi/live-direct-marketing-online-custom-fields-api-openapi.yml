@@ -285,6 +285,46 @@ paths:
       - Custom Fields
 components:
   schemas:
+    SetValueDto:
+      type: object
+      properties:
+        fieldId:
+          type: string
+        value:
+          type: object
+        source:
+          type: string
+      required:
+      - fieldId
+      - value
+    UpdateDefinitionDto:
+      type: object
+      properties:
+        name:
+          type: string
+        isRequired:
+          type: boolean
+        settings:
+          type: object
+        sortOrder:
+          type: number
+        label:
+          type: string
+        labelEn:
+          type: string
+        group:
+          type: string
+        isVisibleInTable:
+          type: boolean
+        isFilterable:
+          type: boolean
+        isSortable:
+          type: boolean
+        numberFormat:
+          type: object
+    ReorderDto:
+      type: object
+      properties: {}
     CreateDefinitionDto:
       type: object
       properties:
@@ -319,46 +359,6 @@ components:
       - name
       - fieldKey
       - type
-    UpdateDefinitionDto:
-      type: object
-      properties:
-        name:
-          type: string
-        isRequired:
-          type: boolean
-        settings:
-          type: object
-        sortOrder:
-          type: number
-        label:
-          type: string
-        labelEn:
-          type: string
-        group:
-          type: string
-        isVisibleInTable:
-          type: boolean
-        isFilterable:
-          type: boolean
-        isSortable:
-          type: boolean
-        numberFormat:
-          type: object
-    SetValueDto:
-      type: object
-      properties:
-        fieldId:
-          type: string
-        value:
-          type: object
-        source:
-          type: string
-      required:
-      - fieldId
-      - value
-    ReorderDto:
-      type: object
-      properties: {}
   securitySchemes:
     jwt:
       scheme: bearer

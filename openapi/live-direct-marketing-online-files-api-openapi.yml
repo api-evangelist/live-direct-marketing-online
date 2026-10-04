@@ -584,6 +584,60 @@ paths:
       - Files
 components:
   schemas:
+    UpdateLibraryItemDto:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        briefId:
+          type:
+          - string
+          - 'null'
+        leadId:
+          type:
+          - string
+          - 'null'
+        contactId:
+          type:
+          - string
+          - 'null'
+        companyId:
+          type:
+          - string
+          - 'null'
+    ImageImportDto:
+      type: object
+      properties:
+        source:
+          $ref: '#/components/schemas/ImageImportSourceDto'
+        imageRefs:
+          type: array
+          items:
+            type: string
+        all:
+          type: boolean
+        target:
+          $ref: '#/components/schemas/ImageImportTargetDto'
+        normalize:
+          $ref: '#/components/schemas/ImageImportNormalizeDto'
+        minEdgePx:
+          type: number
+          minimum: 1
+      required:
+      - source
+    AttachEntityFileDto:
+      type: object
+      properties:
+        contactId:
+          type: string
+        companyId:
+          type: string
+        leadId:
+          type: string
+        createdBy:
+          type: string
     ImageImportSourceDto:
       type: object
       properties:
@@ -608,60 +662,6 @@ components:
         quality:
           type: number
           minimum: 1
-    ImageImportDto:
-      type: object
-      properties:
-        source:
-          $ref: '#/components/schemas/ImageImportSourceDto'
-        imageRefs:
-          type: array
-          items:
-            type: string
-        all:
-          type: boolean
-        target:
-          $ref: '#/components/schemas/ImageImportTargetDto'
-        normalize:
-          $ref: '#/components/schemas/ImageImportNormalizeDto'
-        minEdgePx:
-          type: number
-          minimum: 1
-      required:
-      - source
-    UpdateLibraryItemDto:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        briefId:
-          type:
-          - string
-          - 'null'
-        leadId:
-          type:
-          - string
-          - 'null'
-        contactId:
-          type:
-          - string
-          - 'null'
-        companyId:
-          type:
-          - string
-          - 'null'
-    AttachEntityFileDto:
-      type: object
-      properties:
-        contactId:
-          type: string
-        companyId:
-          type: string
-        leadId:
-          type: string
-        createdBy:
-          type: string
   securitySchemes:
     jwt:
       scheme: bearer

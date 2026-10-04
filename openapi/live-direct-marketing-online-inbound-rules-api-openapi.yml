@@ -290,26 +290,69 @@ paths:
       - rules:write
 components:
   schemas:
-    ReorderItemDto:
+    CreateInboundRuleDto:
       type: object
       properties:
-        id:
+        name:
           type: string
+        accountId:
+          type: string
+        toEmail:
+          type: string
+        fromEmail:
+          type: string
+        fromDomain:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        keywordMode:
+          type: string
+        subjectPattern:
+          type: string
+        searchScope:
+          type: array
+          items:
+            type: string
+        matchType:
+          type: string
+        aiCriteria:
+          type: string
+        aiModel:
+          type: string
+        pipelineId:
+          type: string
+        stageId:
+          type: string
+        leadTitle:
+          type: string
+        leadSource:
+          type: string
+        leadPriority:
+          type: object
+        linkContact:
+          type: boolean
+        linkDialog:
+          type: boolean
+        createWithoutContact:
+          type: boolean
         sortOrder:
           type: number
       required:
-      - id
-      - sortOrder
-    ReapplyInboundRulesDto:
+      - name
+      - pipelineId
+    ReorderInboundRulesDto:
       type: object
       properties:
-        pipelineId:
-          type: string
-        fromStageId:
-          type: string
-      required:
-      - pipelineId
-      - fromStageId
+        ids:
+          type: array
+          items:
+            type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReorderItemDto'
     UpdateInboundRuleDto:
       type: object
       properties:
@@ -381,69 +424,26 @@ components:
           type: boolean
         sortOrder:
           type: number
-    ReorderInboundRulesDto:
+    ReorderItemDto:
       type: object
       properties:
-        ids:
-          type: array
-          items:
-            type: string
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReorderItemDto'
-    CreateInboundRuleDto:
-      type: object
-      properties:
-        name:
+        id:
           type: string
-        accountId:
-          type: string
-        toEmail:
-          type: string
-        fromEmail:
-          type: string
-        fromDomain:
-          type: string
-        keywords:
-          type: array
-          items:
-            type: string
-        keywordMode:
-          type: string
-        subjectPattern:
-          type: string
-        searchScope:
-          type: array
-          items:
-            type: string
-        matchType:
-          type: string
-        aiCriteria:
-          type: string
-        aiModel:
-          type: string
-        pipelineId:
-          type: string
-        stageId:
-          type: string
-        leadTitle:
-          type: string
-        leadSource:
-          type: string
-        leadPriority:
-          type: object
-        linkContact:
-          type: boolean
-        linkDialog:
-          type: boolean
-        createWithoutContact:
-          type: boolean
         sortOrder:
           type: number
       required:
-      - name
+      - id
+      - sortOrder
+    ReapplyInboundRulesDto:
+      type: object
+      properties:
+        pipelineId:
+          type: string
+        fromStageId:
+          type: string
+      required:
       - pipelineId
+      - fromStageId
   securitySchemes:
     jwt:
       scheme: bearer

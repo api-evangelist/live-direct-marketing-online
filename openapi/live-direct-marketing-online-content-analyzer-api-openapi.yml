@@ -43,6 +43,23 @@ paths:
       - mailing:read
 components:
   schemas:
+    CheckContentDto:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Subject
+        bodyText:
+          type: string
+          description: Body text
+        bodyHtml:
+          type: string
+          description: Body html
+        customRules:
+          description: Custom rules
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomRuleDto'
     CustomRuleDto:
       type: object
       properties:
@@ -70,23 +87,6 @@ components:
       - severity
       - scope
       - weight
-    CheckContentDto:
-      type: object
-      properties:
-        subject:
-          type: string
-          description: Subject
-        bodyText:
-          type: string
-          description: Body text
-        bodyHtml:
-          type: string
-          description: Body html
-        customRules:
-          description: Custom rules
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomRuleDto'
   securitySchemes:
     jwt:
       scheme: bearer

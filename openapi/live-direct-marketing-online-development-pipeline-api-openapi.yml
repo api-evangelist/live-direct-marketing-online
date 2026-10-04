@@ -346,15 +346,14 @@ paths:
       - Development Pipeline
 components:
   schemas:
-    PriorityTriageDto:
+    CreateIssueFromFindingDto:
       type: object
       properties:
-        dryRun:
-          type: boolean
-          description: Preview the plan only, no write to GitLab
         projectId:
           type: string
-          description: GitLab project ID (defaults to primary)
+          pattern: /^\d+$/
+      required:
+      - projectId
     SetPausedDto:
       type: object
       properties:
@@ -365,14 +364,15 @@ components:
           pattern: /^\d+$/
       required:
       - paused
-    CreateIssueFromFindingDto:
+    PriorityTriageDto:
       type: object
       properties:
+        dryRun:
+          type: boolean
+          description: Preview the plan only, no write to GitLab
         projectId:
           type: string
-          pattern: /^\d+$/
-      required:
-      - projectId
+          description: GitLab project ID (defaults to primary)
     SetModelDto:
       type: object
       properties:
@@ -383,6 +383,16 @@ components:
           pattern: /^\d+$/
       required:
       - model
+    SetPriorityDto:
+      type: object
+      properties:
+        priority:
+          type: object
+        projectId:
+          type: string
+          pattern: /^\d+$/
+      required:
+      - priority
     ProjectScopedDto:
       type: object
       properties:
@@ -398,16 +408,6 @@ components:
           maxLength: 500
       required:
       - line
-    SetPriorityDto:
-      type: object
-      properties:
-        priority:
-          type: object
-        projectId:
-          type: string
-          pattern: /^\d+$/
-      required:
-      - priority
   securitySchemes:
     jwt:
       scheme: bearer

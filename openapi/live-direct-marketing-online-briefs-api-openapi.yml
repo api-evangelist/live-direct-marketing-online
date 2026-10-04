@@ -979,120 +979,6 @@ paths:
       - Briefs
 components:
   schemas:
-    UpdateBriefIntakeAliasDto:
-      type: object
-      properties:
-        alias:
-          type: string
-          minLength: 8
-          maxLength: 64
-          pattern: /^brief-[a-z0-9](?:[a-z0-9-]*[a-z0-9])$/
-      required:
-      - alias
-    UpdateBriefContentDto:
-      type: object
-      properties:
-        patch:
-          type: object
-          description: Partial JSON-merge patch for `content`. Top-level keys whose path is locked (locks[key] === true) are rejected with 423. Merged result is validated against brief-content-v1.2.
-        reason:
-          type: string
-      required:
-      - patch
-    CreateBriefDto:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        isActive:
-          type: boolean
-        content:
-          type: object
-          description: Initial content, validated against brief-content-v1.2 before save.
-        variables:
-          type: object
-        locks:
-          type: object
-          description: Map of section paths to boolean lock state.
-        targetCompanyListId:
-          type:
-          - string
-          - 'null'
-          description: Target company list ID. Can be a string or null.
-      required:
-      - name
-    TransitionBriefIntakeItemDto:
-      type: object
-      properties:
-        status:
-          type: string
-          enum:
-          - IN_REVIEW
-          - IGNORED
-          - REJECTED
-          example: IN_REVIEW
-        reason:
-          type: string
-          maxLength: 500
-          example: Operator reviewed the sender and attachments.
-        idempotencyKey:
-          type: string
-          maxLength: 128
-          example: review-intake-item-123-v1
-      required:
-      - status
-      - reason
-      - idempotencyKey
-    LinkBriefIntakeItemDto:
-      type: object
-      properties:
-        briefId:
-          type: string
-          example: brief-id
-        contactId:
-          type:
-          - object
-          - 'null'
-          description: Existing customer Contact, or null to clear a wrong association.
-        companyId:
-          type:
-          - object
-          - 'null'
-          description: Existing customer Company, or null to clear a wrong association.
-        reason:
-          type: string
-          maxLength: 500
-          example: Human confirmed that these materials belong to this brief.
-        idempotencyKey:
-          type: string
-          maxLength: 128
-          example: link-intake-item-123-to-brief-id-v1
-      required:
-      - briefId
-      - reason
-      - idempotencyKey
-    UpdateBriefMetaDto:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        isActive:
-          type: boolean
-        targetCompanyListId:
-          type:
-          - object
-          - 'null'
-          description: '#847: целевой список проекта. `null` — снять связь явно.
-
-            Без этого поля читатель (`resolveTargetList`) был бы механизмом без
-
-            вызывающего: связь стала бы исправимой, но не исправленной.'
-        reason:
-          type: string
     LogBriefIntakeWorkDto:
       type: object
       properties:
@@ -1127,6 +1013,120 @@ components:
           example: intake-item-123-read-v1
       required:
       - action
+      - reason
+      - idempotencyKey
+    UpdateBriefIntakeAliasDto:
+      type: object
+      properties:
+        alias:
+          type: string
+          minLength: 8
+          maxLength: 64
+          pattern: /^brief-[a-z0-9](?:[a-z0-9-]*[a-z0-9])$/
+      required:
+      - alias
+    UpdateBriefMetaDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        targetCompanyListId:
+          type:
+          - object
+          - 'null'
+          description: '#847: целевой список проекта. `null` — снять связь явно.
+
+            Без этого поля читатель (`resolveTargetList`) был бы механизмом без
+
+            вызывающего: связь стала бы исправимой, но не исправленной.'
+        reason:
+          type: string
+    UpdateBriefContentDto:
+      type: object
+      properties:
+        patch:
+          type: object
+          description: Partial JSON-merge patch for `content`. Top-level keys whose path is locked (locks[key] === true) are rejected with 423. Merged result is validated against brief-content-v1.2.
+        reason:
+          type: string
+      required:
+      - patch
+    CreateBriefDto:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isActive:
+          type: boolean
+        content:
+          type: object
+          description: Initial content, validated against brief-content-v1.2 before save.
+        variables:
+          type: object
+        locks:
+          type: object
+          description: Map of section paths to boolean lock state.
+        targetCompanyListId:
+          type:
+          - string
+          - 'null'
+          description: Target company list ID. Can be a string or null.
+      required:
+      - name
+    LinkBriefIntakeItemDto:
+      type: object
+      properties:
+        briefId:
+          type: string
+          example: brief-id
+        contactId:
+          type:
+          - object
+          - 'null'
+          description: Existing customer Contact, or null to clear a wrong association.
+        companyId:
+          type:
+          - object
+          - 'null'
+          description: Existing customer Company, or null to clear a wrong association.
+        reason:
+          type: string
+          maxLength: 500
+          example: Human confirmed that these materials belong to this brief.
+        idempotencyKey:
+          type: string
+          maxLength: 128
+          example: link-intake-item-123-to-brief-id-v1
+      required:
+      - briefId
+      - reason
+      - idempotencyKey
+    TransitionBriefIntakeItemDto:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - IN_REVIEW
+          - IGNORED
+          - REJECTED
+          example: IN_REVIEW
+        reason:
+          type: string
+          maxLength: 500
+          example: Operator reviewed the sender and attachments.
+        idempotencyKey:
+          type: string
+          maxLength: 128
+          example: review-intake-item-123-v1
+      required:
+      - status
       - reason
       - idempotencyKey
     UpdateBriefVariablesDto:

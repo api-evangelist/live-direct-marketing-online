@@ -2757,44 +2757,6 @@ paths:
       - Creatives
 components:
   schemas:
-    GeneratePdfMetadataDto:
-      type: object
-      properties:
-        title:
-          type: string
-        author:
-          type: string
-        subject:
-          type: string
-        keywords:
-          type: array
-          items:
-            type: string
-        filename:
-          type: string
-        creator:
-          type: string
-        producer:
-          type: string
-        creationDate:
-          type: string
-        modificationDate:
-          type: string
-    VariableRuleEntryDto:
-      type: object
-      properties:
-        variable:
-          type: string
-        enabled:
-          type: boolean
-        rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/VariableNormalizationRuleDto'
-      required:
-      - variable
-      - enabled
-      - rules
     TestSendDto:
       type: object
       properties:
@@ -2824,208 +2786,29 @@ components:
           description: Explicit variable values overriding company/contact/lead data
           additionalProperties:
             type: string
-    AiGenerateCreativeDto:
+    GeneratePdfMetadataDto:
       type: object
       properties:
-        prompt:
+        title:
           type: string
-          description: Prompt describing the creative to generate
-        tone:
+        author:
           type: string
-          description: Desired tone of voice, free text
-        language:
+        subject:
           type: string
-          description: Output language, e.g. "ru" or "en"
-        type:
-          type: string
-          enum:
-          - email
-          - message
-          description: Creative kind to generate
-        provider:
-          type: string
-          description: AI provider override
-        model:
-          type: string
-          description: AI model override
-        temperature:
-          type: number
-          minimum: 0
-          maximum: 2
-        creativeId:
-          type: string
-          description: Existing creative to regenerate in place
-      required:
-      - prompt
-    StartInboxPlacementTestDto:
-      type: object
-      properties:
-        accountId:
-          type: string
-          description: 'Email account the seed letters are sent from. Required: seed reservation is paid, and the platform deliberately does not pick an account for you (#791).'
-        providers:
-          description: Seed providers to cover, e.g. ["gmail","outlook","yandex"]. Omit for the default set.
+        keywords:
           type: array
           items:
             type: string
-        companyId:
+        filename:
           type: string
-          description: Company used to resolve merge variables while rendering the seed letter
-        contactId:
+        creator:
           type: string
-          description: Contact used to resolve merge variables while rendering the seed letter
-        leadId:
+        producer:
           type: string
-          description: Lead used to resolve merge variables while rendering the seed letter
-      required:
-      - accountId
-    UpdateCreativeDto:
-      type: object
-      properties:
-        autopilotConfig:
-          type:
-          - object
-          - 'null'
-          additionalProperties: true
-          description: Autopilot configuration. aiVariables entries may carry requiredInputs and fallback.
-        name:
+        creationDate:
           type: string
-        description:
-          type:
-          - string
-          - 'null'
-        isActive:
-          type: boolean
-        subject:
-          type:
-          - string
-          - 'null'
-        bodyHtml:
-          type:
-          - string
-          - 'null'
-        bodyText:
-          type:
-          - string
-          - 'null'
-        messageText:
-          type:
-          - string
-          - 'null'
-        formConfig:
-          type:
-          - object
-          - 'null'
-        attachmentUrl:
-          type:
-          - string
-          - 'null'
-          maxLength: 2048
-        attachmentName:
-          type:
-          - string
-          - 'null'
-          maxLength: 255
-        attachmentCreativeId:
-          type:
-          - string
-          - 'null'
-        variables:
-          type:
-          - object
-          - 'null'
-        previewContactId:
-          type:
-          - string
-          - 'null'
-        previewCompanyId:
-          type:
-          - string
-          - 'null'
-        senderMethod:
-          type: object
-        subjectMethod:
-          type: object
-        bodyMethod:
-          type: object
-        aiPromptSubject:
-          type:
-          - object
-          - 'null'
-        aiPromptBody:
-          type:
-          - object
-          - 'null'
-        aiModel:
-          type:
-          - string
-          - 'null'
-        aiTemperature:
-          type: number
-        briefId:
-          type:
-          - string
-          - 'null'
-        includeDossier:
-          type: boolean
-        formCompanyName:
-          type:
-          - string
-          - 'null'
-        formContactName:
-          type:
-          - string
-          - 'null'
-        formEmail:
-          type:
-          - string
-          - 'null'
-        formPhone:
-          type:
-          - string
-          - 'null'
-        formTitle:
-          type:
-          - string
-          - 'null'
-        pixelTracking:
-          type: boolean
-        linkTracking:
-          type: boolean
-        unsubscribeLink:
-          type: boolean
-    VariableNormalizationRuleDto:
-      type: object
-      properties:
-        type:
+        modificationDate:
           type: string
-          enum:
-          - regex_replace
-          - truncate
-          - default_if_empty
-          - skip_if_equals
-          - skip_if_matches
-          - ai_normalize
-        pattern:
-          type: string
-        replacement:
-          type: string
-        maxLength:
-          type: number
-        ellipsis:
-          type: boolean
-        defaultValue:
-          type: string
-        equalsVariable:
-          type: string
-        prompt:
-          type: string
-        model:
-          type: string
-        cacheKey:
-          type: string
-      required:
-      - type
     CreateCreativeDto:
       type: object
       properties:
@@ -3169,6 +2952,232 @@ components:
       required:
       - type
       - name
+    PreviewCreativeDto:
+      type: object
+      properties:
+        sampleData:
+          type: object
+          description: Sample values keyed by variable name, override for resolved contact/company/lead data
+        seed:
+          type: number
+          description: Deterministic seed for spintax/variant resolution
+        companyId:
+          type: string
+        contactId:
+          type: string
+        leadId:
+          type: string
+    SaveVariableRulesDto:
+      type: object
+      properties:
+        variableRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/VariableRuleEntryDto'
+      required:
+      - variableRules
+    VariableNormalizationRuleDto:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - regex_replace
+          - truncate
+          - default_if_empty
+          - skip_if_equals
+          - skip_if_matches
+          - ai_normalize
+        pattern:
+          type: string
+        replacement:
+          type: string
+        maxLength:
+          type: number
+        ellipsis:
+          type: boolean
+        defaultValue:
+          type: string
+        equalsVariable:
+          type: string
+        prompt:
+          type: string
+        model:
+          type: string
+        cacheKey:
+          type: string
+      required:
+      - type
+    AiGenerateCreativeDto:
+      type: object
+      properties:
+        prompt:
+          type: string
+          description: Prompt describing the creative to generate
+        tone:
+          type: string
+          description: Desired tone of voice, free text
+        language:
+          type: string
+          description: Output language, e.g. "ru" or "en"
+        type:
+          type: string
+          enum:
+          - email
+          - message
+          description: Creative kind to generate
+        provider:
+          type: string
+          description: AI provider override
+        model:
+          type: string
+          description: AI model override
+        temperature:
+          type: number
+          minimum: 0
+          maximum: 2
+        creativeId:
+          type: string
+          description: Existing creative to regenerate in place
+      required:
+      - prompt
+    UpdateCreativeDto:
+      type: object
+      properties:
+        autopilotConfig:
+          type:
+          - object
+          - 'null'
+          additionalProperties: true
+          description: Autopilot configuration. aiVariables entries may carry requiredInputs and fallback.
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        isActive:
+          type: boolean
+        subject:
+          type:
+          - string
+          - 'null'
+        bodyHtml:
+          type:
+          - string
+          - 'null'
+        bodyText:
+          type:
+          - string
+          - 'null'
+        messageText:
+          type:
+          - string
+          - 'null'
+        formConfig:
+          type:
+          - object
+          - 'null'
+        attachmentUrl:
+          type:
+          - string
+          - 'null'
+          maxLength: 2048
+        attachmentName:
+          type:
+          - string
+          - 'null'
+          maxLength: 255
+        attachmentCreativeId:
+          type:
+          - string
+          - 'null'
+        variables:
+          type:
+          - object
+          - 'null'
+        previewContactId:
+          type:
+          - string
+          - 'null'
+        previewCompanyId:
+          type:
+          - string
+          - 'null'
+        senderMethod:
+          type: object
+        subjectMethod:
+          type: object
+        bodyMethod:
+          type: object
+        aiPromptSubject:
+          type:
+          - object
+          - 'null'
+        aiPromptBody:
+          type:
+          - object
+          - 'null'
+        aiModel:
+          type:
+          - string
+          - 'null'
+        aiTemperature:
+          type: number
+        briefId:
+          type:
+          - string
+          - 'null'
+        includeDossier:
+          type: boolean
+        formCompanyName:
+          type:
+          - string
+          - 'null'
+        formContactName:
+          type:
+          - string
+          - 'null'
+        formEmail:
+          type:
+          - string
+          - 'null'
+        formPhone:
+          type:
+          - string
+          - 'null'
+        formTitle:
+          type:
+          - string
+          - 'null'
+        pixelTracking:
+          type: boolean
+        linkTracking:
+          type: boolean
+        unsubscribeLink:
+          type: boolean
+    StartInboxPlacementTestDto:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: 'Email account the seed letters are sent from. Required: seed reservation is paid, and the platform deliberately does not pick an account for you (#791).'
+        providers:
+          description: Seed providers to cover, e.g. ["gmail","outlook","yandex"]. Omit for the default set.
+          type: array
+          items:
+            type: string
+        companyId:
+          type: string
+          description: Company used to resolve merge variables while rendering the seed letter
+        contactId:
+          type: string
+          description: Contact used to resolve merge variables while rendering the seed letter
+        leadId:
+          type: string
+          description: Lead used to resolve merge variables while rendering the seed letter
+      required:
+      - accountId
     GeneratePdfDto:
       type: object
       properties:
@@ -3202,30 +3211,21 @@ components:
           default: false
         metadata:
           $ref: '#/components/schemas/GeneratePdfMetadataDto'
-    SaveVariableRulesDto:
+    VariableRuleEntryDto:
       type: object
       properties:
-        variableRules:
+        variable:
+          type: string
+        enabled:
+          type: boolean
+        rules:
           type: array
           items:
-            $ref: '#/components/schemas/VariableRuleEntryDto'
+            $ref: '#/components/schemas/VariableNormalizationRuleDto'
       required:
-      - variableRules
-    PreviewCreativeDto:
-      type: object
-      properties:
-        sampleData:
-          type: object
-          description: Sample values keyed by variable name, override for resolved contact/company/lead data
-        seed:
-          type: number
-          description: Deterministic seed for spintax/variant resolution
-        companyId:
-          type: string
-        contactId:
-          type: string
-        leadId:
-          type: string
+      - variable
+      - enabled
+      - rules
   securitySchemes:
     jwt:
       scheme: bearer

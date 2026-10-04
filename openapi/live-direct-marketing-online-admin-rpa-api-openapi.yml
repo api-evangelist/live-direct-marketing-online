@@ -329,6 +329,29 @@ paths:
       - Admin RPA
 components:
   schemas:
+    RpaTraceDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+      required:
+      - enabled
+    RpaCreateKeyDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+      required:
+      - name
+    RpaGlobalAccessDto:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+      required:
+      - enabled
     RpaGrantDto:
       type: object
       properties:
@@ -345,29 +368,6 @@ components:
       required:
       - tenantId
       - userId
-      - enabled
-    RpaCreateKeyDto:
-      type: object
-      properties:
-        name:
-          type: string
-          minLength: 1
-          maxLength: 100
-      required:
-      - name
-    RpaTraceDto:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-      required:
-      - enabled
-    RpaGlobalAccessDto:
-      type: object
-      properties:
-        enabled:
-          type: boolean
-      required:
       - enabled
   securitySchemes:
     jwt:

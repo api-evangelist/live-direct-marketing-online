@@ -477,6 +477,47 @@ paths:
       - Pipelines
 components:
   schemas:
+    UpdateAutomationDto:
+      type: object
+      properties:
+        trigger:
+          type: object
+        action:
+          type: object
+        config:
+          type: object
+        name:
+          type: string
+          maxLength: 200
+        isActive:
+          type: boolean
+        sortOrder:
+          type: number
+    CreatePipelineDto:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        currency:
+          type: string
+        isDefault:
+          type: boolean
+        isHidden:
+          type: boolean
+      required:
+      - name
+    ReorderStagesDto:
+      type: object
+      properties:
+        stageIds:
+          type: array
+          items:
+            type: string
+      required:
+      - stageIds
     UpdateStageDto:
       type: object
       properties:
@@ -497,15 +538,24 @@ components:
           type: number
         isHidden:
           type: boolean
-    ReorderStagesDto:
+    CreateAutomationDto:
       type: object
       properties:
-        stageIds:
-          type: array
-          items:
-            type: string
+        trigger:
+          type: object
+        action:
+          type: object
+        config:
+          type: object
+        name:
+          type: string
+          maxLength: 200
+        isActive:
+          type: boolean
       required:
-      - stageIds
+      - trigger
+      - action
+      - config
     CreateStageDto:
       type: object
       properties:
@@ -526,40 +576,6 @@ components:
           type: number
       required:
       - name
-    UpdateAutomationDto:
-      type: object
-      properties:
-        trigger:
-          type: object
-        action:
-          type: object
-        config:
-          type: object
-        name:
-          type: string
-          maxLength: 200
-        isActive:
-          type: boolean
-        sortOrder:
-          type: number
-    CreateAutomationDto:
-      type: object
-      properties:
-        trigger:
-          type: object
-        action:
-          type: object
-        config:
-          type: object
-        name:
-          type: string
-          maxLength: 200
-        isActive:
-          type: boolean
-      required:
-      - trigger
-      - action
-      - config
     UpdatePipelineDto:
       type: object
       properties:
@@ -576,22 +592,6 @@ components:
           type: boolean
         isHidden:
           type: boolean
-    CreatePipelineDto:
-      type: object
-      properties:
-        name:
-          type: string
-          maxLength: 100
-        description:
-          type: string
-        currency:
-          type: string
-        isDefault:
-          type: boolean
-        isHidden:
-          type: boolean
-      required:
-      - name
   securitySchemes:
     jwt:
       scheme: bearer

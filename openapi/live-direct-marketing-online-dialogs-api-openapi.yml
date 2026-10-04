@@ -1409,18 +1409,6 @@ paths:
       - Dialogs
 components:
   schemas:
-    ComposeAttachmentDto:
-      type: object
-      properties:
-        filename:
-          type: string
-        contentBase64:
-          type: string
-        contentType:
-          type: string
-      required:
-      - filename
-      - contentBase64
     ComposeDto:
       type: object
       properties:
@@ -1465,6 +1453,18 @@ components:
       required:
       - toEmail
       - subject
+    ComposeAttachmentDto:
+      type: object
+      properties:
+        filename:
+          type: string
+        contentBase64:
+          type: string
+        contentType:
+          type: string
+      required:
+      - filename
+      - contentBase64
   securitySchemes:
     jwt:
       scheme: bearer

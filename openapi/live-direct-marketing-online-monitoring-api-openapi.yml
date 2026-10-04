@@ -373,9 +373,13 @@ paths:
       - Monitoring
 components:
   schemas:
-    UpdateDomainDto:
+    AddDomainDto:
       type: object
       properties:
+        domain:
+          type: string
+          minLength: 3
+          maxLength: 253
         enabledChecks:
           type: array
           uniqueItems: true
@@ -387,10 +391,8 @@ components:
             - mx
             - blocklist
             - tls
-        intervalMinutes:
-          type: number
-          minimum: 15
-          maximum: 10080
+      required:
+      - domain
     UpdateSettingsDto:
       type: object
       properties:
@@ -421,13 +423,9 @@ components:
           type: string
         telegramEnabled:
           type: boolean
-    AddDomainDto:
+    UpdateDomainDto:
       type: object
       properties:
-        domain:
-          type: string
-          minLength: 3
-          maxLength: 253
         enabledChecks:
           type: array
           uniqueItems: true
@@ -439,8 +437,10 @@ components:
             - mx
             - blocklist
             - tls
-      required:
-      - domain
+        intervalMinutes:
+          type: number
+          minimum: 15
+          maximum: 10080
   securitySchemes:
     apiKey:
       scheme: bearer

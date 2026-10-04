@@ -1204,85 +1204,61 @@ paths:
       - Tasks
 components:
   schemas:
-    CreateTaskDto:
+    UpdateCronSettingsDto:
       type: object
       properties:
-        methodId:
+        cronEnabled:
+          type: boolean
+        cronInterval:
           type: number
-          description: Method id — e.g. 22=scoring (lead gen), 11=email validation, 14=ICP review, 15=DIG, 12=mailing (legacy, use /campaigns instead)
-        methodName:
+          minimum: 1
+          description: Cron interval, minutes
+        batchSize:
+          type: number
+          minimum: 1
+          description: Batch size; the service clamps it to the allowed range
+        rateLimit:
+          type: number
+          minimum: 1
+        scoringMode:
           type: string
-          description: Human-readable label mirroring methodId, e.g. "scoring"
-        description:
-          type: string
-        config:
-          type: object
-          description: Method-specific configuration payload (shape depends on methodId)
-        mailingConfig:
-          type: object
-          description: Mailing configuration patch (methodId=12, legacy)
-        contactListId:
-          type: string
-          description: Contact list to source items from at POST /tasks/:id/start
-        contactListIdFinish:
-          type: string
-          description: Contact list to move finished items into
-        accountListId:
-          type: string
-        creativeId:
-          type: string
-        creativeIds:
+    EnrollInBranchDto:
+      type: object
+      properties:
+        contactIds:
           type: array
           items:
             type: string
-        companyListId:
-          type: string
-          description: 'CompanyList id — for methodId=22 (scoring): items are populated from this list at POST /tasks/:id/start; must reference an existing list'
-        resumeAt:
-          type: string
-          description: ISO date string — task waits (does not run) until this moment
-        streamCount:
-          type: number
-          description: Parallel stream count, clamped to the tenant maxStreams setting
       required:
-      - methodId
-      - methodName
-    UpdateTaskMemoryDto:
+      - contactIds
+    UpdatePipelineStepDto:
       type: object
       properties:
-        memory:
+        type:
           type: string
-      required:
-      - memory
-    UpdateTaskDto:
-      type: object
-      properties:
-        description:
+          description: ScoringStepType value
+        enabled:
+          type: boolean
+        name:
           type: string
         config:
           type: object
-          description: Task configuration; shape depends on methodId
-        mailingConfig:
-          type: object
-        contactListId:
+          description: Step configuration; shape depends on type
+        onSuccess:
           type: string
-        contactListIdFinish:
+          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
+        onSuccessTarget:
           type: string
-        accountListId:
+        onFail:
           type: string
-        creativeId:
+          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
+        onFailTarget:
           type: string
-        creativeIds:
-          type: array
-          items:
-            type: string
-        companyListId:
+        onError:
           type: string
-        resumeAt:
+          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
+        onErrorTarget:
           type: string
-          description: ISO time of resumption
-        streamCount:
-          type: number
     ReorderStepsDto:
       type: object
       properties:
@@ -1293,6 +1269,26 @@ components:
             type: string
       required:
       - stepIds
+    UpdateAiSettingsDto:
+      type: object
+      properties:
+        provider:
+          type:
+          - object
+          - 'null'
+          description: 'Provider: hydraai | aitunnel | claude | ldmai'
+        models:
+          type: object
+          description: 'Model per call kind, e.g. { scoring: "..." }'
+          additionalProperties:
+            type: string
+    UpdateTaskMemoryDto:
+      type: object
+      properties:
+        memory:
+          type: string
+      required:
+      - memory
     AddPipelineStepDto:
       type: object
       properties:
@@ -1328,34 +1324,88 @@ components:
           description: Target for onError=MOVE_TO_LIST (list id)
       required:
       - type
-    UpdatePipelineStepDto:
+    UpdateTaskDto:
       type: object
       properties:
-        type:
-          type: string
-          description: ScoringStepType value
-        enabled:
-          type: boolean
-        name:
+        description:
           type: string
         config:
           type: object
-          description: Step configuration; shape depends on type
-        onSuccess:
+          description: Task configuration; shape depends on methodId
+        mailingConfig:
+          type: object
+        contactListId:
           type: string
-          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
-        onSuccessTarget:
+        contactListIdFinish:
           type: string
-        onFail:
+        accountListId:
           type: string
-          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
-        onFailTarget:
+        creativeId:
           type: string
-        onError:
+        creativeIds:
+          type: array
+          items:
+            type: string
+        companyListId:
           type: string
-          description: CONTINUE | STOP | MOVE_TO_LIST | DELETE
-        onErrorTarget:
+        resumeAt:
           type: string
+          description: ISO time of resumption
+        streamCount:
+          type: number
+    UpdateErrorSettingsDto:
+      type: object
+      properties:
+        reasonClasses:
+          type: array
+          minItems: 1
+          description: 'Scoring failure classes counted by the configured pause thresholds. Default: platform. Network/material remain visible even when not selected.'
+          items:
+            type: string
+            enum:
+            - platform
+            - network
+            - material
+        consecutiveErrorLimit:
+          type: number
+          minimum: 1
+          description: N consecutive errors → auto-pause
+        errorRatePercent:
+          type: number
+          description: Error rate within the window, %
+        errorRateWindowMin:
+          type: number
+          minimum: 1
+          description: Observation window, minutes
+        errorRateMinItems:
+          type: number
+          minimum: 1
+          description: Minimum items before checking the rate
+    CreateBranchDto:
+      type: object
+      properties:
+        methodId:
+          type: number
+          description: Sub-branch method (11 email validation, 14 ICP review, 15 DIG, 22 scoring)
+        methodName:
+          type: string
+        description:
+          type: string
+        branchTrigger:
+          type: object
+          description: 'Branch entry condition: { event, condition? }'
+        mailingConfig:
+          type: object
+        contactListId:
+          type: string
+        creativeId:
+          type: string
+        accountListId:
+          type: string
+      required:
+      - methodId
+      - methodName
+      - branchTrigger
     StartTaskDto:
       type: object
       properties:
@@ -1365,24 +1415,6 @@ components:
           description: 'Trial run: process no more than N items and pause the task. The limit is ONE-TIME — the next start without the parameter runs the rest to completion.'
           maximum: 1000
           example: 100
-    UpdateCronSettingsDto:
-      type: object
-      properties:
-        cronEnabled:
-          type: boolean
-        cronInterval:
-          type: number
-          minimum: 1
-          description: Cron interval, minutes
-        batchSize:
-          type: number
-          minimum: 1
-          description: Batch size; the service clamps it to the allowed range
-        rateLimit:
-          type: number
-          minimum: 1
-        scoringMode:
-          type: string
     RetryScoringResultsDto:
       type: object
       properties:
@@ -1450,81 +1482,49 @@ components:
         contradictoryOnly:
           type: boolean
           description: Narrow the selection to results where the contradiction flag fired at any step (data.contradictoryFields — a non-empty array). Combined with the other selection conditions (statuses/processedAfter/processedBefore/resultIds/companyIds, includeActive/includeUnavailable) as an additional narrowing (AND), not a replacement for them.
-    EnrollInBranchDto:
-      type: object
-      properties:
-        contactIds:
-          type: array
-          items:
-            type: string
-      required:
-      - contactIds
-    UpdateAiSettingsDto:
-      type: object
-      properties:
-        provider:
-          type:
-          - object
-          - 'null'
-          description: 'Provider: hydraai | aitunnel | claude | ldmai'
-        models:
-          type: object
-          description: 'Model per call kind, e.g. { scoring: "..." }'
-          additionalProperties:
-            type: string
-    CreateBranchDto:
+    CreateTaskDto:
       type: object
       properties:
         methodId:
           type: number
-          description: Sub-branch method (11 email validation, 14 ICP review, 15 DIG, 22 scoring)
+          description: Method id — e.g. 22=scoring (lead gen), 11=email validation, 14=ICP review, 15=DIG, 12=mailing (legacy, use /campaigns instead)
         methodName:
           type: string
+          description: Human-readable label mirroring methodId, e.g. "scoring"
         description:
           type: string
-        branchTrigger:
+        config:
           type: object
-          description: 'Branch entry condition: { event, condition? }'
+          description: Method-specific configuration payload (shape depends on methodId)
         mailingConfig:
           type: object
+          description: Mailing configuration patch (methodId=12, legacy)
         contactListId:
+          type: string
+          description: Contact list to source items from at POST /tasks/:id/start
+        contactListIdFinish:
+          type: string
+          description: Contact list to move finished items into
+        accountListId:
           type: string
         creativeId:
           type: string
-        accountListId:
+        creativeIds:
+          type: array
+          items:
+            type: string
+        companyListId:
           type: string
+          description: 'CompanyList id — for methodId=22 (scoring): items are populated from this list at POST /tasks/:id/start; must reference an existing list'
+        resumeAt:
+          type: string
+          description: ISO date string — task waits (does not run) until this moment
+        streamCount:
+          type: number
+          description: Parallel stream count, clamped to the tenant maxStreams setting
       required:
       - methodId
       - methodName
-      - branchTrigger
-    UpdateErrorSettingsDto:
-      type: object
-      properties:
-        reasonClasses:
-          type: array
-          minItems: 1
-          description: 'Scoring failure classes counted by the configured pause thresholds. Default: platform. Network/material remain visible even when not selected.'
-          items:
-            type: string
-            enum:
-            - platform
-            - network
-            - material
-        consecutiveErrorLimit:
-          type: number
-          minimum: 1
-          description: N consecutive errors → auto-pause
-        errorRatePercent:
-          type: number
-          description: Error rate within the window, %
-        errorRateWindowMin:
-          type: number
-          minimum: 1
-          description: Observation window, minutes
-        errorRateMinItems:
-          type: number
-          minimum: 1
-          description: Minimum items before checking the rate
   securitySchemes:
     jwt:
       scheme: bearer

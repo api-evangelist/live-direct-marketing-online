@@ -3643,13 +3643,7 @@ paths:
       description: Local
 components:
   schemas:
-    PatchSeedDto:
-      type: object
-      properties: {}
-    AddSeedDto:
-      type: object
-      properties: {}
-    ArchiveSeedDto:
+    ImportFromLdmDto:
       type: object
       properties: {}
     CreateApiKeyDto:
@@ -3685,10 +3679,10 @@ components:
             type: string
       required:
       - name
-    UpdateDeliverabilityConfigDto:
+    BulkSeedsDto:
       type: object
       properties: {}
-    ImportFromLdmDto:
+    AddDeliveryBlockDto:
       type: object
       properties: {}
     UpdateApiKeyDto:
@@ -3717,15 +3711,56 @@ components:
           type: object
         active:
           type: boolean
-    AddDeliveryBlockDto:
+    AddSeedDto:
+      type: object
+      properties: {}
+    UpdateDeliverabilityConfigDto:
+      type: object
+      properties: {}
+    ArchiveSeedDto:
       type: object
       properties: {}
     ImportOauthComboDto:
       type: object
       properties: {}
-    BulkSeedsDto:
+    PatchSeedDto:
       type: object
       properties: {}
+    AccountTransferApplyDto:
+      type: object
+      properties:
+        sourceEmails:
+          minItems: 1
+          maxItems: 10
+          type: array
+          items:
+            type: string
+            format: email
+        targetEmail:
+          type: string
+          format: email
+        resources:
+          minItems: 1
+          maxItems: 4
+          type: array
+          items:
+            type: object
+        planHash:
+          type: string
+          minLength: 64
+          maxLength: 64
+          pattern: /^[a-f0-9]{64}$/
+        operationId:
+          type: string
+          pattern: /^[a-zA-Z0-9][a-zA-Z0-9._:-]{7,99}$/
+        reason:
+          type: string
+      required:
+      - sourceEmails
+      - targetEmail
+      - resources
+      - planHash
+      - operationId
     AccountTransferPlanDto:
       type: object
       properties:
@@ -3770,41 +3805,6 @@ components:
     ConnectInboxCheckTenantDto:
       type: object
       properties: {}
-    AccountTransferApplyDto:
-      type: object
-      properties:
-        sourceEmails:
-          minItems: 1
-          maxItems: 10
-          type: array
-          items:
-            type: string
-            format: email
-        targetEmail:
-          type: string
-          format: email
-        resources:
-          minItems: 1
-          maxItems: 4
-          type: array
-          items:
-            type: object
-        planHash:
-          type: string
-          minLength: 64
-          maxLength: 64
-          pattern: /^[a-f0-9]{64}$/
-        operationId:
-          type: string
-          pattern: /^[a-zA-Z0-9][a-zA-Z0-9._:-]{7,99}$/
-        reason:
-          type: string
-      required:
-      - sourceEmails
-      - targetEmail
-      - resources
-      - planHash
-      - operationId
     AgentGuideOverridesDto:
       type: object
       properties:

@@ -68,14 +68,6 @@ paths:
       - email:send
 components:
   schemas:
-    VerifyOneDto:
-      type: object
-      properties:
-        email:
-          type: string
-          description: Email to verify
-      required:
-      - email
     VerifyBatchDto:
       type: object
       properties:
@@ -86,6 +78,14 @@ components:
             type: string
       required:
       - emails
+    VerifyOneDto:
+      type: object
+      properties:
+        email:
+          type: string
+          description: Email to verify
+      required:
+      - email
   securitySchemes:
     jwt:
       scheme: bearer
