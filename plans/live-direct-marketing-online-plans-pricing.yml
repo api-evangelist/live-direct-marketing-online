@@ -73,3 +73,33 @@ plans:
 comparison_claims: >-
   The pricing page compares LDM to SendGrid, Mailgun and Instantly on "pay for fails", inbox
   verification and agent-nativeness; these are the provider's claims and were not verified here.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  units:
+  - message
+  plans:
+  - name: Welcome credit
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - one-time
+  - name: Pay as you go
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - message
+    periods:
+    - per-use
+  - name: Inbox Check API tiers
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - month
