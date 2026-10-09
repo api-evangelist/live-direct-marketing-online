@@ -1,4 +1,4 @@
-generated: '2026-09-19'
+generated: '2026-09-23'
 method: generated
 source: openapi/live-direct-marketing-online-inbox-check-openapi.json, openapi/live-direct-marketing-online-ldm-v3-openapi.json
 description: Recommended x-agentic-access execution contracts, classified heuristically from
@@ -7,12 +7,12 @@ description: Recommended x-agentic-access execution contracts, classified heuris
 summary:
   operations: 1500
   by_action_class:
-    connected: 663
-    acting: 837
+    connected: 665
+    acting: 835
   by_consequence:
-    read: 663
-    safety-critical: 837
-  human_in_the_loop_required: 837
+    read: 665
+    safety-critical: 835
+  human_in_the_loop_required: 835
 operations:
 - path: /api/health
   method: get
@@ -8398,18 +8398,12 @@ operations:
   method: post
   operationId: MailingController_getBatchStats
   x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/mailing/{taskId}/start-list-stats
   method: get
   operationId: MailingController_getStartListStats
@@ -11290,18 +11284,12 @@ operations:
   method: post
   operationId: CreativesController_segmentCount
   x-agentic-access:
-    action-class: acting
-    consequence: safety-critical
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 120
-      exchange: true
-      purpose-required: true
-      proof-of-possession: true
-    escalation:
-      human-in-the-loop: required
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /api/creatives/{id}/autopilot/all-field-definitions
   method: get
   operationId: CreativesController_allFieldDefinitions
