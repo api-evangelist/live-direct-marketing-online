@@ -1560,6 +1560,8 @@ apis:
   humanURL: https://developers.live-direct-marketing.online/
   baseURL: https://api.live-direct-marketing.online
   tags:
+  - Data Enrichment
+  tags_raw:
   - Enrichment
   properties:
   - type: OpenAPI
@@ -3718,6 +3720,8 @@ apis:
   humanURL: https://live-direct-marketing.online/academy/mcp-flow
   baseURL: https://api.live-direct-marketing.online/mcp
   tags:
+  - LinkedIn
+  tags_raw:
   - Linked In
   properties:
   - type: OpenAPI
