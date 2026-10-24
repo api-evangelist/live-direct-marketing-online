@@ -27,6 +27,9 @@ artifacts:
   authentication/live-direct-marketing-online-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  capabilities/live-direct-marketing-online-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/live-direct-marketing-online-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -45,7 +48,13 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/live-direct-marketing-online-integration-edges.yml:
+    method: searched
+    evidence: declared in the artifact
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-19T193153.yml:
@@ -78,6 +87,21 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/live-direct-marketing-online-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -106,20 +130,892 @@ artifacts:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
+  openapi/_original/live-direct-marketing-online-inbox-check-openapi_2.json:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
   openapi/_original/live-direct-marketing-online-ldm-v3-openapi.json:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
-  openapi/live-direct-marketing-online-inbox-check-openapi.json:
+  openapi/_original/live-direct-marketing-online-ldm-v3-openapi_2.json:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/live-direct-marketing-online-a2a-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/live-direct-marketing-online-ldm-v3-openapi.json:
+  openapi/live-direct-marketing-online-account-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-activities-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-admin-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-admin-honeypot-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-admin-rpa-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-agency-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-agent-card-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-ai-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-allowlist-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-amo-widget-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-api-keys-tenant-scoped-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-audit-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-auth-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-authentication-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-best-send-time-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-beta-signups-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-billing-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-branding-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-briefs-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-browser-queue-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-campaign-groups-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-campaigns-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-canvas-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-cohort-metrics-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-companies-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-companies-custom-fields-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-companies-duplicates-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-company-list-groups-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-company-lists-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-connectors-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-contact-list-groups-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-contact-lists-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-contacts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-content-analyzer-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-creatives-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-creatives-on-demand-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-custom-events-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-custom-extract-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-custom-fields-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-custom-objects-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-deliverability-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-deploy-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-development-pipeline-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-development-pipeline-conveyor-bridge-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-dialog-linker-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-dialogs-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-domain-watch-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-domainobservations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-domains-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-domainwatchplacement-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-dsar-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-email-accounts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-email-accounts-deliverability-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-email-accounts-gas-webhook-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-email-accounts-inbox-ingest-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-email-verification-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-enrichment-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-exports-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-feedback-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-files-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-files-serve-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-health-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-icp-extension-api-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-icp-extension-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-imap-orchestrator-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-import-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-inbound-rules-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-jobs-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-landing-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-leads-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-legal-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-linked-in-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-linkedin-extension-api-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-mail-agent-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-mail-agent-update-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-mail-routing-rules-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-mail-transport-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-mailing-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-marking-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-mcp-transport-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-monitoring-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-monitoring-enrollment-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-nalog-id-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-names-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-notifications-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-oauth-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-oauth-tests-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-observability-api-monitor-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-observability-api-tests-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-phantom-browser-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-phantom-browser-download-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-pipeline-events-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-pipelines-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-presend-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-presendadmin-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-profi-orders-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-project-templates-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-prompt-templates-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-provider-config-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-providers-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-public-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-recheck-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-reports-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-rpa-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-rpa-service-protocol-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-rules-creative-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-rules-creative-bootstrap-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-rules-discovery-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-rules-sub-resource-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-rum-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-saved-views-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-screenshots-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-search-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-selfcontrol-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-sender-links-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-seo-index-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-sequences-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-settings-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-share-links-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-share-public-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-site-enrichment-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-stop-list-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-subscriptions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-subscriptionsadmin-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-support-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-suppression-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-system-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-systembriefintake-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-tags-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-tasks-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-telegram-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-tests-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-tlsrpt-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-tracking-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-tracking-bot-list-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-tracking-domain-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-tracking-redirect-source-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-unsubscribe-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-user-settings-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-users-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-utils-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-variable-resolver-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-webhooks-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/live-direct-marketing-online-workers-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/live-direct-marketing-online-a2a-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-account-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-activities-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-admin-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-admin-honeypot-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-admin-rpa-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-agency-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-agent-card-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-ai-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-allowlist-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-amo-widget-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-api-keys-tenant-scoped-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-audit-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-auth-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-authentication-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-best-send-time-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-beta-signups-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-billing-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-branding-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-briefs-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-browser-queue-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-campaign-groups-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-campaigns-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-canvas-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-cohort-metrics-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-companies-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-companies-custom-fields-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-companies-duplicates-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-company-list-groups-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-company-lists-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-connectors-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-contact-list-groups-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-contact-lists-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-contacts-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-content-analyzer-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-creatives-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-creatives-on-demand-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-custom-events-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-custom-extract-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-custom-fields-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-custom-objects-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-deliverability-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-deploy-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-development-pipeline-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-development-pipeline-conveyor-bridge-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-dialog-linker-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-dialogs-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-domain-watch-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-domainobservations-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-domains-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-domainwatchplacement-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-dsar-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-email-accounts-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-email-accounts-deliverability-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-email-accounts-gas-webhook-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-email-accounts-inbox-ingest-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-email-verification-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-enrichment-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-exports-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-feedback-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-files-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-files-serve-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-health-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-icp-extension-api-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-icp-extension-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-imap-orchestrator-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-import-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-inbound-rules-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/live-direct-marketing-online-inbox-check-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/live-direct-marketing-online-jobs-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-landing-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/live-direct-marketing-online-ldm-v3-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/live-direct-marketing-online-leads-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-legal-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-linked-in-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-linkedin-extension-api-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-mail-agent-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-mail-agent-update-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-mail-routing-rules-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-mail-transport-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-mailing-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-marking-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-mcp-transport-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-monitoring-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-monitoring-enrollment-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-nalog-id-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-names-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-notifications-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-oauth-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-oauth-tests-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-observability-api-monitor-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-observability-api-tests-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-phantom-browser-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-phantom-browser-download-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-pipeline-events-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-pipelines-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-presend-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-presendadmin-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-profi-orders-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-project-templates-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-prompt-templates-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-provider-config-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-providers-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-public-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-recheck-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-reports-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-rpa-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-rpa-service-protocol-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-rules-creative-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-rules-creative-bootstrap-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-rules-discovery-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-rules-sub-resource-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-rum-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-saved-views-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-screenshots-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-search-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-selfcontrol-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-sender-links-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-seo-index-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-sequences-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-settings-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-share-links-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-share-public-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-site-enrichment-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-stop-list-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-subscriptions-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-subscriptionsadmin-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-support-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-suppression-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-system-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-systembriefintake-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-tags-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-tasks-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-telegram-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-tests-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-tlsrpt-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-tracking-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-tracking-bot-list-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-tracking-domain-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-tracking-redirect-source-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-unsubscribe-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-user-settings-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-users-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-utils-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-variable-resolver-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-webhooks-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/live-direct-marketing-online-workers-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   packages/live-direct-marketing-online-packages.yml:
